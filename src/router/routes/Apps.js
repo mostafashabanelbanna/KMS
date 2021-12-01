@@ -3,6 +3,13 @@ import { Redirect } from 'react-router-dom'
 
 const AppRoutes = [
   {
+    path: '/homepage',
+    exact: true,
+    appLayout: true,
+    className: 'email-application',
+    component: lazy(() => import('../../views/apps/homepage'))
+  },
+  {
     path: '/apps/email',
     exact: true,
     appLayout: true,
