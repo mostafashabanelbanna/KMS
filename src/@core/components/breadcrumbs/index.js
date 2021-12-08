@@ -15,7 +15,7 @@ import {
 
 const BreadCrumbs = props => {
   // ** Props
-  const { breadCrumbTitle, breadCrumbParent, breadCrumbParent2, breadCrumbParent3, breadCrumbActive } = props
+  const { breadCrumbTitle, breadCrumbParent, breadCrumbParent2, breadCrumbParent3, breadCrumbActive, breadCrumbRoot } = props
 
   return (
     <div className='content-header row'>
@@ -26,7 +26,7 @@ const BreadCrumbs = props => {
             <div className='breadcrumb-wrapper vs-breadcrumbs d-sm-block d-none col-12'>
               <Breadcrumb>
                 <BreadcrumbItem tag='li'>
-                  <Link to='/'>Home</Link>
+                  <Link to='/'>{breadCrumbRoot}</Link>
                 </BreadcrumbItem>
                 <BreadcrumbItem tag='li' className='text-primary'>
                   {breadCrumbParent}

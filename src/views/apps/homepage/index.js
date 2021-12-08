@@ -2,12 +2,13 @@
 // ** Styles
 import '@styles/react/apps/app-email.scss'
 
+
 const Homepage = () => {
-  
+ 
   return (
-    <h1>
-      Homepage
-    </h1>
+    <div className="flex-grow-1">
+     Homepage
+    </div>
   )
 }
 

@@ -3,15 +3,15 @@
 //Template config options
 const themeConfig = {
   app: {
-    appName: 'Vuexy',
+    appName: 'KMS',
     appLogoImage: require('@src/assets/images/logo/logo.svg').default
   },
   layout: {
-    isRTL: false,
+    isRTL: true,
     skin: 'light', // light, dark, bordered, semi-dark
     routerTransition: 'fadeIn', // fadeIn, fadeInLeft, zoomIn, none or check this for more transition https://animate.style/
     type: 'vertical', // vertical, horizontal
-    contentWidth: 'full', // full, boxed
+    contentWidth: 'boxed', // full, boxed
     menu: {
       isHidden: false,
       isCollapsed: false

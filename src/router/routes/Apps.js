@@ -6,7 +6,7 @@ const AppRoutes = [
     path: '/homepage',
     exact: true,
     appLayout: true,
-    className: 'email-application',
+    className: 'd-block',
     component: lazy(() => import('../../views/apps/homepage'))
   },
   {

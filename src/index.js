@@ -38,6 +38,9 @@ import './@core/assets/fonts/feather/iconfont.css'
 import './@core/scss/core.scss'
 import './assets/scss/style.scss'
 
+// i18n
+import './utility/context/i18n'
+
 // ** Service Worker
 import * as serviceWorker from './serviceWorker'
 

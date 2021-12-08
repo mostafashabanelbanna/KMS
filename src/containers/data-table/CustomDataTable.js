@@ -1,77 +1,90 @@
 // ** React Imports
-import { Fragment, useState, useEffect, memo } from 'react'
-
+import { Fragment, useState, useEffect } from 'react'
 // ** Table Columns
-import { serverSideColumns } from '../data'
+import { serverSideColumns } from '../../views/tables/data-tables/data'
 
 // ** Store & Actions
 import { getData } from './DataTableFunctions'
-import { useSelector, useDispatch } from 'react-redux'
 
 // ** Third Party Components
 import ReactPaginate from 'react-paginate'
 import { ChevronDown } from 'react-feather'
 import DataTable from 'react-data-table-component'
-import { Card, CardHeader, CardTitle, Input, Label, Row, Col } from 'reactstrap'
+import SearchForm from '../search-form/SearchForm/SearchForm'
+import Container from 'reactstrap/lib/Container'
 
-const DataTableServerSide = (props) => {
-  // ** Store Vars
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.dataTables)
+const CustomDataTable = (props) => {
+
+  // Search Form Items 
+
+//  const formItems =  [
+//                       {fieldType: 'text', label:"Email", colSizeLg: 4, attr: "mail", dropdownArr: [], multiple: true, radioArr: [] },
+//                       {fieldType: 'radio', label:"Email", colSizeLg: 4, attr: "name", dropdownArr: [], multiple: true, radioArr: ['active', 'inactive'] },
+//                       {fieldType: 'select', label:"select", colSizeLg: 4, attr: "mail", dropdownArr: [], multiple: true, radioArr: [] },
+//                       {fieldType: 'checkbox', label:"checkbox", colSizeLg: 4, attr: "checkbox", dropdownArr: [], multiple: true, radioArr: [] } 
+//                     ]
+
 
   // ** States
-  const [currentPage, setCurrentPage] = useState(1)
+  const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [searchData, setSearchData] = useState({})
+  const [searchData, setSearchData] = useState({
+    name: "",
+    email: "",
+    rolles: []
+  })
   const [total, setTotal] = useState(0)
   const [data, setData] = useState([])
 
+  const getDataResult = async () => {
+    const response = await getData(props.url, {
+      pageNumber,
+      rowsPerPage,
+      ...searchData
+    })
+    if (response) {
+      setData(response.data.items)
+      setTotal(response.data.totalCount)
+    }
+  } 
 
   // ** Get data on mount
   useEffect(() => {
-    let response = getData({
-        ...searchData,
-        currentPage: currentPage,
-        rowsPerPage: rowsPerPage,
-      });
-      setData(response.data);
-      setTotal(response.total);
+    getDataResult()
   }, [])
 
-  // ** Function to handle filter
-//   const handleFilter = e => {
-//     setSearchValue(e.target.value)
+  // Search Form handle
 
-//     dispatch(
-//       getData({
-//         page: currentPage,
-//         perPage: rowsPerPage,
-//         q: e.target.value
-//       })
-//     )
-//   }
+  const handleSearch = (value, attrName) => {
+    setSearchData({...searchData, [attrName] : value })
+  } 
+
+  const handlSubmit = () => {
+    setPageNumber(1)
+    getDataResult()
+  }
 
   // ** Function to handle Pagination and get data
   const handlePagination = page => {
-    let response = getData({
+    const response = getData(props.url, {
         ...searchData,
-        currentPage: page.selected + 1,
-        rowsPerPage: rowsPerPage,
+        [pageNumber]: page.selected + 1,
+        [rowsPerPage]: rowsPerPage
       })
-    setData(response.data);
-    setTotal(response.total);
-    setCurrentPage(page.selected + 1)
+    setData(response.data)
+    setTotal(response.total)
+    setPageNumber(page.selected + 1)
   }
 
   // ** Function to handle per page
   const handlePerPage = e => {
-    let response = getData({
+    const response = getData(props.url, {
         ...searchData,
-        currentPage: page.selected + 1,
-        rowsPerPage: rowsPerPage,
+        [pageNumber]: page.selected + 1,
+        [rowsPerPage]: rowsPerPage
       })
-    setData(response.data);
-    setTotal(response.total);
+    setData(response.data)
+    setTotal(response.total)
     setRowsPerPage(parseInt(e.target.value))
   }
 
@@ -88,7 +101,7 @@ const DataTableServerSide = (props) => {
         marginPagesDisplayed={2}
         pageRangeDisplayed={2}
         activeClassName='active'
-        forcePage={currentPage !== 0 ? currentPage - 1 : 0}
+        forcePage={pageNumber !== 0 ? pageNumber - 1 : 0}
         onPageChange={page => handlePagination(page)}
         pageClassName={'page-item'}
         nextLinkClassName={'page-link'}
@@ -107,46 +120,11 @@ const DataTableServerSide = (props) => {
 
   return (
     <Fragment>
-      <Card>
-        <CardHeader className='border-bottom'>
-          <CardTitle tag='h4'>{props.cardHeader}</CardTitle>
-        </CardHeader>
-        {/* <Row className='mx-0 mt-1 mb-50'>
-          <Col sm='6'>
-            <div className='d-flex align-items-center'>
-              <Label for='sort-select'>show</Label>
-              <Input
-                className='dataTable-select'
-                type='select'
-                id='sort-select'
-                value={rowsPerPage}
-                onChange={e => handlePerPage(e)}
-              >
-                <option value={7}>7</option>
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={75}>75</option>
-                <option value={100}>100</option>
-              </Input>
-              <Label for='sort-select'>entries</Label>
-            </div>
-          </Col>
-          <Col className='d-flex align-items-center justify-content-sm-end mt-sm-0 mt-1' sm='6'>
-            <Label className='mr-1' for='search-input'>
-              Search
-            </Label>
-            <Input
-              className='dataTable-filter'
-              type='text'
-              bsSize='sm'
-              id='search-input'
-              value={searchValue}
-              onChange={handleFilter}
-            />
-          </Col>
-        </Row> */}
-        <DataTable
+      <Container fluid>
+        <SearchForm searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={props.formItems}/>
+      </Container>
+
+      <DataTable
           noHeader
           pagination
           paginationServer
@@ -156,9 +134,9 @@ const DataTableServerSide = (props) => {
           paginationComponent={CustomPagination}
           data={data}
         />
-      </Card>
     </Fragment>
   )
 }
 
-export default memo(DataTableServerSide)
+
+export default CustomDataTable

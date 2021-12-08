@@ -4,9 +4,9 @@ module.exports = {
     es6: true,
     browser: true
   },
-  parser: "babel-eslint",
+  
   parserOptions: {
-    ecmaVersion: 6,
+    ecmaVersion: 8,
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
@@ -69,7 +69,8 @@ module.exports = {
     'no-var': 'error',
     'object-shorthand': 'error',
     'prefer-const': 'error',
-    'prefer-template': 'error'
+    'prefer-template': 'error',
+    "prefer-destructuring": ["off", {array: false, object: false }, {enforceForRenamedProperties: false }]
   }
 
   // rules: {
