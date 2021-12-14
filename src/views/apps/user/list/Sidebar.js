@@ -5,7 +5,7 @@ import { useState } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty } from '@utils'
+import { isObjEmpty, getSelected } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -15,11 +15,12 @@ import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 // ** Store & Actions
 import { addUser } from '../store/action'
 import { useDispatch } from 'react-redux'
+import { event } from 'jquery'
+import CustomInput from 'reactstrap/lib/CustomInput'
 
 const SidebarNewUsers = ({ open, toggleSidebar }) => {
   // ** States
-  const [role, setRole] = useState('subscriber')
-  const [plan, setPlan] = useState('basic')
+  const [userRoles, setUserRoles] = useState([])
 
   // ** Store Vars
   const dispatch = useDispatch()
@@ -33,16 +34,20 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
       toggleSidebar()
       dispatch(
         addUser({
-          fullName: values['full-name'],
-          company: values.company,
-          role,
-          username: values.username,
-          country: values.country,
-          contact: values.contact,
+          name: values.name,
+          nameE: values.nameE,
+          jobTitle: values.jobTitle,
+          photo: values.photo,
+          password: values.password,
+          userName: values.userName,
           email: values.email,
-          currentPlan: plan,
-          status: 'active',
-          avatar: ''
+          phoneNumber: values.phoneNumber,
+          admin: values.admin,
+          sortIndex: 0,
+          locked: values.locked,
+          focus: values.focus,
+          active: values.active,
+          userRoles
         })
       )
     }
@@ -59,82 +64,159 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
-          <Label for='full-name'>
-            Full Name <span className='text-danger'>*</span>
+          <Label for='name'>
+            name <span className='text-danger'>*</span>
           </Label>
           <Input
-            name='full-name'
-            id='full-name'
+            name='name'
+            id='name'
             placeholder='John Doe'
             innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['full-name'] })}
+            className={classnames({ 'is-invalid': errors['name'] })}
           />
         </FormGroup>
         <FormGroup>
-          <Label for='username'>
-            Username <span className='text-danger'>*</span>
+          <Label for='nameE'>
+          nameE <span className='text-danger'>*</span>
           </Label>
           <Input
-            name='username'
-            id='username'
+            name='nameE'
+            id='nameE'
+            placeholder='John Doe'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['nameE'] })}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for='jobTitle'>
+          jobTitle <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            name='jobTitle'
+            id='jobTitle'
             placeholder='johnDoe99'
             innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['username'] })}
+            className={classnames({ 'is-invalid': errors['jobTitle'] })}
+          />
+        </FormGroup>
+        <FormGroup>
+              <Label for='photo'>photo</Label>
+              <CustomInput
+                type='file' 
+                id='photo'
+                name='photo'  
+                innerRef={register()}
+                className={classnames({ 'is-invalid': errors['photo'] })}/>
+            </FormGroup>
+        {/* <FormGroup>
+          <Label for='photo'>
+          photo <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            name='photo'
+            id='photo'
+            placeholder='photo'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['photo'] })}
+          />
+        </FormGroup> */}
+        <FormGroup>
+          <Label for='email'>
+          password <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            type='password'
+            name='password'
+            id='password'
+            placeholder='john.doe@example.com'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['password'] })}
+          />
+          {/* <FormText color='muted'>You can use letters, numbers & periods</FormText> */}
+        </FormGroup>
+        <FormGroup>
+          <Label for='userName'>
+          userName <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            name='userName'
+            id='userName'
+            placeholder='userName'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['userName'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='email'>
-            Email <span className='text-danger'>*</span>
+          email <span className='text-danger'>*</span>
           </Label>
           <Input
-            type='email'
+            // type='email'
             name='email'
             id='email'
-            placeholder='john.doe@example.com'
+            placeholder='email'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['email'] })}
           />
-          <FormText color='muted'>You can use letters, numbers & periods</FormText>
         </FormGroup>
         <FormGroup>
-          <Label for='company'>
-            Company <span className='text-danger'>*</span>
+          <Label for='phoneNumber'>
+          phoneNumber <span className='text-danger'>*</span>
           </Label>
           <Input
-            name='company'
-            id='company'
-            placeholder='Company Pvt Ltd'
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['company'] })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='country'>
-            Country <span className='text-danger'>*</span>
-          </Label>
-          <Input
-            name='country'
-            id='country'
-            placeholder='Australia'
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['country'] })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='contact'>
-            Contact <span className='text-danger'>*</span>
-          </Label>
-          <Input
-            name='contact'
-            id='contact'
+            name='phoneNumber'
+            id='phoneNumber'
             placeholder='(397) 294-5153'
             innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['contact'] })}
+            className={classnames({ 'is-invalid': errors['phoneNumber'] })}
           />
         </FormGroup>
+        
         <FormGroup>
-          <Label for='user-role'>User Role</Label>
-          <Input type='select' id='user-role' name='user-role' value={role} onChange={e => setRole(e.target.value)}>
+          <Label for='admin'>
+           admin <span className='text-danger'>*</span>
+          </Label>
+          <Input className="mx-3" type="checkbox" placeholder="admin" name="admin" innerRef={register()}  />
+        </FormGroup>
+
+        <FormGroup>
+          <Label for='sortIndex'>
+          sortIndex <span className='text-danger'>*</span>
+          </Label>
+          <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            placeholder='(397) 294-5153'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <Label for='locked'>
+          locked <span className='text-danger'>*</span>
+          </Label>
+          <Input className="mx-3" type="checkbox" placeholder="locked"  name="locked" innerRef={register()} />
+        </FormGroup>
+
+        <FormGroup>
+          <Label for='focus'>
+           focus <span className='text-danger'>*</span>
+          </Label>
+          <Input className="mx-3" type="checkbox" placeholder="focus"  name="focus" innerRef={register()} />
+        </FormGroup>
+
+        <FormGroup>
+          <Label for='active'>
+           active <span className='text-danger'>*</span>
+          </Label>
+          <Input className="mx-3" type="checkbox" placeholder="active"  name="active" innerRef={register()}   />
+        </FormGroup>
+
+        <FormGroup>
+          <Label for='user-role'>userRoles</Label>
+          <Input multiple type='select' id='userRoles' name='userRoles' onChange={e => setUserRoles(getSelected(e)) }>
             <option value='subscriber'>Subscriber</option>
             <option value='editor'>Editor</option>
             <option value='maintainer'>Maintainer</option>
@@ -142,15 +224,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
             <option value='admin'>Admin</option>
           </Input>
         </FormGroup>
-        <FormGroup className='mb-2' value={plan} onChange={e => setPlan(e.target.value)}>
-          <Label for='select-plan'>Select Plan</Label>
-          <Input type='select' id='select-plan' name='select-plan'>
-            <option value='basic'>Basic</option>
-            <option value='enterprise'>Enterprise</option>
-            <option value='company'>Company</option>
-            <option value='team'>Team</option>
-          </Input>
-        </FormGroup>
+      
         <Button type='submit' className='mr-1' color='primary'>
           Submit
         </Button>

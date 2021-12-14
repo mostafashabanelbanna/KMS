@@ -27,6 +27,7 @@ const Sidebar = props => {
 
   return (
     <Modal
+      // backdrop="static"
       isOpen={open}
       toggle={toggleSidebar}
       contentClassName={classnames({

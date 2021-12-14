@@ -65,6 +65,26 @@ export const getHomeRouteForLoggedInUser = userRole => {
   return '/login'
 }
 
+// check wether user is authorized or not 
+export const isAuthorized = err => {
+ return err && (err.status === 401 || err.status === 403)
+}
+
+// get Input multiple selected options 
+export const getSelected = event => {
+  const opts = []
+  let opt
+  for (let i = 0, len = event.target.options.length; i < len; i++) {
+     opt = event.target.options[i]
+
+      if (opt.selected) {
+          opts.push(opt.value)
+      }
+  }
+  
+  return opts
+} 
+
 // ** React Select Theme Colors
 export const selectThemeColors = theme => ({
   ...theme,

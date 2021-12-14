@@ -48,7 +48,7 @@ const Login = props => {
   const ability = useContext(AbilityContext)
   const dispatch = useDispatch()
   const history = useHistory()
-  const [email, setEmail] = useState('admin@demo.com')
+  const [username, setUsername] = useState('admin@demo.com')
   const [password, setPassword] = useState('admin')
 
   const { register, errors, handleSubmit } = useForm()
@@ -58,11 +58,11 @@ const Login = props => {
   const onSubmit = data => {
     if (isObjEmpty(errors)) {
       useJwt
-        .login({ email, password })
+        .login({ username, password })
         .then(res => {
-          const data = { ...res.data.userData, accessToken: res.data.accessToken, refreshToken: res.data.refreshToken }
+          const data = { ...res.data.data.userData, accessToken: res.data.data.accessToken, refreshToken: res.data.data.refreshToken }
           dispatch(handleLogin(data))
-          ability.update(res.data.userData.ability)
+          ability.update(res.data.data.userData.ability)
           history.push(getHomeRouteForLoggedInUser(data.role))
           toast.success(
             <ToastContent name={data.fullName || data.username || 'John Doe'} role={data.role || 'admin'} />,
@@ -168,12 +168,12 @@ const Login = props => {
                 </Label>
                 <Input
                   autoFocus
-                  type='email'
-                  value={email}
+                  type='text'
+                  value={username}
                   id='login-email'
                   name='login-email'
                   placeholder='john@example.com'
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={e => setUsername(e.target.value)}
                   className={classnames({ 'is-invalid': errors['login-email'] })}
                   innerRef={register({ required: true, validate: value => value !== '' })}
                 />

@@ -85,18 +85,21 @@ const Router = () => {
        ** If user is not Logged in & route.meta.authRoute, !route.meta.publicRoute are undefined
        ** Then redirect user to login
        */
-
+      console.log("Not Loged In")
       return <Redirect to='/login' />
     } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
+      console.log("Not Loged In 1")
       // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
       return <Redirect to='/' />
-    } else if (isUserLoggedIn() && !ability.can(action || 'read', resource)) {
-      // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
-      return <Redirect to='/misc/not-authorized' />
     } else {
       // ** If none of the above render component
       return <route.component {...props} />
     }
+       // else if (isUserLoggedIn() && !ability.can(action || 'read', resource)) {
+    //   console.log("Not Loged In 2")
+    //   // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
+    //   return <Redirect to='/misc/not-authorized' />
+    // } 
   }
 
   // ** Return Route to Render

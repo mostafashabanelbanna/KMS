@@ -16,7 +16,7 @@ const UsersList = () => {
   
   return (
     <div className='app-user-list'>
-        <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "List"})} breadCrumbParent={intl.formatMessage({id: "User"})} breadCrumbActive={intl.formatMessage({id: "List"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
+      <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "List"})} breadCrumbParent={intl.formatMessage({id: "User"})} breadCrumbActive={intl.formatMessage({id: "List"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
       <Table />
     </div>
   )

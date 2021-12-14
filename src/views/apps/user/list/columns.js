@@ -66,59 +66,36 @@ const statusObj = {
   inactive: 'light-secondary'
 }
 
-export const columns = [
+export const columns =  [
   {
-    name: 'User',
-    minWidth: '297px',
-    selector: 'fullName',
+    name: 'Name',
+    selector: 'normalizedName',
     sortable: true,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {renderClient(row)}
-        <div className='d-flex flex-column'>
-          <Link
-            to={`/apps/user/view/${row.id}`}
-            className='user-name text-truncate mb-0'
-            onClick={() => store.dispatch(getUser(row.id))}
-          >
-            <span className='font-weight-bold'>{row.fullName}</span>
-          </Link>
-          <small className='text-truncate text-muted mb-0'>@{row.username}</small>
-        </div>
-      </div>
-    )
+    minWidth: '225px'
   },
   {
     name: 'Email',
-    minWidth: '320px',
     selector: 'email',
     sortable: true,
-    cell: row => row.email
+    minWidth: '250px'
   },
   {
-    name: 'Role',
-    minWidth: '172px',
-    selector: 'role',
+    name: 'User Name',
+    selector: 'normalizedUserName',
     sortable: true,
-    cell: row => renderRole(row)
+    minWidth: '250px'
   },
   {
-    name: 'Plan',
-    minWidth: '138px',
-    selector: 'currentPlan',
+    name: 'Job Title',
+    selector: 'jobTitle',
     sortable: true,
-    cell: row => <span className='text-capitalize'>{row.currentPlan}</span>
+    minWidth: '150px'
   },
   {
-    name: 'Status',
-    minWidth: '138px',
-    selector: 'status',
+    name: 'Phone Number',
+    selector: 'phoneNumber',
     sortable: true,
-    cell: row => (
-      <Badge className='text-capitalize' color={statusObj[row.status]} pill>
-        {row.status}
-      </Badge>
-    )
+    minWidth: '150px'
   },
   {
     name: 'Actions',
