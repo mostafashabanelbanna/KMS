@@ -23,9 +23,13 @@ export const getData = params => {
 // ** Add new user
 export const addUser = user => {
   console.log(user)
+  const bodyFormData = new FormData()
+  bodyFormData.append('userName', user.UserName)
+  bodyFormData.append('Photo', user.Photo[0])
+
   return (dispatch, getState) => {
     axios
-      .post('/User/CreateUser', user)
+      .post('/User/CreateUser', bodyFormData, {headers : { "Content-Type": "multipart/form-data" }})
       .then(response => {
         console.log(response)
         dispatch({

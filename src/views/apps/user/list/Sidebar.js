@@ -34,20 +34,20 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
       toggleSidebar()
       dispatch(
         addUser({
-          name: values.name,
-          nameE: values.nameE,
-          jobTitle: values.jobTitle,
-          photo: values.photo,
-          password: values.password,
-          userName: values.userName,
-          email: values.email,
-          phoneNumber: values.phoneNumber,
-          admin: values.admin,
-          sortIndex: 0,
-          locked: values.locked,
-          focus: values.focus,
-          active: values.active,
-          userRoles
+          Name: values.name,
+          NameE: values.nameE,
+          JobTitle: values.jobTitle,
+          Photo: values.photo,
+          Password: values.password,
+          UserName: values.userName,
+          Email: values.email,
+          PhoneNumber: values.phoneNumber,
+          Admin: values.admin,
+          SortIndex: 0,
+          Locked: values.locked,
+          Focus: values.focus,
+          Active: values.active,
+          UserRoles : userRoles
         })
       )
     }
