@@ -23,13 +23,29 @@ export const getData = params => {
 // ** Add new user
 export const addUser = user => {
   console.log(user)
-  const bodyFormData = new FormData()
-  bodyFormData.append('userName', user.UserName)
-  bodyFormData.append('Photo', user.Photo[0])
+   // 
+   const userFormData = new FormData()
 
-  return (dispatch, getState) => {
+   userFormData.append('name', user.name)
+   userFormData.append('nameE', user.nameE)
+   userFormData.append('jobTitle', user.jobTitle)
+   userFormData.append('photo', user.photo[0])
+   userFormData.append('password', user.password)
+   userFormData.append('userName', user.userName)
+   userFormData.append('email', user.email)
+   userFormData.append('phoneNumber', user.phoneNumber)
+   userFormData.append('admin', user.admin)
+   userFormData.append('sortIndex', user.sortIndex)
+   userFormData.append('locked', user.locked)
+   userFormData.append('focus', user.focus)
+   userFormData.append('active', user.active)
+   userFormData.append('userRoles', user.userRoles)
+
+   
+   return (dispatch, getState) => {
+    console.log(userFormData)
     axios
-      .post('/User/CreateUser', bodyFormData, {headers : { "Content-Type": "multipart/form-data" }})
+      .post('/User/CreateUser', userFormData, {headers : { "Content-Type": "multipart/form-data" }})
       .then(response => {
         console.log(response)
         dispatch({

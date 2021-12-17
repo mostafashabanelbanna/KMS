@@ -1,5 +1,5 @@
 // ** React Import
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 // ** Custom Components
 import Sidebar from '@components/sidebar'
@@ -11,6 +11,8 @@ import { isObjEmpty, getSelected } from '@utils'
 import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
+import axios from '../../../../axios'
+
 
 // ** Store & Actions
 import { addUser } from '../store/action'
@@ -21,6 +23,22 @@ import CustomInput from 'reactstrap/lib/CustomInput'
 const SidebarNewUsers = ({ open, toggleSidebar }) => {
   // ** States
   const [userRoles, setUserRoles] = useState([])
+  const [allRoles, setAllRoles] = useState([])
+
+  // fetch all user roles options
+  const getAllRoles = async () => {
+    const response = await axios
+      .get('/Role/GetRoles')
+      .catch((err) => console.log("Error", err)) //handle errors
+
+      if (response && response.data) {
+        setAllRoles(response.data.data)
+      }
+    } 
+
+  useEffect(() => {
+    getAllRoles()
+  }, [])
 
   // ** Store Vars
   const dispatch = useDispatch()
@@ -34,20 +52,20 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
       toggleSidebar()
       dispatch(
         addUser({
-          Name: values.name,
-          NameE: values.nameE,
-          JobTitle: values.jobTitle,
-          Photo: values.photo,
-          Password: values.password,
-          UserName: values.userName,
-          Email: values.email,
-          PhoneNumber: values.phoneNumber,
-          Admin: values.admin,
-          SortIndex: 0,
-          Locked: values.locked,
-          Focus: values.focus,
-          Active: values.active,
-          UserRoles : userRoles
+          name: values.name,
+          nameE: values.nameE,
+          jobTitle: values.jobTitle,
+          photo: values.photo,
+          password: values.password,
+          userName: values.userName,
+          email: values.email,
+          phoneNumber: values.phoneNumber,
+          admin: values.admin,
+          sortIndex: 0,
+          locked: values.locked,
+          focus: values.focus,
+          active: values.active,
+          userRoles
         })
       )
     }
@@ -187,7 +205,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
             type="number"
             name='sortIndex'
             id='sortIndex'
-            placeholder='(397) 294-5153'
+            placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
@@ -217,11 +235,9 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
         <FormGroup>
           <Label for='user-role'>userRoles</Label>
           <Input multiple type='select' id='userRoles' name='userRoles' onChange={e => setUserRoles(getSelected(e)) }>
-            <option value='subscriber'>Subscriber</option>
-            <option value='editor'>Editor</option>
-            <option value='maintainer'>Maintainer</option>
-            <option value='author'>Author</option>
-            <option value='admin'>Admin</option>
+            <option value=''></option>
+            { allRoles.map((opt) => <option key={opt.id} value={opt.id}>{opt.name}</option>) }
+          
           </Input>
         </FormGroup>
       

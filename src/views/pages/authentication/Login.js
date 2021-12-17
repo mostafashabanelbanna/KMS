@@ -125,7 +125,7 @@ const Login = props => {
               </g>
             </g>
           </svg>
-          <h2 className='brand-text text-primary ml-1'>Vuexy</h2>
+          <h2 className='brand-text text-primary ml-1'>KMS</h2>
         </Link>
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
@@ -135,10 +135,10 @@ const Login = props => {
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
           <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
             <CardTitle tag='h2' className='font-weight-bold mb-1'>
-              Welcome to Vuexy! 👋
+              Welcome to KMS! 👋
             </CardTitle>
             <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
-            <Alert color='primary'>
+            {/* <Alert color='primary'>
               <div className='alert-body font-small-2'>
                 <p>
                   <small className='mr-50'>
@@ -160,7 +160,7 @@ const Login = props => {
               <UncontrolledTooltip target='login-tip' placement='left'>
                 This is just for ACL demo purpose.
               </UncontrolledTooltip>
-            </Alert>
+            </Alert> */}
             <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
                 <Label className='form-label' for='login-email'>
@@ -197,23 +197,23 @@ const Login = props => {
                   innerRef={register({ required: true, validate: value => value !== '' })}
                 />
               </FormGroup>
-              <FormGroup>
+              {/* <FormGroup>
                 <CustomInput type='checkbox' className='custom-control-Primary' id='remember-me' label='Remember Me' />
-              </FormGroup>
+              </FormGroup> */}
               <Button.Ripple type='submit' color='primary' block>
                 Sign in
               </Button.Ripple>
             </Form>
-            <p className='text-center mt-2'>
+            {/* <p className='text-center mt-2'>
               <span className='mr-25'>New on our platform?</span>
               <Link to='/register'>
                 <span>Create an account</span>
               </Link>
-            </p>
-            <div className='divider my-2'>
+            </p> */}
+            {/* <div className='divider my-2'>
               <div className='divider-text'>or</div>
-            </div>
-            <div className='auth-footer-btn d-flex justify-content-center'>
+            </div> */}
+            {/* <div className='auth-footer-btn d-flex justify-content-center'>
               <Button.Ripple color='facebook'>
                 <Facebook size={14} />
               </Button.Ripple>
@@ -226,7 +226,7 @@ const Login = props => {
               <Button.Ripple className='mr-0' color='github'>
                 <GitHub size={14} />
               </Button.Ripple>
-            </div>
+            </div> */}
           </Col>
         </Col>
       </Row>
