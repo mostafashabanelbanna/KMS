@@ -173,6 +173,10 @@ const AppRoutes = [
     meta: {
       navLink: '/apps/user/view'
     }
+  },
+  {
+    path: '/Lookups',
+    component: lazy(() => import('../../views/apps/Lookups/Index'))
   }
 ]
 
