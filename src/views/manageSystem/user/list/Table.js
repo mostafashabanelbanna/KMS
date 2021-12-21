@@ -22,7 +22,7 @@ import { ChevronDown } from 'react-feather'
 import DataTable from 'react-data-table-component'
 import { selectThemeColors } from '@utils'
 import { Card,  Button } from 'reactstrap'
-
+import { useIntl, FormattedMessage } from 'react-intl'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -50,33 +50,71 @@ const UsersList = () => {
   })
 
  // ** Function to toggle sidebar
- const toggleSidebar = () => {
-  if (sidebarOpen) {
-    swal("are you sure you want to close?", {
-      buttons: {
-        cancel: "cancel",
-        catch: {
-          text: "ok",
-          value: "ok"
-        }
-      }
-    })
-    .then((value) => {
-      switch (value) {
-    
-        case "ok":
-          setSidebarOpen(!sidebarOpen)
-          break
+ const toggleSidebar = (btnType) => {
 
-        default:
-          setSidebarOpen(true)
-      }
-    })
-  } else {
-    setSidebarOpen(!sidebarOpen)
+  if (btnType === 'addUser') {
+    setSidebarOpen(true)
+  } else if (btnType === 'exitSidebar') {
+      swal("are you sure you want to close?", {
+        buttons: {
+          cancel: "cancel",
+          catch: {
+            text: "ok",
+            value: "ok"
+          }
+        }
+      })
+      .then((value) => {
+        switch (value) {
+          case "ok":
+            setSidebarOpen(!sidebarOpen)
+            break
+
+          default:
+            setSidebarOpen(true)
+        }
+      })
   }
 
+  // console.log(sidebarOpen)
+  // console.log(submitted)
+
+  //  if (sidebarOpen && wannaCancel) {
+  //   swal("are you sure you want to close?", {
+  //     buttons: {
+  //       cancel: "cancel",
+  //       catch: {
+  //         text: "ok",
+  //         value: "ok"
+  //       }
+  //     }
+  //   })
+  //   .then((value) => {
+  //     switch (value) {
+  //       case "ok":
+  //         setSidebarOpen(!sidebarOpen)
+  //         break
+
+  //       default:
+  //         setSidebarOpen(true)
+  //     }
+  //   })
+  // } else {
+  //   if (sidebarOpen && submitted) {
+  //     setSidebarOpen(false)
+  //     alert('Submitted')
+  //   }
+  // }
+
 }
+
+// closeSidebar
+  // const closeSidebar = () => {
+  //   console.log(store.CreateUserStatus)
+  //   if (store.CreateUserStatus) {
+  //     setSidebarOpen(false)
+  //   } 
+  // }
 
   // ** Get data on mount
   useEffect(() => {
@@ -102,21 +140,6 @@ const UsersList = () => {
     )
     setPageNumber(page.selected + 1)
   }
-
-  // ** Function in get data on rows per page
-  // const handlePerPage = e => {
-  //   const value = parseInt(e.currentTarget.value)
-  //   dispatch(
-  //     getData({
-  //       ...searchData,
-  //       [pageNumber]: page.selected + 1,
-  //       [rowsPerPage]: rowsPerPage
-  //     })
-  //   )
-  //   setData(response.data)
-  //   setTotal(response.total)
-  //   setRowsPerPage(parseInt(e.target.value))
-  // }
 
   // ** Custom Pagination
   const CustomPagination = () => {
@@ -147,18 +170,17 @@ const UsersList = () => {
     if (store.data.length > 0 && !store.error) {
       return store.data
     } 
-    // else if (store.data.length === 0 && isFiltered) {
-    //   return []
-    // } else {
-    //   return store.allData.slice(0, rowsPerPage)
-    // }
   }
+
+  
+  // useIntl
+  const intl = useIntl()
 
   // Search Form Items we need to pass to Search Form container
   const formItems =  [
     {
       fieldType: 'text',
-      label:"name", 
+      label: `${intl.formatMessage({id: "Name"})}`, 
       colSizeLg: 4,
       attr: "name",
       dropdownArr: [], 
@@ -167,7 +189,7 @@ const UsersList = () => {
     },
     {
       fieldType: 'text',
-      label:"email", 
+      label: `${intl.formatMessage({id: "Email"})}`, 
       colSizeLg: 4, 
       attr: "email", 
       dropdownArr: [], 
@@ -190,18 +212,16 @@ const UsersList = () => {
       })
     )
   }
+  
   return (
-    
     <Fragment>
       { isAuthorized(store.error) ? <Redirect to='/misc/not-authorized' /> : (
         <>
-      <Card>
-        <div>
-          <Button.Ripple color='primary' onClick={toggleSidebar}>
-            Add New User
-           </Button.Ripple>
-        </div> 
-      </Card>
+      <div className="my-1">
+        <Button.Ripple color='primary' onClick={() => toggleSidebar('addUser')}>
+          <FormattedMessage id="Add New User" />
+        </Button.Ripple>
+      </div>
       <Card>
         <DataTable
           noHeader
@@ -217,12 +237,11 @@ const UsersList = () => {
           subHeaderWrap={false}
           subHeaderComponent={
             <div className='w-100'>
-              <SearchForm  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems}/>
+              <SearchForm  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
             </div>
           }
         />
       </Card>
-
       <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
         </>
       )}

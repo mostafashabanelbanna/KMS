@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 
 // ** Dropdowns Imports
 import IntlDropdown from './IntlDropdown'
-import CartDropdown from './CartDropdown'
+// import CartDropdown from './CartDropdown'
 import UserDropdown from './UserDropdown'
 import NavbarSearch from './NavbarSearch'
 import NotificationDropdown from './NotificationDropdown'

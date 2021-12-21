@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 // ** Third Party Components
-import { FormattedMessage, useIntl } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 // ** User List Component
 import Breadcrumbs from '@components/breadcrumbs'
@@ -16,7 +16,7 @@ const UsersList = () => {
   
   return (
     <div className='app-user-list'>
-      <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "List"})} breadCrumbParent={intl.formatMessage({id: "User"})} breadCrumbActive={intl.formatMessage({id: "List"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
+      <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "Manage Users"})} breadCrumbParent={intl.formatMessage({id: "Manage System"})} breadCrumbActive={intl.formatMessage({id: "Manage Users"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
       <Table />
     </div>
   )

@@ -25,10 +25,10 @@ import userMessagesPt from '@src/assets/data/locales/pt.json'
 // ** Menu msg obj
 const menuMessages = {
   ar: { ...messagesAr, ...userMessagesAr },
-  en: { ...messagesEn, ...userMessagesEn },
-  de: { ...messagesDe, ...userMessagesDe },
-  fr: { ...messagesFr, ...userMessagesFr },
-  pt: { ...messagesPt, ...userMessagesPt }
+  en: { ...messagesEn, ...userMessagesEn }
+  // de: { ...messagesDe, ...userMessagesDe },
+  // fr: { ...messagesFr, ...userMessagesFr },
+  // pt: { ...messagesPt, ...userMessagesPt }
 }
 
 // ** Create Context
