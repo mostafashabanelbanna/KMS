@@ -13,6 +13,7 @@ import email from '@src/views/apps/email/store/reducer'
 import calendar from '@src/views/apps/calendar/store/reducer'
 // import ecommerce from '@src/views/apps/ecommerce/store/reducer'
 import dataTables from '@src/views/tables/data-tables/store/reducer'
+import lookups from '@src/views/apps/Lookups/store/reducer/Index'
 
 const rootReducer = combineReducers({
   auth,
@@ -24,8 +25,9 @@ const rootReducer = combineReducers({
   layout,
   // invoice,
   calendar,
-  // ecommerce,
-  dataTables
+  dataTables,
+  ecommerce,
+  lookups
 })
 
 export default rootReducer
