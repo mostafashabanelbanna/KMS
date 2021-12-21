@@ -1,4 +1,16 @@
 {
-  "Dashboards": "Dashboards",
-  "User": "المستخدم"
+  "User": "المستخدم",
+  "Homepage": "الرئيسية",
+  "Manage System": "إدارة النظام",
+  "Manage Users": "إدارة المستخدمين ",
+  "Add New User": "إضافة مستخدم جديد",
+  "Name": "الأسم",
+  "Email": "البريد الإلكتروني",
+  "Search": "بحث",
+  "Username": "أسم المستخدم",
+  "Job Title": "الوظيفة",
+  "Phone Number": "رقم الهاتف",
+  "Actions":"المهام",
+  "Edit": "تعديل",
+  "Delete": "حذف"
 }

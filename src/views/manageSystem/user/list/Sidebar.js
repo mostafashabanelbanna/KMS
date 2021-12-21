@@ -5,22 +5,24 @@ import { useState, useEffect } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty, getSelected } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
+import Select, { components } from 'react-select'
+
 import axios from '../../../../axios'
 
 
 // ** Store & Actions
 import { addUser } from '../store/action'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector  } from 'react-redux'
 import { event } from 'jquery'
 import CustomInput from 'reactstrap/lib/CustomInput'
 
-const SidebarNewUsers = ({ open, toggleSidebar }) => {
+const SidebarNewUsers = ({ open, toggleSidebar, closeSidebar }) => {
   // ** States
   const [userRoles, setUserRoles] = useState([])
   const [allRoles, setAllRoles] = useState([])
@@ -42,14 +44,33 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
 
   // ** Store Vars
   const dispatch = useDispatch()
+  const store = useSelector(state => state.users)
 
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
 
+  // pass only role id to userRoles
+  const handleRolesChange = (event) => {
+    const options = []
+    event.map(opt => options.push(opt.value))
+    setUserRoles(options)
+  }
+  
+  // Convert user roles array to make objects keys compatible with react select
+  const convertRolesArr = () => {
+    const newArr = []
+    allRoles.map(option => {
+      const newObject = {}
+      delete Object.assign(newObject,  {['value']: option['id'] }, {['label']: option['name'] })[option]
+      newArr.push(newObject)
+    })
+    return newArr
+  }
+
   // ** Function to handle form submit
   const onSubmit = values => {
+    toggleSidebar(store.CreateUserStatus)
     if (isObjEmpty(errors)) {
-      toggleSidebar()
       dispatch(
         addUser({
           name: values.name,
@@ -61,15 +82,18 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
           email: values.email,
           phoneNumber: values.phoneNumber,
           admin: values.admin,
-          sortIndex: 0,
+          sortIndex: values.sortIndex,
           locked: values.locked,
           focus: values.focus,
           active: values.active,
           userRoles
         })
       )
+      
     }
+   
   }
+
 
   return (
     <Sidebar
@@ -78,7 +102,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
       title='New User'
       headerClassName='mb-1'
       contentClassName='pt-0'
-      toggleSidebar={toggleSidebar}
+      toggleSidebar={toggleSidebar('exitSidebar', false)}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
@@ -232,19 +256,33 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
           <Input className="mx-3" type="checkbox" placeholder="active"  name="active" innerRef={register()}   />
         </FormGroup>
 
-        <FormGroup>
+        {/* <FormGroup>
           <Label for='user-role'>userRoles</Label>
           <Input multiple type='select' id='userRoles' name='userRoles' onChange={e => setUserRoles(getSelected(e)) }>
             <option value=''></option>
             { allRoles.map((opt) => <option key={opt.id} value={opt.id}>{opt.name}</option>) }
           
           </Input>
-        </FormGroup>
-      
+        </FormGroup> */}
+        <FormGroup>
+              <Label>Multi Select</Label>
+              <Select
+                isClearable={false}
+                theme={selectThemeColors}
+                // defaultValue={[colorOptions[2], colorOptions[3]]}
+                isMulti
+                name='userRoles'
+                id='userRoles'
+                options={ convertRolesArr()}
+                className='react-select'
+                classNamePrefix='select'
+                onChange={e => handleRolesChange(e) }
+              />
+          </FormGroup>
         <Button type='submit' className='mr-1' color='primary'>
           Submit
         </Button>
-        <Button type='reset' color='secondary' outline onClick={toggleSidebar}>
+        <Button type='reset' color='secondary' outline onClick={() => toggleSidebar('exitSidebar')}>
           Cancel
         </Button>
       </Form>
@@ -253,3 +291,4 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
 }
 
 export default SidebarNewUsers
+

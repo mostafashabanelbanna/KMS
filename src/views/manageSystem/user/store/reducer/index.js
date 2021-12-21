@@ -5,7 +5,8 @@ const initialState = {
   totalPages: 1,
   params: {},
   selectedUser: null,
-  error : {}
+  error : {},
+  CreateUserStatus: false
 }
 
 const users = (state = initialState, action) => {
@@ -23,7 +24,7 @@ const users = (state = initialState, action) => {
     case 'GET_USER':
       return { ...state, selectedUser: action.selectedUser }
     case 'ADD_USER':
-      return { ...state }
+      return { ...state, CreateUserStatus: action.CreateUserStatus }
     case 'DELETE_USER':
       return { ...state }
     default:

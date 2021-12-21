@@ -41,7 +41,7 @@ const SearchForm = (props) => {
     return (
         <Row className="m-2">
             {formItems}
-            <Col lg={12}  className="d-flex justify-content-end"><Button color='success' onClick={props.submitHandler}>Search</Button></Col>
+            <Col lg={12}  className="d-flex justify-content-end"><Button color='success' onClick={props.submitHandler}>{props.btnText}</Button></Col>
         </Row>
     )
 }

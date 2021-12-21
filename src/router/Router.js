@@ -1,5 +1,5 @@
 // ** React Imports
-import { Suspense, useContext, lazy } from 'react'
+import { Suspense, useContext, lazy, useEffect } from 'react'
 
 // ** Utils
 import { isUserLoggedIn } from '@utils'
@@ -22,10 +22,18 @@ import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
 
+// ** Store & Actions
+import { useDispatch } from 'react-redux'
+import { authCheckState } from '../redux/actions/auth'
+
 const Router = () => {
   // ** Hooks
   const [layout, setLayout] = useLayout()
   const [transition, setTransition] = useRouterTransition()
+
+  // 
+// ** Store Vars
+const dispatch = useDispatch()
 
   // ** ACL Ability Context
   const ability = useContext(AbilityContext)
@@ -68,7 +76,9 @@ const Router = () => {
   const FinalRoute = props => {
     const route = props.route
     let action, resource
-
+    useEffect(() => {
+      dispatch(authCheckState())
+    }, [])
     // ** Assign vars based on route meta
     if (route.meta) {
       action = route.meta.action ? route.meta.action : null
@@ -85,10 +95,8 @@ const Router = () => {
        ** If user is not Logged in & route.meta.authRoute, !route.meta.publicRoute are undefined
        ** Then redirect user to login
        */
-      console.log("Not Loged In")
       return <Redirect to='/login' />
     } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
-      console.log("Not Loged In 1")
       // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
       return <Redirect to='/' />
     } else {

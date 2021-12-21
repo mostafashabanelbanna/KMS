@@ -74,13 +74,15 @@ export const isAuthorized = err => {
 export const getSelected = event => {
   const opts = []
   let opt
-  for (let i = 0, len = event.target.options.length; i < len; i++) {
-     opt = event.target.options[i]
-
-      if (opt.selected) {
-          opts.push(opt.value)
-      }
+  for (let i = 0, len = event.length; i < len; i++) {
+    opt = event[i]
+    
+    opts.push(opt.value)
+    // if (opt.va) {
+    // }
   }
+  console.log(event)
+  console.log(opts)
   
   return opts
 } 

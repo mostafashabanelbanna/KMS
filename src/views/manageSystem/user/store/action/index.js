@@ -48,9 +48,14 @@ export const addUser = user => {
       .post('/User/CreateUser', userFormData, {headers : { "Content-Type": "multipart/form-data" }})
       .then(response => {
         console.log(response)
+        let CreateUserStatus = false
+        if (response.data.statusCode === 200) {
+          CreateUserStatus = true
+        }
         dispatch({
           type: 'ADD_USER',
-          user
+          user,
+          CreateUserStatus
         })
       })
       .then(() => {

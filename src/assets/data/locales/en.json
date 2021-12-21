@@ -1,4 +1,16 @@
 {
-  "Dashboard": "Dashboard",
-  "User": "User"
+  "User": "User",
+  "Homepage": "Homepage",
+  "Manage System": "Manage System",
+  "Manage Users": "Manage Users",
+  "Add New User": "Add New User",
+  "Name": "Name",
+  "Email":  "Email",
+  "Search": "Search",
+  "Username": "Username",
+  "Job Title": "Job Title",
+  "Phone Number": "Phone Number",
+  "Actions":"Actions",
+  "Edit": "Edit",
+  "Delete": "Delete"
 }
