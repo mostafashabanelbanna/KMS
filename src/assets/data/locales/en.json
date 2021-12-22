@@ -41,5 +41,6 @@
   "Orientation": "Orientation",
   "Sector": "Sector",
   "Source": "Source",
-  "UnitLabel": "Unit Label"
+  "UnitLabel": "Unit Label",
+  "Description": "Description"
 }

@@ -14,19 +14,21 @@ import calendar from '@src/views/apps/calendar/store/reducer'
 import dataTables from '@src/views/tables/data-tables/store/reducer'
 import users from '@src/views/manageSystem/users/store/reducer'
 import lookups from '@src/views/manageSystem/Lookups/store/reducer/Index'
+import roles from '@src/views/manageSystem/Roles/store/reducer/index'
 
 const rootReducer = combineReducers({
-  auth,
-  // todo,
-  chat,
-  email,
-  users,
-  navbar,
-  layout,
-  // invoice,
-  calendar,
-  dataTables,
-  lookups
+    auth,
+    // todo,
+    chat,
+    email,
+    users,
+    navbar,
+    layout,
+    // invoice,
+    calendar,
+    dataTables,
+    lookups,
+    roles
 })
 
 export default rootReducer

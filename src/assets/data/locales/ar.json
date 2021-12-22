@@ -41,5 +41,7 @@
   "Orientation": "الإتجاه",
   "Sector": "القطاع",
   "Source": "المصدر",
-  "UnitLabel": "وحدة القياس"
+  "UnitLabel": "وحدة القياس",
+  "Description": "الوصف",
+
 }
