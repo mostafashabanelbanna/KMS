@@ -31,6 +31,7 @@ import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 // helper function
 import {isAuthorized} from '../../../utility/Utils'
 import Row from 'reactstrap/lib/Row'
+import {useIntl, FormattedMessage } from 'react-intl'
 
 const LookupsView = () => {
 
@@ -45,6 +46,8 @@ const LookupsView = () => {
       name: ""
     })
 
+// useIntl
+const intl = useIntl()
    
     const handlePagination = page => {
         dispatch(
@@ -136,8 +139,8 @@ const LookupsView = () => {
         const lkps = []
         if (store.allLookups && store.allLookups.length > 0) {
             for (let i = 0; i < store.allLookups.length; i++) {
-                const content = (store.allLookups[i].items.map((obj, idx) => <Card key={idx} style={{cursor: "pointer", padding: '8px'}} onClick={() => getLookupValues(obj.name)}>{obj.displayName}</Card>))
-                lkps.push({title: store.allLookups[i].name, content})
+                const content = (store.allLookups[i].items.map((obj, idx) => <Card key={idx} style={{cursor: "pointer", padding: '8px'}} onClick={() => getLookupValues(obj.name)}><FormattedMessage id={obj.displayName} /></Card>))
+                lkps.push({title: intl.formatMessage({id: store.allLookups[i].name}), content})
             }
         }
         return lkps
@@ -145,13 +148,13 @@ const LookupsView = () => {
 
     const columns = [
         {
-            name: 'Name',
+            name: intl.formatMessage({id: "Name"}),
             selector: 'name_A',
             sortable: true,
             minWidth: '225px'
         },
         {
-            name: 'Actions',
+            name: intl.formatMessage({id: "Actions"}),
             maxWidth: '50px',
             cell: row => (
               <UncontrolledDropdown>
@@ -164,11 +167,11 @@ const LookupsView = () => {
                     onClick={() => updateLookup(row.id)}
                   >
                     <Archive size={14} className='mr-50' />
-                    <span className='align-middle'>Edit</span>
+                    <span className='align-middle'>{intl.formatMessage({id: "Edit"})}</span>
                   </DropdownItem>
                   <DropdownItem className='w-100' onClick={() => dispatch(deleteLookupValue(row.id))}>
                     <Trash2 size={14} className='mr-50' />
-                    <span className='align-middle'>Delete</span>
+                    <span className='align-middle'>{intl.formatMessage({id: "Delete"})}</span>
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -182,12 +185,12 @@ const LookupsView = () => {
             <>
                 <div className='row'>
                     <div className='col-4'>
-                        <AppCollapse data={RenderLookups()} type='margin' accordion />
+                        <AppCollapse  data={RenderLookups()} type='margin' accordion />
                     </div>
-                    <div className='col-8'>
+                    <div className='col-8 mt-1'>
                     <div className='mb-2'>
                         <Button.Ripple color='primary' onClick={addLookup} disabled={!store.lookupName}>
-                            Add
+                        {intl.formatMessage({id: "Add"})}
                         </Button.Ripple>
                     </div> 
 

@@ -16,7 +16,7 @@ const LookupsView = () => {
   
   return (
     <div className='app-user-list'>
-      <Breadcrumbs breadCrumbParent={intl.formatMessage({id: "Lookups"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
+      <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "Lookups"})} breadCrumbParent={intl.formatMessage({id: "Manage System"})} breadCrumbActive={intl.formatMessage({id: "Lookups"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
       <Table />
     </div>
   )

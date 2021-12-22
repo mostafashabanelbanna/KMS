@@ -28,6 +28,7 @@ import {
 } from 'reactstrap'
 
 import '@styles/base/pages/page-auth.scss'
+import { FormattedMessage } from 'react-intl'
 
 const ToastContent = ({ name, role }) => (
   <Fragment>
@@ -125,7 +126,7 @@ const Login = props => {
               </g>
             </g>
           </svg>
-          <h2 className='brand-text text-primary ml-1'>KMS</h2>
+          <h2 className='brand-text text-primary ml-1'><FormattedMessage id="appFullName" /></h2>
         </Link>
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
@@ -135,36 +136,14 @@ const Login = props => {
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
           <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
             <CardTitle tag='h2' className='font-weight-bold mb-1'>
-              Welcome to KMS! 👋
+            <FormattedMessage id="Welcome Message" /> <FormattedMessage id="appFullName" /> 👋
             </CardTitle>
-            <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
-            {/* <Alert color='primary'>
-              <div className='alert-body font-small-2'>
-                <p>
-                  <small className='mr-50'>
-                    <span className='font-weight-bold'>Admin:</span> admin@demo.com | admin
-                  </small>
-                </p>
-                <p>
-                  <small className='mr-50'>
-                    <span className='font-weight-bold'>Client:</span> client@demo.com | client
-                  </small>
-                </p>
-              </div>
-              <HelpCircle
-                id='login-tip'
-                className='position-absolute'
-                size={18}
-                style={{ top: '10px', right: '10px' }}
-              />
-              <UncontrolledTooltip target='login-tip' placement='left'>
-                This is just for ACL demo purpose.
-              </UncontrolledTooltip>
-            </Alert> */}
+            <CardText className='mb-2'><FormattedMessage id="Login Message" /> </CardText>
+            
             <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
                 <Label className='form-label' for='login-email'>
-                  Email
+                  <FormattedMessage id="User Name" />
                 </Label>
                 <Input
                   autoFocus
@@ -181,11 +160,11 @@ const Login = props => {
               <FormGroup>
                 <div className='d-flex justify-content-between'>
                   <Label className='form-label' for='login-password'>
-                    Password
+                   <FormattedMessage id="Password" />
                   </Label>
-                  <Link to='/forgot-password'>
+                  {/* <Link to='/forgot-password'>
                     <small>Forgot Password?</small>
-                  </Link>
+                  </Link> */}
                 </div>
                 <InputPasswordToggle
                   value={password}
@@ -201,7 +180,7 @@ const Login = props => {
                 <CustomInput type='checkbox' className='custom-control-Primary' id='remember-me' label='Remember Me' />
               </FormGroup> */}
               <Button.Ripple type='submit' color='primary' block>
-                Sign in
+                <FormattedMessage id="Login" />
               </Button.Ripple>
             </Form>
             {/* <p className='text-center mt-2'>

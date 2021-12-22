@@ -1,4 +1,4 @@
-import { User, Columns } from 'react-feather'
+import { User, Columns, Users } from 'react-feather'
 
 export default [
   {
@@ -19,7 +19,7 @@ export default [
   {
     id: 'roles',
     title: 'Manage Roles',
-    icon: <Columns size={20} />,
+    icon: <Users size={20} />,
     navLink: '/roles'
   }
 ]

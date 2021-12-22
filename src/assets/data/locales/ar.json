@@ -1,4 +1,9 @@
 {
+  "appName": "نظام المعرفة",
+  "appFullName": "نظام إدارة المعرفة",
+  "Welcome Message": "مرحباً بك فى",
+  "Login Message":"برجاء تسجيل الدخول إلى حسابك",
+  "Login":"تسجيل الدخول",
   "User": "المستخدم",
   "Homepage": "الرئيسية",
   "Manage System": "إدارة النظام",
@@ -23,10 +28,18 @@
   "Focus":"مميز",
   "Active": "فعال",
   "Actions":"المهام",
+  "Add":"إضافة",
   "Edit": "تعديل",
   "Delete": "حذف",
   "Save": "حفظ",
   "Cancel": "إلغاء",
-  "Submit": " إرسال"
-
+  "Submit": " إرسال",
+  "General": "عام",
+  "AttachmentType": "نوع الملف",
+  "CalculationType" : "نوع العملية الحسابية",
+  "DataQuality": "جودة البيانات",
+  "Orientation": "الإتجاه",
+  "Sector": "القطاع",
+  "Source": "المصدر",
+  "UnitLabel": "وحدة القياس"
 }

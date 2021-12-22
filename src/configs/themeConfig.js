@@ -1,9 +1,11 @@
 // You can customize the template with the help of this file
+import { useIntl, FormattedMessage } from 'react-intl'
+
 
 //Template config options
 const themeConfig = {
   app: {
-    appName: 'KMS',
+    appName: <FormattedMessage id="appName" />,
     appLogoImage: require('@src/assets/images/logo/logo.svg').default
   },
   layout: {

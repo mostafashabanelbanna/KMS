@@ -1,4 +1,9 @@
 {
+  "appName": "KMS",
+  "appFullName": "KMS",
+  "Welcome Message": "Welcome to",
+  "Login Message":"Please sign-in to your account",
+  "Login":"Login",
   "User": "User",
   "Homepage": "Homepage",
   "Manage System": "Manage System",
@@ -23,10 +28,18 @@
   "Focus":"Focus",
   "Active": "Active",
   "Actions":"Actions",
+  "Add":"Add",
   "Edit": "Edit",
   "Delete": "Delete",
   "Save": "Save",
   "Cancel": "Cancel",
-
-  "Submit": " Submit"
+  "Submit": " Submit",
+  "General": "General",
+  "AttachmentType": "Attachment Type",
+  "CalculationType" : "Calculation Type",
+  "DataQuality": "Data Quality",
+  "Orientation": "Orientation",
+  "Sector": "Sector",
+  "Source": "Source",
+  "UnitLabel": "Unit Label"
 }
