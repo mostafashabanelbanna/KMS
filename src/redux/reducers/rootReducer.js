@@ -26,7 +26,6 @@ const rootReducer = combineReducers({
   // invoice,
   calendar,
   dataTables,
-  ecommerce,
   lookups
 })
 

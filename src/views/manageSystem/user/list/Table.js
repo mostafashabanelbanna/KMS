@@ -50,63 +50,92 @@ const UsersList = () => {
   })
 
  // ** Function to toggle sidebar
- const toggleSidebar = (btnType) => {
 
-  if (btnType === 'addUser') {
-    setSidebarOpen(true)
-  } else if (btnType === 'exitSidebar') {
-      swal("are you sure you want to close?", {
-        buttons: {
-          cancel: "cancel",
-          catch: {
-            text: "ok",
-            value: "ok"
-          }
+ const toggleSidebar = (Submit) => {
+  if (sidebarOpen && Submit !== 1) {
+    swal("are you sure you want to close?", {
+      buttons: {
+        cancel: "cancel",
+        catch: {
+          text: "ok",
+          value: "ok"
         }
-      })
-      .then((value) => {
-        switch (value) {
-          case "ok":
-            setSidebarOpen(!sidebarOpen)
-            break
+      }
+    })
+    .then((value) => {
+      switch (value) {
+        case "ok":
+          setSidebarOpen(!sidebarOpen)
+          break
 
-          default:
-            setSidebarOpen(true)
-        }
-      })
+        default:
+          setSidebarOpen(true)
+      }
+    })
+  } else {
+    setSidebarOpen(!sidebarOpen)
   }
 
-  // console.log(sidebarOpen)
-  // console.log(submitted)
-
-  //  if (sidebarOpen && wannaCancel) {
-  //   swal("are you sure you want to close?", {
-  //     buttons: {
-  //       cancel: "cancel",
-  //       catch: {
-  //         text: "ok",
-  //         value: "ok"
-  //       }
-  //     }
-  //   })
-  //   .then((value) => {
-  //     switch (value) {
-  //       case "ok":
-  //         setSidebarOpen(!sidebarOpen)
-  //         break
-
-  //       default:
-  //         setSidebarOpen(true)
-  //     }
-  //   })
-  // } else {
-  //   if (sidebarOpen && submitted) {
-  //     setSidebarOpen(false)
-  //     alert('Submitted')
-  //   }
-  // }
-
 }
+
+
+ //  const toggleSidebar = (btnType) => {
+
+//   if (btnType === 'addUser') {
+//     setSidebarOpen(true)
+//   } else if (btnType === 'exitSidebar') {
+//       swal("are you sure you want to close?", {
+//         buttons: {
+//           cancel: "cancel",
+//           catch: {
+//             text: "ok",
+//             value: "ok"
+//           }
+//         }
+//       })
+//       .then((value) => {
+//         switch (value) {
+//           case "ok":
+//             setSidebarOpen(!sidebarOpen)
+//             break
+
+//           default:
+//             setSidebarOpen(true)
+//         }
+//       })
+//   }
+
+//   // console.log(sidebarOpen)
+//   // console.log(submitted)
+
+//   //  if (sidebarOpen && wannaCancel) {
+//   //   swal("are you sure you want to close?", {
+//   //     buttons: {
+//   //       cancel: "cancel",
+//   //       catch: {
+//   //         text: "ok",
+//   //         value: "ok"
+//   //       }
+//   //     }
+//   //   })
+//   //   .then((value) => {
+//   //     switch (value) {
+//   //       case "ok":
+//   //         setSidebarOpen(!sidebarOpen)
+//   //         break
+
+//   //       default:
+//   //         setSidebarOpen(true)
+//   //     }
+//   //   })
+//   // } else {
+//   //   if (sidebarOpen && submitted) {
+//   //     setSidebarOpen(false)
+//   //     alert('Submitted')
+//   //   }
+//   // }
+
+// }
 
 // closeSidebar
   // const closeSidebar = () => {
@@ -172,7 +201,7 @@ const UsersList = () => {
     } 
   }
 
-  
+  console.log(store.data)
   // useIntl
   const intl = useIntl()
 
@@ -213,12 +242,13 @@ const UsersList = () => {
     )
   }
   
+ 
   return (
     <Fragment>
       { isAuthorized(store.error) ? <Redirect to='/misc/not-authorized' /> : (
         <>
       <div className="my-1">
-        <Button.Ripple color='primary' onClick={() => toggleSidebar('addUser')}>
+        <Button.Ripple color='primary' onClick={toggleSidebar}>
           <FormattedMessage id="Add New User" />
         </Button.Ripple>
       </div>

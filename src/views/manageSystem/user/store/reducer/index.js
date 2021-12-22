@@ -6,7 +6,11 @@ const initialState = {
   params: {},
   selectedUser: null,
   error : {},
-  CreateUserStatus: false
+  createresponse: {
+    error : {},
+    statusCode: 0,
+    errors: []
+  } 
 }
 
 const users = (state = initialState, action) => {
@@ -24,7 +28,9 @@ const users = (state = initialState, action) => {
     case 'GET_USER':
       return { ...state, selectedUser: action.selectedUser }
     case 'ADD_USER':
-      return { ...state, CreateUserStatus: action.CreateUserStatus }
+      return { ...state, createresponse: action.response  }
+      case 'RESET_RESPONSE':
+        return { ...state, createresponse: {error:{}, statusCode: 0, errors:[]}}
     case 'DELETE_USER':
       return { ...state }
     default:

@@ -22,8 +22,6 @@ export const getData = params => {
 
 // ** Add new user
 export const addUser = user => {
-  console.log(user)
-   // 
    const userFormData = new FormData()
 
    userFormData.append('name', user.name)
@@ -43,7 +41,6 @@ export const addUser = user => {
 
    
    return (dispatch, getState) => {
-    console.log(userFormData)
     axios
       .post('/User/CreateUser', userFormData, {headers : { "Content-Type": "multipart/form-data" }})
       .then(response => {
@@ -55,14 +52,25 @@ export const addUser = user => {
         dispatch({
           type: 'ADD_USER',
           user,
-          CreateUserStatus
+          response:{statusCode: response.data.statusCode, errors: response.data.errors}
         })
       })
       .then(() => {
         dispatch(getData(getState().users.params))
         // dispatch(getAllData())
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        dispatch({
+          type: 'ADD_USER',
+          createresponse:{error: error.response}
+        })
+      })
+  }
+}
+
+export const resetResponse = () => {
+  return (dispatch) => {
+      dispatch({type: "RESET_RESPONSE"})
   }
 }
 
@@ -98,15 +106,19 @@ export const getUser = id => {
 export const deleteUser = id => {
   return (dispatch, getState) => {
     axios
-      .delete('/apps/users/delete', { id })
+      .delete('/User/DeleteUser/', {data: {
+        Id: id
+      }})
       .then(response => {
         dispatch({
           type: 'DELETE_USER'
         })
       })
       .then(() => {
+        console.log(getState().users.params)
         dispatch(getData(getState().users.params))
         // dispatch(getAllData())
       })
+      .catch(err => console.log(err))
   }
 }

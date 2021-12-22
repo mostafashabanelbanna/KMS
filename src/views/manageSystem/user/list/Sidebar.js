@@ -17,7 +17,7 @@ import axios from '../../../../axios'
 
 
 // ** Store & Actions
-import { addUser } from '../store/action'
+import { addUser, resetResponse } from '../store/action'
 import { useDispatch, useSelector  } from 'react-redux'
 import { event } from 'jquery'
 import CustomInput from 'reactstrap/lib/CustomInput'
@@ -69,7 +69,6 @@ const SidebarNewUsers = ({ open, toggleSidebar, closeSidebar }) => {
 
   // ** Function to handle form submit
   const onSubmit = values => {
-    toggleSidebar(store.CreateUserStatus)
     if (isObjEmpty(errors)) {
       dispatch(
         addUser({
@@ -89,11 +88,17 @@ const SidebarNewUsers = ({ open, toggleSidebar, closeSidebar }) => {
           userRoles
         })
       )
-      
     }
-   
   }
 
+  useEffect(() => {
+    if (store.createresponse.statusCode !== 0) {
+        alert("Saved Successfully")
+        toggleSidebar(1)
+        resetResponse()
+    }
+      
+  }, [store.createresponse.statusCode])
 
   return (
     <Sidebar
@@ -102,7 +107,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, closeSidebar }) => {
       title='New User'
       headerClassName='mb-1'
       contentClassName='pt-0'
-      toggleSidebar={toggleSidebar('exitSidebar', false)}
+      toggleSidebar={toggleSidebar}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
@@ -282,7 +287,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, closeSidebar }) => {
         <Button type='submit' className='mr-1' color='primary'>
           Submit
         </Button>
-        <Button type='reset' color='secondary' outline onClick={() => toggleSidebar('exitSidebar')}>
+        <Button type='reset' color='secondary' outline onClick={toggleSidebar}>
           Cancel
         </Button>
       </Form>

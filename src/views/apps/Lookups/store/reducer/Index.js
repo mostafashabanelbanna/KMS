@@ -10,8 +10,7 @@ const initialState = {
       error : {},
       statusCode: 0,
       errors: []
-    }
-    
+    } 
   }
   const Lookups = (state = initialState, action) => {
     switch (action.type) {

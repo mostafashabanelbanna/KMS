@@ -49,6 +49,7 @@ const SidebarLookup = ({ open, toggleSidebar }) => {
       )
     }
   }
+  
   useEffect(() => {
     if (store.createresponse.statusCode !== 0) {
         alert("Saved Successfully")

@@ -129,7 +129,7 @@ const LookupsView = () => {
           setSidebarOpen(!sidebarOpen)
         }
       
-      }
+    }
 
     useEffect(() => {
         dispatch(
