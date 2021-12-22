@@ -17,12 +17,15 @@ import axios from '../../../../axios'
 
 
 // ** Store & Actions
-import { addUser, resetResponse } from '../store/action'
+import { addUser, resetCreateResponse, updateUser, resetUpdateResponse } from '../store/action'
 import { useDispatch, useSelector  } from 'react-redux'
 import { event } from 'jquery'
 import CustomInput from 'reactstrap/lib/CustomInput'
+import { useIntl } from 'react-intl'
+import Row from 'reactstrap/lib/Row'
+import Col from 'reactstrap/lib/Col'
 
-const SidebarNewUsers = ({ open, toggleSidebar, closeSidebar }) => {
+const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
   // ** States
   const [userRoles, setUserRoles] = useState([])
   const [allRoles, setAllRoles] = useState([])
@@ -57,9 +60,9 @@ const SidebarNewUsers = ({ open, toggleSidebar, closeSidebar }) => {
   }
   
   // Convert user roles array to make objects keys compatible with react select
-  const convertRolesArr = () => {
+  const convertRolesArr = (originArr) => {
     const newArr = []
-    allRoles.map(option => {
+    originArr.map(option => {
       const newObject = {}
       delete Object.assign(newObject,  {['value']: option['id'] }, {['label']: option['name'] })[option]
       newArr.push(newObject)
@@ -68,43 +71,88 @@ const SidebarNewUsers = ({ open, toggleSidebar, closeSidebar }) => {
   }
 
   // ** Function to handle form submit
-  const onSubmit = values => {
+  const onSubmit = async values => {
+  console.log(selectedUser)
+
     if (isObjEmpty(errors)) {
-      dispatch(
-        addUser({
-          name: values.name,
-          nameE: values.nameE,
-          jobTitle: values.jobTitle,
-          photo: values.photo,
-          password: values.password,
-          userName: values.userName,
-          email: values.email,
-          phoneNumber: values.phoneNumber,
-          admin: values.admin,
-          sortIndex: values.sortIndex,
-          locked: values.locked,
-          focus: values.focus,
-          active: values.active,
-          userRoles
-        })
-      )
+      if (!selectedUser.id) {
+        await dispatch(
+            addUser({
+              name: values.name,
+              nameE: values.nameE,
+              jobTitle: values.jobTitle,
+              photo: values.photo,
+              password: values.password,
+              userName: values.userName,
+              email: values.email,
+              phoneNumber: values.phoneNumber,
+              admin: values.admin,
+              sortIndex: values.sortIndex,
+              locked: values.locked,
+              focus: values.focus,
+              active: values.active,
+              userRoles
+            })
+          )
+      } else {
+        await dispatch(
+          updateUser(
+            {
+              name: values.name,
+              nameE: values.nameE,
+              jobTitle: values.jobTitle,
+              photo: values.photo,
+              password: values.password,
+              userName: values.userName,
+              email: values.email,
+              phoneNumber: values.phoneNumber,
+              admin: values.admin,
+              sortIndex: values.sortIndex,
+              locked: values.locked,
+              focus: values.focus,
+              active: values.active,
+              userRoles,
+              id: selectedUser.id
+            }
+          )
+        )
+      }
+     
     }
   }
+  
+  useEffect(() => {
+    if (store.createResponse.statusCode !== 0) {
+        if (store.createResponse.statusCode === 401) {
+            localStorage.clear()
+            location.reload()
+        } else if (store.createResponse.statusCode === 200) {
+            alert("Added Successfully")
+            toggleSidebar(1)
+        }     
+        resetCreateResponse()
+    }
+  }, [store.createResponse.statusCode])
 
   useEffect(() => {
-    if (store.createresponse.statusCode !== 0) {
-        alert("Saved Successfully")
-        toggleSidebar(1)
-        resetResponse()
+    if (store.updateResponse.statusCode !== 0) {
+        if (store.updateResponse.statusCode === 401) {
+            localStorage.clear()
+        } else if (store.updateResponse.statusCode === 200) {
+            alert("updated Successfully")
+            toggleSidebar(1)
+        }
+        resetUpdateResponse() 
     }
-      
-  }, [store.createresponse.statusCode])
+  }, [store.updateResponse.statusCode])
+  
+  const intl = useIntl()
 
   return (
     <Sidebar
       size='lg'
       open={open}
-      title='New User'
+      title={intl.formatMessage({id: "Add User"})}
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
@@ -112,70 +160,65 @@ const SidebarNewUsers = ({ open, toggleSidebar, closeSidebar }) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name'>
-            name <span className='text-danger'>*</span>
+          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
           </Label>
           <Input
             name='name'
             id='name'
-            placeholder='John Doe'
+            defaultValue={selectedUser ? selectedUser.name : ''}
+            placeholder={intl.formatMessage({id: "Name"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['name'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='nameE'>
-          nameE <span className='text-danger'>*</span>
+          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name In English"})}
           </Label>
           <Input
             name='nameE'
             id='nameE'
-            placeholder='John Doe'
+            defaultValue={selectedUser ? selectedUser.nameE : ''}
+            placeholder={intl.formatMessage({id: "Name In English"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['nameE'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='jobTitle'>
-          jobTitle <span className='text-danger'>*</span>
+             <span className='text-danger'>*</span> {intl.formatMessage({id: "Job Title"})}
           </Label>
           <Input
             name='jobTitle'
             id='jobTitle'
-            placeholder='johnDoe99'
+            defaultValue={selectedUser ? selectedUser.jobTitle : ''}
+            placeholder={intl.formatMessage({id: "Job Title"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['jobTitle'] })}
           />
         </FormGroup>
         <FormGroup>
-              <Label for='photo'>photo</Label>
+              <Label for='photo'>{intl.formatMessage({id: "Photo"})}</Label>
               <CustomInput
                 type='file' 
                 id='photo'
-                name='photo'  
+                name='photo' 
+                label={intl.formatMessage({id: "Chose Photo"})}
+                
                 innerRef={register()}
                 className={classnames({ 'is-invalid': errors['photo'] })}/>
             </FormGroup>
-        {/* <FormGroup>
-          <Label for='photo'>
-          photo <span className='text-danger'>*</span>
-          </Label>
-          <Input
-            name='photo'
-            id='photo'
-            placeholder='photo'
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['photo'] })}
-          />
-        </FormGroup> */}
+     
         <FormGroup>
-          <Label for='email'>
-          password <span className='text-danger'>*</span>
+          <Label for='password'>
+           <span className='text-danger'>*</span> {intl.formatMessage({id: "Password"})}
           </Label>
           <Input
             type='password'
             name='password'
             id='password'
-            placeholder='john.doe@example.com'
+            // defaultValue={selectedUser ? selectedUser.password : ''}
+            placeholder={intl.formatMessage({id: "Password"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['password'] })}
           />
@@ -183,112 +226,139 @@ const SidebarNewUsers = ({ open, toggleSidebar, closeSidebar }) => {
         </FormGroup>
         <FormGroup>
           <Label for='userName'>
-          userName <span className='text-danger'>*</span>
+           <span className='text-danger'>*</span> {intl.formatMessage({id: "User Name"})}
           </Label>
           <Input
             name='userName'
             id='userName'
-            placeholder='userName'
+            defaultValue={selectedUser ? selectedUser.userName : ''}
+            placeholder={intl.formatMessage({id: "User Name"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['userName'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='email'>
-          email <span className='text-danger'>*</span>
+           <span className='text-danger'>*</span> {intl.formatMessage({id: "Email"})}
           </Label>
           <Input
             // type='email'
             name='email'
             id='email'
-            placeholder='email'
+            defaultValue={selectedUser ? selectedUser.email : ''}
+            placeholder={intl.formatMessage({id: "Email"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['email'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='phoneNumber'>
-          phoneNumber <span className='text-danger'>*</span>
+          <span className='text-danger'>*</span> {intl.formatMessage({id: "Phone Number"})}
           </Label>
           <Input
             name='phoneNumber'
             id='phoneNumber'
+            defaultValue={selectedUser ? selectedUser.phoneNumber : ''}
             placeholder='(397) 294-5153'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['phoneNumber'] })}
           />
         </FormGroup>
-        
-        <FormGroup>
-          <Label for='admin'>
-           admin <span className='text-danger'>*</span>
-          </Label>
-          <Input className="mx-3" type="checkbox" placeholder="admin" name="admin" innerRef={register()}  />
-        </FormGroup>
-
         <FormGroup>
           <Label for='sortIndex'>
-          sortIndex <span className='text-danger'>*</span>
+          <span className='text-danger'>*</span> {intl.formatMessage({id: "Sort Index"})}
           </Label>
           <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
+            defaultValue={selectedUser ? selectedUser.sortIndex : ''}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
         </FormGroup>
-
         <FormGroup>
-          <Label for='locked'>
-          locked <span className='text-danger'>*</span>
-          </Label>
-          <Input className="mx-3" type="checkbox" placeholder="locked"  name="locked" innerRef={register()} />
-        </FormGroup>
-
-        <FormGroup>
-          <Label for='focus'>
-           focus <span className='text-danger'>*</span>
-          </Label>
-          <Input className="mx-3" type="checkbox" placeholder="focus"  name="focus" innerRef={register()} />
-        </FormGroup>
-
-        <FormGroup>
-          <Label for='active'>
-           active <span className='text-danger'>*</span>
-          </Label>
-          <Input className="mx-3" type="checkbox" placeholder="active"  name="active" innerRef={register()}   />
-        </FormGroup>
-
-        {/* <FormGroup>
-          <Label for='user-role'>userRoles</Label>
-          <Input multiple type='select' id='userRoles' name='userRoles' onChange={e => setUserRoles(getSelected(e)) }>
-            <option value=''></option>
-            { allRoles.map((opt) => <option key={opt.id} value={opt.id}>{opt.name}</option>) }
-          
-          </Input>
-        </FormGroup> */}
-        <FormGroup>
-              <Label>Multi Select</Label>
+              <Label>{intl.formatMessage({id: "Roles"})}</Label>
               <Select
                 isClearable={false}
                 theme={selectThemeColors}
-                // defaultValue={[colorOptions[2], colorOptions[3]]}
+                defaultValue={selectedUser ? (selectedUser.roles ? convertRolesArr(selectedUser.roles) : null) : []}
                 isMulti
                 name='userRoles'
                 id='userRoles'
-                options={ convertRolesArr()}
+                options={ convertRolesArr(allRoles)}
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handleRolesChange(e) }
               />
           </FormGroup>
+          <Row className="mx-0">
+            <Col sm='6' >
+              <FormGroup>
+                <Input 
+                  type="checkbox" 
+                  placeholder="admin" 
+                  name="admin" 
+                  defaultChecked ={selectedUser ? selectedUser.admin : false}
+                  innerRef={register()}  />
+
+                  <Label for='admin'>
+                    {intl.formatMessage({id: "Admin"})}
+                  </Label>
+                
+              </FormGroup>
+            </Col>
+            <Col sm='6' >
+              <FormGroup>
+                <Input 
+                  type="checkbox"
+                  placeholder="locked"
+                  name="locked" 
+                  defaultChecked ={selectedUser ? selectedUser.locked : false}
+                  innerRef={register()} />
+                  <Label for='locked'>
+                  {intl.formatMessage({id: "Locked"})}
+                </Label>
+              </FormGroup>
+            </Col>
+            <Col sm='6' >
+            <FormGroup>
+            
+              <Input 
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={selectedUser ? selectedUser.focus : false}
+                innerRef={register()} />
+                  <Label for='focus'>
+                {intl.formatMessage({id: "Focus"})}
+              </Label>
+            </FormGroup>
+            </Col>
+            <Col sm='6' >
+            <FormGroup>
+             
+              <Input 
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={selectedUser ? selectedUser.active : false}
+                innerRef={register()}
+                />
+                 <Label for='active'>
+                  {intl.formatMessage({id: "Active"})}
+                  
+                  </Label>
+            </FormGroup>
+              </Col>
+          </Row>
+
         <Button type='submit' className='mr-1' color='primary'>
-          Submit
+            {intl.formatMessage({id: "Save"}) }
         </Button>
         <Button type='reset' color='secondary' outline onClick={toggleSidebar}>
-          Cancel
+          {intl.formatMessage({id: "Cancel"}) }
         </Button>
       </Form>
     </Sidebar>

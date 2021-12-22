@@ -20,6 +20,13 @@ export const getData = params => {
   }
 }
 
+
+export const getUserValue = params => {
+  return async (dispatch, getState) => {
+      const user = getState().users.data.find(x => x.id === params)
+      dispatch({type:"GET_USER", selectedUser: user})
+  }
+}
 // ** Add new user
 export const addUser = user => {
    const userFormData = new FormData()
@@ -44,37 +51,66 @@ export const addUser = user => {
     axios
       .post('/User/CreateUser', userFormData, {headers : { "Content-Type": "multipart/form-data" }})
       .then(response => {
+        
         console.log(response)
-        let CreateUserStatus = false
-        if (response.data.statusCode === 200) {
-          CreateUserStatus = true
-        }
+
         dispatch({
           type: 'ADD_USER',
           user,
-          response:{statusCode: response.data.statusCode, errors: response.data.errors}
+          response:{statusCode: response.data.statusCode, error: {}, errors: response.data.errors}
         })
       })
       .then(() => {
         dispatch(getData(getState().users.params))
         // dispatch(getAllData())
       })
-      .catch(err => {
+      .catch(error => {
+        console.log(error)
         dispatch({
           type: 'ADD_USER',
-          createresponse:{error: error.response}
+          response:{statusCode: error.response.status, error: error.response, errors:[]}
         })
       })
   }
 }
 
-export const resetResponse = () => {
+export const resetCreateResponse = () => {
   return (dispatch) => {
-      dispatch({type: "RESET_RESPONSE"})
+      dispatch({type: "RESET_CREATE_RESPONSE"})
   }
 }
 
-// ** Get all Data
+
+export const updateUser = user => {  
+  return async (dispatch, getState) => {
+    await axios
+     .put('/User/UpdateUser/', user)
+     .then(response => {
+       console.log(response)
+       dispatch({
+         type: 'UPDATE_USER',
+         response:{statusCode: response.data.statusCode, errors: response.data.errors, error:{}}
+       })
+     })
+     .then(() => {
+       dispatch(getData(getState().users.params))
+     })
+     .catch(error => {
+         dispatch({
+             type: 'UPDATE_USER',
+             response:{error: error.response, errors:[], statusCode: error.response.status }
+         })
+     })
+ }
+}
+
+export const resetUpdateResponse = () => {
+  return (dispatch) => {
+      dispatch({type: "RESET_UPDATE_RESPONSE"})
+  }
+}
+
+// ** Get all Data 
 // export const getAllData = () => {
 //   return async dispatch => {
 //     await axios.get('/api/users/list/all-data').then(response => {
@@ -115,10 +151,10 @@ export const deleteUser = id => {
         })
       })
       .then(() => {
-        console.log(getState().users.params)
         dispatch(getData(getState().users.params))
         // dispatch(getAllData())
       })
       .catch(err => console.log(err))
   }
 }
+

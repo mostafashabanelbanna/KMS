@@ -4,13 +4,18 @@ const initialState = {
   data: [],
   totalPages: 1,
   params: {},
-  selectedUser: null,
   error : {},
-  createresponse: {
+  createResponse: {
     error : {},
     statusCode: 0,
     errors: []
-  } 
+  },
+  updateResponse: {
+    error : {},
+    statusCode: 0,
+    errors: []
+  },
+  selectedUser:{}
 }
 
 const users = (state = initialState, action) => {
@@ -28,9 +33,15 @@ const users = (state = initialState, action) => {
     case 'GET_USER':
       return { ...state, selectedUser: action.selectedUser }
     case 'ADD_USER':
-      return { ...state, createresponse: action.response  }
-      case 'RESET_RESPONSE':
-        return { ...state, createresponse: {error:{}, statusCode: 0, errors:[]}}
+      return { ...state, createResponse: action.response  }
+    case 'GET_USER':
+      return { ...state, selectedUser: action.selectedUser }
+    case 'UPDATE_USER':
+      return { ...state, updateResponse: action.response }
+    case 'RESET_CREATE_RESPONSE':
+        return { ...state, createResponse: {error:{}, statusCode: 0, errors:[]}}
+    case 'RESET_UPDATE_RESPONSE':
+          return { ...state, updateResponse: {error:{}, statusCode: 0, errors:[]}}
     case 'DELETE_USER':
       return { ...state }
     default:

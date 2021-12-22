@@ -4,11 +4,8 @@ import { Fragment, useState, useEffect } from 'react'
 // ** Invoice List Sidebar
 import Sidebar from './Sidebar'
 
-// ** Columns
-import { columns } from './columns'
-
 // ** Store & Actions
-import {  getData } from '../store/action'
+import {  getData, deleteUser, getUserValue } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -18,10 +15,10 @@ import { Link, Redirect} from 'react-router-dom'
 
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
-import { ChevronDown } from 'react-feather'
+import { ChevronDown, MoreVertical,  Trash2, Archive } from 'react-feather'
 import DataTable from 'react-data-table-component'
 import { selectThemeColors } from '@utils'
-import { Card,  Button } from 'reactstrap'
+import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { useIntl, FormattedMessage } from 'react-intl'
 
 // ** Styles
@@ -31,7 +28,6 @@ import SearchForm from '../../../../containers/search-form/SearchForm/SearchForm
 
 // helper function
 import {isAuthorized} from '../../../../utility/Utils'
-
 
 const UsersList = () => {
   // ** Store Vars
@@ -78,73 +74,6 @@ const UsersList = () => {
 
 }
 
-
- //  const toggleSidebar = (btnType) => {
-
-//   if (btnType === 'addUser') {
-//     setSidebarOpen(true)
-//   } else if (btnType === 'exitSidebar') {
-//       swal("are you sure you want to close?", {
-//         buttons: {
-//           cancel: "cancel",
-//           catch: {
-//             text: "ok",
-//             value: "ok"
-//           }
-//         }
-//       })
-//       .then((value) => {
-//         switch (value) {
-//           case "ok":
-//             setSidebarOpen(!sidebarOpen)
-//             break
-
-//           default:
-//             setSidebarOpen(true)
-//         }
-//       })
-//   }
-
-//   // console.log(sidebarOpen)
-//   // console.log(submitted)
-
-//   //  if (sidebarOpen && wannaCancel) {
-//   //   swal("are you sure you want to close?", {
-//   //     buttons: {
-//   //       cancel: "cancel",
-//   //       catch: {
-//   //         text: "ok",
-//   //         value: "ok"
-//   //       }
-//   //     }
-//   //   })
-//   //   .then((value) => {
-//   //     switch (value) {
-//   //       case "ok":
-//   //         setSidebarOpen(!sidebarOpen)
-//   //         break
-
-//   //       default:
-//   //         setSidebarOpen(true)
-//   //     }
-//   //   })
-//   // } else {
-//   //   if (sidebarOpen && submitted) {
-//   //     setSidebarOpen(false)
-//   //     alert('Submitted')
-//   //   }
-//   // }
-
-// }
-
-// closeSidebar
-  // const closeSidebar = () => {
-  //   console.log(store.CreateUserStatus)
-  //   if (store.CreateUserStatus) {
-  //     setSidebarOpen(false)
-  //   } 
-  // }
-
   // ** Get data on mount
   useEffect(() => {
     dispatch(
@@ -155,7 +84,17 @@ const UsersList = () => {
       })
     )
   }, [dispatch, store.data.length])
+
+  const addUser = () => {
+    dispatch({type: "GET_USER", selectedUser:{}})
+    toggleSidebar()
+}
   
+  const updateUser = id => {
+    dispatch(getUserValue(id))
+    toggleSidebar()
+  }
+
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
@@ -201,7 +140,6 @@ const UsersList = () => {
     } 
   }
 
-  console.log(store.data)
   // useIntl
   const intl = useIntl()
 
@@ -242,13 +180,69 @@ const UsersList = () => {
     )
   }
   
- 
+ const columns =  [
+    {
+      name: <FormattedMessage id="Name" />,
+      selector: 'normalizedName',
+      sortable: true,
+      minWidth: '225px'
+    },
+    {
+      name: <FormattedMessage id="Email" />,
+      selector: 'email',
+      sortable: true,
+      minWidth: '250px'
+    },
+    {
+      name: <FormattedMessage id="User Name" />,
+      selector: 'normalizedUserName',
+      sortable: true,
+      minWidth: '250px'
+    },
+    {
+      name: <FormattedMessage id="Job Title" />,
+      selector: 'jobTitle',
+      sortable: true,
+      minWidth: '150px'
+    },
+    {
+      name: <FormattedMessage id="Phone Number" />,
+      selector: 'phoneNumber',
+      sortable: true,
+      minWidth: '150px'
+    },
+    {
+      name: <div className="justify-content-center"><FormattedMessage id="Actions" /></div>,
+      width: '100px',
+      center: true,
+      cell: row => (
+        <UncontrolledDropdown className="">
+          <DropdownToggle tag='div' className='btn btn-sm'>
+            <MoreVertical size={14} className='cursor-pointer'/>
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem
+              className='w-100'
+              onClick={() => updateUser(row.id)}
+            >
+              <Archive size={14} className='mr-50' />
+              <span className='align-middle'><FormattedMessage id="Edit" /></span>
+            </DropdownItem>
+            <DropdownItem className='w-100' onClick={() => dispatch(deleteUser(row.id))}>
+              <Trash2 size={14} className='mr-50' />
+              <span className='align-middle'><FormattedMessage id="Delete" /></span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      )
+    }
+  ]
   return (
     <Fragment>
       { isAuthorized(store.error) ? <Redirect to='/misc/not-authorized' /> : (
         <>
       <div className="my-1">
-        <Button.Ripple color='primary' onClick={toggleSidebar}>
+        <Button.Ripple color='primary' onClick={addUser} >
           <FormattedMessage id="Add New User" />
         </Button.Ripple>
       </div>
@@ -272,10 +266,9 @@ const UsersList = () => {
           }
         />
       </Card>
-      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedUser={store.selectedUser} />
         </>
       )}
-  
     </Fragment>
   )
 }
