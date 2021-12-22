@@ -183,7 +183,6 @@ const RolesList = () => {
                     <DataTable
                         noHeader
                         pagination
-                        subHeader
                         responsive
                         paginationServer
                         columns={columns}
