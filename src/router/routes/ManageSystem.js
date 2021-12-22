@@ -3,12 +3,12 @@ import { Redirect } from 'react-router-dom'
 
 const ManageSystemRoutes = [
   {
-    path: '/user/list',
-    component: lazy(() => import('../../views/manageSystem/user/list'))
+    path: '/users',
+    component: lazy(() => import('../../views/manageSystem/users'))
   },
   {
     path: '/Lookups',
-    component: lazy(() => import('../../views/apps/Lookups/Index'))
+    component: lazy(() => import('../../views/manageSystem/Lookups/Index'))
   }
 ]
 

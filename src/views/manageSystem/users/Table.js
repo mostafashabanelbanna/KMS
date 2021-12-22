@@ -3,9 +3,11 @@ import { Fragment, useState, useEffect } from 'react'
 
 // ** Invoice List Sidebar
 import Sidebar from './Sidebar'
+// ** Invoice List SearchForm
+import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 // ** Store & Actions
-import {  getData, deleteUser, getUserValue } from '../store/action'
+import {  getData, deleteUser, getUserValue } from './store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -24,10 +26,10 @@ import { useIntl, FormattedMessage } from 'react-intl'
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-import SearchForm from '../../../../containers/search-form/SearchForm/SearchForm'
+
 
 // helper function
-import {isAuthorized} from '../../../../utility/Utils'
+import {isAuthorized} from '../../../utility/Utils'
 
 const UsersList = () => {
   // ** Store Vars

@@ -13,11 +13,11 @@ import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 import Select, { components } from 'react-select'
 
-import axios from '../../../../axios'
+import axios from '../../../axios'
 
 
 // ** Store & Actions
-import { addUser, resetCreateResponse, updateUser, resetUpdateResponse } from '../store/action'
+import { addUser, resetCreateResponse, updateUser, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
 import { event } from 'jquery'
 import CustomInput from 'reactstrap/lib/CustomInput'
