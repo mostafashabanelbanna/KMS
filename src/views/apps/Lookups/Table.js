@@ -32,55 +32,33 @@ import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 import {isAuthorized} from '../../../utility/Utils'
 import Row from 'reactstrap/lib/Row'
 
-const columns = [
-    {
-        name: 'Name',
-        selector: 'name_A',
-        sortable: true,
-        minWidth: '225px'
-    },
-    {
-        name: 'Actions',
-        maxWidth: '50px',
-        cell: row => (
-          <UncontrolledDropdown>
-            <DropdownToggle tag='div' className='btn btn-sm'>
-              <MoreVertical size={14} className='cursor-pointer' />
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem
-                tag={Link}
-                to={`/apps/user/edit/${row.id}`}
-                className='w-100'
-                onClick={() => store.dispatch(getLookupValue(row.id))}
-              >
-                <Archive size={14} className='mr-50' />
-                <span className='align-middle'>Edit</span>
-              </DropdownItem>
-              <DropdownItem className='w-100' onClick={() => store.dispatch(deleteLookupValue(row.id))}>
-                <Trash2 size={14} className='mr-50' />
-                <span className='align-middle'>Delete</span>
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        )
-      }
-]
-
 const LookupsView = () => {
 
     // ** Store Vars
     const dispatch = useDispatch()
     const store = useSelector(state => state.lookups)
-
-    // State
-    console.log(store)
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [pageNumber, setPageNumber] = useState(1)
+    const [selectedLookup, setSelectedLookup] = useState('')
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const [searchData, setSearchData] = useState({
       name: ""
     })
+
+   
+    const handlePagination = page => {
+        dispatch(
+            getData(
+            {
+                ...searchData,
+                pageNumber: page.selected + 1,
+                rowsPerPage,
+                lookupName: selectedLookup
+            }
+            )
+        )
+        setPageNumber(page.selected + 1)
+    }
 
     const CustomPagination = () => {
         const count = store.totalPages
@@ -102,8 +80,8 @@ const LookupsView = () => {
             containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
           />
         )
-      }
-
+    }
+   
     const toggleSidebar = (Submit) => {
         if (sidebarOpen && Submit !== 1) {
           swal("are you sure you want to close?", {
@@ -137,10 +115,20 @@ const LookupsView = () => {
         )
       }, [dispatch, store.allLookups.length])
 
+    const addLookup = () => {
+        dispatch({type: "GET_LOOKUP", selectedLookup:{}})
+        toggleSidebar()
+    }
+    const updateLookup = id => {
+        dispatch(getLookupValue(id))
+        toggleSidebar()
+    }
 
     const getLookupValues = lookupName => {
+        setSelectedLookup(lookupName)
+        setPageNumber(1)
         dispatch(
-            getData({lookupName, pageNumber, rowsPerPage, ...searchData})
+            getData({lookupName, pageNumber : 1, rowsPerPage, ...searchData})
         )
     }
 
@@ -148,13 +136,46 @@ const LookupsView = () => {
         const lkps = []
         if (store.allLookups && store.allLookups.length > 0) {
             for (let i = 0; i < store.allLookups.length; i++) {
-                const content = (store.allLookups[i].items.map((obj) => <Card style={{cursor: "pointer", padding: '8px'}} onClick={() => getLookupValues(obj.name)}>{obj.displayName}</Card>))
+                const content = (store.allLookups[i].items.map((obj, idx) => <Card key={idx} style={{cursor: "pointer", padding: '8px'}} onClick={() => getLookupValues(obj.name)}>{obj.displayName}</Card>))
                 lkps.push({title: store.allLookups[i].name, content})
             }
         }
         return lkps
     }
 
+    const columns = [
+        {
+            name: 'Name',
+            selector: 'name_A',
+            sortable: true,
+            minWidth: '225px'
+        },
+        {
+            name: 'Actions',
+            maxWidth: '50px',
+            cell: row => (
+              <UncontrolledDropdown>
+                <DropdownToggle tag='div' className='btn btn-sm'>
+                  <MoreVertical size={14} className='cursor-pointer' />
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem
+                    className='w-100'
+                    onClick={() => updateLookup(row.id)}
+                  >
+                    <Archive size={14} className='mr-50' />
+                    <span className='align-middle'>Edit</span>
+                  </DropdownItem>
+                  <DropdownItem className='w-100' onClick={() => dispatch(deleteLookupValue(row.id))}>
+                    <Trash2 size={14} className='mr-50' />
+                    <span className='align-middle'>Delete</span>
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            )
+          }
+    ]
+    
     return (
         <Fragment>
             {isAuthorized(store.error) ? <Redirect to='/misc/not-authorized' /> : (
@@ -165,7 +186,7 @@ const LookupsView = () => {
                     </div>
                     <div className='col-8'>
                     <div className='mb-2'>
-                        <Button.Ripple color='primary' onClick={toggleSidebar} disabled={!store.lookupName}>
+                        <Button.Ripple color='primary' onClick={addLookup} disabled={!store.lookupName}>
                             Add
                         </Button.Ripple>
                     </div> 
@@ -184,7 +205,7 @@ const LookupsView = () => {
                         />
                     </div>
                 </div>
-                <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
+                <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} SelectedLookup={store.selectedLookup} />
             </>
             )}
         </Fragment>
