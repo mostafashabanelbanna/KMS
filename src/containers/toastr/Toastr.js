@@ -2,7 +2,7 @@ import React from 'react'
 
 // ** Third Party Components
 import Avatar from '@components/avatar'
-import { Check } from 'react-feather'
+import { Check, X } from 'react-feather'
 
 const Toastr = ({type, message}) => {
     return (<>

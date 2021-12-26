@@ -5,15 +5,18 @@ export const getData = params => {
   return async dispatch => {
     await axios.post('/Role/GetRolesWithPagination', params).then(response => {
       dispatch({
-        type: 'GET_DATA',
+        type: 'GET_ROLES_DATA',
         data: response.data.data.items,
         totalPages: response.data.data.totalPages,
-        params
+        params,
+        response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
+        errorCode: 200
       })
     }).catch(error => {
       dispatch({
-        type: 'GET_DATA',
-        data : []
+        type: 'GET_ROLES_DATA',
+        data : [],
+        errorCode : error.response.status
       })
     })
   }
@@ -28,7 +31,8 @@ export const addRole = role => {
         dispatch({
           type: 'ADD_ROLE',
           role,
-          response:{statusCode: response.data.statusCode, error: {}, errors: response.data.errors}
+          response:{statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
+          errorCode: 200
         })
       })
       .then(() => {
@@ -37,7 +41,8 @@ export const addRole = role => {
       .catch(error => {
         dispatch({
           type: 'ADD_ROLE',
-          response:{statusCode: error.response.status, error: error.response, errors:[]}
+          response:{statusCode: error.response.status, error: error.response, errors:[]},
+          errorCode: error.response.status
         })
       })
   }
@@ -50,7 +55,8 @@ export const updateRole = role => {
      .then(response => {
        dispatch({
          type: 'UPDATE_ROLE',
-         response:{statusCode: response.data.statusCode, errors: response.data.errors, error:{}}
+         response:{statusCode: response.data.statusCode, errors: response.data.errors, error:{}},
+         errorCode: 200
        })
      })
      .then(() => {
@@ -59,7 +65,8 @@ export const updateRole = role => {
      .catch(error => {
          dispatch({
              type: 'UPDATE_ROLE',
-             response:{error: error.response, errors:[], statusCode: error.response.status }
+             response:{error: error.response, errors:[], statusCode: error.response.status },
+             errorCode: error.response.status
          })
      })
  }
@@ -74,7 +81,9 @@ export const deleteRole = id => {
       }})
       .then(response => {
         dispatch({
-          type: 'DELETE_ROLE'
+          type: 'DELETE_ROLE',
+          response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
+          errorCode: 200
         })
       })
       .then(() => {
@@ -83,7 +92,8 @@ export const deleteRole = id => {
       .catch(error => {
         dispatch({
             type: 'DELETE_ROLE',
-            response:{error: error.response, errors:[], statusCode: error.response.status }
+            response:{error: error.response, errors:[], statusCode: error.response.status },
+            errorCode: error.response.status 
         })
       })
   }

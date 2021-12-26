@@ -4,7 +4,12 @@ const initialState = {
     data: [],
     totalPages: 1,
     params: {},
-    error : {},
+    errorCode : 0,
+    getResponse: {
+      error : {},
+      statusCode: 0,
+      errors: []
+    },
     createResponse: {
       error : {},
       statusCode: 0,
@@ -27,28 +32,30 @@ const initialState = {
     switch (action.type) {
       // case 'GET_ALL_DATA':
       //   return { ...state, allData: action.data }
-      case 'GET_DATA':
+      case 'GET_ROLES_DATA':
         return {
           ...state,
           data: action.data,
           totalPages: action.totalPages,
           params: action.params,
-          error : action.error
+          errorCode : action.errorCode
         }
       case 'GET_ROLE':
-        return { ...state, selectedRole: action.selectedRole }
+        return { ...state, selectedRole: action.selectedRole, errorCode: action.errorCode }
       case 'ADD_ROLE':
-        return { ...state, createResponse: action.response  }
+        return { ...state, createResponse: action.response, errorCode: action.errorCode  }
       case 'UPDATE_ROLE':
-        return { ...state, updateResponse: action.response }
-      case 'RESET_CREATE_RESPONSE':
+        return { ...state, updateResponse: action.response, errorCode: action.errorCode }
+      case 'RESET_ROLE_GET_RESPONSE':
+        return { ...state, getResponse: {error:{}, statusCode: 0, errors:[]}}
+      case 'RESET_ROLE_CREATE_RESPONSE':
           return { ...state, createResponse: {error:{}, statusCode: 0, errors:[]}}
-      case 'RESET_UPDATE_RESPONSE':
+      case 'RESET_ROLE_UPDATE_RESPONSE':
         return { ...state, updateResponse: {error:{}, statusCode: 0, errors:[]}}
-      case 'RESET_DELETE_RESPONSE':
+      case 'RESET_ROLE_DELETE_RESPONSE':
         return { ...state, deleteResponse: {error:{}, statusCode: 0, errors:[]}}   
       case 'DELETE_ROLE':
-        return { ...state }
+        return { ...state, deleteResponse: action.response, errorCode: action.errorCode }
       default:
         return { ...state }
     }

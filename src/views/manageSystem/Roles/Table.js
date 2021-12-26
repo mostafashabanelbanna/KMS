@@ -16,7 +16,7 @@ import { ChevronDown, MoreVertical,  Trash2, Archive } from 'react-feather'
 import DataTable from 'react-data-table-component'
 import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { useIntl, FormattedMessage } from 'react-intl'
-
+import { toast } from 'react-toastify'
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
@@ -35,6 +35,18 @@ const RolesList = () => {
   
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(5)
+
+    // useIntl
+    const intl = useIntl()
+
+    // Toastr notify function
+    const notify = (type, message) => {
+        return toast.success(
+        <Toastr type={type} message={message} />,
+        { position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: true 
+        })
+    }
 
   const toggleSidebar = (Submit) => {
     if (sidebarOpen && Submit !== 1) {
@@ -73,6 +85,27 @@ const RolesList = () => {
       })
     )
   }, [dispatch, store.data.length])
+
+  useEffect(() => {
+    if (store.getResponse.statusCode !== 200 && store.getResponse.statusCode !== 0) {
+      notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
+    }
+    dispatch({type:"RESET_ROLE_GET_RESPONSE"})
+  }, [store.getResponse.statusCode])
+
+  useEffect(() => {
+    if (store.deleteResponse.statusCode === 2) {
+      notify('error', `${intl.formatMessage({id: "DeleteFailed"})} `)
+    } else if (store.deleteResponse.statusCode === 500) {
+      notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
+    } else if (store.deleteResponse.statusCode === 200) {
+      notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
+    } else if (store.errorCode === 403) {
+        <Redirect to='/misc/not-authorized' />
+    }
+    dispatch({type:" RESET_ROLE_DELETE_RESPONSE"})
+  }, [store.deleteResponse.statusCode])
+
   const addRole = () => {
     dispatch({type: "GET_ROLE", selectedRole:{}})
     toggleSidebar()
@@ -126,9 +159,6 @@ const RolesList = () => {
     } 
   }
 
-  // useIntl
-  const intl = useIntl()
-
   const columns =  [
     {
       name: <FormattedMessage id="Name" />,
@@ -169,10 +199,9 @@ const RolesList = () => {
     }
   ]
  
-
   return (
       <Fragment>
-          {isAuthorized(store.error) ? <Redirect to='/misc/not-authorized' /> : (
+          {isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
               <>
                 <div className="my-1">
                     <Button.Ripple color='primary' onClick={addRole} >

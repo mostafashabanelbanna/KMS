@@ -67,7 +67,7 @@ export const getHomeRouteForLoggedInUser = userRole => {
 
 // check wether user is authorized or not 
 export const isAuthorized = err => {
- return err && (err.status === 401 || err.status === 403)
+ return err && (err === 401 || err === 403)
 }
 
 // get Input multiple selected options 

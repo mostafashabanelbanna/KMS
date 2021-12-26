@@ -45,7 +45,7 @@ export const addUser = user => {
    userFormData.append('locked', user.locked)
    userFormData.append('focus', user.focus)
    userFormData.append('active', user.active)
-   userFormData.append('userRoles', user.userRoles)
+   userFormData.append('userRoles', user.userRoles === '' ? [] : user.userRoles)
 
    
    return (dispatch, getState) => {
@@ -79,7 +79,7 @@ export const addUser = user => {
 
 export const resetCreateResponse = () => {
   return (dispatch) => {
-      dispatch({type: "RESET_CREATE_RESPONSE"})
+      dispatch({type: "RESET_USER_CREATE_RESPONSE"})
   }
 }
 

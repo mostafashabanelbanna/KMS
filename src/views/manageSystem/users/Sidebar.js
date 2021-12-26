@@ -136,6 +136,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
   useEffect(() => {
     const code = store.createResponse.statusCode
     if (code !== 0) {
+     
        if (code === 200) {
             notify('success', intl.formatMessage({id: "AddSuccess"}))
             toggleSidebar(1)
@@ -151,7 +152,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
         notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
 
       } 
-      resetCreateResponse()
+      dispatch(resetCreateResponse())
     }
   }, [store.createResponse.statusCode])
 
