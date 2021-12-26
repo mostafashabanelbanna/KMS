@@ -8,18 +8,19 @@ export const getData = params => {
         type: 'GET_DATA',
         data: response.data.data.items,
         totalPages: response.data.data.totalPages,
-        params
+        params,
+        response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
+        errorCode: 200
       })
     }).catch(error => {
       dispatch({
         type: 'GET_DATA',
         data : [],
-        error : error.response
+        errorCode : error.response.status
       })
     })
   }
 }
-
 
 export const getUserValue = params => {
   return async (dispatch, getState) => {
@@ -57,7 +58,8 @@ export const addUser = user => {
         dispatch({
           type: 'ADD_USER',
           user,
-          response:{statusCode: response.data.statusCode, error: {}, errors: response.data.errors}
+          response:{statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
+          errorCode: 200
         })
       })
       .then(() => {
@@ -68,7 +70,8 @@ export const addUser = user => {
         console.log(error)
         dispatch({
           type: 'ADD_USER',
-          response:{statusCode: error.response.status, error: error.response, errors:[]}
+          response:{statusCode: error.response.status, error: error.response, errors:[]},
+          errorCode: error.response.status
         })
       })
   }
@@ -82,14 +85,33 @@ export const resetCreateResponse = () => {
 
 
 export const updateUser = user => {  
+  const upadateUserFormData = new FormData()
+
+  upadateUserFormData.append('id', user.id)
+  upadateUserFormData.append('name', user.name)
+  upadateUserFormData.append('nameE', user.nameE)
+  upadateUserFormData.append('jobTitle', user.jobTitle)
+  upadateUserFormData.append('photo', user.photo[0])
+  upadateUserFormData.append('password', user.password)
+  upadateUserFormData.append('userName', user.userName)
+  upadateUserFormData.append('email', user.email)
+  upadateUserFormData.append('phoneNumber', user.phoneNumber)
+  upadateUserFormData.append('admin', user.admin)
+  upadateUserFormData.append('sortIndex', user.sortIndex)
+  upadateUserFormData.append('locked', user.locked)
+  upadateUserFormData.append('focus', user.focus)
+  upadateUserFormData.append('active', user.active)
+  upadateUserFormData.append('userRoles', user.userRoles)
+console.log(user)
   return async (dispatch, getState) => {
     await axios
-     .put('/User/UpdateUser/', user)
+     .put('/User/UpdateUser/', upadateUserFormData, {headers : { "Content-Type": "multipart/form-data" }})
      .then(response => {
        console.log(response)
        dispatch({
          type: 'UPDATE_USER',
-         response:{statusCode: response.data.statusCode, errors: response.data.errors, error:{}}
+         response:{statusCode: response.data.statusCode, errors: response.data.errors, error:{}},
+         errorCode: 200
        })
      })
      .then(() => {
@@ -98,7 +120,8 @@ export const updateUser = user => {
      .catch(error => {
          dispatch({
              type: 'UPDATE_USER',
-             response:{error: error.response, errors:[], statusCode: error.response.status }
+             response:{error: error.response, errors:[], statusCode: error.response.status },
+             errorCode: error.response.status
          })
      })
  }
@@ -130,10 +153,18 @@ export const getUser = id => {
       .then(response => {
         dispatch({
           type: 'GET_USER',
-          selectedUser: response.data.user
+          selectedUser: response.data.user,
+          response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
+          errorCode: 200
         })
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        dispatch({
+          type: 'GET_USER',
+          selectedUser: {},
+          errorCode: err.response.status
+        })
+      })
   }
 }
 
@@ -147,14 +178,17 @@ export const deleteUser = id => {
       }})
       .then(response => {
         dispatch({
-          type: 'DELETE_USER'
+          type: 'DELETE_USER',
+          response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
+          errorCode: 200
         })
       })
-      .then(() => {
-        dispatch(getData(getState().users.params))
-        // dispatch(getAllData())
+      .catch(error => {
+        dispatch({
+          type: 'DELETE_USER',
+          errorCode: error.response.status 
+        })
       })
-      .catch(err => console.log(err))
   }
 }
 

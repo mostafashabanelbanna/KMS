@@ -42,5 +42,20 @@
   "Sector": "Sector",
   "Source": "Source",
   "UnitLabel": "Unit Label",
-  "Description": "Description"
+  "Description": "Description",
+  "AddSuccess": "Added Successfully",
+  "UsernameExist": "Username is used before",
+  "InvalidEmail": "Invalid Email",
+  "EmailExist": "Email is used before",
+  "InvalidFileExtension": "Invalid File Extension ",
+  "NameRequired": "Name Required",
+  "NameMaxLen": "Name Length must be maximun 256 charaters",
+  "NameExist": "Name already Exist",
+  "DescMaxLen": "Description must be maximun 4000 charaters",
+  "CreationFailed": "An error occurred while adding",
+  "InternalServerError": "Something went wrong please try again",
+  "UpdateFailed": "An error occurred while updating",
+  "DeleteFailed": "An error occurred while deleting, or the item may have been used with other items",
+  "UpdateSuccess": "Updatd Successfully",
+  "DeletedSuccess": "Deleted Successfully"
 }

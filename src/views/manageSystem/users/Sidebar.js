@@ -12,23 +12,37 @@ import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 import Select, { components } from 'react-select'
+import { toast } from 'react-toastify'
 
+// Axios
 import axios from '../../../axios'
 
 
 // ** Store & Actions
 import { addUser, resetCreateResponse, updateUser, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
-import { event } from 'jquery'
 import CustomInput from 'reactstrap/lib/CustomInput'
 import { useIntl } from 'react-intl'
 import Row from 'reactstrap/lib/Row'
 import Col from 'reactstrap/lib/Col'
+import Toastr from '../../../containers/toastr/Toastr'
 
 const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
   // ** States
   const [userRoles, setUserRoles] = useState([])
   const [allRoles, setAllRoles] = useState([])
+  
+  // Import localization files
+  const intl = useIntl()
+
+  // Toastr notify function
+  const notify = (type, message) => {
+    return toast.success(
+      <Toastr type={type} message={message} />,
+      { position: toast.POSITION.TOP_CENTER,
+        hideProgressBar: true 
+      })
+    }
 
   // fetch all user roles options
   const getAllRoles = async () => {
@@ -72,8 +86,6 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
 
   // ** Function to handle form submit
   const onSubmit = async values => {
-  console.log(selectedUser)
-
     if (isObjEmpty(errors)) {
       if (!selectedUser.id) {
         await dispatch(
@@ -122,31 +134,46 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
   }
   
   useEffect(() => {
-    if (store.createResponse.statusCode !== 0) {
-        if (store.createResponse.statusCode === 401) {
-            localStorage.clear()
-            location.reload()
-        } else if (store.createResponse.statusCode === 200) {
-            alert("Added Successfully")
+    const code = store.createResponse.statusCode
+    if (code !== 0) {
+       if (code === 200) {
+            notify('success', intl.formatMessage({id: "AddSuccess"}))
             toggleSidebar(1)
-        }     
-        resetCreateResponse()
+      } else if (code === 6) {
+         notify('error', intl.formatMessage({id: store.createResponse.errors[0]}))
+
+      } else if (code === 5) {
+        notify('error', intl.formatMessage({id: "InvalidFileExtension"}))
+      } else if (code === 1) {
+        notify('error', `${intl.formatMessage({id: "CreationFialed"})} ${intl.formatMessage({id: "User"})}`)
+
+      } else if (code === 500) {
+        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
+
+      } 
+      resetCreateResponse()
     }
   }, [store.createResponse.statusCode])
 
   useEffect(() => {
-    if (store.updateResponse.statusCode !== 0) {
-        if (store.updateResponse.statusCode === 401) {
-            localStorage.clear()
-        } else if (store.updateResponse.statusCode === 200) {
-            alert("updated Successfully")
+    const code = store.updateResponse.statusCode
+    if (code !== 0) {
+       if (code === 200) {
+            notify('success', intl.formatMessage({id: "UpdateSuccess"}))
             toggleSidebar(1)
-        }
-        resetUpdateResponse() 
+      } else if (code === 6) {
+        notify('error', intl.formatMessage({id: store.updateResponse.errors[0]}))
+
+     } else if (code === 5) {
+      notify('error', intl.formatMessage({id: "InvalidFileExtension"}))
+     } else if (code === 3) {
+       notify('error', `${intl.formatMessage({id: "UpdateFialed"})} ${intl.formatMessage({id: "User"})}`)
+     } else if (code === 500) {
+       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
+     } 
+     resetUpdateResponse() 
     }
   }, [store.updateResponse.statusCode])
-  
-  const intl = useIntl()
 
   return (
     <Sidebar
@@ -219,10 +246,9 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             id='password'
             // defaultValue={selectedUser ? selectedUser.password : ''}
             placeholder={intl.formatMessage({id: "Password"})}
-            innerRef={register({ required: true })}
+            innerRef={register({ required: !selectedUser.id })}
             className={classnames({ 'is-invalid': errors['password'] })}
           />
-          {/* <FormText color='muted'>You can use letters, numbers & periods</FormText> */}
         </FormGroup>
         <FormGroup>
           <Label for='userName'>

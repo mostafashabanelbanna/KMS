@@ -20,7 +20,7 @@ export const getData = params => {
     return async dispatch => {
       await axios.post('/Lookups/GetLookupValues', params).then(response => {
         dispatch({
-          type: 'GET_DATA',
+          type: 'GET_LOOKUP_DATA',
           data: response.data.data.items,
           totalPages: response.data.data.totalPages,
           lookupName: params.lookupName,
@@ -28,7 +28,7 @@ export const getData = params => {
         })
       }).catch(error => {
         dispatch({
-          type: 'GET_DATA',
+          type: 'GET_LOOKUP_DATA',
           data : []
         })
       })

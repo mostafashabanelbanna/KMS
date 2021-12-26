@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect, useContext } from 'react'
 
 
 import Sidebar from './Sidebar'
@@ -21,6 +21,8 @@ import DataTable from 'react-data-table-component'
 import { selectThemeColors } from '@utils'
 import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import AppCollapse from '@components/app-collapse'
+import { ThemeColors } from '@src/utility/context/ThemeColors'
+
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -127,7 +129,28 @@ const intl = useIntl()
         toggleSidebar()
     }
 
-    const getLookupValues = lookupName => {
+    const isNotLightSkin = () => {
+      // get current skin 
+      const currentSkin = JSON.parse(localStorage.getItem("skin")) 
+      // wether skin is light or not
+      return currentSkin !== "light" 
+    }
+
+    const setActiveCard = event => {
+      // get all card nodelist and convert to array
+      const myNodeList = [...document.querySelectorAll(".card.displayName")]
+      // reset all cards to original color
+      myNodeList.map((item) => {
+        item.style.background = isNotLightSkin() ? "#283046" : "#fff"
+        item.style.color = isNotLightSkin() ? "#b4b7bd" : "#6e6b7b"
+      })
+      // highlit active card
+      event.target.style.background = "linear-gradient(-118deg, #7367f0, rgba(115, 103, 240, 0.7))"
+      event.target.style.color = '#fff'
+    }
+
+    const getLookupValues = (e, lookupName) => {
+        setActiveCard(e)
         setSelectedLookup(lookupName)
         setPageNumber(1)
         dispatch(
@@ -139,7 +162,7 @@ const intl = useIntl()
         const lkps = []
         if (store.allLookups && store.allLookups.length > 0) {
             for (let i = 0; i < store.allLookups.length; i++) {
-                const content = (store.allLookups[i].items.map((obj, idx) => <Card key={idx} style={{cursor: "pointer", padding: '8px'}} onClick={() => getLookupValues(obj.name)}><FormattedMessage id={obj.displayName} /></Card>))
+                const content = (store.allLookups[i].items.map((obj, idx) => <Card className="displayName" key={idx} style={{cursor: "pointer", padding: '8px'}} onClick={(e) => getLookupValues(e, obj.name)}><FormattedMessage id={obj.displayName} /></Card>))
                 lkps.push({title: intl.formatMessage({id: store.allLookups[i].name}), content})
             }
         }

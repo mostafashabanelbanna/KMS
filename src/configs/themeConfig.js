@@ -1,5 +1,5 @@
 // You can customize the template with the help of this file
-import { useIntl, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 
 //Template config options

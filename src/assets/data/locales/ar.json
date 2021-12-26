@@ -24,7 +24,7 @@
   "Sort Index" : "الترتيب",
   "Roles": "المجموعات",
   "Admin": "مدير النظام",
-  "Locked": "Locked",
+  "Locked": "إغلاق",
   "Focus":"مميز",
   "Active": "فعال",
   "Actions":"المهام",
@@ -42,6 +42,20 @@
   "Sector": "القطاع",
   "Source": "المصدر",
   "UnitLabel": "وحدة القياس",
-  "Description": "الوصف"
-
+  "Description": "الوصف",
+  "AddSuccess": "تمت الإضافة",
+  "UsernameExist": "أسم المستخدم مُستخدم من قبل",
+  "InvalidEmail": "بريد ألكترونى غير صحيح",
+  "EmailExist": "البريد الألكترونى مُستخدم من قبل",
+  "InvalidFileExtension": "ملف غير مدعوم",
+  "NameRequired": "الاسم مطلوب",
+  "NameMaxLen": " يجب ألا يزيد  الاسم عن 256 حرفًا",
+  "NameExist": "الاسم مُستخدم من قبل",
+  "DescMaxLen": "الوصف يجب ألا يزيد عن 4000 حرف",
+  "CreationFailed": "حدث خطأ اثناء أضافة",
+  "InternalServerError": "حدث خطأ  ما أثناء تنفيذ العملية",
+  "UpdateFailed": "حدث خطأ أثناء تعديل",
+  "DeleteFailed": "حدث خطأ أثناء الحذف او ربما العنصر مستخدم مع عناصر أخرى",
+  "UpdateSuccess": "تم التعديل بنجاح",
+  "DeletedSuccess": "تم الحذف بنجاح"
 }

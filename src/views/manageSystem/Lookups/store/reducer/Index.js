@@ -28,7 +28,7 @@ const initialState = {
           ...state,
           allLookups : action.AllLookups
         }
-      case 'GET_DATA':
+      case 'GET_LOOKUP_DATA':
         return {
           ...state,
           data: action.data,
