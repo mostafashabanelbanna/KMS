@@ -118,6 +118,10 @@ const intl = useIntl()
         dispatch(
             getLookups()
         )
+        dispatch(
+          getData({lookupName: '', pageNumber : 1, rowsPerPage, ...searchData})
+        )
+
       }, [dispatch, store.allLookups.length])
 
     const addLookup = () => {
