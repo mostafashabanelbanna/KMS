@@ -49,6 +49,7 @@ export const addRole = role => {
 }
 
 export const updateRole = role => {  
+  console.log(role)
   return async (dispatch, getState) => {
     await axios
      .put('/Role/UpdateRole/', role)

@@ -1,6 +1,7 @@
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
-//import Sidebar from './Sidebar'
+
+import Sidebar from './Sidebar'
 
 // ** Store & Actions
 import {  getData, deleteRole, getRole } from './store/action'
@@ -222,7 +223,7 @@ const RolesList = () => {
                         data={dataToRender()}
                     />
                 </Card>
-                {/* <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedRole={store.selectedRole} /> */}
+                <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedRole={store.selectedRole} />
               </>
           )}
       </Fragment>
