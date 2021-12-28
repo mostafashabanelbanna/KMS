@@ -11,7 +11,7 @@ import { isObjEmpty, getSelected } from '@utils'
 import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
-
+import { useIntl } from 'react-intl'
 
 // ** Store & Actions
 import { addLookup, updateLookup } from './store/action/Index'
@@ -20,6 +20,9 @@ import { event } from 'jquery'
 import CustomInput from 'reactstrap/lib/CustomInput'
 
 const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
+
+  // Import localization files
+  const intl = useIntl()
 
   // ** Store Vars
   const dispatch = useDispatch()
@@ -99,7 +102,7 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
     <Sidebar
       size='lg'
       open={open}
-      title='Lookup'
+      title={intl.formatMessage({id: "Add"})}
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
@@ -107,25 +110,25 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name'>
-            name (Arabic) <span className='text-danger'>*</span>
+          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
           </Label>
           <Input
             name='nameA'
             id='name'
             defaultValue={SelectedLookup ? SelectedLookup.name_A : ''}
-            placeholder='Name (Arabic)'
+            placeholder={intl.formatMessage({id: "Name"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['name'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='nameE'>
-           Name (English)  <span className='text-danger'>*</span>
+          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name In English"})}
           </Label>
           <Input
             name='nameE'
             id='nameE'
-            placeholder='Name English'
+            placeholder={intl.formatMessage({id: "Name In English"})}
             defaultValue={SelectedLookup ? SelectedLookup.name_E : ''}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['nameE'] })}
@@ -133,19 +136,19 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
         </FormGroup>
         <FormGroup>
           <Label for='DescriptionA'>
-            Description (Arabic)
+          {intl.formatMessage({id: "Description"})}  {intl.formatMessage({id: "Arabic"})} 
           </Label>
           <textarea placeholder='Description Arabic' defaultValue={SelectedLookup ? SelectedLookup.description_A : ''} className='form-control' name='descriptionA' id='descriptionA'></textarea>
         </FormGroup>
         <FormGroup>
           <Label for='DescriptionE'>
-            Description (English)
+          {intl.formatMessage({id: "Description"})}  {intl.formatMessage({id: "English"})} 
           </Label>
-          <textarea placeholder='Description English' defaultValue={SelectedLookup ? SelectedLookup.description_E : ''} className='form-control' name='descriptionE' id='descriptionE'></textarea>
+          <textarea placeholder={`${intl.formatMessage({id: "Description"})}  ${intl.formatMessage({id: "English"})}`}  defaultValue={SelectedLookup ? SelectedLookup.description_E : ''} className='form-control' name='descriptionE' id='descriptionE'></textarea>
         </FormGroup>
         <FormGroup>
           <Label for='sortIndex'>
-          sortIndex <span className='text-danger'>*</span>
+           <span className='text-danger'>*</span> {intl.formatMessage({id: "Sort Index"})}
           </Label>
           <Input
             type="number"
@@ -158,46 +161,46 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
           />
         </FormGroup>
         
-        <div className='row'>
-            <div className='col-3'>
+        <div className='row mx-0'>
+            <div className='col-sm-6'>
                 <FormGroup>
                     <Input type="checkbox" name="active" defaultChecked ={SelectedLookup ? SelectedLookup.active : false} innerRef={register()}  />
                     <Label for='active'>
-                        Active <span className='text-danger'>*</span>
+                    {intl.formatMessage({id: "Active"})}
                     </Label>
                 </FormGroup>
             </div>
-            <div className='col-3'>
+            <div className='col-sm-6'>
                 <FormGroup>
                     <Input type="checkbox" name="focus" defaultChecked={SelectedLookup ? SelectedLookup.focus : false} innerRef={register()}  />
                     <Label for='focus'>
-                        Focus <span className='text-danger'>*</span>
+                         {intl.formatMessage({id: "Focus"})}
                     </Label>
                 </FormGroup>
             </div>
-            <div className='col-3'>
+            <div className='col-sm-6'>
                 <FormGroup>
                     <Input type="checkbox" name="isLocked" defaultChecked={SelectedLookup ? SelectedLookup.isLocked : false} innerRef={register()}  />
                     <Label for='isLocked'>
-                        Is Locked <span className='text-danger'>*</span>
+                          {intl.formatMessage({id: "Locked"})}
                     </Label>
                 </FormGroup>
             </div>
-            <div className='col-3'>
+            <div className='col-sm-6'>
                 <FormGroup>
                     <Input type="checkbox" name="isDefault" defaultChecked={SelectedLookup ? SelectedLookup.isDefault : false} innerRef={register()}  />
                     <Label for='isDefault'>
-                        Is Default <span className='text-danger'>*</span>
+                        {intl.formatMessage({id: "Default"})}
                     </Label>
                 </FormGroup>
             </div>
         </div>
 
         <Button type='submit' className='mr-1' color='primary'>
-          Submit
+         {intl.formatMessage({id: "Save"}) }
         </Button>
         <Button type='reset' color='secondary' outline onClick={toggleSidebar}>
-          Cancel
+         {intl.formatMessage({id: "Cancel"}) }
         </Button>
       </Form>
     </Sidebar>

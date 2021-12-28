@@ -64,13 +64,14 @@ const UsersList = () => {
 
  const toggleSidebar = (Submit) => {
   if (sidebarOpen && Submit !== 1) {
-    swal("are you sure you want to close?", {
+    swal(intl.formatMessage({id: "CloseSidebar"}), {
       buttons: {
-        cancel: "cancel",
         catch: {
-          text: "ok",
+          text: intl.formatMessage({id: "Yes"}),
           value: "ok"
-        }
+        },
+        cancel: intl.formatMessage({id: "No"})
+      
       }
     })
     .then((value) => {
@@ -102,7 +103,7 @@ const UsersList = () => {
 
   useEffect(() => {
     if (store.getResponse.statusCode !== 200 && store.getResponse.statusCode !== 0) {
-      notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
+      notify('error', `${intl.formatMessage({id: "InternalServerError"})}`)
     }
     dispatch({type:"RESET_GET_RESPONSE"})
   }, [store.getResponse.statusCode])
@@ -160,7 +161,6 @@ const UsersList = () => {
     )
     setPageNumber(page.selected + 1)
   }
-
   // ** Custom Pagination
   const CustomPagination = () => {
     const count = store.totalPages
@@ -220,10 +220,10 @@ const UsersList = () => {
   } 
 
   const handlSubmit = () => {
-    setCurrentPage(1)
+    setPageNumber(1)
     dispatch(
       getData({
-        pageNumber: currentPage,
+        pageNumber,
         rowsPerPage,
         ...searchData
       })
@@ -244,7 +244,7 @@ const UsersList = () => {
       minWidth: '250px'
     },
     {
-      name: <FormattedMessage id="User Name" />,
+      name: <FormattedMessage id="Username" />,
       selector: 'normalizedUserName',
       sortable: true,
       minWidth: '250px'
@@ -291,32 +291,32 @@ const UsersList = () => {
     <Fragment>
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
         <>
-      <div className="my-1">
-        <Button.Ripple color='primary' onClick={addUser} >
-          <FormattedMessage id="Add New User" />
-        </Button.Ripple>
-      </div>
-      <Card>
-        <DataTable
-          noHeader
-          pagination
-          subHeader
-          responsive
-          paginationServer
-          columns={columns}
-          sortIcon={<ChevronDown />}
-          className='react-dataTable'
-          paginationComponent={CustomPagination}
-          data={dataToRender()}
-          subHeaderWrap={false}
-          subHeaderComponent={
-            <div className='w-100'>
-              <SearchForm  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
-            </div>
-          }
-        />
-      </Card>
-      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedUser={store.selectedUser} />
+          <div className="my-1">
+            <Button.Ripple color='primary' onClick={addUser} >
+              <FormattedMessage id="Add New User" />
+            </Button.Ripple>
+          </div>
+          <Card>
+            <DataTable
+              noHeader
+              pagination
+              subHeader
+              responsive
+              paginationServer
+              columns={columns}
+              sortIcon={<ChevronDown />}
+              className='react-dataTable'
+              paginationComponent={CustomPagination}
+              data={dataToRender()}
+              subHeaderWrap={false}
+              subHeaderComponent={
+                <div className='w-100'>
+                  <SearchForm  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
+                </div>
+              }
+            />
+          </Card>
+          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedUser={store.selectedUser} />
         </>
       )}
     </Fragment>

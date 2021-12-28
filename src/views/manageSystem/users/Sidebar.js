@@ -10,9 +10,13 @@ import { isObjEmpty, getSelected, selectThemeColors } from '@utils'
 // ** Third Party Components
 import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
-import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 import Select, { components } from 'react-select'
+import CustomInput from 'reactstrap/lib/CustomInput'
+import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
+import Row from 'reactstrap/lib/Row'
+import Col from 'reactstrap/lib/Col'
 import { toast } from 'react-toastify'
+import { useIntl } from 'react-intl'
 
 // Axios
 import axios from '../../../axios'
@@ -21,17 +25,15 @@ import axios from '../../../axios'
 // ** Store & Actions
 import { addUser, resetCreateResponse, updateUser, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
-import CustomInput from 'reactstrap/lib/CustomInput'
-import { useIntl } from 'react-intl'
-import Row from 'reactstrap/lib/Row'
-import Col from 'reactstrap/lib/Col'
 import Toastr from '../../../containers/toastr/Toastr'
 
 const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
   // ** States
   const [userRoles, setUserRoles] = useState([])
   const [allRoles, setAllRoles] = useState([])
-  
+  // console.log(userRoles)
+  // console.log(allRoles)
+ 
   // Import localization files
   const intl = useIntl()
 
@@ -83,7 +85,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
     })
     return newArr
   }
-
+  // console.log(convertRolesArr(allRoles))
   // ** Function to handle form submit
   const onSubmit = async values => {
     if (isObjEmpty(errors)) {
@@ -164,11 +166,10 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             toggleSidebar(1)
       } else if (code === 6) {
         notify('error', intl.formatMessage({id: store.updateResponse.errors[0]}))
-
      } else if (code === 5) {
       notify('error', intl.formatMessage({id: "InvalidFileExtension"}))
      } else if (code === 3) {
-       notify('error', `${intl.formatMessage({id: "UpdateFialed"})} ${intl.formatMessage({id: "User"})}`)
+       notify('error', `${intl.formatMessage({id: "UpdateFailed"})} ${intl.formatMessage({id: "User"})}`)
      } else if (code === 500) {
        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
      } 
@@ -213,58 +214,6 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
           />
         </FormGroup>
         <FormGroup>
-          <Label for='jobTitle'>
-             <span className='text-danger'>*</span> {intl.formatMessage({id: "Job Title"})}
-          </Label>
-          <Input
-            name='jobTitle'
-            id='jobTitle'
-            defaultValue={selectedUser ? selectedUser.jobTitle : ''}
-            placeholder={intl.formatMessage({id: "Job Title"})}
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['jobTitle'] })}
-          />
-        </FormGroup>
-        <FormGroup>
-              <Label for='photo'>{intl.formatMessage({id: "Photo"})}</Label>
-              <CustomInput
-                type='file' 
-                id='photo'
-                name='photo' 
-                label={intl.formatMessage({id: "Chose Photo"})}
-                
-                innerRef={register()}
-                className={classnames({ 'is-invalid': errors['photo'] })}/>
-            </FormGroup>
-     
-        <FormGroup>
-          <Label for='password'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Password"})}
-          </Label>
-          <Input
-            type='password'
-            name='password'
-            id='password'
-            // defaultValue={selectedUser ? selectedUser.password : ''}
-            placeholder={intl.formatMessage({id: "Password"})}
-            innerRef={register({ required: !selectedUser.id })}
-            className={classnames({ 'is-invalid': errors['password'] })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='userName'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "User Name"})}
-          </Label>
-          <Input
-            name='userName'
-            id='userName'
-            defaultValue={selectedUser ? selectedUser.userName : ''}
-            placeholder={intl.formatMessage({id: "User Name"})}
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['userName'] })}
-          />
-        </FormGroup>
-        <FormGroup>
           <Label for='email'>
            <span className='text-danger'>*</span> {intl.formatMessage({id: "Email"})}
           </Label>
@@ -279,15 +228,56 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
           />
         </FormGroup>
         <FormGroup>
+          <Label for='userName'>
+           <span className='text-danger'>*</span> {intl.formatMessage({id: "Username"})}
+          </Label>
+          <Input
+            name='userName'
+            id='userName'
+            defaultValue={selectedUser ? selectedUser.userName : ''}
+            placeholder={intl.formatMessage({id: "Username"})}
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['userName'] })}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for='password'>
+           <span className='text-danger'>*</span> {intl.formatMessage({id: "Password"})}
+          </Label>
+          <Input
+            type='password'
+            name='password'
+            id='password'
+            // defaultValue={selectedUser ? selectedUser.password : ''}
+            placeholder={intl.formatMessage({id: "Password"})}
+            innerRef={register({ required: !selectedUser.id })}
+            className={classnames({ 'is-invalid': errors['password'] })}
+          />
+        </FormGroup>
+       
+        <FormGroup>
+          <Label for='jobTitle'>
+             <span className='text-danger'>*</span> {intl.formatMessage({id: "Job Title"})}
+          </Label>
+          <Input
+            name='jobTitle'
+            id='jobTitle'
+            defaultValue={selectedUser ? selectedUser.jobTitle : ''}
+            placeholder={intl.formatMessage({id: "Job Title"})}
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['jobTitle'] })}
+          />
+        </FormGroup>
+        <FormGroup>
           <Label for='phoneNumber'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Phone Number"})}
+           {intl.formatMessage({id: "Phone Number"})}
           </Label>
           <Input
             name='phoneNumber'
             id='phoneNumber'
             defaultValue={selectedUser ? selectedUser.phoneNumber : ''}
             placeholder='(397) 294-5153'
-            innerRef={register({ required: true })}
+            innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['phoneNumber'] })}
           />
         </FormGroup>
@@ -299,27 +289,40 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedUser ? selectedUser.sortIndex : ''}
+            defaultValue={selectedUser ? selectedUser.sortIndex : 0}
             placeholder='0'
-            innerRef={register({ required: true })}
+            innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
         </FormGroup>
+        <FormGroup>
+          <Label for='photo'>{intl.formatMessage({id: "Photo"})}</Label>
+          <CustomInput
+            type='file' 
+            id='photo'
+            name='photo' 
+            label={intl.formatMessage({id: "Chose Photo"})}
+            innerRef={register({ required: false })}
+            className={classnames({ 'is-invalid': errors['photo'] })}/>
+        </FormGroup>
+     
+     
         <FormGroup>
               <Label>{intl.formatMessage({id: "Roles"})}</Label>
               <Select
                 isClearable={false}
                 theme={selectThemeColors}
-                defaultValue={selectedUser ? (selectedUser.roles ? convertRolesArr(selectedUser.roles) : null) : []}
+                // defaultValue={selectedUser ? (selectedUser.roles ? convertRolesArr(selectedUser.roles) : null) : []}
                 isMulti
                 name='userRoles'
                 id='userRoles'
-                options={ convertRolesArr(allRoles)}
+                options={convertRolesArr(allRoles)}
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handleRolesChange(e) }
               />
           </FormGroup>
+          {/* {selectedUser.id ? console.log(convertRolesArr(selectedUser.roles)) : null} */}
           <Row className="mx-0">
             <Col sm='6' >
               <FormGroup>
@@ -336,7 +339,8 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                 
               </FormGroup>
             </Col>
-            <Col sm='6' >
+            
+            {selectedUser ? (<Col sm='6' >
               <FormGroup>
                 <Input 
                   type="checkbox"
@@ -348,7 +352,8 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                   {intl.formatMessage({id: "Locked"})}
                 </Label>
               </FormGroup>
-            </Col>
+            </Col>) : null }
+            
             <Col sm='6' >
             <FormGroup>
             

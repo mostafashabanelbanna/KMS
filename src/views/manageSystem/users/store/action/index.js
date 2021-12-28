@@ -45,9 +45,11 @@ export const addUser = user => {
    userFormData.append('locked', user.locked)
    userFormData.append('focus', user.focus)
    userFormData.append('active', user.active)
-   userFormData.append('userRoles', user.userRoles === '' ? [] : user.userRoles)
+   for (let i = 0; i < user.userRoles.length; i++) {
+    userFormData.append('userRoles', user.userRoles[i])
+}
 
-   
+   console.log(userFormData.get('userRoles'))
    return (dispatch, getState) => {
     axios
       .post('/User/CreateUser', userFormData, {headers : { "Content-Type": "multipart/form-data" }})
