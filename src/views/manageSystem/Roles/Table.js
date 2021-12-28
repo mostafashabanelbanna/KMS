@@ -1,6 +1,7 @@
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
-//import Sidebar from './Sidebar'
+
+import Sidebar from './Sidebar'
 
 // ** Store & Actions
 import {  getData, deleteRole, getRole } from './store/action'
@@ -17,6 +18,7 @@ import DataTable from 'react-data-table-component'
 import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
+import Toastr from '../../../containers/toastr/Toastr'
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
@@ -98,12 +100,12 @@ const RolesList = () => {
       notify('error', `${intl.formatMessage({id: "DeleteFailed"})} `)
     } else if (store.deleteResponse.statusCode === 500) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
+    } else if (store.deleteResponse.statusCode === 6) {
+      notify('error', `${intl.formatMessage({id: store.deleteResponse.errors[0]})} `)
     } else if (store.deleteResponse.statusCode === 200) {
       notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
-    } else if (store.errorCode === 403) {
-        <Redirect to='/misc/not-authorized' />
     }
-    dispatch({type:" RESET_ROLE_DELETE_RESPONSE"})
+    dispatch({type:"RESET_ROLE_DELETE_RESPONSE"})
   }, [store.deleteResponse.statusCode])
 
   const addRole = () => {
@@ -221,7 +223,7 @@ const RolesList = () => {
                         data={dataToRender()}
                     />
                 </Card>
-                {/* <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedRole={store.selectedRole} /> */}
+                <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedRole={store.selectedRole} />
               </>
           )}
       </Fragment>

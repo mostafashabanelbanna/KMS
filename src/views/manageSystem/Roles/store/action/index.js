@@ -49,6 +49,7 @@ export const addRole = role => {
 }
 
 export const updateRole = role => {  
+  console.log(role)
   return async (dispatch, getState) => {
     await axios
      .put('/Role/UpdateRole/', role)
@@ -90,6 +91,7 @@ export const deleteRole = id => {
         dispatch(getData(getState().users.params))
       })
       .catch(error => {
+        console.log(error)
         dispatch({
             type: 'DELETE_ROLE',
             response:{error: error.response, errors:[], statusCode: error.response.status },

@@ -64,5 +64,8 @@
   "UpdateFailed": "An error occurred while updating",
   "DeleteFailed": "An error occurred while deleting, or the item may have been used with other items",
   "UpdateSuccess": "Updatd Successfully",
-  "DeletedSuccess": "Deleted Successfully"
+  "DeletedSuccess": "Deleted Successfully",
+  "RoleIsAssigned": "this role is already assigned to users",
+  "Role": "Role",
+  "Periodicity": "Periodicity"
 }
