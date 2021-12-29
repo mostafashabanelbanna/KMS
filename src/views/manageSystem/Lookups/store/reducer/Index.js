@@ -16,6 +16,11 @@ const initialState = {
       statusCode: 0,
       errors: []
     },
+    deleteResponse: {
+      error : {},
+      statusCode: 0,
+      errors: []
+    },
     selectedLookup:{}
     
   }
@@ -43,11 +48,13 @@ const initialState = {
       case 'UPDATE_LOOKUP':
         return { ...state, updateResponse: action.response }
       case 'DELETE_LOOKUP':
-        return { ...state, response: action.response }
-      case 'RESET_CREATE_RESPONSE':
+        return { ...state, deleteResponse: action.response }
+      case 'RESET_CREATE_LOOKUP_RESPONSE':
         return { ...state, createresponse: {error:{}, statusCode: 0, errors:[]}}
-      case 'RESET_UPDATE_RESPONSE':
+      case 'RESET_UPDATE_LOOKUP_RESPONSE':
         return { ...state, updateResponse: {error:{}, statusCode: 0, errors:[]}}
+      case 'RESET_DELETE_LOOKUP_RESPONSE':
+        return { ...state, deleteresponse: {error:{}, statusCode: 0, errors:[]}}
       default:
         return { ...state }
     }

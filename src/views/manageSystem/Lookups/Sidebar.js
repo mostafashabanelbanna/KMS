@@ -82,7 +82,7 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
             alert("Added Successfully")
             toggleSidebar(1)
         }        
-        dispatch({type:"RESET_CREATE_RESPONSE"}) 
+        dispatch({type:"RESET_CREATE_LOOKUP_RESPONS"}) 
     }
   }, [store.createresponse.statusCode])
 
@@ -94,7 +94,7 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
             alert("updated Successfully")
             toggleSidebar(1)
         }
-        dispatch({type:"RESET_UPDATE_RESPONSE"}) 
+        dispatch({type:"RESET_UPDATE_LOOKU_RESPONSE"}) 
     }
   }, [store.updateResponse.statusCode])
 
@@ -138,7 +138,7 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
           <Label for='DescriptionA'>
           {intl.formatMessage({id: "Description"})}  {intl.formatMessage({id: "Arabic"})} 
           </Label>
-          <textarea placeholder='Description Arabic' defaultValue={SelectedLookup ? SelectedLookup.description_A : ''} className='form-control' name='descriptionA' id='descriptionA'></textarea>
+          <textarea placeholder={`${intl.formatMessage({id: "Description"})}  ${intl.formatMessage({id: "Arabic"})}`} defaultValue={SelectedLookup ? SelectedLookup.description_A : ''} className='form-control' name='descriptionA' id='descriptionA'></textarea>
         </FormGroup>
         <FormGroup>
           <Label for='DescriptionE'>

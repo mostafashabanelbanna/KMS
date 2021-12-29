@@ -3,6 +3,7 @@ import { Fragment, useState, useEffect, useContext } from 'react'
 
 
 import Sidebar from './Sidebar'
+import Toastr from '../../../containers/toastr/Toastr'
 
 
 // ** Store & Actions
@@ -22,18 +23,18 @@ import { selectThemeColors } from '@utils'
 import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import AppCollapse from '@components/app-collapse'
 import { ThemeColors } from '@src/utility/context/ThemeColors'
-
+import { toast } from 'react-toastify'
+import Row from 'reactstrap/lib/Row'
+import {useIntl, FormattedMessage } from 'react-intl'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 
 // helper function
 import {isAuthorized} from '../../../utility/Utils'
-import Row from 'reactstrap/lib/Row'
-import {useIntl, FormattedMessage } from 'react-intl'
+
 
 const LookupsView = () => {
 
@@ -47,9 +48,20 @@ const LookupsView = () => {
     const [searchData, setSearchData] = useState({
       name: ""
     })
-
+    const [currentLookupName, setCurrentLookupName] = useState('')
 // useIntl
 const intl = useIntl()
+
+
+  // Toastr notify function
+  const notify = (type, message) => {
+    return toast.success(
+      <Toastr type={type} message={message} />,
+      { position: toast.POSITION.TOP_CENTER,
+        hideProgressBar: true 
+      })
+    }
+
    
     const handlePagination = page => {
         dispatch(
@@ -89,13 +101,14 @@ const intl = useIntl()
    
     const toggleSidebar = (Submit) => {
         if (sidebarOpen && Submit !== 1) {
-          swal("are you sure you want to close?", {
+          swal(intl.formatMessage({id: "CloseSidebar"}), {
             buttons: {
-              cancel: "cancel",
               catch: {
-                text: "ok",
+                text: intl.formatMessage({id: "Yes"}),
                 value: "ok"
-              }
+              },
+              cancel: intl.formatMessage({id: "No"})
+            
             }
           })
           .then((value) => {
@@ -133,6 +146,18 @@ const intl = useIntl()
         toggleSidebar()
     }
 
+    useEffect(() => {
+      if (store.deleteResponse.statusCode === 2) {
+        notify('error', `${intl.formatMessage({id: "DeleteFailed"})} `)
+      } else if (store.deleteResponse.statusCode === 500) {
+        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
+      } else if (store.deleteResponse.statusCode === 200) {
+        notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
+      }
+      dispatch({type:" RESET_DELETE_LOOKUP_RESPONSE"})
+  
+    }, [store.deleteResponse.statusCode])
+
     const isNotLightSkin = () => {
       // get current skin 
       const currentSkin = JSON.parse(localStorage.getItem("skin")) 
@@ -162,11 +187,28 @@ const intl = useIntl()
         )
     }
 
+
     function RenderLookups() {
         const lkps = []
         if (store.allLookups && store.allLookups.length > 0) {
             for (let i = 0; i < store.allLookups.length; i++) {
-                const content = (store.allLookups[i].items.map((obj, idx) => <Card className="displayName" key={idx} style={{cursor: "pointer", padding: '8px'}} onClick={(e) => getLookupValues(e, obj.name)}><FormattedMessage id={obj.displayName} /></Card>))
+                const content = (store.allLookups[i].items.map((obj, idx) => {
+                    return (
+                              <Card 
+                                className="displayName" 
+                                key={idx} 
+                                style={{cursor: "pointer", padding: '8px'}} 
+                                onClick={(e) => {
+                                 setCurrentLookupName(obj.name)
+                                  return getLookupValues(e, obj.name)
+                                }}
+                                >
+                                <FormattedMessage id={obj.displayName} />
+
+                              </Card>
+                            )
+                  }
+                ))
                 lkps.push({title: intl.formatMessage({id: store.allLookups[i].name}), content})
             }
         }
@@ -196,7 +238,7 @@ const intl = useIntl()
                     <Archive size={14} className='mr-50' />
                     <span className='align-middle'>{intl.formatMessage({id: "Edit"})}</span>
                   </DropdownItem>
-                  <DropdownItem className='w-100' onClick={() => dispatch(deleteLookupValue(row.id))}>
+                  <DropdownItem className='w-100' onClick={() => dispatch(deleteLookupValue(currentLookupName, row.id))}>
                     <Trash2 size={14} className='mr-50' />
                     <span className='align-middle'>{intl.formatMessage({id: "Delete"})}</span>
                   </DropdownItem>
@@ -205,7 +247,6 @@ const intl = useIntl()
             )
           }
     ]
-    
     return (
         <Fragment>
             {isAuthorized(store.error) ? <Redirect to='/misc/not-authorized' /> : (

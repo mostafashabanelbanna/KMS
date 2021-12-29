@@ -35,18 +35,14 @@ export const getData = params => {
     }
   }
 
-  export const getLookupValue = params => {
-    return async (dispatch, getState) => {
-        const lookup = getState().lookups.data.find(x => x.id === params)
-        dispatch({type:"GET_LOOKUP", selectedLookup: lookup})
-    }
+export const getLookupValue = params => {
+  return async (dispatch, getState) => {
+      const lookup = getState().lookups.data.find(x => x.id === params)
+      dispatch({type:"GET_LOOKUP", selectedLookup: lookup})
   }
-
-  
-  export const deleteLookupValue = params => {
-
 }
 
+  
 export const addLookup = Lookup => {  
      console.log(Lookup)
 
@@ -94,3 +90,31 @@ export const addLookup = Lookup => {
        })
    }
  }
+
+// ** Delete lookup value
+export const deleteLookupValue = (lookupName, id) => {
+  return (dispatch, getState) => {
+    axios
+      .delete('/Lookups/DeleteLookupValue', {data: {
+        Id: id,
+        lookupName
+      }})
+      .then(response => {
+        dispatch({
+          type: 'DELETE_LOOKUP',
+          response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
+          errorCode: 200
+        })
+      })
+      .then(() => {
+        dispatch(getData(getState().lookups.params))
+      })
+      .catch(error => {
+        dispatch({
+          type: 'DELETE_LOOKUP',
+          errorCode: error.response.status 
+        })
+      })
+  }
+}
+

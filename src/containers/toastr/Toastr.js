@@ -9,7 +9,7 @@ const Toastr = ({type, message}) => {
         <div className='toastify-header'>
           <div className='title-wrapper'>
             <Avatar size='sm' color={type === 'success' ? 'success' : 'danger'} icon={type === 'success' ? <Check size={12} /> : <X size={12}/>} />
-            <h6 className='toast-title'>{message}</h6>
+            <h6 className={`toast-title ${type === 'success' ? 'text-success' : 'text-danger'}`}>{message}</h6>
           </div>
          
         </div>

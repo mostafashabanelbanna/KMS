@@ -110,7 +110,6 @@ const UsersList = () => {
 
   useEffect(() => {
     if (store.deleteResponse.statusCode === 2) {
-      alert("Deletion Failed") // From Localization
       notify('error', `${intl.formatMessage({id: "DeleteFailed"})} `)
     } else if (store.deleteResponse.statusCode === 500) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
