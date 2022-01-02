@@ -153,6 +153,7 @@ export const getUser = id => {
     await axios
       .get('/api/users/user', { id })
       .then(response => {
+       
         dispatch({
           type: 'GET_USER',
           selectedUser: response.data.user,

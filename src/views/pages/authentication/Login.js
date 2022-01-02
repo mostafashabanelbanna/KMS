@@ -143,7 +143,7 @@ const Login = props => {
             <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
                 <Label className='form-label' for='login-email'>
-                  <FormattedMessage id="User Name" />
+                  <FormattedMessage id="Username" />
                 </Label>
                 <Input
                   autoFocus

@@ -11,6 +11,10 @@ const ManageSystemRoutes = [
     component: lazy(() => import('../../views/manageSystem/Roles/index'))
   },
   {
+    path: '/permissions',
+    component: lazy(() => import('../../views/manageSystem/Roles/permissions'))
+  },
+  {
     path: '/Lookups',
     component: lazy(() => import('../../views/manageSystem/Lookups/Index'))
   }

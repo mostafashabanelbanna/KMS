@@ -36,7 +36,6 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
  
   // Import localization files
   const intl = useIntl()
-
   // Toastr notify function
   const notify = (type, message) => {
     return toast.success(
@@ -312,7 +311,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
               <Select
                 isClearable={false}
                 theme={selectThemeColors}
-                // defaultValue={selectedUser ? (selectedUser.roles ? convertRolesArr(selectedUser.roles) : null) : []}
+                defaultValue={selectedUser ? (selectedUser.roles ? convertRolesArr(selectedUser.roles) : null) : []}
                 isMulti
                 name='userRoles'
                 id='userRoles'
@@ -322,7 +321,6 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                 onChange={e => handleRolesChange(e) }
               />
           </FormGroup>
-          {/* {selectedUser.id ? console.log(convertRolesArr(selectedUser.roles)) : null} */}
           <Row className="mx-0">
             <Col sm='6' >
               <FormGroup>

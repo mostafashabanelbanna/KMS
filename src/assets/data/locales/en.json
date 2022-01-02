@@ -67,5 +67,8 @@
   "DeletedSuccess": "Deleted Successfully",
   "RoleIsAssigned": "this role is already assigned to users",
   "Role": "Role",
-  "Periodicity": "Periodicity"
+  "Periodicity": "Periodicity",
+  "NoData": "There are no records to display",
+  "SpecifyPermissions": "Specify Permissions",
+  "EmptyString" : " "
 }

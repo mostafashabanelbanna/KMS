@@ -137,6 +137,7 @@ const UsersList = () => {
     }
   }, [store.errorCode])
 
+
   const addUser = () => {
     dispatch({type: "GET_iUSER", selectedUser:{}})
     toggleSidebar()
@@ -185,12 +186,10 @@ const UsersList = () => {
 
   // ** Table data to render
   const dataToRender = () => {
- 
     if (store.data.length > 0 && !store.error) {
       return store.data
     } 
   }
-
 
   // Search Form Items we need to pass to Search Form container
   const formItems =  [

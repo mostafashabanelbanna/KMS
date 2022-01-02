@@ -19,6 +19,8 @@ import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, Drop
 import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
+import { FaUserLock } from 'react-icons/fa'
+
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
@@ -52,13 +54,14 @@ const RolesList = () => {
 
   const toggleSidebar = (Submit) => {
     if (sidebarOpen && Submit !== 1) {
-      swal("are you sure you want to close?", {
+      swal(intl.formatMessage({id: "CloseSidebar"}), {
         buttons: {
-          cancel: "cancel",
           catch: {
-            text: "ok",
+            text: intl.formatMessage({id: "Yes"}),
             value: "ok"
-          }
+          },
+          cancel: intl.formatMessage({id: "No"})
+        
         }
       })
       .then((value) => {
@@ -184,6 +187,10 @@ const RolesList = () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+            <DropdownItem className='w-100' tag={Link} to='/permissions' >
+              <FaUserLock size={14} className='mr-50'/>
+              <span className='align-middle'>{intl.formatMessage({id: "SpecifyPermissions"})}</span>
+            </DropdownItem>
             <DropdownItem
               className='w-100'
               onClick={() => updateRole(row.id)}
@@ -200,7 +207,7 @@ const RolesList = () => {
       )
     }
   ]
- 
+
   return (
       <Fragment>
           {isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (

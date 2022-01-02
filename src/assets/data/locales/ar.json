@@ -67,5 +67,8 @@
   "DeletedSuccess": "تم الحذف بنجاح",
   "RoleIsAssigned": "لا يمكن حذف هذه المجموعة , يوجد مستخدمين بها",
   "Role": "مجموعة",
-  "Periodicity": "الدورية"
+  "Periodicity": "الدورية",
+  "NoData": "لا توجد بيانات",
+  "SpecifyPermissions": "تعيين الصلاحيات",
+  "EmptyString" : " "
 }

@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useState, useEffect, useContext } from 'react'
+import { Fragment, useState, useEffect, useContext, useRef } from 'react'
 
 
 import Sidebar from './Sidebar'
@@ -48,11 +48,15 @@ const LookupsView = () => {
     const [searchData, setSearchData] = useState({
       name: ""
     })
-    const [currentLookupName, setCurrentLookupName] = useState('')
-// useIntl
-const intl = useIntl()
+    const [currentLookupName, setCurrentLookupName] = useState('EmptyString')
+    
+    // useIntl
+    const intl = useIntl()
 
+    const myRef = useRef(null)
 
+    const executeScroll = () => myRef.current.scrollIntoView()    
+    
   // Toastr notify function
   const notify = (type, message) => {
     return toast.success(
@@ -199,7 +203,8 @@ const intl = useIntl()
                                 key={idx} 
                                 style={{cursor: "pointer", padding: '8px'}} 
                                 onClick={(e) => {
-                                 setCurrentLookupName(obj.name)
+                                  executeScroll()
+                                  setCurrentLookupName(obj.name)
                                   return getLookupValues(e, obj.name)
                                 }}
                                 >
@@ -252,30 +257,32 @@ const intl = useIntl()
             {isAuthorized(store.error) ? <Redirect to='/misc/not-authorized' /> : (
             <>
                 <div className='row'>
-                    <div className='col-4'>
+                    <div className='col-md-4'>
                         <AppCollapse  data={RenderLookups()} type='margin' accordion />
                     </div>
-                    <div className='col-8 mt-1'>
-                    <div className='mb-2'>
-                        <Button.Ripple color='primary' onClick={addLookup} disabled={!store.lookupName}>
-                        {intl.formatMessage({id: "Add"})}
-                        </Button.Ripple>
-                    </div> 
+                    <div ref={myRef} className='col-md-8 mt-1'>
+                        <div className='mb-1 d-flex justify-content-between align-items-center'>
+                            <h4><FormattedMessage id={currentLookupName} /></h4>
+                            <Button.Ripple color='primary' onClick={addLookup} disabled={!store.lookupName}>
+                              {intl.formatMessage({id: "Add"})}
+                            </Button.Ripple>
+                        </div> 
 
-                    <DataTable
-                        noHeader
-                        pagination
-                        responsive
-                        paginationServer
-                        columns={columns}
-                        sortIcon={<ChevronDown />}
-                        className='react-dataTable'
-                        paginationComponent={CustomPagination}
-                        data={store.data}
-                        subHeaderWrap={false}
-                        />
+                        <DataTable
+                            noHeader
+                            pagination
+                            responsive
+                            paginationServer
+                            columns={columns}
+                            sortIcon={<ChevronDown />}
+                            className='react-dataTable'
+                            paginationComponent={CustomPagination}
+                            data={store.data}
+                            subHeaderWrap={false}
+                            noDataComponent={<FormattedMessage id="NoData" />}
+                            />
+                        </div>
                     </div>
-                </div>
                 <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} SelectedLookup={store.selectedLookup} />
             </>
             )}
