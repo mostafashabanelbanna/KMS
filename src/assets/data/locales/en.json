@@ -27,6 +27,7 @@
   "Sort Index" : "Sort Index",
   "Roles": "Roles",
   "Admin":  "Admin",
+  "Editor": "",
   "Locked": "Locked",
   "Focus":"Focus",
   "Active": "Active",
@@ -45,7 +46,6 @@
   "AttachmentType": "Attachment Type",
   "CalculationType" : "Calculation Type",
   "DataQuality": "Data Quality",
-  "Periodicity": "Periodicity",
   "Sector": "Sector",
   "Source": "Source",
   "UnitLabel": "Unit Label",
@@ -70,5 +70,15 @@
   "Periodicity": "Periodicity",
   "NoData": "There are no records to display",
   "SpecifyPermissions": "Specify Permissions",
-  "EmptyString" : " "
+  "SpecifyPermissionsTitle": "Assign Group Permissions for : ",
+  "EmptyString" : " ",
+  "Functions" : "Functions",
+  "Inherit" : "Inherit",
+  "Allow" : "Allow",
+  "Deny" : "Deny",
+  "List" : "List",
+  "Create" : "Create",
+  "Update" : "Update",
+  "Dimensions" : "Dimensions",
+  "Indicators" : "Indicators"
 }

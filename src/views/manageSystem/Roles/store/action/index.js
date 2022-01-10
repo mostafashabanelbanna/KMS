@@ -22,7 +22,7 @@ export const getData = params => {
   }
 }
 
-// ** Add new user
+// ** Add new role
 export const addRole = role => {   
    return (dispatch, getState) => {
     axios
@@ -106,4 +106,54 @@ export const getRole = params => {
         const role = getState().roles.data.find(x => x.id === params)
         dispatch({type:"GET_ROLE", selectedRole: role})
     }
+}
+
+// ********** //
+// Role Permission
+// ********** //
+
+export const getRolePermission = (id, objectName) => {
+  return async dispatch => {
+    await axios.post('/Role/GetRolePermission', {roleId: id, objectName}).then(response => {
+      // console.log(response)
+      dispatch({
+        type: 'GET_ROLE_PERMISSION',
+        data: response.data.data
+      })
+    }).catch(error => {
+      dispatch({
+        type: 'GET_ROLE_PERMISSION',
+        errorCode: error.response.status 
+      })
+    })
+  }
+}
+
+// ** setRolePermission
+export const  setRolePermission  = (permissions) => {   
+  console.log(permissions)
+  return (dispatch, getState) => {
+   axios
+     .post('/Role/AssignRolePermission', permissions)
+     .then(response => {
+       console.log(response)
+       dispatch({
+         type: 'SET_ROLE_PERMISSION',
+         response:{statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
+         errorCode: 200
+       })
+     })
+     .catch(error => {
+       console.log(error)
+      dispatch({
+        type: 'SET_ROLE_PERMISSION',
+        response: {statusCode: error.response.status, error: error.response, errors:[]},
+        errorCode: error.response.status
+      })
+    })
+    //  .then(() => {
+    //    dispatch(getData(getState().roles.params))
+    //  })
+    
+ }
 }

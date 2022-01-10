@@ -25,7 +25,17 @@ const initialState = {
         statusCode: 0,
         errors: []
     },
-    selectedRole:{}
+    selectedRole:{},
+    permissions:{
+      rolesData: [],
+      errorCode: null
+    },
+    assignPermissions:{
+      error : {},
+      statusCode: 0,
+      errors: []
+    }
+   
   }
   
   const Roles = (state = initialState, action) => {
@@ -56,6 +66,12 @@ const initialState = {
         return { ...state, deleteResponse: {error:{}, statusCode: 0, errors:[]}}   
       case 'DELETE_ROLE':
         return { ...state, deleteResponse: action.response, errorCode: action.errorCode }
+      case 'GET_ROLE_PERMISSION':
+        return { ...state, permissions:{rolesData: action.data, errorCode: action.errorCode} }
+      case 'SET_ROLE_PERMISSION':
+          return { ...state, assignPermissions: action.response, errorCode: action.errorCode }
+      case 'RESET_SET_ROLE_PERMISSION':
+        return { ...state, assignPermissions: {error:{}, statusCode: 0, errors:[]}}  
       default:
         return { ...state }
     }

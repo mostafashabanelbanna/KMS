@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 
 // ** Store & Actions
-import {  getData, deleteRole, getRole } from './store/action'
+import {  getData, deleteRole, getRole, getRolePermission } from './store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -187,7 +187,8 @@ const RolesList = () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
-            <DropdownItem className='w-100' tag={Link} to='/permissions' >
+            {/* <DropdownItem className='w-100' onClick={() => dispatch(getRolePermission(row.id))} tag={Link} to='/permissions' > */}
+            <DropdownItem className='w-100' tag={Link} to={{ pathname: `/permissions/${row.name}`, state: { id : row.id, name: row.name}}} >
               <FaUserLock size={14} className='mr-50'/>
               <span className='align-middle'>{intl.formatMessage({id: "SpecifyPermissions"})}</span>
             </DropdownItem>

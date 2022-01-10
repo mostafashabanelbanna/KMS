@@ -14,6 +14,7 @@ const RadioCustom = () => {
         <div className='demo-inline-spacing'>
           <CustomInput type='radio' id='exampleCustomRadio' name='customRadio' inline label='Active' defaultChecked />
           <CustomInput type='radio' id='exampleCustomRadio2' name='customRadio' inline label='Inactive' />
+          <CustomInput type='radio' id='exampleCustomRadio3' name='customRadio' inline label='Inactive' />
           <CustomInput type='radio' id='exampleCustomRadio3' inline label='Active Disabled' disabled defaultChecked />
           <CustomInput
             type='radio'

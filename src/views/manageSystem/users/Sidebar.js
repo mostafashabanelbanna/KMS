@@ -385,7 +385,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
           </Row>
 
         <Button type='submit' className='mr-1' color='primary'>
-            {intl.formatMessage({id: "Save"}) }
+          {intl.formatMessage({id: "Save"}) }
         </Button>
         <Button type='reset' color='secondary' outline onClick={toggleSidebar}>
           {intl.formatMessage({id: "Cancel"}) }

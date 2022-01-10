@@ -27,6 +27,7 @@
   "Sort Index" : "الترتيب",
   "Roles": "المجموعات",
   "Admin": "مدير النظام",
+  "Editor": "محرر",
   "Locked": "إغلاق",
   "Focus":"مميز",
   "Active": "فعال",
@@ -45,7 +46,6 @@
   "AttachmentType": "نوع الملف",
   "CalculationType" : "نوع العملية الحسابية",
   "DataQuality": "جودة البيانات",
-  "Periodicity": "الإتجاه",
   "Sector": "القطاع",
   "Source": "المصدر",
   "UnitLabel": "وحدة القياس",
@@ -70,5 +70,15 @@
   "Periodicity": "الدورية",
   "NoData": "لا توجد بيانات",
   "SpecifyPermissions": "تعيين الصلاحيات",
-  "EmptyString" : " "
+  "SpecifyPermissionsTitle": "تعيين الصلاحيات مجموعة : ",
+  "EmptyString" : " ",
+  "Functions" : "الوظائف",
+  "Inherit" : "ميراث",
+  "Allow" : "سماح",
+  "Deny" : "منع",
+  "List" : "استعراض القائمة",
+  "Create" : "إضافة",
+  "Update" : "تعديل",
+  "Dimensions" : "الأبعاد",
+  "Indicators" : "المؤشرات"
 }
