@@ -7,7 +7,7 @@ import Sidebar from './Sidebar'
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 // ** Store & Actions
-import {  getData, deleteIndicator, getIndicatorValue } from './store/action'
+import {  getData, deleteIndicator, getIndicator } from './store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -104,7 +104,7 @@ const IndictorList = () => {
     if (store.getResponse.statusCode !== 200 && store.getResponse.statusCode !== 0) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})}`)
     }
-    dispatch({type:"RESET_GET_RESPONSE"})
+    dispatch({type:"RESET_GET_INDICATOR_RESPONSE"})
   }, [store.getResponse.statusCode])
 
   useEffect(() => {
@@ -115,7 +115,7 @@ const IndictorList = () => {
     } else if (store.deleteResponse.statusCode === 200) {
       notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
     }
-    dispatch({type:" RESET_DELETE_RESPONSE"})
+    dispatch({type:" RESET_INDICATOR_DELETE_RESPONSE"})
 
   }, [store.deleteResponse.statusCode])
 
@@ -133,7 +133,7 @@ const IndictorList = () => {
   }
   
   const updateIndicator = id => {
-    dispatch(getIndicatorValue(id))
+    dispatch(getIndicator(id))
     toggleSidebar()
   }
 

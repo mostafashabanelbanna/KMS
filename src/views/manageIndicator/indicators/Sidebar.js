@@ -53,6 +53,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
   const onSubmit = async values => {
     if (isObjEmpty(errors)) {
       if (!selectedIndicator.id) {
+        console.log(values)
         await dispatch(
             addIndicator({
               name_A: values.name,

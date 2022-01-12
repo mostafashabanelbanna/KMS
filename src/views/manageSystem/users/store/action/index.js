@@ -25,7 +25,7 @@ export const getData = params => {
 export const getUserValue = params => {
   return async (dispatch, getState) => {
       const user = getState().users.data.find(x => x.id === params)
-      console.log(params)
+      // console.log(params)
       console.log(user)
       dispatch({type:"GET_USER", selectedUser: user})
   }
@@ -187,6 +187,9 @@ export const deleteUser = id => {
           response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
           errorCode: 200
         })
+      })
+      .then(() => {
+        dispatch(getData(getState().users.params))
       })
       .catch(error => {
         dispatch({

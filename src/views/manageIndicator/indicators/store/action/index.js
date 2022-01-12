@@ -22,15 +22,15 @@ export const getData = params => {
   }
 }
 
-export const getIndicatorValue = params => {
-  return async (dispatch, getState) => {
-      const indicator = getState().indicators.data.find(ind => ind.id === params)
-      dispatch({type:"GET_INDICATOR", selectedIndicator: indicator})
-  }
-}
+// export const getIndicatorValue = params => {
+//   return async (dispatch, getState) => {
+//       const indicator = getState().indicators.data.find(ind => ind.id === params)
+//       dispatch({type:"GET_INDICATOR", selectedIndicator: params})
+//   }
+// }
 // ** Add new indicator
 export const addIndicator = indicator => {
-// console.log(indicator)
+console.log(indicator)
    return (dispatch, getState) => {
     axios
       .post('/Indicator/CreateIndicator', indicator)
@@ -61,7 +61,7 @@ export const addIndicator = indicator => {
 
 export const resetCreateResponse = () => {
   return (dispatch) => {
-      dispatch({type: "RESET_INDICATOR_CREATE_RESPONSE"})
+      dispatch({type: "RESET_CREATE_INDICATOR_RESPONSE"})
   }
 }
 
@@ -79,9 +79,7 @@ export const updateIndicator = indicator => {
          errorCode: 200
        })
      })
-     .then(() => {
-       dispatch(getData(getState().indicators.params))
-     })
+   
      .catch(error => {
          dispatch({
              type: 'UPDATE_INDICATOR',
@@ -89,34 +87,40 @@ export const updateIndicator = indicator => {
              errorCode: error.response.status
          })
      })
+     .then(() => {
+      dispatch(getData(getState().indicators.params))
+    })
  }
 }
 
 export const resetUpdateResponse = () => {
   return (dispatch) => {
-      dispatch({type: "RESET_UPDATE_RESPONSE"})
+      dispatch({type: "RESET_INDICATOR_UPDATE_RESPONSE"})
   }
 }
 
 
 // ** Get Indicator
 export const getIndicator = id => {
+  console.log(id)
   return async dispatch => {
     await axios
-      .get('/api/users/user', { id })
+      .get(`/Indicator/GetIndicator/${id}`)
       .then(response => {
-       
+        console.log(response)
         dispatch({
           type: 'GET_INDICATOR',
-          selectedIndicator: response.data.user,
+          selectedIndicator: response.data.data,
           response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
           errorCode: 200
         })
       })
       .catch(err => {
+        console.log(err)
+
         dispatch({
           type: 'GET_INDICATOR',
-          selectedUser: {},
+          selectedIndicator: {},
           errorCode: err.response.status
         })
       })
@@ -138,6 +142,9 @@ export const deleteIndicator = id => {
           response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
           errorCode: 200
         })
+      })
+      .then(() => {
+        dispatch(getData(getState().indicators.params))
       })
       .catch(error => {
         dispatch({

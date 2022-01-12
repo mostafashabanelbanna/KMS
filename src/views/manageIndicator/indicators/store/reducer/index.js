@@ -45,17 +45,17 @@ const users = (state = initialState, action) => {
       return { ...state, selectedIndicator: action.selectedIndicator }
     case 'ADD_INDICATOR':
       return { ...state, createResponse: action.response, errorCode: action.errorCode  }
-    case 'UPDATE_USER':
+    case 'UPDATE_INDICATOR':
       return { ...state, updateResponse: action.response, errorCode: action.errorCode }
-    case 'DELETE_USER':
+    case 'DELETE_INDICATOR':
       return { ...state, deleteResponse: action.response }
-    case 'RESET_GET_RESPONSE':
+    case 'RESET_GET_INDICATOR_RESPONSE':
       return { ...state, getResponse: {error:{}, statusCode: 0, errors:[]}}
-    case 'RESET_INDICATOR_CREATE_RESPONSE':
+    case 'RESET_CREATE_INDICATOR_RESPONSE':
       return { ...state, createResponse: {error:{}, statusCode: 0, errors:[]}}
-    case 'RESET_UPDATE_RESPONSE':
+    case 'RESET_INDICATOR_UPDATE_RESPONSE':
       return { ...state, updateResponse: {error:{}, statusCode: 0, errors:[]}}
-    case 'RESET_DELETE_RESPONSE':
+    case 'RESET_INDICATOR_DELETE_RESPONSE':
       return { ...state, deleteResponse: {error:{}, statusCode: 0, errors:[]}}
     case 'RESET_AUTH_ERROR':
       return {...state, errorCode : 0}
