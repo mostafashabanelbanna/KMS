@@ -136,7 +136,6 @@ export const deleteIndicator = id => {
         id
       }})
       .then(response => {
-        console.log(response)
         dispatch({
           type: 'DELETE_INDICATOR',
           response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
