@@ -49,7 +49,8 @@
   "Sector": "Sector",
   "Source": "Source",
   "UnitLabel": "Unit Label",
-  "Description": "Description",
+  "Description": "Description in arabic",
+  "descriptionE": "Description",
   "AddSuccess": "Added Successfully",
   "UsernameExist": "Username is used before",
   "InvalidEmail": "Invalid Email",
@@ -80,5 +81,13 @@
   "Create" : "Create",
   "Update" : "Update",
   "Dimensions" : "Dimensions",
-  "Indicators" : "Indicators"
+  "Indicators" : "Indicators",
+  "Manage Indicators": "Manage Indicators",
+  "Indicator": "Indicator",
+  "acquisitionA":"acquisitionA",
+  "acquisitionE":"acquisitionE",
+  "calculationA":"calculationA",
+  "calculationE":"calculationE",
+  "url": "url"
+
 }

@@ -50,6 +50,7 @@
   "Source": "المصدر",
   "UnitLabel": "وحدة القياس",
   "Description": "الوصف",
+  "descriptionE": "الوصف بالإنجليزيه",
   "AddSuccess": "تمت الإضافة",
   "UsernameExist": "أسم المستخدم مُستخدم من قبل",
   "InvalidEmail": "بريد ألكترونى غير صحيح",
@@ -80,5 +81,12 @@
   "Create" : "إضافة",
   "Update" : "تعديل",
   "Dimensions" : "الأبعاد",
-  "Indicators" : "المؤشرات"
+  "Indicators" : "المؤشرات",
+  "Manage Indicators": "إدارة المؤشرات",
+  "Indicator": "مؤشر",
+  "acquisitionA":"acquisitionA",
+  "acquisitionE":"acquisitionE",
+  "calculationA":"calculationA",
+  "calculationE":"calculationE",
+  "url": "الرابط"
 }

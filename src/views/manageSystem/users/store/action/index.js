@@ -25,6 +25,8 @@ export const getData = params => {
 export const getUserValue = params => {
   return async (dispatch, getState) => {
       const user = getState().users.data.find(x => x.id === params)
+      console.log(params)
+      console.log(user)
       dispatch({type:"GET_USER", selectedUser: user})
   }
 }

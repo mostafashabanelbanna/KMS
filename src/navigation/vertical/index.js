@@ -8,10 +8,12 @@ import others from './others'
 import dashboards from './dashboards'
 import uiElements from './ui-elements'
 import chartsAndMaps from './charts-maps'
+import manageIndicators from './manageIndicators'
 
 // ** Merge & Export
 export default [
     ...apps,
+    ...manageIndicators,
     ...manageSystem
     //, ...dashboards,  ...pages, ...uiElements, ...forms, ...tables, ...chartsAndMaps, ...others
 ]

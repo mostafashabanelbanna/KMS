@@ -31,16 +31,15 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
   // ** States
   const [userRoles, setUserRoles] = useState([])
   const [allRoles, setAllRoles] = useState([])
-  // console.log(userRoles)
-  // console.log(allRoles)
- 
+
   // Import localization files
   const intl = useIntl()
   // Toastr notify function
   const notify = (type, message) => {
     return toast.success(
       <Toastr type={type} message={message} />,
-      { position: toast.POSITION.TOP_CENTER,
+      { 
+        position: toast.POSITION.TOP_CENTER,
         hideProgressBar: true 
       })
     }
