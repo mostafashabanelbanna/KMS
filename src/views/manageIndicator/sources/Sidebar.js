@@ -28,9 +28,7 @@ import { addSource, resetCreateResponse, updateIndicator, resetUpdateResponse } 
 import { useDispatch, useSelector  } from 'react-redux'
 
 const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
-   // ** States
-   const [periodicities, setPeriodicities] = useState([])
-   const [allPeriodicities, setAllPeriodicities] = useState([])
+
   // Import localization files
   const intl = useIntl()
   
@@ -43,21 +41,6 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
       })
   }
 
-  // fetch all user Periodicities options
-  const getAllPeriodicities = async () => {
-    const response = await axios
-      .post('Lookups/GetLookupValues', { lookupName: "periodicity" })
-      .catch((err) => console.log("Error", err)) //handle errors
-
-      if (response && response.data) {
-        setAllPeriodicities(response.data.data)
-      }
-    } 
-
-  useEffect(() => {
-    getAllPeriodicities()
-  }, [])
-
  
   // ** Store Vars
   const dispatch = useDispatch()
@@ -66,19 +49,11 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
 
-   // pass only role id to userRoles
-   const handlePeriodicitiesChange = (event) => {
-    const options = []
-    event.map(opt => options.push(opt.value))
-    setPeriodicities(options)
-  }
-
 
   // ** Function to handle form submit
   const onSubmit = async values => {
     if (isObjEmpty(errors)) {
       if (!selectedIndicator.id) {
-        console.log(periodicities)
         await dispatch(
             addSource({
               name_A: values.name,
@@ -91,7 +66,6 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               isDefault: values.isDefault,
               focus: values.focus,
               active: values.active
-              // periodicities
             })
           )
       } else {
@@ -110,7 +84,6 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active,
-              periodicities, 
               id: selectedIndicator.id
             }
           )
@@ -254,21 +227,6 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
         </FormGroup>
-        {/* <FormGroup>
-              <Label>{intl.formatMessage({id: "Periodicities"})}</Label>
-              <Select
-                isClearable={false}
-                theme={selectThemeColors}
-                defaultValue={selectedIndicator ? (selectedIndicator.indicatorPeriodicities ? convertSelectArr(selectedIndicator.indicatorPeriodicities) : null) : []}
-                isMulti
-                name='periodicities'
-                id='periodicities'
-                options={convertSelectArr(allPeriodicities)}
-                className='react-select'
-                classNamePrefix='select'
-                onChange={e => handlePeriodicitiesChange(e) }
-              />
-        </FormGroup> */}
         <Row className="mx-0">
         <Col sm='6' >
             <FormGroup>
