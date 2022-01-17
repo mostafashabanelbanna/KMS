@@ -92,5 +92,6 @@
   "InvalidUrl": "رابط غير صحيح ",
   "Periodicities":"Periodicities",
   "Sources" : "المصادر",
-  "National" : "National"
+  "National" : "قومي",
+  "Color": "اللون"
 }

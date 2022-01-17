@@ -92,5 +92,8 @@
   "InvalidUrl": "Invalid URL",
   "Periodicities":"Periodicities",
   "Sources" : "Sources",
-  "National" : "National"
+  "National" : "National",
+  "Color": "Color"
+
+
 }

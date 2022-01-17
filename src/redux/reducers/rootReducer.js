@@ -16,6 +16,7 @@ import users from '@src/views/manageSystem/users/store/reducer'
 import lookups from '@src/views/manageSystem/Lookups/store/reducer/Index'
 import roles from '@src/views/manageSystem/Roles/store/reducer/index'
 import indicators from '@src/views/manageIndicator/indicators/store/reducer/index'
+import sources from '@src/views/manageIndicator/sources/store/reducer/index'
 
 const rootReducer = combineReducers({
     auth,
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
     dataTables,
     lookups,
     roles,
-    indicators
+    indicators,
+    sources
 })
 
 export default rootReducer

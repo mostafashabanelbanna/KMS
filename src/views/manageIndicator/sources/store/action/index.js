@@ -32,7 +32,7 @@ export const getData = params => {
 
 // ** Add new indicator
 export const addSource = source => {
-console.log(indicator)
+console.log(source)
    return (dispatch, getState) => {
     axios
       .post('/Source/CreateSource', source)

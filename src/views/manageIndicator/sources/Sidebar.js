@@ -61,7 +61,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
  
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.indicators)
+  const store = useSelector(state => state.sources)
 
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
@@ -85,13 +85,13 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               name_E: values.nameE,
               description_A: values.descriptionA,
               description_E: values.descriptionE,
-              isNational: values.isNational,
               color: values.color,
-              isDefault: values.isDefault,
               sortIndex: values.sortIndex,
+              isNational: values.isNational,
+              isDefault: values.isDefault,
               focus: values.focus,
-              active: values.active,
-              periodicities
+              active: values.active
+              // periodicities
             })
           )
       } else {
@@ -227,70 +227,19 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
    
        
         <FormGroup>
-          <Label for='acquisitionA'>
-             {intl.formatMessage({id: "acquisitionA"})}
+          <Label for='color'>
+             {intl.formatMessage({id: "Color"})}
           </Label>
           <Input
-            name='acquisitionA'
-            id='acquisitionA'
-            defaultValue={selectedIndicator ? selectedIndicator.acquisition_A : ''}
-            placeholder={intl.formatMessage({id: "acquisitionA"})}
+            name='color'
+            id='color'
+            defaultValue={selectedIndicator ? selectedIndicator.color : ''}
+            placeholder={intl.formatMessage({id: "Color"})}
             innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['acquisitionA'] })}
+            className={classnames({ 'is-invalid': errors['color'] })}
           />
         </FormGroup>
-        <FormGroup>
-          <Label for='acquisitionE'>
-           {intl.formatMessage({id: "acquisitionE"})}
-          </Label>
-          <Input
-            name='acquisitionE'
-            id='acquisitionE'
-            defaultValue={selectedIndicator ? selectedIndicator.acquisition_E : ''}
-            placeholder={intl.formatMessage({id: "acquisitionE"})}
-            innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['acquisitionE'] })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='calculationA'>
-             {intl.formatMessage({id: "calculationA"})}
-          </Label>
-          <Input
-            name='calculationA'
-            id='calculationA'
-            defaultValue={selectedIndicator ? selectedIndicator.calculation_A : ''}
-            placeholder={intl.formatMessage({id: "calculationA"})}
-            innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['calculationA'] })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='calculationE'>
-           {intl.formatMessage({id: "calculationE"})}
-          </Label>
-          <Input
-            name='calculationE'
-            id='calculationE'
-            defaultValue={selectedIndicator ? selectedIndicator.calculation_E : ''}
-            placeholder={intl.formatMessage({id: "calculationE"})}
-            innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['calculationE'] })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='url'>
-           {intl.formatMessage({id: "url"})}
-          </Label>
-          <Input
-            name='url'
-            id='url'
-            defaultValue={selectedIndicator ? selectedIndicator.url : ''}
-            placeholder={intl.formatMessage({id: "url"})}
-            innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['url'] })}
-          />
-        </FormGroup>
+      
         <FormGroup>
           <Label for='sortIndex'>
             <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
@@ -305,7 +254,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
         </FormGroup>
-        <FormGroup>
+        {/* <FormGroup>
               <Label>{intl.formatMessage({id: "Periodicities"})}</Label>
               <Select
                 isClearable={false}
@@ -319,8 +268,34 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
                 classNamePrefix='select'
                 onChange={e => handlePeriodicitiesChange(e) }
               />
-          </FormGroup>
+        </FormGroup> */}
         <Row className="mx-0">
+        <Col sm='6' >
+            <FormGroup>
+              <Input 
+                type="checkbox" 
+                placeholder={intl.formatMessage({id: "National"})}
+                name="isNational" 
+                defaultChecked ={selectedIndicator ? selectedIndicator.isNational : false}
+                innerRef={register()} />
+                  <Label for='isNational'>
+                {intl.formatMessage({id: "National"})}
+              </Label>
+            </FormGroup>
+          </Col>
+          <Col sm='6' >
+            <FormGroup>
+              <Input 
+                type="checkbox" 
+                placeholder={intl.formatMessage({id: "Default"})}
+                name="isDefault" 
+                defaultChecked ={selectedIndicator ? selectedIndicator.isDefault : false}
+                innerRef={register()} />
+                  <Label for='isDefault'>
+                {intl.formatMessage({id: "Default"})}
+              </Label>
+            </FormGroup>
+          </Col>
           <Col sm='6' >
             <FormGroup>
               <Input 
