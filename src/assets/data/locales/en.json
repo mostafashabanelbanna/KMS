@@ -88,6 +88,9 @@
   "acquisitionE":"acquisitionE",
   "calculationA":"calculationA",
   "calculationE":"calculationE",
-  "url": "url"
-
+  "url": "url",
+  "InvalidUrl": "Invalid URL",
+  "Periodicities":"Periodicities",
+  "Sources" : "Sources",
+  "National" : "National"
 }

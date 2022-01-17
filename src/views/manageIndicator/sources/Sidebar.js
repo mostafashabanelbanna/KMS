@@ -24,7 +24,7 @@ import axios from '../../../axios'
 
 
 // ** Store & Actions
-import { addIndicator, resetCreateResponse, updateIndicator, resetUpdateResponse } from './store/action'
+import { addSource, resetCreateResponse, updateIndicator, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
 
 const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
@@ -42,7 +42,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         hideProgressBar: true 
       })
   }
-  if (selectedIndicator.indicatorPeriodicities) console.log(convertSelectArr(selectedIndicator.indicatorPeriodicities))
+
   // fetch all user Periodicities options
   const getAllPeriodicities = async () => {
     const response = await axios
@@ -80,16 +80,14 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
       if (!selectedIndicator.id) {
         console.log(periodicities)
         await dispatch(
-            addIndicator({
+            addSource({
               name_A: values.name,
               name_E: values.nameE,
               description_A: values.descriptionA,
               description_E: values.descriptionE,
-              acquisition_A: values.acquisitionA,
-              acquisition_E: values.acquisitionE,
-              calculation_A: values.calculationA,
-              calculation_E: values.calculationE,
-              url: values.url,
+              isNational: values.isNational,
+              color: values.color,
+              isDefault: values.isDefault,
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active,

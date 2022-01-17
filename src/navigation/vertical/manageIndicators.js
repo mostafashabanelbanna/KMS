@@ -6,9 +6,15 @@ export default [
     header: 'Manage Indicators'
   },
   {
-    id: '/ndicators',
+    id: '/idicators',
     title: 'Indicators',
     icon: <CgPerformance size={20} />,
     navLink: '/indicators'
+  },
+  {
+    id: '/sources',
+    title: 'Sources',
+    icon: <CgPerformance size={20} />,
+    navLink: '/sources'
   }
 ]

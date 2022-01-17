@@ -88,5 +88,9 @@
   "acquisitionE":"acquisitionE",
   "calculationA":"calculationA",
   "calculationE":"calculationE",
-  "url": "الرابط"
+  "url": "الرابط",
+  "InvalidUrl": "رابط غير صحيح ",
+  "Periodicities":"Periodicities",
+  "Sources" : "المصادر",
+  "National" : "National"
 }
