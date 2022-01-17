@@ -241,6 +241,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               </Label>
             </FormGroup>
           </Col>
+          
           <Col sm='6' >
             <FormGroup>
               <Input 
