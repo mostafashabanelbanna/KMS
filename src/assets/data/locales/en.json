@@ -93,7 +93,7 @@
   "Periodicities":"Periodicities",
   "Sources" : "Sources",
   "National" : "National",
-  "Color": "Color"
-
-
+  "Color": "Color",
+  "Units": "الوحدات",
+  "Unit": "الوحدة"
 }

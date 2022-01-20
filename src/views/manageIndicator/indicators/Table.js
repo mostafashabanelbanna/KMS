@@ -7,7 +7,7 @@ import Sidebar from './Sidebar'
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 // ** Store & Actions
-import {  getData, deleteIndicator, getIndicator } from './store/action'
+import {  getData, deleteIndicator, getIndicator, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -129,10 +129,13 @@ const IndictorList = () => {
 
   const addIndicator = () => {
     dispatch({type: "GET_INDICATOR", selectedIndicator:{}})
+    dispatch({type: "RESET_CREATE_INDICATOR_RESPONSE"})
     toggleSidebar()
   }
   
   const updateIndicator = id => {
+    dispatch({type: "GET_INDICATOR", selectedIndicator:{}})
+    dispatch(resetUpdateResponse())
     dispatch(getIndicator(id))
     toggleSidebar()
   }
@@ -280,7 +283,7 @@ const IndictorList = () => {
               subHeaderWrap={false}
               subHeaderComponent={
                 <div className='w-100'>
-                  <SearchForm  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
+                  <SearchForm display='inline' searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                 </div>
               }
             />

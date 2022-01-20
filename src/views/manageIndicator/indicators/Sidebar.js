@@ -31,6 +31,9 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
    // ** States
    const [periodicities, setPeriodicities] = useState([])
    const [allPeriodicities, setAllPeriodicities] = useState([])
+
+   const [sources, setSources] = useState([])
+   const [allSources, setAllSources] = useState([])
   // Import localization files
   const intl = useIntl()
   
@@ -42,8 +45,8 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         hideProgressBar: true 
       })
   }
-  if (selectedIndicator.indicatorPeriodicities) console.log(convertSelectArr(selectedIndicator.indicatorPeriodicities))
-  // fetch all user Periodicities options
+
+  // fetch all Periodicities options
   const getAllPeriodicities = async () => {
     const response = await axios
       .post('Lookups/GetLookupValues', { lookupName: "periodicity" })
@@ -54,8 +57,20 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
       }
     } 
 
+  // fetch all Periodicities options
+  const getAllSources = async () => {
+    const response = await axios
+      .get('Source/GetSources')
+      .catch((err) => console.log("Error", err)) //handle errors
+
+      if (response && response.data) {
+        setAllSources(response.data.data)
+      }
+    } 
+
   useEffect(() => {
     getAllPeriodicities()
+    getAllSources()
   }, [])
 
  
@@ -73,12 +88,16 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
     setPeriodicities(options)
   }
 
+  const handleSourcesChange = (event) => {
+    const options = []
+    event.map(opt => options.push(opt.value))
+    setSources(options)
+  }
 
   // ** Function to handle form submit
   const onSubmit = async values => {
     if (isObjEmpty(errors)) {
       if (!selectedIndicator.id) {
-        console.log(periodicities)
         await dispatch(
             addIndicator({
               name_A: values.name,
@@ -93,7 +112,8 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active,
-              periodicities
+              periodicities,
+              sources
             })
           )
       } else {
@@ -112,7 +132,8 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active,
-              periodicities, 
+              periodicities,
+              sources, 
               id: selectedIndicator.id
             }
           )
@@ -320,6 +341,21 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handlePeriodicitiesChange(e) }
+              />
+          </FormGroup>
+          <FormGroup>
+              <Label>{intl.formatMessage({id: "Sources"})}</Label>
+              <Select
+                isClearable={false}
+                theme={selectThemeColors}
+                defaultValue={selectedIndicator ? (selectedIndicator.indicatorSources ? convertSelectArr(selectedIndicator.indicatorSources) : null) : []}
+                isMulti
+                name='sources'
+                id='sources'
+                options={convertSelectArr(allSources)}
+                className='react-select'
+                classNamePrefix='select'
+                onChange={e => handleSourcesChange(e) }
               />
           </FormGroup>
         <Row className="mx-0">

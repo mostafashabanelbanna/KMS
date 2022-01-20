@@ -41,7 +41,8 @@ const SearchForm = (props) => {
     return (
         <Row className="m-2">
             {formItems}
-            <Col lg={12}  className="d-flex justify-content-end"><Button color='success' onClick={props.submitHandler}>{props.btnText}</Button></Col>
+            {/* {console.log(formItems.length)} */}
+            <Col lg={props.display === 'inline' ? 4 : 12}  className={`d-flex my-2  align-items-center ${props.display === 'inline' ? "justify-content-start" : "justify-content-end"}`}><Button color='success' onClick={props.submitHandler}>{props.btnText}</Button></Col>
         </Row>
     )
 }

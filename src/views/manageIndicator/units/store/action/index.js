@@ -3,7 +3,7 @@ import axios from '../../../../../axios'
 // ** Get Source data 
 export const getData = params => {
   return async dispatch => {
-    await axios.post('/Source/GetSourcesWithPagination', params).then(response => {
+    await axios.post('/UnitMeasure/GetUnitMeasuresWithPagination', params).then(response => {
       console.log("getData", response)
       dispatch({
         type: 'GET_DATA',

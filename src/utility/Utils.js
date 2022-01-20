@@ -81,9 +81,6 @@ export const getSelected = event => {
     // if (opt.va) {
     // }
   }
-  console.log(event)
-  console.log(opts)
-  
   return opts
 } 
 

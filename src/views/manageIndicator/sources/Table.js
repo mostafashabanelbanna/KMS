@@ -7,7 +7,7 @@ import Sidebar from './Sidebar'
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 // ** Store & Actions
-import {  getData, deleteIndicator, getIndicator } from './store/action'
+import {  getData, deleteSource, getSource, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -35,7 +35,7 @@ import {isAuthorized} from '../../../utility/Utils'
 const IndictorList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.indicators)
+  const store = useSelector(state => state.sources)
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -48,7 +48,6 @@ const IndictorList = () => {
     active: null
   })
 
-  console.log(searchData)
   // useIntl
   const intl = useIntl()
 
@@ -78,6 +77,7 @@ const IndictorList = () => {
     .then((value) => {
       switch (value) {
         case "ok":
+          // dispatch()
           setSidebarOpen(!sidebarOpen)
           break
 
@@ -106,7 +106,7 @@ const IndictorList = () => {
     if (store.getResponse.statusCode !== 200 && store.getResponse.statusCode !== 0) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})}`)
     }
-    dispatch({type:"RESET_GET_INDICATOR_RESPONSE"})
+    dispatch({type:"RESET_GET_SOURCE_RESPONSE"})
   }, [store.getResponse.statusCode])
 
   useEffect(() => {
@@ -117,7 +117,7 @@ const IndictorList = () => {
     } else if (store.deleteResponse.statusCode === 200) {
       notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
     }
-    dispatch({type:" RESET_INDICATOR_DELETE_RESPONSE"})
+    dispatch({type:" RESET_SOURCE_DELETE_RESPONSE"})
 
   }, [store.deleteResponse.statusCode])
 
@@ -129,13 +129,16 @@ const IndictorList = () => {
   }, [store.errorCode])
 
 
-  const addIndicator = () => {
-    dispatch({type: "GET_INDICATOR", selectedIndicator:{}})
+  const addSource = () => {
+    dispatch({type: "GET_SOURCE", selectedSource:{}})
+    dispatch({type: "RESET_CREATE_SOURCE_RESPONSE"})
     toggleSidebar()
   }
   
-  const updateIndicator = id => {
-    dispatch(getIndicator(id))
+  const updateSource = id => {
+    dispatch({type: "GET_SOURCE", selectedSource:{}})
+    dispatch(resetUpdateResponse())
+    dispatch(getSource(id))
     toggleSidebar()
   }
 
@@ -253,12 +256,12 @@ const IndictorList = () => {
           <DropdownMenu right>
             <DropdownItem
               className='w-100'
-              onClick={() => updateIndicator(row.id)}
+              onClick={() => updateSource(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteIndicator(row.id))}>
+            <DropdownItem className='w-100' onClick={() => dispatch(deleteSource(row.id))}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>
@@ -272,7 +275,7 @@ const IndictorList = () => {
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
         <>
           <div className="my-1">
-            <Button.Ripple color='primary' onClick={addIndicator} >
+            <Button.Ripple color='primary' onClick={addSource} >
               <FormattedMessage id="Add" />
             </Button.Ripple>
           </div>
@@ -296,7 +299,7 @@ const IndictorList = () => {
               }
             />
           </Card>
-          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedIndicator={store.selectedIndicator} />
+          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedSource={store.selectedSource} />
         </>
       )}
     </Fragment>

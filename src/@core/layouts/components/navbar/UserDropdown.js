@@ -17,7 +17,7 @@ import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from
 import { User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircle, Power } from 'react-feather'
 
 // ** Default Avatar Image
-import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-11.jpg'
+import defaultAvatar from '@src/assets/images/logo/logo.png'
 
 const UserDropdown = () => {
   // ** Store Vars

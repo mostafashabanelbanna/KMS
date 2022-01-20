@@ -116,6 +116,8 @@ const RolesList = () => {
     toggleSidebar()
 }
   const updateRole = id => {
+    dispatch({type: "GET_ROLE", selectedRole:{}})
+    dispatch({type:"RESET_ROLE_UPDATE_RESPONSE"})
     dispatch(getRole(id))
     toggleSidebar()
   }

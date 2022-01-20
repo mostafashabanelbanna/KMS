@@ -1,7 +1,6 @@
 import { Fragment } from 'react'
 import { Alert } from 'reactstrap'
 import Breadcrumbs from '@components/breadcrumbs'
-import Ecommerce from '../../dashboard/ecommerce'
 
 const WithoutMenu = () => {
   return (
@@ -26,7 +25,6 @@ const WithoutMenu = () => {
           </span>
         </div>
       </Alert>
-      <Ecommerce />
     </Fragment>
   )
 }

@@ -7,7 +7,7 @@ import Sidebar from './Sidebar'
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 // ** Store & Actions
-import {  getData, deleteUser, getUserValue, resetUpdateResponse } from './store/action'
+import {  getData, deleteSource, getSource, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -32,10 +32,10 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 // helper function
 import {isAuthorized} from '../../../utility/Utils'
 
-const UsersList = () => {
+const IndictorList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.users)
+  const store = useSelector(state => state.units)
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -44,8 +44,8 @@ const UsersList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(2)
   const [searchData, setSearchData] = useState({
     name: "",
-    email: "",
-    rolles: []
+    isNational: null,
+    active: null
   })
 
   // useIntl
@@ -77,6 +77,7 @@ const UsersList = () => {
     .then((value) => {
       switch (value) {
         case "ok":
+          // dispatch()
           setSidebarOpen(!sidebarOpen)
           break
 
@@ -105,7 +106,7 @@ const UsersList = () => {
     if (store.getResponse.statusCode !== 200 && store.getResponse.statusCode !== 0) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})}`)
     }
-    dispatch({type:"RESET_GET_RESPONSE"})
+    dispatch({type:"RESET_GET_SOURCE_RESPONSE"})
   }, [store.getResponse.statusCode])
 
   useEffect(() => {
@@ -115,18 +116,8 @@ const UsersList = () => {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
     } else if (store.deleteResponse.statusCode === 200) {
       notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
-      // let newPageNumber = pageNumber
-      // if (store.data.length - 1 <= 0) {
-      //   setPageNumber(pageNumber - 1)
-      //   newPageNumber--
-      // }
-      // dispatch(getData({
-      //   pageNumber: newPageNumber,
-      //   rowsPerPage,
-      //   ...searchData
-      // }))
     }
-    dispatch({type:" RESET_DELETE_RESPONSE"})
+    dispatch({type:" RESET_SOURCE_DELETE_RESPONSE"})
 
   }, [store.deleteResponse.statusCode])
 
@@ -138,15 +129,16 @@ const UsersList = () => {
   }, [store.errorCode])
 
 
-  const addUser = () => {
-    dispatch({type: "GET_USER", selectedUser:{}})
+  const addSource = () => {
+    dispatch({type: "GET_SOURCE", selectedSource:{}})
+    dispatch({type: "RESET_CREATE_SOURCE_RESPONSE"})
     toggleSidebar()
   }
   
-  const updateUser = id => {
-    dispatch({type: "GET_USER", selectedUser:{}})
+  const updateSource = id => {
+    dispatch({type: "GET_SOURCE", selectedSource:{}})
     dispatch(resetUpdateResponse())
-    dispatch(getUserValue(id))
+    dispatch(getSource(id))
     toggleSidebar()
   }
 
@@ -205,11 +197,20 @@ const UsersList = () => {
       radioArr: [] 
     },
     {
-      fieldType: 'text',
-      label: `${intl.formatMessage({id: "Email"})}`, 
+      fieldType: 'select',
+      label: `${intl.formatMessage({id: "Active"})}`, 
       colSizeLg: 4, 
-      attr: "email", 
-      dropdownArr: [], 
+      attr: "active", 
+      dropdownArr: [{label: 'all', value: null}, {label:'active', value: true}, {label:'notActive', value: false}], 
+      multiple: true,
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `${intl.formatMessage({id: "National"})}`, 
+      colSizeLg: 4, 
+      attr: "isNational", 
+      dropdownArr: [{label: 'all', value: null}, {label: 'national', value: true}, {label:' notNational', value: false}], 
       multiple: true,
       radioArr: [] 
     }
@@ -233,33 +234,15 @@ const UsersList = () => {
  const columns =  [
     {
       name: <FormattedMessage id="Name" />,
-      selector: 'normalizedName',
+      selector: 'name_A',
       sortable: true,
       minWidth: '225px'
     },
     {
-      name: <FormattedMessage id="Email" />,
-      selector: 'email',
+      name: <FormattedMessage id="Value" />,
+      selector: 'value',
       sortable: true,
       minWidth: '250px'
-    },
-    {
-      name: <FormattedMessage id="Username" />,
-      selector: 'normalizedUserName',
-      sortable: true,
-      minWidth: '250px'
-    },
-    {
-      name: <FormattedMessage id="Job Title" />,
-      selector: 'jobTitle',
-      sortable: true,
-      minWidth: '150px'
-    },
-    {
-      name: <FormattedMessage id="Phone Number" />,
-      selector: 'phoneNumber',
-      sortable: true,
-      minWidth: '150px'
     },
     {
       name: <div className="justify-content-center"><FormattedMessage id="Actions" /></div>,
@@ -273,12 +256,12 @@ const UsersList = () => {
           <DropdownMenu right>
             <DropdownItem
               className='w-100'
-              onClick={() => updateUser(row.id)}
+              onClick={() => updateSource(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteUser(row.id))}>
+            <DropdownItem className='w-100' onClick={() => dispatch(deleteSource(row.id))}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>
@@ -292,8 +275,8 @@ const UsersList = () => {
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
         <>
           <div className="my-1">
-            <Button.Ripple color='primary' onClick={addUser} >
-              <FormattedMessage id="Add New User" />
+            <Button.Ripple color='primary' onClick={addSource} >
+              <FormattedMessage id="Add" />
             </Button.Ripple>
           </div>
           <Card>
@@ -311,16 +294,16 @@ const UsersList = () => {
               subHeaderWrap={false}
               subHeaderComponent={
                 <div className='w-100'>
-                  <SearchForm display='inline'  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
+                  <SearchForm  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                 </div>
               }
             />
           </Card>
-          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedUser={store.selectedUser} />
+          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedSource={store.selectedSource} />
         </>
       )}
     </Fragment>
   )
 }
 
-export default UsersList
+export default IndictorList

@@ -1,5 +1,5 @@
 
-import { CgPerformance }  from "react-icons/cg"
+import { CgPerformance, CgPathUnite }  from "react-icons/cg"
 
 export default [
   {
@@ -16,5 +16,11 @@ export default [
     title: 'Sources',
     icon: <CgPerformance size={20} />,
     navLink: '/sources'
+  },
+  {
+    id: '/units',
+    title: 'Units',
+    icon: <CgPathUnite size={20} />,
+    navLink: '/units'
   }
 ]

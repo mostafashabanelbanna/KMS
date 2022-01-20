@@ -9,6 +9,10 @@ const ManageIndicatorRoutes = [
   {
     path: '/sources',
     component: lazy(() => import('../../views/manageIndicator/sources'))
+  },
+  {
+    path: '/units',
+    component: lazy(() => import('../../views/manageIndicator/units'))
   }
 ]
 
