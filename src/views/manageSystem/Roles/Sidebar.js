@@ -12,15 +12,16 @@ import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, Form, Input } from 'reactstrap'
 import { toast } from 'react-toastify'
+import Row from 'reactstrap/lib/Row'
+import Col from 'reactstrap/lib/Col'
+import Toastr from '../../../containers/toastr/Toastr'
 
 // ** Store & Actions
 import { addRole, updateRole } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
 import CustomInput from 'reactstrap/lib/CustomInput'
 import { useIntl } from 'react-intl'
-import Row from 'reactstrap/lib/Row'
-import Col from 'reactstrap/lib/Col'
-import Toastr from '../../../containers/toastr/Toastr'
+
 
 const SidebarRole = ({ open, toggleSidebar, selectedRole }) => {
 

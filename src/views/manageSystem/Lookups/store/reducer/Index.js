@@ -6,7 +6,7 @@ const initialState = {
     data: [],
     totalPages: 1,
     params: {},
-    createresponse: {
+    createResponse: {
       error : {},
       statusCode: 0,
       errors: []
@@ -42,7 +42,7 @@ const initialState = {
           lookupName: action.lookupName
         }
       case 'ADD_LOOKUP':
-        return { ...state, createresponse: action.response }
+        return { ...state, createResponse: action.response }
       case 'GET_LOOKUP':
         return { ...state, selectedLookup: action.selectedLookup }
       case 'UPDATE_LOOKUP':
@@ -50,7 +50,7 @@ const initialState = {
       case 'DELETE_LOOKUP':
         return { ...state, deleteResponse: action.response }
       case 'RESET_CREATE_LOOKUP_RESPONSE':
-        return { ...state, createresponse: {error:{}, statusCode: 0, errors:[]}}
+        return { ...state, createResponse: {error:{}, statusCode: 0, errors:[]}}
       case 'RESET_UPDATE_LOOKUP_RESPONSE':
         return { ...state, updateResponse: {error:{}, statusCode: 0, errors:[]}}
       case 'RESET_DELETE_LOOKUP_RESPONSE':

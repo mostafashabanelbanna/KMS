@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 
 // ** Custom Components
 import Sidebar from '@components/sidebar'
+import Toastr from '../../../containers/toastr/Toastr'
 
 // ** Utils
 import { isObjEmpty, getSelected } from '@utils'
@@ -12,6 +13,7 @@ import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 import { useIntl } from 'react-intl'
+import { toast } from 'react-toastify'
 
 // ** Store & Actions
 import { addLookup, updateLookup } from './store/action/Index'
@@ -23,6 +25,15 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
 
   // Import localization files
   const intl = useIntl()
+
+  // Toastr notify function
+  const notify = (type, message) => {
+    return toast.success(
+      <Toastr type={type} message={message} />,
+      { position: toast.POSITION.TOP_CENTER,
+        hideProgressBar: true 
+      })
+  }
 
   // ** Store Vars
   const dispatch = useDispatch()
@@ -74,27 +85,64 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
   }
   
   useEffect(() => {
-    if (store.createresponse.statusCode !== 0) {
-        if (store.createresponse.statusCode === 401) {
-            localStorage.clear()
-            location.reload()
-        } else if (store.createresponse.statusCode === 200) {
-            alert("Added Successfully")
+    // if (store.createResponse.statusCode !== 0) {
+    //     if (store.createResponse.statusCode === 401) {
+    //         localStorage.clear()
+    //         location.reload()
+    //     } else if (store.createResponse.statusCode === 200) {
+    //         alert("Added Successfully")
+    //         toggleSidebar(1)
+    //     }        
+    //     dispatch({type:"RESET_CREATE_LOOKUP_RESPONS"}) 
+    // }
+    // 
+    const code = store.createResponse.statusCode
+    if (code !== 0) {
+       if (code === 200) {
+            notify('success', intl.formatMessage({id: "AddSuccess"}))
             toggleSidebar(1)
-        }        
-        dispatch({type:"RESET_CREATE_LOOKUP_RESPONS"}) 
+      } else if (code === 6) {
+         notify('error', intl.formatMessage({id: store.createResponse.errors[0]}))
+
+      } else if (code === 1) {
+        notify('error', `${intl.formatMessage({id: "CreationFialed"})} ${intl.formatMessage({id: "Lookup"})}`)
+
+      } else if (code === 500) {
+        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
+
+      } else if (code === 401) {
+        localStorage.clear()
+        location.reload()
+      }
+      dispatch({type:"RESET_CREATE_LOOKUP_RESPONS"}) 
     }
-  }, [store.createresponse.statusCode])
+    //
+  }, [store.createResponse.statusCode])
 
   useEffect(() => {
-    if (store.updateResponse.statusCode !== 0) {
-        if (store.updateResponse.statusCode === 401) {
-            localStorage.clear()
-        } else if (store.updateResponse.statusCode === 200) {
-            alert("updated Successfully")
+    // if (store.updateResponse.statusCode !== 0) {
+    //     if (store.updateResponse.statusCode === 401) {
+    //         localStorage.clear()
+    //     } else if (store.updateResponse.statusCode === 200) {
+    //         alert("updated Successfully")
+    //         toggleSidebar(1)
+    //     }
+    //     dispatch({type:"RESET_UPDATE_LOOKU_RESPONSE"}) 
+    // }
+    const code = store.updateResponse.statusCode
+    if (code !== 0) {
+       if (code === 200) {
+            notify('success', intl.formatMessage({id: "UpdateSuccess"}))
             toggleSidebar(1)
-        }
-        dispatch({type:"RESET_UPDATE_LOOKU_RESPONSE"}) 
+        } else if (code === 6) {
+          notify('error', intl.formatMessage({id: store.updateResponse.errors[0]}))
+
+        } else if (code === 3) {
+          notify('error', `${intl.formatMessage({id: "UpdateFialed"})} ${intl.formatMessage({id: "Lookup"})}`)
+        } else if (code === 500) {
+          notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
+        } 
+        dispatch({type:"RESET_UPDATE_LOOKUP_RESPONSE"}) 
     }
   }, [store.updateResponse.statusCode])
 

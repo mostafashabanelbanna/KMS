@@ -18,7 +18,7 @@ export const getLookups = params => {
 
 export const getData = params => {
     return async dispatch => {
-      await axios.post('/Lookups/GetLookupValues', params).then(response => {
+      await axios.post('/Lookups/GetLookupValuesWithPagination', params).then(response => {
         dispatch({
           type: 'GET_LOOKUP_DATA',
           data: response.data.data.items,
