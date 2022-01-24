@@ -3,9 +3,9 @@ import axios from '../../../../../axios'
 // ** Get users data 
 export const getData = params => {
   return async dispatch => {
-    await axios.post('/Role/GetRolesWithPagination', params).then(response => {
+    await axios.post('/Dimension/GetDimensionsWithPagination', params).then(response => {
       dispatch({
-        type: 'GET_ROLES_DATA',
+        type: 'GET_DIMENSIONS_DATA',
         data: response.data.data.items,
         totalPages: response.data.data.totalPages,
         params,
@@ -14,7 +14,7 @@ export const getData = params => {
       })
     }).catch(error => {
       dispatch({
-        type: 'GET_ROLES_DATA',
+        type: 'GET_DIMENSIONS_DATA',
         data : [],
         errorCode : error.response.status
       })
@@ -23,24 +23,27 @@ export const getData = params => {
 }
 
 // ** Add new role
-export const addRole = role => {   
+export const addDimension = dimension => {   
+  console.log(dimension)
+
    return (dispatch, getState) => {
     axios
-      .post('/Role/CreateRole', role)
+      .post('/Dimension/CreateDimension', dimension)
       .then(response => {
+        console.log(response)
         dispatch({
-          type: 'ADD_ROLE',
-          role,
+          type: 'ADD_DIMENSION',
+          dimension,
           response:{statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
           errorCode: 200
         })
       })
       .then(() => {
-        dispatch(getData(getState().roles.params))
+        dispatch(getData(getState().dimensions.params))
       })
       .catch(error => {
         dispatch({
-          type: 'ADD_ROLE',
+          type: 'ADD_DIMENSION',
           response:{statusCode: error.response.status, error: error.response, errors:[]},
           errorCode: error.response.status
         })
@@ -48,24 +51,24 @@ export const addRole = role => {
   }
 }
 
-export const updateRole = role => {  
-  console.log(role)
+export const updateDimension = dimension => {  
+  console.log(dimension)
   return async (dispatch, getState) => {
     await axios
-     .put('/Role/UpdateRole/', role)
+     .put('/Dimension/UpdateDimension/', dimension)
      .then(response => {
        dispatch({
-         type: 'UPDATE_ROLE',
+         type: 'UPDATE_DIMENSION',
          response:{statusCode: response.data.statusCode, errors: response.data.errors, error:{}},
          errorCode: 200
        })
      })
      .then(() => {
-       dispatch(getData(getState().roles.params))
+       dispatch(getData(getState().dimensions.params))
      })
      .catch(error => {
          dispatch({
-             type: 'UPDATE_ROLE',
+             type: 'UPDATE_DIMENSION',
              response:{error: error.response, errors:[], statusCode: error.response.status },
              errorCode: error.response.status
          })

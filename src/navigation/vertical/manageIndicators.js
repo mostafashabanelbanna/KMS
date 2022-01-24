@@ -6,7 +6,7 @@ export default [
     header: 'Manage Indicators'
   },
   {
-    id: '/idicators',
+    id: '/indicators',
     title: 'Indicators',
     icon: <CgPerformance size={20} />,
     navLink: '/indicators'

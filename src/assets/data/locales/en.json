@@ -11,6 +11,7 @@
   "Manage System": "Manage System",
   "Manage Users": "Manage Users",
   "Manage Roles": "Manage Roles",
+  "Manage Dimensions": "Manage Dimensions",
   "Add New User": "Add New User",
   "Add User": "Add User",
   "CloseSidebar": "are you sure you want to close?",
@@ -94,8 +95,9 @@
   "Sources" : "Sources",
   "National" : "National",
   "Color": "Color",
-  "Units": "الوحدات",
-  "Unit": "الوحدة",
-  "Value": "Value"
-
+  "Units": "Units",
+  "Unit": "Unit",
+  "Value": "Value",
+  "Dimension": "Dimension",
+  "Icon": "Icon"
 }

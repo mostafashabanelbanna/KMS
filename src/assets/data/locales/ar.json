@@ -11,6 +11,8 @@
   "Manage System": "إدارة النظام",
   "Manage Users": "إدارة المستخدمين ",
   "Manage Roles": "إدارة المجموعات",
+  "Manage Dimensions": "إدارة الأبعاد",
+
   "Add New User": "إضافة مستخدم جديد",
   "Add User": "إضافة مستخدم",
   "CloseSidebar": "هل تريد الإغلاق؟",
@@ -96,5 +98,8 @@
   "Color": "اللون",
   "Units": "الوحدات",
   "Unit": "الوحدة",
-  "Value": "القيمة"
+  "Value": "القيمة",
+  "Dimension": "البعد",
+  "Icon": "الأيقونة"
+
 }
