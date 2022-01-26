@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 
 // ** Store & Actions
-import {  getData, deleteRole, getRole } from './store/action'
+import {  getData, deleteRole, getDimension } from './store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -19,7 +19,9 @@ import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, Drop
 import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
-import { FaUserLock } from 'react-icons/fa'
+import { FaLevelUpAlt } from 'react-icons/fa'
+import { BsUiRadiosGrid } from "react-icons/bs"
+
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -118,7 +120,7 @@ const RolesList = () => {
   const updateDimension = id => {
     dispatch({type: "GET_DIMENSION", selectedRole:{}})
     dispatch({type:"RESET_DIMENSION_UPDATE_RESPONSE"})
-    dispatch(getRole(id))
+    dispatch(getDimension(id))
     toggleSidebar()
   }
   // ** Function in get data on page change
@@ -190,9 +192,13 @@ const RolesList = () => {
           </DropdownToggle>
           <DropdownMenu right>
             {/* <DropdownItem className='w-100' onClick={() => dispatch(getRolePermission(row.id))} tag={Link} to='/permissions' > */}
-            <DropdownItem className='w-100' tag={Link} to={{ pathname: `/permissions/${row.name}`, state: { id : row.id, name: row.name}}} >
-              <FaUserLock size={14} className='mr-50'/>
-              <span className='align-middle'>{intl.formatMessage({id: "SpecifyPermissions"})}</span>
+            <DropdownItem className='w-100' tag={Link} to={{ pathname: `/dimension-levels/${row.id}`, state: { id : row.id, name: row.name_A}}} >
+              <FaLevelUpAlt size={14} className='mr-50'/>
+              <span className='align-middle'>{intl.formatMessage({id: "DimensionLevels"})}</span>
+            </DropdownItem>
+            <DropdownItem className='w-100' tag={Link} to={{ pathname: `/dimension-values/${row.id}`, state: { id : row.id, name: row.name_A}}} >
+              <BsUiRadiosGrid size={14} className='mr-50'/>
+              <span className='align-middle'>{intl.formatMessage({id: "DimensionValues"})}</span>
             </DropdownItem>
             <DropdownItem
               className='w-100'

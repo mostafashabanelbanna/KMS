@@ -69,20 +69,16 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
   // pass only role id to userRoles
   const handleRolesChange = (event) => {
     const options = []
-    event.map(opt => options.push(opt.value))
+    event.map(opt => options.push(opt.id))
     setUserRoles(options)
   }
+
+  useEffect(() => {
+    if (selectedUser.roles) {
+      handleRolesChange(selectedUser.roles)
+    }
+  }, [selectedUser])
   
-  // Convert user roles array to make objects keys compatible with react select
-  const convertRolesArr = (originArr) => {
-    const newArr = []
-    originArr.map(option => {
-      const newObject = {}
-      delete Object.assign(newObject,  {['value']: option['id'] }, {['label']: option['name'] })[option]
-      newArr.push(newObject)
-    })
-    return newArr
-  }
   // console.log(convertRolesArr(allRoles))
   // ** Function to handle form submit
   const onSubmit = async values => {
@@ -303,18 +299,18 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['photo'] })}/>
         </FormGroup>
-     
-     
         <FormGroup>
               <Label>{intl.formatMessage({id: "Roles"})}</Label>
               <Select
                 isClearable={false}
                 theme={selectThemeColors}
-                defaultValue={selectedUser ? (selectedUser.roles ? convertRolesArr(selectedUser.roles) : null) : []}
+                defaultValue={selectedUser ?  selectedUser.roles : []}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.id}
                 isMulti
                 name='userRoles'
                 id='userRoles'
-                options={convertRolesArr(allRoles)}
+                options={allRoles}
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handleRolesChange(e) }

@@ -5,6 +5,14 @@ const ManageIndicatorRoutes = [
   {
     path: '/dimensions',
     component: lazy(() => import('../../views/manageDimension/dimensions'))
+  },
+  {
+    path: '/dimension-levels',
+    component: lazy(() => import('../../views/manageDimension/dimensions/dimensionLevels'))
+  },
+  {
+    path: '/dimension-values',
+    component: lazy(() => import('../../views/manageDimension/dimensions/dimensionValues'))
   }
 ]
 

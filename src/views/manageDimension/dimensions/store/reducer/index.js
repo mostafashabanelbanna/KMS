@@ -51,7 +51,7 @@ const initialState = {
           errorCode : action.errorCode
         }
       case 'GET_DIMENSION':
-        return { ...state, selectedRole: action.selectedRole, errorCode: action.errorCode }
+        return { ...state, selectedDimension: action.selectedDimension, errorCode: action.errorCode }
       case 'ADD_DIMENSION':
         return { ...state, createResponse: action.response, errorCode: action.errorCode  }
       case 'UPDATE_DIMENSION':
@@ -66,7 +66,7 @@ const initialState = {
         return { ...state, deleteResponse: {error:{}, statusCode: 0, errors:[]}}   
       case 'DELETE_DIMENSION':
         return { ...state, deleteResponse: action.response, errorCode: action.errorCode }
-      case 'GET_ROLE_PERMISSION':
+      case 'GET_DIMENSION_LEVEL':
         return { ...state, permissions:{rolesData: action.data, errorCode: action.errorCode} }
       case 'SET_ROLE_PERMISSION':
           return { ...state, assignPermissions: action.response, errorCode: action.errorCode }

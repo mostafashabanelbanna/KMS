@@ -87,11 +87,14 @@ export const getSelected = event => {
   // Convert  array to make objects keys compatible with react select
 export const convertSelectArr = (originArr) => {
     const newArr = []
-    originArr.map(option => {
-      const newObject = {}
-      delete Object.assign(newObject,  {['value']: option['id'] }, {['label']: option['name'] })[option]
-      newArr.push(newObject)
-    })
+    if (originArr) {
+      originArr.map(option => {
+        const newObject = {}
+        delete Object.assign(newObject,  {['value']: option['id'] }, {['label']: option['name'] })[option]
+        newArr.push(newObject)
+      })
+    }
+    
     return newArr
 }
 

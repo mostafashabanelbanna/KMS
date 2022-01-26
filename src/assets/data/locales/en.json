@@ -99,5 +99,7 @@
   "Unit": "Unit",
   "Value": "Value",
   "Dimension": "Dimension",
-  "Icon": "Icon"
+  "Icon": "Icon",
+  "DimensionLevels":"Dimension Levels",
+  "DimensionValues":"Dimension Values"
 }

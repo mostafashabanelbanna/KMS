@@ -80,12 +80,12 @@ export const updateDimension = dimension => {
 export const deleteRole = id => {
   return (dispatch, getState) => {
     axios
-      .delete('/Role/DeleteRole/', {data: {
+      .delete('/Dimension/DeleteDimension/', {data: {
         Id: id
       }})
       .then(response => {
         dispatch({
-          type: 'DELETE_ROLE',
+          type: 'DELETE_DIMENSION',
           response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
           errorCode: 200
         })
@@ -96,7 +96,7 @@ export const deleteRole = id => {
       .catch(error => {
         console.log(error)
         dispatch({
-            type: 'DELETE_ROLE',
+            type: 'DELETE_DIMENSION',
             response:{error: error.response, errors:[], statusCode: error.response.status },
             errorCode: error.response.status 
         })
@@ -104,28 +104,52 @@ export const deleteRole = id => {
   }
 }
 
-export const getRole = params => {
-    return async (dispatch, getState) => {
-        const role = getState().roles.data.find(x => x.id === params)
-        dispatch({type:"GET_ROLE", selectedRole: role})
-    }
+// ** Get Dimension
+export const getDimension = id => {
+  return async dispatch => {
+    await axios
+      .get(`/Dimension/GetDimension/${id}`)
+      .then(response => {
+        console.log("GetDimension", response)
+        dispatch({
+          type: 'GET_DIMENSION',
+          selectedDimension: response.data.data,
+          response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
+          errorCode: 200
+        })
+      })
+      .catch(err => {
+        dispatch({
+          type: 'GET_DIMENSION',
+          selectedDimension: {},
+          errorCode: err.response.status
+        })
+      })
+      
+  }
 }
+// export const  = params => {
+//     return async (dispatch, getState) => {
+//         const role = getState().roles.data.find(x => x.id === params)
+//         dispatch({type:"GET_ROLE", selectedRole: role})
+//     }
+// }
 
 // ********** //
 // Role Permission
 // ********** //
 
-export const getRolePermission = (id, objectName) => {
+export const getDimensionLevel = (id) => {
   return async dispatch => {
-    await axios.post('/Role/GetRolePermission', {roleId: id, objectName}).then(response => {
-      // console.log(response)
+    await axios.post('/DimensionsLevel/GetLevelsByDimensionId', id).then(response => {
+      console.log(response)
       dispatch({
-        type: 'GET_ROLE_PERMISSION',
+        type: 'GET_DIMENSION_LEVEL',
         data: response.data.data
       })
     }).catch(error => {
       dispatch({
-        type: 'GET_ROLE_PERMISSION',
+        type: 'GET_DIMENSION_LEVEL',
         errorCode: error.response.status 
       })
     })

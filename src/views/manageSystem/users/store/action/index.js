@@ -22,14 +22,7 @@ export const getData = params => {
   }
 }
 
-export const getUserValue = params => {
-  return async (dispatch, getState) => {
-      const user = getState().users.data.find(x => x.id === params)
-      // console.log(params)
-      console.log(user)
-      dispatch({type:"GET_USER", selectedUser: user})
-  }
-}
+
 // ** Add new user
 export const addUser = user => {
    const userFormData = new FormData()
@@ -49,9 +42,8 @@ export const addUser = user => {
    userFormData.append('active', user.active)
    for (let i = 0; i < user.userRoles.length; i++) {
     userFormData.append('userRoles', user.userRoles[i])
-}
+   }
 
-   console.log(userFormData.get('userRoles'))
    return (dispatch, getState) => {
     axios
       .post('/User/CreateUser', userFormData, {headers : { "Content-Type": "multipart/form-data" }})
@@ -87,8 +79,18 @@ export const resetCreateResponse = () => {
   }
 }
 
+export const getUserValue = params => {
+  return async (dispatch, getState) => {
+      const user = getState().users.data.find(x => x.id === params)
+      // console.log(params)
+      console.log(user)
+      dispatch({type:"GET_USER", selectedUser: user})
+  }
+}
 
 export const updateUser = user => {  
+console.log(user)
+
   const upadateUserFormData = new FormData()
 
   upadateUserFormData.append('id', user.id)
@@ -105,8 +107,10 @@ export const updateUser = user => {
   upadateUserFormData.append('locked', user.locked)
   upadateUserFormData.append('focus', user.focus)
   upadateUserFormData.append('active', user.active)
-  upadateUserFormData.append('userRoles', user.userRoles)
-console.log(user)
+  for (let i = 0; i < user.userRoles.length; i++) {
+    upadateUserFormData.append('userRoles', user.userRoles[i])
+   }
+  // upadateUserFormData.append('userRoles', user.userRoles)
   return async (dispatch, getState) => {
     await axios
      .put('/User/UpdateUser/', upadateUserFormData, {headers : { "Content-Type": "multipart/form-data" }})

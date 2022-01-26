@@ -12,6 +12,7 @@ import indicators from '@src/views/manageIndicator/indicators/store/reducer/inde
 import sources from '@src/views/manageIndicator/sources/store/reducer/index'
 import units from '@src/views/manageIndicator/units/store/reducer/index'
 import dimensions from '@src/views/manageDimension/dimensions/store/reducer/index'
+import dimensionValues from '@src/views/manageDimension/dimensions/dimensionValues/store/reducer/index'
 
 const rootReducer = combineReducers({
     auth,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
     indicators,
     sources,
     units,
-    dimensions
+    dimensions,
+    dimensionValues
 })
 
 export default rootReducer

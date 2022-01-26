@@ -100,6 +100,8 @@
   "Unit": "الوحدة",
   "Value": "القيمة",
   "Dimension": "البعد",
-  "Icon": "الأيقونة"
+  "Icon": "الأيقونة",
+  "DimensionLevels":"مستويات البعد",
+  "DimensionValues":"قيم البعد"
 
 }

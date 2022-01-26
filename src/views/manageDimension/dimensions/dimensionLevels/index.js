@@ -5,7 +5,7 @@ import { Fragment, useState, useEffect, useContext, useRef } from 'react'
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
 // getRolePermission
-import {  getRolePermission } from '../store/action'
+import {  getDimensionLevel } from '../store/action'
 
 // import { getLookupValue, deleteLookupValue, getData, getLookups } from './store/action/Index'
 
@@ -72,7 +72,7 @@ import obj from './obj.json'
                                     key={idx} 
                                     style={{cursor: "pointer", padding: '8px'}} 
                                     onClick={(e) => {
-                                        dispatch(getRolePermission(props.location.state.id, obj.ObjectName))
+                                        dispatch(getDimensionLevel(props.location.state.id, obj.ObjectName))
                                         setCurrentObject(obj)
                                         executeScroll()
                                     }}
@@ -97,7 +97,7 @@ import obj from './obj.json'
             {isAuthorized(store) ? <Redirect to='/misc/not-authorized' /> : (
             <>
                 <Breadcrumbs 
-                    breadCrumbTitle={`${intl.formatMessage({id: "SpecifyPermissionsTitle"})}  ${intl.formatMessage({id: props.location.state.name.charAt(0).toUpperCase() + props.location.state.name.slice(1)})}`}
+                    breadCrumbTitle={`${intl.formatMessage({id: "SpecifyPermissionsTitle"})}  ${intl.formatMessage({id: props.location.state.name})}`}
                     breadCrumbParent={intl.formatMessage({id: "Manage System"})} 
                     breadCrumbActive={intl.formatMessage({id: "SpecifyPermissions"})} 
                     breadCrumbRoot={intl.formatMessage({id: "Homepage"})} 
