@@ -115,18 +115,17 @@ const UsersList = () => {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
     } else if (store.deleteResponse.statusCode === 200) {
       notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
-      // let newPageNumber = pageNumber
-      // if (store.data.length - 1 <= 0) {
-      //   setPageNumber(pageNumber - 1)
-      //   newPageNumber--
-      // }
-      // dispatch(getData({
-      //   pageNumber: newPageNumber,
-      //   rowsPerPage,
-      //   ...searchData
-      // }))
+      const Pages = Math.ceil((store.data.length - 1) / rowsPerPage)
+      if (Pages <= 0) {
+         setPageNumber(store.totalPages - 1)
+      }
+      dispatch(getData({
+        pageNumber,
+        rowsPerPage,
+        ...searchData
+      }))
     }
-    dispatch({type:" RESET_DELETE_RESPONSE"})
+    dispatch({type:"RESET_USER_DELETE_RESPONSE"})
 
   }, [store.deleteResponse.statusCode])
 

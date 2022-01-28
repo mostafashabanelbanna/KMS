@@ -3,6 +3,7 @@ import axios from '../../../../../axios'
 // ** Get users data 
 export const getData = params => {
   return async dispatch => {
+    console.log(params)
     await axios.post('/User/GetUsers', params).then(response => {
       dispatch({
         type: 'GET_DATA',
@@ -193,7 +194,7 @@ export const deleteUser = id => {
         })
       })
       .then(() => {
-        dispatch(getData(getState().users.params))
+        //dispatch(getData(getState().users.params))
       })
       .catch(error => {
         dispatch({

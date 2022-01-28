@@ -53,9 +53,9 @@ const users = (state = initialState, action) => {
       return { ...state, getResponse: {error:{}, statusCode: 0, errors:[]}}
     case 'RESET_USER_CREATE_RESPONSE':
       return { ...state, createResponse: {error:{}, statusCode: 0, errors:[]}}
-    case 'RESET_UPDATE_RESPONSE':
+    case 'RESET_USER_UPDATE_RESPONSE':
       return { ...state, updateResponse: {error:{}, statusCode: 0, errors:[]}}
-    case 'RESET_DELETE_RESPONSE':
+    case 'RESET_USER_DELETE_RESPONSE':
       return { ...state, deleteResponse: {error:{}, statusCode: 0, errors:[]}}
     case 'RESET_AUTH_ERROR':
       return {...state, errorCode : 0}
