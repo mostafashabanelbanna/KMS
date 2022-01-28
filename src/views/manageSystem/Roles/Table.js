@@ -38,7 +38,7 @@ const RolesList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   
   const [pageNumber, setPageNumber] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [rowsPerPage, setRowsPerPage] = useState(2)
 
     // useIntl
     const intl = useIntl()
@@ -107,6 +107,16 @@ const RolesList = () => {
       notify('error', `${intl.formatMessage({id: store.deleteResponse.errors[0]})} `)
     } else if (store.deleteResponse.statusCode === 200) {
       notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
+      const Pages = Math.ceil((store.data.length - 1) / rowsPerPage)
+      if (Pages <= 0) {
+         setPageNumber(store.totalPages - 1)
+      } else {
+        dispatch(getData({
+          pageNumber,
+          rowsPerPage,
+          active: true
+        }))
+      }
     }
     dispatch({type:"RESET_ROLE_DELETE_RESPONSE"})
   }, [store.deleteResponse.statusCode])
@@ -123,18 +133,15 @@ const RolesList = () => {
   }
   // ** Function in get data on page change
   const handlePagination = page => {
-    dispatch(
-      getData(
-        {
-          ...searchData,
-          pageNumber: page.selected + 1,
-          rowsPerPage
-        }
-      )
-    )
     setPageNumber(page.selected + 1)
   }
-
+  useEffect(() => {
+    dispatch(getData({
+      pageNumber,
+      rowsPerPage,
+      active: true
+    }))
+  }, [pageNumber])
   // ** Custom Pagination
   const CustomPagination = () => {
     const count = store.totalPages

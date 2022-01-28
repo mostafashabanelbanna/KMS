@@ -44,7 +44,7 @@ const LookupsView = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [pageNumber, setPageNumber] = useState(1)
     const [selectedLookup, setSelectedLookup] = useState('')
-    const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [rowsPerPage, setRowsPerPage] = useState(3)
     const [searchData, setSearchData] = useState({
       name: ""
     })
@@ -68,19 +68,16 @@ const LookupsView = () => {
 
    
     const handlePagination = page => {
-        dispatch(
-            getData(
-            {
-                ...searchData,
-                pageNumber: page.selected + 1,
-                rowsPerPage,
-                lookupName: selectedLookup
-            }
-            )
-        )
         setPageNumber(page.selected + 1)
     }
-
+    useEffect(() => {
+      dispatch(getData({
+        ...searchData,
+        pageNumber,
+        rowsPerPage,
+        lookupName: selectedLookup
+      }))
+    }, [pageNumber])
     const CustomPagination = () => {
         const count = store.totalPages
     
@@ -151,15 +148,29 @@ const LookupsView = () => {
     }
 
     useEffect(() => {
-      if (store.deleteResponse.statusCode === 2) {
-        notify('error', `${intl.formatMessage({id: "DeleteFailed"})} `)
-      } else if (store.deleteResponse.statusCode === 500) {
-        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
-      } else if (store.deleteResponse.statusCode === 200) {
-        notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
+      if (store.deleteResponse.statusCode !== 0) {
+        if (store.deleteResponse.statusCode === 2) {
+          notify('error', `${intl.formatMessage({id: "DeleteFailed"})} `)
+        } else if (store.deleteResponse.statusCode === 500) {
+          notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
+        } else if (store.deleteResponse.statusCode === 7) {
+          notify('error', intl.formatMessage({id: store.deleteResponse.errors[0]}))
+        } else if (store.deleteResponse.statusCode === 200) {
+          notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
+          const Pages = Math.ceil((store.data.length - 1) / rowsPerPage)
+          if (Pages <= 0) {
+             setPageNumber(store.totalPages - 1)
+          } else {
+            dispatch(getData({
+              ...searchData,
+              pageNumber,
+              rowsPerPage,
+              lookupName: selectedLookup
+            }))
+          }
+        }
+        dispatch({type:"RESET_DELETE_LOOKUP_RESPONSE"})
       }
-      dispatch({type:" RESET_DELETE_LOOKUP_RESPONSE"})
-  
     }, [store.deleteResponse.statusCode])
 
     const isNotLightSkin = () => {

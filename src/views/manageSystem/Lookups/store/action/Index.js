@@ -17,8 +17,10 @@ export const getLookups = params => {
   }
 
 export const getData = params => {
+  console.log(params)
     return async dispatch => {
       await axios.post('/Lookups/GetLookupValuesWithPagination', params).then(response => {
+        console.log(response)
         dispatch({
           type: 'GET_LOOKUP_DATA',
           data: response.data.data.items,
@@ -93,6 +95,9 @@ export const addLookup = Lookup => {
 
 // ** Delete lookup value
 export const deleteLookupValue = (lookupName, id) => {
+  console.log(lookupName)
+  console.log(id)
+
   return (dispatch, getState) => {
     axios
       .delete('/Lookups/DeleteLookupValue', {data: {
@@ -100,16 +105,13 @@ export const deleteLookupValue = (lookupName, id) => {
         lookupName
       }})
       .then(response => {
+        console.log(response)
         dispatch({
           type: 'DELETE_LOOKUP',
           response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
           errorCode: 200
         })
-      })
-      .then(() => {
-        dispatch(getData(getState().lookups.params))
-      })
-      .catch(error => {
+      }).catch(error => {
         dispatch({
           type: 'DELETE_LOOKUP',
           errorCode: error.response.status 

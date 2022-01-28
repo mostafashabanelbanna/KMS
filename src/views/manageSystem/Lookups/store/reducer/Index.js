@@ -54,7 +54,7 @@ const initialState = {
       case 'RESET_UPDATE_LOOKUP_RESPONSE':
         return { ...state, updateResponse: {error:{}, statusCode: 0, errors:[]}}
       case 'RESET_DELETE_LOOKUP_RESPONSE':
-        return { ...state, deleteresponse: {error:{}, statusCode: 0, errors:[]}}
+        return { ...state, deleteResponse: {error:{}, statusCode: 0, errors:[]}}
       default:
         return { ...state }
     }

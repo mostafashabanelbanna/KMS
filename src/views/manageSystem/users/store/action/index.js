@@ -49,9 +49,6 @@ export const addUser = user => {
     axios
       .post('/User/CreateUser', userFormData, {headers : { "Content-Type": "multipart/form-data" }})
       .then(response => {
-        
-        console.log(response)
-
         dispatch({
           type: 'ADD_USER',
           user,
@@ -64,7 +61,6 @@ export const addUser = user => {
         // dispatch(getAllData())
       })
       .catch(error => {
-        console.log(error)
         dispatch({
           type: 'ADD_USER',
           response:{statusCode: error.response.status, error: error.response, errors:[]},
@@ -83,17 +79,13 @@ export const resetCreateResponse = () => {
 export const getUserValue = params => {
   return async (dispatch, getState) => {
       const user = getState().users.data.find(x => x.id === params)
-      // console.log(params)
       console.log(user)
       dispatch({type:"GET_USER", selectedUser: user})
   }
 }
 
 export const updateUser = user => {  
-console.log(user)
-
   const upadateUserFormData = new FormData()
-
   upadateUserFormData.append('id', user.id)
   upadateUserFormData.append('name', user.name)
   upadateUserFormData.append('nameE', user.nameE)
@@ -138,23 +130,10 @@ console.log(user)
 
 export const resetUpdateResponse = () => {
   return (dispatch) => {
-      dispatch({type: "RESET_UPDATE_RESPONSE"})
+      dispatch({type: "RESET_USER_UPDATE_RESPONSE"})
   }
 }
 
-// ** Get all Data 
-// export const getAllData = () => {
-//   return async dispatch => {
-//     await axios.get('/api/users/list/all-data').then(response => {
-//       dispatch({
-//         type: 'GET_ALL_DATA',
-//         data: response.data
-//       })
-//     })
-//   }
-// }
-
-// ** Get User
 export const getUser = id => {
   return async dispatch => {
     await axios

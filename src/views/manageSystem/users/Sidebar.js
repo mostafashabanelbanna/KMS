@@ -167,7 +167,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
      } else if (code === 500) {
        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
      } 
-     resetUpdateResponse() 
+     dispatch(resetUpdateResponse())
     }
   }, [store.updateResponse.statusCode])
 
