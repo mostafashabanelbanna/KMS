@@ -9,13 +9,15 @@ import { selectThemeColors } from '@utils'
 import { FaTimes } from "react-icons/fa"
 
 
-const DatasetDimensions = ({dimensions, handleDeleteDimensionLevel}) => {
+const DatasetDimensions = ({dimensions, handleDeleteDimensionLevel, id, orderLevel, type}) => {
    const [dimensionLevels, setDimensionLevels] = useState([])
    const [dimensionValues, setDimensionValues] = useState([])
 
      // useIntl
   const intl = useIntl()
-
+  const handleDimensionChange = (e) => {
+      console.log(e.target)
+  }
 
     return (        
         <Row>
@@ -67,7 +69,7 @@ const DatasetDimensions = ({dimensions, handleDeleteDimensionLevel}) => {
                 />
             </Col>
             <Col>
-                <FaTimes onClick={handleDeleteDimensionLevel} size={20}/>
+                <FaTimes style={{ cursor:'pointer'}} onClick={handleDeleteDimensionLevel} size={20} id={id} data-type={type}/>
             </Col>
         </Row>
     )
