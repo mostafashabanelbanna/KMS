@@ -13,6 +13,7 @@ import sources from '@src/views/manageIndicator/sources/store/reducer/index'
 import units from '@src/views/manageIndicator/units/store/reducer/index'
 import dimensions from '@src/views/manageDimension/dimensions/store/reducer/index'
 import dimensionValues from '@src/views/manageDimension/dimensions/dimensionValues/store/reducer/index'
+import datasets from '@src/views/dataset/store/reducer/index'
 
 const rootReducer = combineReducers({
     auth,
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
     sources,
     units,
     dimensions,
-    dimensionValues
+    dimensionValues,
+    datasets
 })
 
 export default rootReducer

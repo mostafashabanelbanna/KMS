@@ -52,15 +52,20 @@ const datasets = (state = initialState, action) => {
 
         case 'GET_DATASET_INDICATORS_BASED_DATA':
             return {
-                ...state, sources: action.sources, 
+                ...state,
+                sources: action.sources, 
                 periodicities: action.periodicities, 
                 indicatorUnits: action.indicatorUnits, 
                 indicatorDimensions: action.indicatorDimensions
             }
         case 'SET_DATASET_SELECTED_META_DATA':
-            return {...state, classificationValueId: action.classificationValueId
-                 ,indicatorId: action.indicatorId, sourceId: action.sourceId, 
-                 periodicityId: action.periodicityId, indicatorUnitId: action.indicatorUnitId, 
+            return {
+                ...state,
+                 classificationValueId: action.classificationValueId,
+                 indicatorId: action.indicatorId, 
+                 sourceId: action.sourceId, 
+                 periodicityId: action.periodicityId,
+                indicatorUnitId: action.indicatorUnitId, 
                  insertionDate: action.insertionDate}
         
         case 'SET_DATASET_VERTICAL':

@@ -1,4 +1,4 @@
-import axios from '../../../../../axios'
+import axios from '../../../../axios'
 
 export const getIndicatorDimensions = indicatorId => {
     return async dispatch => {
@@ -18,7 +18,7 @@ export const getIndicatorDimensions = indicatorId => {
 
 export const exportFile = () => {
     return async (dispatch, getState) => {
-        const datasetStore = getState().datasets;
+        const datasetStore = getState().datasets
         const postObject = {
             indicatorId: datasetStore.indicatorId,
             sourceId: datasetStore.sourceId,
