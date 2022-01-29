@@ -105,7 +105,7 @@ const UsersList = () => {
     if (store.getResponse.statusCode !== 200 && store.getResponse.statusCode !== 0) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})}`)
     }
-    dispatch({type:"RESET_GET_RESPONSE"})
+    dispatch({type:"RESET_USER_GET_RESPONSE"})
   }, [store.getResponse.statusCode])
 
   useEffect(() => {
@@ -115,27 +115,21 @@ const UsersList = () => {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
     } else if (store.deleteResponse.statusCode === 200) {
       notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
-      // let newPageNumber = pageNumber
-      // if (store.data.length - 1 <= 0) {
-      //   setPageNumber(pageNumber - 1)
-      //   newPageNumber--
-      // }
-      // dispatch(getData({
-      //   pageNumber: newPageNumber,
-      //   rowsPerPage,
-      //   ...searchData
-      // }))
+      const Pages = Math.ceil((store.data.length - 1) / rowsPerPage)
+      if (Pages <= 0) {
+         setPageNumber(store.totalPages - 1)
+         
+      } else {
+        dispatch(getData({
+          ...searchData,
+          pageNumber,
+          rowsPerPage
+        }))
+      }
     }
-    dispatch({type:" RESET_DELETE_RESPONSE"})
+    dispatch({type:"RESET_USER_DELETE_RESPONSE"})
 
   }, [store.deleteResponse.statusCode])
-
-  useEffect(() => {
-    if (store.errorCode !== 0 && store.errorCode !== 200 && store.errorCode !== 401 && store.errorCode !== 403) {
-      notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
-
-    }
-  }, [store.errorCode])
 
 
   const addUser = () => {
@@ -152,17 +146,17 @@ const UsersList = () => {
 
   // ** Function in get data on page change
   const handlePagination = page => {
-    dispatch(
-      getData(
-        {
-          ...searchData,
-          pageNumber: page.selected + 1,
-          rowsPerPage
-        }
-      )
-    )
     setPageNumber(page.selected + 1)
   }
+
+  useEffect(() => {
+    dispatch(getData({
+      ...searchData,
+      pageNumber,
+      rowsPerPage
+    }))
+  }, [pageNumber])
+
   // ** Custom Pagination
   const CustomPagination = () => {
     const count = store.totalPages

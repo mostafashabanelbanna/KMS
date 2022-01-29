@@ -85,17 +85,6 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
   }
   
   useEffect(() => {
-    // if (store.createResponse.statusCode !== 0) {
-    //     if (store.createResponse.statusCode === 401) {
-    //         localStorage.clear()
-    //         location.reload()
-    //     } else if (store.createResponse.statusCode === 200) {
-    //         alert("Added Successfully")
-    //         toggleSidebar(1)
-    //     }        
-    //     dispatch({type:"RESET_CREATE_LOOKUP_RESPONS"}) 
-    // }
-    // 
     const code = store.createResponse.statusCode
     if (code !== 0) {
        if (code === 200) {
@@ -114,7 +103,7 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
         localStorage.clear()
         location.reload()
       }
-      dispatch({type:"RESET_CREATE_LOOKUP_RESPONS"}) 
+      dispatch({type:"RESET_CREATE_LOOKUP_RESPONSE"}) 
     }
     //
   }, [store.createResponse.statusCode])
