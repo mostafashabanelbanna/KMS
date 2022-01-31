@@ -1,7 +1,12 @@
 import axios from 'axios'
 import jwtDefaultConfig from './jwtDefaultConfig'
 
+import { toast } from 'react-toastify'
+import Toastr from '../../../containers/toastr/Toastr'
+
+
 export default class JwtService {
+  
   // ** jwtConfig <= Will be used by this service
   jwtConfig = { ...jwtDefaultConfig }
 
@@ -38,10 +43,21 @@ export default class JwtService {
         const { config, response } = error
         const originalRequest = config
 
+        // Toastr notify function
+        const notify = (type, message) => {
+          console.log(type)
+          return toast.success(
+            <Toastr type={type} message={message} />,
+            { position: toast.POSITION.TOP_CENTER,
+              hideProgressBar: true,
+              limit: 1
+            })
+        }
+
         // ** if (status === 401) {
         if (response && response.status === 401) {
-          console.log('here')
-          alert('here')
+          notify('fail', 'بيانات دخول غير صحيحة')
+          // alert('here')
           if (!this.isAlreadyFetchingAccessToken) {
             this.isAlreadyFetchingAccessToken = true
             this.refreshToken().then(r => {

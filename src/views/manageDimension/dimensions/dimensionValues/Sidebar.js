@@ -24,11 +24,39 @@ import axios from '../../../../axios'
 
 
 // ** Store & Actions
-import { addDimensionValue, resetCreateResponse, updateSource, resetUpdateResponse } from './store/action'
+import { addDimensionValue, resetCreateResponse, updateDimensionValue, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
 
-const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
+const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDimensionValue }) => {
+   
+  // ** Store Vars
+  const dispatch = useDispatch()
+  const store = useSelector(state => state.dimensionValues)
+  
+   // ** States
+   const [parentId, setParentId] = useState(null)
+   const [allDimensionValues, setAllDimensionValues] = useState([])
 
+    // fetch all Periodicities options
+    const getAllDimensionValues = async () => {
+      const response = await axios
+      .get(`DimensionValue/GetDimensionValues/${dimensionId}`)
+      .catch((err) => console.log("Error", err)) //handle errors
+      if (response && response.data) {
+        setAllDimensionValues(response.data.data)
+      }
+    } 
+
+    
+    useEffect(() => {
+      getAllDimensionValues()
+    }, [])
+
+    // pass only role id to userRoles
+   const handleDimensionValuesChange = (event) => {
+     console.log(event)
+    setParentId(event.id)
+  }
   // Import localization files
   const intl = useIntl()
   
@@ -41,12 +69,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
       })
   }
 
- 
-  // ** Store Vars
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.dimensionValues)
-  
-  console.log(store.params.dimensionId)
+
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
 
@@ -54,7 +77,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
   // ** Function to handle form submit
   const onSubmit = async values => {
     if (isObjEmpty(errors)) {
-      if (!selectedSource.id) {
+      if (!selectedDimensionValue.id) {
         await dispatch(
             addDimensionValue({
               name_A: values.name,
@@ -63,9 +86,8 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
               description_E: values.descriptionE,
               icon: values.icon,
               color: values.color,
-              dimensionId: store.params.dimensionId,
+              dimensionId,
               parentId,
-              levelNumber,
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active
@@ -73,7 +95,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           )
       } else {
         await dispatch(
-          updateSource(
+          updateDimensionValue(
             {
               name_A: values.name,
               name_E: values.nameE,
@@ -81,13 +103,12 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
               description_E: values.descriptionE,
               icon: values.icon,
               color: values.color,
-              dimensionId: store.params.dimensionId,
+              dimensionId,
               parentId,
-              levelNumber,
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active,
-              id: selectedSource.id
+              id: selectedDimensionValue.id
             }
           )
         )
@@ -130,7 +151,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
      } else if (code === 5) {
       notify('error', intl.formatMessage({id: "InvalidFileExtension"}))
      } else if (code === 3) {
-       notify('error', `${intl.formatMessage({id: "UpdateFailed"})} ${intl.formatMessage({id: "Source"})}`)
+       notify('error', `${intl.formatMessage({id: "UpdateFailed"})} ${intl.formatMessage({id: "Dimension Value"})}`)
      } else if (code === 500) {
        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
      } 
@@ -155,7 +176,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='name'
             id='name'
-            defaultValue={selectedSource ? selectedSource.name_A : ''}
+            defaultValue={selectedDimensionValue ? selectedDimensionValue.name_A : ''}
             placeholder={intl.formatMessage({id: "Name"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['name'] })}
@@ -168,7 +189,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='nameE'
             id='nameE'
-            defaultValue={selectedSource ? selectedSource.name_E : ''}
+            defaultValue={selectedDimensionValue ? selectedDimensionValue.name_E : ''}
             placeholder={intl.formatMessage({id: "Name In English"})}
             innerRef={register({ required:  false})}
             className={classnames({ 'is-invalid': errors['nameE'] })}
@@ -181,7 +202,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='descriptionA'
             id='descriptionA'
-            defaultValue={selectedSource ? selectedSource.description_A : ''}
+            defaultValue={selectedDimensionValue ? selectedDimensionValue.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Description'] })}
@@ -194,10 +215,23 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='descriptionE'
             id='descriptionE'
-            defaultValue={selectedSource ? selectedSource.description_E : ''}
+            defaultValue={selectedDimensionValue ? selectedDimensionValue.description_E : ''}
             placeholder={intl.formatMessage({id: "descriptionE"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['descriptionE'] })}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for='icon'>
+             {intl.formatMessage({id: "Icon"})}
+          </Label>
+          <Input
+            name='icon'
+            id='icon'
+            defaultValue={selectedDimensionValue ? selectedDimensionValue.icon : ''}
+            placeholder={intl.formatMessage({id: "Icon"})}
+            innerRef={register({ required: false })}
+            className={classnames({ 'is-invalid': errors['icon'] })}
           />
         </FormGroup>
    
@@ -209,13 +243,28 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='color'
             id='color'
-            defaultValue={selectedSource ? selectedSource.color : ''}
+            defaultValue={selectedDimensionValue ? selectedDimensionValue.color : ''}
             placeholder={intl.formatMessage({id: "Color"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['color'] })}
           />
         </FormGroup>
-      
+        <FormGroup>
+              <Label>{intl.formatMessage({id: "parentId"})}</Label>
+              <Select
+                isClearable={false}
+                theme={selectThemeColors}
+                defaultValue={selectedDimensionValue ?  selectedDimensionValue.parentId : []}
+                name='parentId'
+                id='parentId'
+                options={allDimensionValues}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.id}
+                className='react-select'
+                classNamePrefix='select'
+                onChange={e => handleDimensionValuesChange(e) }
+              />
+          </FormGroup>
         <FormGroup>
           <Label for='sortIndex'>
             <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
@@ -224,47 +273,20 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedSource ? selectedSource.sortIndex : 0}
+            defaultValue={selectedDimensionValue ? selectedDimensionValue.sortIndex : 0}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
         </FormGroup>
         <Row className="mx-0">
-        <Col sm='6' >
-            <FormGroup>
-              <Input 
-                type="checkbox" 
-                placeholder={intl.formatMessage({id: "National"})}
-                name="isNational" 
-                defaultChecked ={selectedSource ? selectedSource.isNational : false}
-                innerRef={register()} />
-                  <Label for='isNational'>
-                {intl.formatMessage({id: "National"})}
-              </Label>
-            </FormGroup>
-          </Col>
-
-          <Col sm='6' >
-            <FormGroup>
-              <Input 
-                type="checkbox" 
-                placeholder={intl.formatMessage({id: "Default"})}
-                name="isDefault" 
-                defaultChecked ={selectedSource ? selectedSource.isDefault : false}
-                innerRef={register()} />
-                  <Label for='isDefault'>
-                {intl.formatMessage({id: "Default"})}
-              </Label>
-            </FormGroup>
-          </Col>
           <Col sm='6' >
             <FormGroup>
               <Input 
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedSource ? selectedSource.focus : false}
+                defaultChecked ={selectedDimensionValue ? selectedDimensionValue.focus : false}
                 innerRef={register()} />
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
@@ -277,7 +299,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedSource ? selectedSource.active : false}
+                defaultChecked ={selectedDimensionValue ? selectedDimensionValue.active : false}
                 innerRef={register()}
                 />
                  <Label for='active'>
@@ -299,5 +321,5 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
   )
 }
 
-export default SidebarNewSource
+export default SidebarNewDimensionValue
 

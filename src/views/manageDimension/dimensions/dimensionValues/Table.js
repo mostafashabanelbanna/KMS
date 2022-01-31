@@ -3,7 +3,7 @@ import { Fragment, useState, useEffect } from 'react'
 
 
 // ** Store & Actions
-import {  getData, deleteSource, getSource, resetUpdateResponse } from './store/action'
+import {  getData, deleteDimensionValue, getDimensionValue, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -34,13 +34,10 @@ import Toastr from '../../../../containers/toastr/Toastr'
 import {isAuthorized} from '../../../../utility/Utils'
 
 const dimensionValueList = ({dimensionId}) => {
-
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.dimensionValues)
 
-
-  console.log(store)
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
   
@@ -122,7 +119,7 @@ const dimensionValueList = ({dimensionId}) => {
     } else if (store.deleteResponse.statusCode === 200) {
       notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
     }
-    dispatch({type:" RESET_SOURCE_DELETE_RESPONSE"})
+    dispatch({type:" RESET_DELETE_DIMENSION_VALUE_RESPONSE"})
 
   }, [store.deleteResponse.statusCode])
 
@@ -134,16 +131,16 @@ const dimensionValueList = ({dimensionId}) => {
   }, [store.errorCode])
 
 
-  const addSource = () => {
-    dispatch({type: "GET_SOURCE", selectedSource:{}})
-    dispatch({type: "RESET_CREATE_SOURCE_RESPONSE"})
+  const addDimensionValue = () => {
+    dispatch({type: "GET_DIMENSION_VALUE", selectedDimensionValue:{}})
+    dispatch({type: "RESET_GET_DIMENSION_VALUE_RESPONSE"})
     toggleSidebar()
   }
   
-  const updateSource = id => {
-    dispatch({type: "GET_SOURCE", selectedSource:{}})
+  const updateDimensionValue = id => {
+    dispatch({type: "GET_DIMENSION_VALUE", selectedDimensionValue:{}})
     dispatch(resetUpdateResponse())
-    dispatch(getSource(id))
+    dispatch(getDimensionValue(id))
     toggleSidebar()
   }
 
@@ -226,13 +223,13 @@ const dimensionValueList = ({dimensionId}) => {
       minWidth: '225px'
     },
     {
-      name: <FormattedMessage id="levelNumber" />,
+      name: <FormattedMessage id="Level Number" />,
       selector: 'levelNumber',
       sortable: true,
       minWidth: '250px'
     },
     {
-      name: <FormattedMessage id="parentName" />,
+      name: <FormattedMessage id="Parent Name" />,
       selector: 'parentName',
       sortable: true,
       minWidth: '250px'
@@ -249,12 +246,12 @@ const dimensionValueList = ({dimensionId}) => {
           <DropdownMenu right>
             <DropdownItem
               className='w-100'
-              onClick={() => updateSource(row.id)}
+              onClick={() => updateDimensionValue(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteSource(row.id))}>
+            <DropdownItem className='w-100' onClick={() => dispatch(deleteDimensionValue(row.id))}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>
@@ -268,7 +265,7 @@ const dimensionValueList = ({dimensionId}) => {
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
         <>
           <div className="my-1">
-            <Button.Ripple color='primary' onClick={addSource} >
+            <Button.Ripple color='primary' onClick={addDimensionValue} >
               <FormattedMessage id="Add" />
             </Button.Ripple>
           </div>
@@ -292,7 +289,7 @@ const dimensionValueList = ({dimensionId}) => {
               }
             />
           </Card>
-          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedSource={store.selectedSource} />
+          <Sidebar dimensionId={dimensionId} open={sidebarOpen} toggleSidebar={toggleSidebar} selectedDimensionValue={store.selectedDimensionValue} />
         </>
       )}
     </Fragment>

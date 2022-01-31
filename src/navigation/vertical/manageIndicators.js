@@ -1,5 +1,6 @@
 
 import { CgPerformance, CgPathUnite }  from "react-icons/cg"
+import { VscTypeHierarchy }  from "react-icons/vsc"
 
 export default [
   {
@@ -14,7 +15,7 @@ export default [
   {
     id: '/sources',
     title: 'Sources',
-    icon: <CgPerformance size={20} />,
+    icon: <VscTypeHierarchy size={20} />,
     navLink: '/sources'
   },
   {
