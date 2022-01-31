@@ -21,13 +21,16 @@ const DatasetDimensions = ({dimensions, handleDeleteDimensionLevel, id, orderLev
 
     return (        
         <Row>
+            {/* <Col>
+            <span>{orderLevel}</span>
+            </Col> */}
             <Col>
                 <Label>{intl.formatMessage({id: "Roles"})}</Label>
                 <Select
                     isClearable={false}
                     theme={selectThemeColors}
-                    getOptionLabel={(option) => option.dimensionName}
-                    getOptionValue={(option) => option.dimensionId}
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
                     name='dimension'
                     id='dimension'
                     options={dimensions}

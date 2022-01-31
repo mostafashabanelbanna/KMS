@@ -16,6 +16,28 @@ export const getIndicatorDimensions = indicatorId => {
       }
 }
 
+export const getIndicatorBasedLists = indicatorId => {
+  return async dispatch => {
+      await axios.get(`/Indicator/GetIndicatorForDataset/${indicatorId}`).then(response => {
+        dispatch({
+          type: 'GET_DATASET_INDICATORS_BASED_DATA',
+          indicatorDimensions: response.data.data.indicatorDimensions,
+          sources: response.data.data.indicatorSources,
+          periodicities: response.data.data.indicatorPeriodicities,
+          indicatorUnits: response.data.data.indicatorUnits
+        })
+      }).catch(error => {
+        dispatch({
+          type: 'GET_DATASET_INDICATORS_BASED_DATA',
+          indicatorDimensions: [],
+          sources: [],
+          periodicities: [],
+          indicatorUnits: []
+        })
+      })
+    }
+}
+
 export const exportFile = () => {
     return async (dispatch, getState) => {
         const datasetStore = getState().datasets

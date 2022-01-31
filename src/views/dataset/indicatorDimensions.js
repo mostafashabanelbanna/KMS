@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import DatasetDimensions from "./datasetDimensions"
-import { getIndicatorDimensions } from "./store/action"
+import { getIndicatorDimensions, getIndicatorBasedLists } from "./store/action"
 import {Row, Col, Label} from 'reactstrap/lib'
 
 const IndicatorDimension = () => {
@@ -14,6 +14,8 @@ const IndicatorDimension = () => {
    const deleteDimensionLevelHandler = (e) => {
        const id = e.target.id
        const type = e.target.dataset.type
+       console.log(id)
+       console.log(type)
        if (parseInt(type) === 1) {
         setVertical(vertical.filter(x => x !== parseInt(id)))
        } else {
@@ -41,7 +43,7 @@ const IndicatorDimension = () => {
 
     useEffect(() => {
         dispatch(
-            getIndicatorDimensions(store.indicatorId)
+            getIndicatorBasedLists(store.indicatorId)
         )
       }, [dispatch])
 
