@@ -25,7 +25,7 @@ const initialState = {
     statusCode: 0,
     errors: []
   },
-  selectedSource:{}
+  selectedDimensionValue:{}
 }
 
 const sources = (state = initialState, action) => {
@@ -40,7 +40,7 @@ const sources = (state = initialState, action) => {
         errorCode: action.errorCode
       }
     case 'GET_DIMENSION_VALUE':
-      return { ...state, selectedSource: action.selectedSource }
+      return { ...state, selectedDimensionValue: action.selectedDimensionValue }
     case 'ADD_DIMENSION_VALUE':
       return { ...state, createResponse: action.response, errorCode: action.errorCode  }
     case 'UPDATE_DIMENSION_VALUE':
