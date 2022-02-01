@@ -254,7 +254,7 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
               <Select
                 isClearable={false}
                 theme={selectThemeColors}
-                defaultValue={selectedDimensionValue ?  selectedDimensionValue.parentId : []}
+                defaultValue={selectedDimensionValue ?  selectedDimensionValue.parent : []}
                 name='parentId'
                 id='parentId'
                 options={allDimensionValues}

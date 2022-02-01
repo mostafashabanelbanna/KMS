@@ -1,4 +1,49 @@
+import { data } from 'jquery'
 import axios from '../../../../axios'
+
+export const getAllClassifications = () => {
+  return async dispatch => {
+    await axios.get('/Classification/GetClassifications')
+      .then(response => {
+        dispatch({
+          type: 'GET_DATASET_CLASSIFICATIONS',
+          classifications: response.data.data
+        })
+      })
+      .catch(error => {
+        // dispatch({
+        //   type: 'SET_DATASET_ONCHANGE_RESPONSE',
+        //   data : [],
+        //   errorCode : error.response.status
+        // })
+      })
+  }
+}
+
+export const getClassificationValues = (classificationId) => {
+  return async (dispatch) => {
+    await axios.get(`/ClassificationValue/GetClassificationValues/${classificationId}`)
+    .then(response => {
+        dispatch({
+          type: 'GET_DATASET_CLASSIFICATION_VALUES',
+          classificationValues: response.data.data
+        })
+    })
+  }
+}
+
+
+export const getIndicators = (classificationValueId) => {
+  return async (dispatch) => {
+    await axios.get(`/Indicator/GetIndicators/${classificationValueId}`)
+    .then(response => {
+        dispatch({
+          type: 'GET_DATASET_INDICATORS',
+          indicators: response.data.data
+        })
+      })
+  }
+}
 
 export const getIndicatorDimensions = indicatorId => {
     return async dispatch => {

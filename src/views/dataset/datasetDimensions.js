@@ -102,7 +102,7 @@ const DatasetDimensions = ({data, dimensions, handleDeleteDimensionLevel, id, or
       setLevelData(data)
   })
     return (        
-        <Row>
+        <Row className="mb-2" >
             <Col md={3}>
                 <Label>{intl.formatMessage({id: "Roles"})}</Label>
                 <Select
@@ -152,7 +152,7 @@ const DatasetDimensions = ({data, dimensions, handleDeleteDimensionLevel, id, or
                     onChange={e => handleDimensionValuesChange(e) }
                 />
             </Col>
-            <Col md={1}>
+            <Col md={1} className="align-items-center col-md-1 d-flex">
                 <FaTimes style={{ cursor:'pointer'}} onClick={handleDeleteDimensionLevel} size={20} data-idx={orderLevel} data-type={type}/>
             </Col>
         </Row>
