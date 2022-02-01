@@ -45,21 +45,36 @@ export const exportFile = () => {
             indicatorId: datasetStore.indicatorId,
             sourceId: datasetStore.sourceId,
             periodicityId: datasetStore.periodicityId,
-            unitId: datasetStore.unitId,
+            unitId: datasetStore.indicatorUnitId,
             classificationValueId: datasetStore.classificationValueId,
+            insertionDate: datasetStore.insertionDate,
             vertical: datasetStore.vertical,
             horizontal: datasetStore.horizontal
         }
-        await axios.post(`/Dataset/ExportIndicatorDataSheet`, postObject).then(response => {
+        console.log(postObject)
+        await axios.post(`/Dataset/ExportIndicatorDataSheet`, postObject, { responseType: 'arraybuffer' }).then(response => {
+          console.log("Success")
+          console.log(response.data)
+          const fileDownload = require('js-file-download')
+          fileDownload(response.data, 'DataSheet.xlsx')
           dispatch({
             type: 'SET_DATASET_EXPORT_RESPONSE',
             exportResponse: { errorCode : 200}
           })
         }).catch(error => {
-          dispatch({
-            type: 'SET_DATASET_EXPORT_RESPONSE',
-            exportResponse: { errorCode : error.response.status}
-          })
+          console.log(error)
+          if (error && error.response) {
+            dispatch({
+              type: 'SET_DATASET_EXPORT_RESPONSE',
+              exportResponse: { errorCode : error.response.status}
+            })
+          } else {
+            dispatch({
+              type: 'SET_DATASET_EXPORT_RESPONSE',
+              exportResponse: { errorCode : 500}
+            })
+          }
+         
         })
     }
 }
