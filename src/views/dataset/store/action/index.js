@@ -11,11 +11,10 @@ export const getAllClassifications = () => {
         })
       })
       .catch(error => {
-        // dispatch({
-        //   type: 'SET_DATASET_ONCHANGE_RESPONSE',
-        //   data : [],
-        //   errorCode : error.response.status
-        // })
+        dispatch({
+          type: 'GET_DATASET_CLASSIFICATIONS',
+          classifications : []
+        })
       })
   }
 }
@@ -28,6 +27,12 @@ export const getClassificationValues = (classificationId) => {
           type: 'GET_DATASET_CLASSIFICATION_VALUES',
           classificationValues: response.data.data
         })
+    })
+    .catch(error => {
+      dispatch({
+        type: 'GET_DATASET_CLASSIFICATION_VALUES',
+        classificationValues : []
+      })
     })
   }
 }
@@ -42,6 +47,12 @@ export const getIndicators = (classificationValueId) => {
           indicators: response.data.data
         })
       })
+    .catch(error => {
+      dispatch({
+        type: 'GET_DATASET_INDICATORS',
+        indicators : []
+      })
+    })
   }
 }
 
@@ -64,6 +75,7 @@ export const getIndicatorDimensions = indicatorId => {
 export const getIndicatorBasedLists = indicatorId => {
   return async dispatch => {
       await axios.get(`/Indicator/GetIndicatorForDataset/${indicatorId}`).then(response => {
+        console.log(response)
         dispatch({
           type: 'GET_DATASET_INDICATORS_BASED_DATA',
           indicatorDimensions: response.data.data.indicatorDimensions,
@@ -125,17 +137,19 @@ export const exportFile = () => {
 }
 
 export const importFile = (file) => {
+  console.log(file)
     const importFormData = new FormData()
     importFormData.append('file', file[0])
     return async dispatch => {
         await axios.post(`/Dataset/ImportIndicatorDataSheet`, importFormData).then(response => {
+          console.log(response)
             dispatch({
-              type: 'SET_DATASET_EXPORT_RESPONSE',
+              type: 'SET_DATASET_IMPORT_RESPONSE',
               importResponse: {statusCode: response.data.statusCode, errors: response.data.errors, error:{}}
             })
           }).catch(error => {
             dispatch({
-              type: 'SET_DATASET_EXPORT_RESPONSE',
+              type: 'SET_DATASET_IMPORT_RESPONSE',
               importResponse: {statusCode: error.response.status, errors: [], error:{}}
             })
         })

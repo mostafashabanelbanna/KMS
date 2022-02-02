@@ -13,3 +13,14 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .container {
   max-width: unset !important;
 }
+.MuiOutlinedInput-input {
+  padding: 8.5px 14px;
+}
+.MuiFormControl-root {
+  outline: 0 !important;
+  background-color: hsl(0, 0%, 100%);
+  border-color: #ededed;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+}

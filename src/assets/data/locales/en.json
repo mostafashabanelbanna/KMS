@@ -5,6 +5,8 @@
 	"Add User": "Add User",
 	"Add": "Add",
 	"AddSuccess": "Added Successfully",
+	"Saved Success": "Saved Successfully",
+
 	"Admin": "Admin",
 	"Allow": "Allow",
 	"Arabic": "Arabic",
@@ -115,5 +117,14 @@
 	"Notifications": "Notifications",
 	"parentId" : "parentId",
 	"Level Number": "Level Number",
-	"Parent Name": "Parent Name"
+	"Parent Name": "Parent Name",
+	"Classifications": "Classifications",
+	"Classification Values": "Classification Values",
+	"Insertion Date": "Insertion Date",
+	"Next": "Next",
+	"Select": "Select",
+	"By Excel": "By Excel",
+	"InvalidExcelFileFormat": "Invalid Excel File Format",
+	"ThisFileAlreadyImported": "This File Already Imported",
+	"InvalidDataset": "Invalid Dataset"
 }

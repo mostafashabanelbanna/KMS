@@ -5,6 +5,7 @@
 	"Add User": "إضافة مستخدم",
 	"Add": "إضافة",
 	"AddSuccess": "تمت الإضافة",
+	"Saved Success": "تم الحفظ",
 	"Admin": "مدير النظام",
 	"Allow": "سماح",
 	"Arabic": "عربي",
@@ -70,7 +71,7 @@
 	"NoData": "لا توجد بيانات",
 	"Ok": "تأكيد",
 	"Password": "كلمة المرور",
-	"Periodicities": "Periodicities",
+	"Periodicities": "الدوريات",
 	"Periodicity": "الدورية",
 	"Phone Number": "رقم الهاتف",
 	"Photo": "صورة",
@@ -115,5 +116,14 @@
 	"Notifications": "التنويهات",
 	"parentId" : "parentId",
 	"Level Number": "Level Number",
-	"Parent Name": "Parent Name"
+	"Parent Name": "Parent Name",
+	"Classifications": "التصنيفات",
+	"Classification Values": "قيم التصنيفات ",
+	"Insertion Date": "تاريخ الإدخال",
+	"Next": "التالي",
+	"Select": "تحديد",
+	"By Excel": "بإستخدام إكسيل",
+	"InvalidExcelFileFormat": "هذا الملف غير مدعوم",
+	"ThisFileAlreadyImported": "هذا الملف قد تم حفظه من قبل",
+	"InvalidDataset": "بيانات غير صالحة"
 }

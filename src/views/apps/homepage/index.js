@@ -7,7 +7,7 @@ const Homepage = () => {
  
   return (
     <div className="flex-grow-1">
-     Homepage
+     <h4>الصفحة الرئيسية</h4>
     </div>
   )
 }

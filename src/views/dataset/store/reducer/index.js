@@ -9,12 +9,12 @@ const initialState = {
     indicatorDimensions:[],
 
     // selected values and vertical , horizontal dimensions that used for export excel file
-    classificationValueId:1,
-    indicatorId:1,
-    sourceId:1,
-    periodicityId:12,
-    indicatorUnitId:1,
-    insertionDate:'2020-12-31',
+    classificationValueId:0,
+    indicatorId:0,
+    sourceId:0,
+    periodicityId:0,
+    indicatorUnitId:0,
+    insertionDate:'',
     vertical:[],
     horizontal:[],
 
@@ -65,7 +65,7 @@ const datasets = (state = initialState, action) => {
                  indicatorId: action.indicatorId, 
                  sourceId: action.sourceId, 
                  periodicityId: action.periodicityId,
-                indicatorUnitId: action.indicatorUnitId, 
+                 indicatorUnitId: action.indicatorUnitId, 
                  insertionDate: action.insertionDate}
         
         case 'SET_DATASET_VERTICAL':

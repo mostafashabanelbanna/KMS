@@ -180,6 +180,8 @@ const DatasetDimensions = ({data, handleDeleteDimensionLevel, id, orderLevel, ty
                 <Label>البعد</Label>
                 <Select
                     isClearable={false}
+                    placeholder={intl.formatMessage({id: "Select"})}
+
                     theme={selectThemeColors}
                     getOptionLabel={(option) => option.name}
                     getOptionValue={(option) => option.id}
@@ -196,6 +198,8 @@ const DatasetDimensions = ({data, handleDeleteDimensionLevel, id, orderLevel, ty
                 <Label>مستويات البعد</Label>
                 <Select
                     isClearable={true}
+                    placeholder={intl.formatMessage({id: "Select"})}
+
                     theme={selectThemeColors}
                     getOptionLabel={(option) => option.name_A}
                     getOptionValue={(option) => option.levelNumber}
@@ -212,6 +216,8 @@ const DatasetDimensions = ({data, handleDeleteDimensionLevel, id, orderLevel, ty
                 <Label>قيم البعد</Label>
                 <Select
                     isClearable={true}
+                    placeholder={intl.formatMessage({id: "Select"})}
+                    
                     theme={selectThemeColors}
                     getOptionLabel={(option) => option.name_A}
                     getOptionValue={(option) => option.id}
