@@ -5,13 +5,15 @@ import Select from 'react-select'
 import {Row, Col, Label} from 'reactstrap/lib'
 import { useIntl, FormattedMessage } from 'react-intl'
 import axios from '../../axios'
+import { toast } from 'react-toastify'
+import Toastr from '../../containers/toastr/Toastr'
 
 import { selectThemeColors } from '@utils'
 
 import { FaTimes } from "react-icons/fa"
 
 
-const DatasetDimensions = ({data, dimensions, handleDeleteDimensionLevel, id, orderLevel, type}) => {
+const DatasetDimensions = ({data, handleDeleteDimensionLevel, id, orderLevel, type}) => {
 
    // ** Store Vars
    const dispatch = useDispatch()
@@ -23,6 +25,53 @@ const DatasetDimensions = ({data, dimensions, handleDeleteDimensionLevel, id, or
 
      // useIntl
   const intl = useIntl()
+  // Toastr notify function
+  const notify = (type, message) => {
+    return toast.success(
+      <Toastr type={type} message={message} />,
+      { 
+        position: toast.POSITION.TOP_CENTER,
+        hideProgressBar: true 
+      })
+    }
+  const validateDimensionLevel = (dimensionId, levelNumber) => {
+      let isValidated = true
+      for (let i = 0; i < store.vertical.length; i++) {
+          if ((i !== orderLevel && type === 1) || type === 2) {
+              if (store.vertical[i].dimensionId === dimensionId && store.vertical[i].levelNumber === levelNumber) {
+                  isValidated = false
+              }
+          }
+      }
+      for (let i = 0; i < store.horizontal.length; i++) {
+        if ((i !== orderLevel && type === 2) || type === 1) {
+            if (store.horizontal[i].dimensionId === dimensionId && store.horizontal[i].levelNumber === levelNumber) {
+                isValidated = false
+            }
+        }
+      }
+      if (!isValidated) {
+          notify('error', "هذا البعد مستخدم من قبل")
+          setDimensionLevels([])
+          setDimensionValues([])
+          if (type === 1) {
+              const temp = store.vertical
+              temp[orderLevel].dimensionId = 0
+              temp[orderLevel].levelNumber = 0
+              temp[orderLevel].dimensionValues = []
+            dispatch({type:"SET_DATASET_VERTICAL", vertical: temp})
+
+          } else {
+            const temp = store.horizontal
+            temp[orderLevel].dimensionId = 0
+            temp[orderLevel].levelNumber = 0
+            temp[orderLevel].dimensionValues = []
+            dispatch({type:"SET_DATASET_HORIZONTAL", horizontal: temp})
+          }
+      }
+      return isValidated
+  }
+
   const getDimensionLevels = async (dimensionId) => {
       await axios.get(`/DimensionsLevel/GetDimensionLevelsByDimension/${dimensionId}`).then(response => {
           if (response) {
@@ -42,35 +91,41 @@ const DatasetDimensions = ({data, dimensions, handleDeleteDimensionLevel, id, or
     })
   }
   const handleDimensionChange = (e) => {
-      if (type === 1) {
-          const temp = store.vertical
-          temp[orderLevel].dimensionId = e.id
-          temp[orderLevel].levelNumber = 0
-          temp[orderLevel].dimensionValues = []
-          dispatch({type:"SET_DATASET_VERTICAL", vertical: temp})
-      } else {
-        const temp = store.horizontal
-        temp[orderLevel].dimensionId = e.id
-        temp[orderLevel].levelNumber = 0
-        temp[orderLevel].dimensionValues = []
-        dispatch({type:"SET_DATASET_HORIZONTAL", horizontal: temp})
-      }
-      setDimensionLevels(getDimensionLevels(e.id))
-  }
-  const handleDimensionLevelsChange = (e) => {
-    if (e) {
+      if (e) {
         if (type === 1) {
             const temp = store.vertical
-            temp[orderLevel].levelNumber = e.levelNumber
+            temp[orderLevel].dimensionId = e.id
+            temp[orderLevel].levelNumber = 0
             temp[orderLevel].dimensionValues = []
             dispatch({type:"SET_DATASET_VERTICAL", vertical: temp})
         } else {
           const temp = store.horizontal
-          temp[orderLevel].levelNumber = e.levelNumber
+          temp[orderLevel].dimensionId = e.id
+          temp[orderLevel].levelNumber = 0
           temp[orderLevel].dimensionValues = []
           dispatch({type:"SET_DATASET_HORIZONTAL", horizontal: temp})
         }
-        setDimensionValues(getDimensionValues(data.dimensionId, e.levelNumber))
+        setDimensionLevels(getDimensionLevels(e.id))
+        setDimensionValues([])
+      }   
+  }
+  const handleDimensionLevelsChange = (e) => {
+    if (e) {
+        const isValid = validateDimensionLevel(data.dimensionId, e.levelNumber)
+        if (isValid) {
+            if (type === 1) {
+                const temp = store.vertical
+                temp[orderLevel].levelNumber = e.levelNumber
+                temp[orderLevel].dimensionValues = []
+                dispatch({type:"SET_DATASET_VERTICAL", vertical: temp})
+            } else {
+              const temp = store.horizontal
+              temp[orderLevel].levelNumber = e.levelNumber
+              temp[orderLevel].dimensionValues = []
+              dispatch({type:"SET_DATASET_HORIZONTAL", horizontal: temp})
+            }
+            setDimensionValues(getDimensionValues(data.dimensionId, e.levelNumber))
+        }   
     }
   }
   const handleDimensionValuesChange = (e) => {
@@ -98,13 +153,31 @@ const DatasetDimensions = ({data, dimensions, handleDeleteDimensionLevel, id, or
         }
     }, [levelData])
 
+    useEffect(() => {
+        if (dimensionLevels && dimensionLevels.length === 1) {
+            const isValid = validateDimensionLevel(data.dimensionId, dimensionLevels[0].levelNumber)
+            if (isValid) {
+                if (type === 1) {
+                    const temp = store.vertical
+                    temp[orderLevel].levelNumber = dimensionLevels[0].levelNumber
+                    dispatch({type:"SET_DATASET_VERTICAL", vertical: temp})
+                } else {
+                    const temp = store.horizontal
+                    temp[orderLevel].levelNumber = dimensionLevels[0].levelNumber
+                    dispatch({type:"SET_DATASET_HORIZONTAL", horizontal: temp})
+                }
+                setDimensionValues(getDimensionValues(data.dimensionId, dimensionLevels[0].levelNumber))
+            }
+        }
+    }, [dimensionLevels])
+
   useLayoutEffect(() => {
       setLevelData(data)
   })
     return (        
         <Row className="mb-2" >
             <Col md={3}>
-                <Label>{intl.formatMessage({id: "Roles"})}</Label>
+                <Label>البعد</Label>
                 <Select
                     isClearable={false}
                     theme={selectThemeColors}
@@ -112,21 +185,21 @@ const DatasetDimensions = ({data, dimensions, handleDeleteDimensionLevel, id, or
                     getOptionValue={(option) => option.id}
                     name='dimension'
                     id='dimension'
-                    options={dimensions}
+                    options={store.indicatorDimensions}
                     className='react-select'
                     classNamePrefix='select'
-                    value={dimensions.find(x => x.id === data.dimensionId)}
+                    value={store.indicatorDimensions && store.indicatorDimensions.length > 0 && data.dimensionId > 0 ? store.indicatorDimensions.find(x => x.id === data.dimensionId) : 0}
                     onChange={e => handleDimensionChange(e) }
                 />
             </Col>
-            <Col md={3}>
-                <Label>{intl.formatMessage({id: "Roles"})}</Label>
+            <Col md={3} className={dimensionLevels.length === 1 ? "d-none" : ""}>
+                <Label>مستويات البعد</Label>
                 <Select
                     isClearable={true}
                     theme={selectThemeColors}
                     getOptionLabel={(option) => option.name_A}
                     getOptionValue={(option) => option.levelNumber}
-                    value={dimensionLevels && dimensionLevels.length > 0 ? dimensionLevels.find(x => x.levelNumber === data.levelNumber) : 0}
+                    value={dimensionLevels && dimensionLevels.length > 0 && data.levelNumber > 0 ? dimensionLevels.find(x => x.levelNumber === data.levelNumber) : 0}
                     name='dimensionLevels'
                     id='dimensionLevels'
                     options={dimensionLevels}
@@ -136,7 +209,7 @@ const DatasetDimensions = ({data, dimensions, handleDeleteDimensionLevel, id, or
                 />
             </Col>
             <Col md={5}>
-                <Label>{intl.formatMessage({id: "Roles"})}</Label>
+                <Label>قيم البعد</Label>
                 <Select
                     isClearable={true}
                     theme={selectThemeColors}

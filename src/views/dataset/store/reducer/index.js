@@ -14,7 +14,7 @@ const initialState = {
     sourceId:1,
     periodicityId:12,
     indicatorUnitId:1,
-    insertionDate:'12-31-2018',
+    insertionDate:'2020-12-31',
     vertical:[],
     horizontal:[],
 
