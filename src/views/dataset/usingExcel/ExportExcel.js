@@ -108,6 +108,8 @@ const ExportExcel = () => {
     ])
 
     const setSelectedMetaData = () => {
+      dispatch({type: "SET_DATASET_VERTICAL", vertical:[]})
+      dispatch({type: "SET_DATASET_HORIZONTAL", horizontal:[]})
       dispatch({
         type: 'SET_DATASET_SELECTED_META_DATA',
         classificationValueId: classificationValue,
