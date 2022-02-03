@@ -241,6 +241,7 @@ const ExportExcel = () => {
             </Col>
             <Col sm='3' className=" mb-2" >
                 <Label for='hf-picker'>{intl.formatMessage({id: "Insertion Date"})}</Label>
+                <br/>
                 <MuiPickersUtilsProvider
                   libInstance={moment}
                   utils={MomentUtils}
