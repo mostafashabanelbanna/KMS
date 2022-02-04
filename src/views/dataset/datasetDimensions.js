@@ -23,6 +23,7 @@ const DatasetDimensions = ({data, handleDeleteDimensionLevel, id, orderLevel, ty
    const [dimensionLevels, setDimensionLevels] = useState([])
    const [dimensionValues, setDimensionValues] = useState([])
 
+   const SelectAllOption = {name_A: "أختيار الكل", id: 0}
      // useIntl
   const intl = useIntl()
   // Toastr notify function
@@ -84,7 +85,7 @@ const DatasetDimensions = ({data, handleDeleteDimensionLevel, id, orderLevel, ty
   const getDimensionValues = async (dimensionId, levelNumber) => {
     await axios.get(`/DimensionValue/GetDimensionValuesForDataset/${dimensionId}/${levelNumber}`).then(response => {
         if (response) {
-            setDimensionValues(response.data.data)
+            setDimensionValues([SelectAllOption, ...response.data.data])
         }
     }).catch(error => {
         setDimensionValues([])
@@ -105,7 +106,7 @@ const DatasetDimensions = ({data, handleDeleteDimensionLevel, id, orderLevel, ty
           temp[orderLevel].dimensionValues = []
           dispatch({type:"SET_DATASET_HORIZONTAL", horizontal: temp})
         }
-        setDimensionLevels(getDimensionLevels(e.id))
+        getDimensionLevels(e.id)
         setDimensionValues([])
       }   
   }
@@ -124,12 +125,25 @@ const DatasetDimensions = ({data, handleDeleteDimensionLevel, id, orderLevel, ty
               temp[orderLevel].dimensionValues = []
               dispatch({type:"SET_DATASET_HORIZONTAL", horizontal: temp})
             }
-            setDimensionValues(getDimensionValues(data.dimensionId, e.levelNumber))
+            getDimensionValues(data.dimensionId, e.levelNumber)
         }   
     }
   }
   const handleDimensionValuesChange = (e) => {
-      const list = e.map(obj => ({ ...obj, orderLevel: orderLevel + 1 }))
+      let selectedValues = dimensionValues
+      console.log(e.length)
+      if (e.length === 0) {
+          selectedValues = []
+          setDimensionValues([SelectAllOption, ...dimensionValues])
+      } else if (e.length >= 1) {
+          if (e.find(x => x.id === 0)) {
+              selectedValues.shift()
+              setDimensionValues(selectedValues)
+          } else {
+              selectedValues = e
+          }
+      }
+      const list = selectedValues.map(obj => ({ ...obj, orderLevel: orderLevel + 1 }))
       if (type === 1) {
         const temp = store.vertical
         temp[orderLevel].dimensionValues = list
@@ -142,11 +156,11 @@ const DatasetDimensions = ({data, handleDeleteDimensionLevel, id, orderLevel, ty
   }
   useEffect(() => {
         if (data.dimensionId > 0 && data.levelNumber > 0) {
-            setDimensionLevels(getDimensionLevels(data.dimensionId))
-            setDimensionValues(getDimensionValues(data.dimensionId, data.levelNumber))
+            getDimensionLevels(data.dimensionId)
+            getDimensionValues(data.dimensionId, data.levelNumber)
         } else if (data.dimensionId > 0) {
             setDimensionValues([])
-            setDimensionLevels(getDimensionLevels(data.dimensionId))
+            getDimensionLevels(data.dimensionId)
         } else {
             setDimensionValues([])
             setDimensionLevels([])
@@ -166,7 +180,7 @@ const DatasetDimensions = ({data, handleDeleteDimensionLevel, id, orderLevel, ty
                     temp[orderLevel].levelNumber = dimensionLevels[0].levelNumber
                     dispatch({type:"SET_DATASET_HORIZONTAL", horizontal: temp})
                 }
-                setDimensionValues(getDimensionValues(data.dimensionId, dimensionLevels[0].levelNumber))
+                getDimensionValues(data.dimensionId, dimensionLevels[0].levelNumber)
             }
         }
     }, [dimensionLevels])

@@ -91,7 +91,7 @@ const IndicatorDimension = () => {
             }
         }
         for (let i = 0; i < store.horizontal.length; i++) {
-            const item = store.vertical[i]
+            const item = store.horizontal[i]
             if (item.dimensionId === 0) {
                 notify('error', 'يجب اختيار البعد')
                 return false
