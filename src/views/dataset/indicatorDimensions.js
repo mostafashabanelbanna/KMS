@@ -69,6 +69,65 @@ const IndicatorDimension = () => {
 
     const validateDimensionsBeforeExport = () => {
         const isValidted = true
+        if (store.vertical.length === 0 && store.horizontal.length === 0) {
+            notify('error', 'يجب اختيار بعد على الاقل')
+            return false
+        }
+        for (let i = 0; i < store.vertical.length; i++) {
+            const item = store.vertical[i]
+            if (item.dimensionId === 0) {
+                notify('error', 'يجب اختيار البعد')
+                return false
+            } else if (item.levelNumber === 0) {
+                notify('error', 'يجب اختيار مستوى للبعد')
+                return false
+            } else if (item.dimensionValues.length <= 0) {
+                notify('error', 'يجب اختيار قيم البعد')
+                return false
+            }
+        }
+        for (let i = 0; i < store.horizontal.length; i++) {
+            const item = store.vertical[i]
+            if (item.dimensionId === 0) {
+                notify('error', 'يجب اختيار البعد')
+                return false
+            } else if (item.levelNumber === 0) {
+                notify('error', 'يجب اختيار مستوى للبعد')
+                return false
+            } else if (item.dimensionValues.length <= 0) {
+                notify('error', 'يجب اختيار قيم البعد')
+                return false
+            }
+        }
+        let isDimensionRepeatedInVerticalAndHorizontal = false
+        for (let i = 0; i < store.vertical.length; i++) {
+            for (let j = 0; j < store.horizontal.length; j++) {
+                if (store.vertical[i].dimensionId === store.horizontal[j].dimensionId) {
+                    isDimensionRepeatedInVerticalAndHorizontal = true
+                    break
+                }
+            }
+            if (isDimensionRepeatedInVerticalAndHorizontal) {
+                break
+            }
+        }
+        if (isDimensionRepeatedInVerticalAndHorizontal) {
+            notify('error', 'لا يمكن اختيار البعد على المستوى الافقى والرأسى معا')
+                return false
+        }
+
+        for (let i = 1; i < store.vertical.length; i++) {
+            if (store.vertical[i].dimensionId === store.vertical[i - 1].dimensionId && store.vertical[i].levelNumber <= store.vertical[i - 1].levelNumber) {
+                notify('error', 'يوجد خطأ فى ترتيب مستويات البعد')
+                return false
+            }
+        }
+        for (let i = 1; i < store.horizontal.length; i++) {
+            if (store.horizontal[i].dimensionId === store.horizontal[i - 1].dimensionId && store.horizontal[i].levelNumber <= store.horizontal[i - 1].levelNumber) {
+                notify('error', 'يوجد خطأ فى ترتيب مستويات البعد')
+                return false
+            }
+        }
         return isValidted
     }
     const handleExportFile = () => {
@@ -76,7 +135,6 @@ const IndicatorDimension = () => {
             dispatch(exportFile())
         }
     }
-
     useEffect(() => {
         if (store.exportResponse.errorCode !== 0) {
             if (store.exportResponse.errorCode === 500 || store.exportResponse.errorCode === 400) {
