@@ -69,6 +69,10 @@ const IndicatorDimension = () => {
 
     const validateDimensionsBeforeExport = () => {
         const isValidted = true
+        if (store.classificationValueId === 0 || store.indicatorId === 0 || store.sourceId === 0 || store.periodicityId === 0 || store.indicatorUnitId === 0 || store.insertionDate === '') {
+            notify('error', 'يجب أختيار جميع البيانات من الصفحة السابقة')
+            return false
+        }
         if (store.vertical.length === 0 && store.horizontal.length === 0) {
             notify('error', 'يجب اختيار بعد على الاقل')
             return false
