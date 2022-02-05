@@ -9,6 +9,7 @@ const initialState = {
     indicatorDimensions:[],
 
     // selected values and vertical , horizontal dimensions that used for export excel file
+    classification:0,
     classificationValueId:0,
     indicatorId:0,
     sourceId:0,
@@ -58,9 +59,29 @@ const datasets = (state = initialState, action) => {
                 indicatorUnits: action.indicatorUnits, 
                 indicatorDimensions: action.indicatorDimensions
             }
+        case 'RESET_DATASET_INDICATORS_BASED_DATA':
+            return {
+                ...state,
+                sources: [],
+                periodicities: [], 
+                indicatorUnits: [], 
+                indicatorDimensions: []
+            }
+        case 'RESET_CLASSIFICATION_BASED_LISTS':
+            return {
+                ...state,
+                classificationValues:[],
+                indicators:[]
+            }
+        case 'RESET_CLASSIFICATION_LIST':
+            return {
+                ...state,
+                classifications:[]
+            }
         case 'SET_DATASET_SELECTED_META_DATA':
             return {
                 ...state,
+                 classification:action.classification,
                  classificationValueId: action.classificationValueId,
                  indicatorId: action.indicatorId, 
                  sourceId: action.sourceId, 

@@ -35,6 +35,13 @@ const ExportExcel = () => {
 
     useEffect(() => {
         dispatch(getAllClassifications()) 
+        setClassification(store.classification)
+        setClassificationValue(store.classificationValueId)
+        setIndicator(store.indicatorId)
+        setPeriodicity(store.periodicityId)
+        setIndicatorUnit(store.indicatorUnitId)
+        setSource(store.sourceId)
+        setInsertionDate(store.insertionDate)
     }, [])
 
     useEffect(() => {
@@ -50,14 +57,31 @@ const ExportExcel = () => {
   }, [indicator])
 
     const handleClassificationsChange = (event) => {
+        setClassificationValue(null)
+        setIndicator(null)
+        setPeriodicity(null)
+        setIndicatorUnit(null)
+        setSource(null)
+        setInsertionDate(new Date())
+        dispatch({type: "RESET_CLASSIFICATION_BASED_LISTS"})
+        //dispatch({type: "RESET_DATASET_INDICATORS_BASED_DATA"})
         setClassification(event.id)
     }
     
     const handleClassificationValuesChange = (event) => {
-        setClassificationValue(event.id)
+      setIndicator(null)
+      setPeriodicity(null)
+      setIndicatorUnit(null)
+      setSource(null)
+      setInsertionDate(new Date())
+      setClassificationValue(event.id)
     }
 
     const handleIndicatorsChange = (event) => {
+      setPeriodicity(null)
+      setIndicatorUnit(null)
+      setSource(null)
+      setInsertionDate(new Date())
       setIndicator(event.id)
     }
 
@@ -112,6 +136,7 @@ const ExportExcel = () => {
       dispatch({type: "SET_DATASET_HORIZONTAL", horizontal:[]})
       dispatch({
         type: 'SET_DATASET_SELECTED_META_DATA',
+        classification,
         classificationValueId: classificationValue,
         indicatorId: indicator, 
         sourceId: source, 
@@ -139,6 +164,7 @@ const ExportExcel = () => {
                 options={store.classifications}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
+                value={classification ? store.classifications.find(x => x.id === classification) : 0}
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handleClassificationsChange(e) }
@@ -159,6 +185,7 @@ const ExportExcel = () => {
                     options={store.classificationValues}
                     getOptionLabel={(option) => option.name}
                     getOptionValue={(option) => option.id}
+                    value={classificationValue ? store.classificationValues.find(x => x.id === classificationValue) : 0}
                     className='react-select'
                     classNamePrefix='select'
                     onChange={e => handleClassificationValuesChange(e) }
@@ -177,6 +204,7 @@ const ExportExcel = () => {
                 options={store.indicators}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
+                value={indicator ? store.indicators.find(x => x.id === indicator) : 0}
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handleIndicatorsChange(e) }
@@ -197,6 +225,7 @@ const ExportExcel = () => {
                 options={store.periodicities}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
+                value={periodicity ? store.periodicities.find(x => x.id === periodicity) : 0}
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handlePeriodicitiesChange(e) }
@@ -215,6 +244,7 @@ const ExportExcel = () => {
                 options={store.indicatorUnits}
                 getOptionLabel={(option) => option.unitMeasureName}
                 getOptionValue={(option) => option.id}
+                value={indicatorUnit ? store.indicatorUnits.find(x => x.id === indicatorUnit) : 0}
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handleIndicatorUnitsChange(e) }
@@ -233,6 +263,7 @@ const ExportExcel = () => {
                 options={store.sources}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
+                value={source ? store.sources.find(x => x.id === source) : 0}
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handleSourcesChange(e) }
