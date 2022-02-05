@@ -94,7 +94,7 @@ const IndictorList = () => {
     dispatch(
       getData({
         pageNumber,
-        rowsPerPage,
+        pageSize: rowsPerPage,
         ...searchData
       })
     )
@@ -114,6 +114,17 @@ const IndictorList = () => {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
     } else if (store.deleteResponse.statusCode === 200) {
       notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
+      const Pages = Math.ceil((store.data.length - 1) / rowsPerPage)
+      if (Pages <= 0) {
+         setPageNumber(store.totalPages - 1)
+         
+      } else {
+        dispatch(getData({
+          ...searchData,
+          pageNumber,
+          pageSize: rowsPerPage
+        }))
+      }
     }
     dispatch({type:" RESET_INDICATOR_DELETE_RESPONSE"})
 
@@ -142,17 +153,17 @@ const IndictorList = () => {
 
   // ** Function in get data on page change
   const handlePagination = page => {
-    dispatch(
-      getData(
-        {
-          ...searchData,
-          pageNumber: page.selected + 1,
-          rowsPerPage
-        }
-      )
-    )
     setPageNumber(page.selected + 1)
   }
+
+  useEffect(() => {
+    dispatch(getData({
+      ...searchData,
+      pageNumber,
+      pageSize: rowsPerPage
+    }))
+  }, [pageNumber])
+
   // ** Custom Pagination
   const CustomPagination = () => {
     const count = store.totalPages
@@ -214,7 +225,7 @@ const IndictorList = () => {
     dispatch(
       getData({
         pageNumber,
-        rowsPerPage,
+        pageSize: rowsPerPage,
         ...searchData
       })
     )

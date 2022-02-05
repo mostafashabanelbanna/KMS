@@ -139,7 +139,7 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
     <Sidebar
       size='lg'
       open={open}
-      title={intl.formatMessage({id: "Add"})}
+      title={SelectedLookup.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"})}
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}

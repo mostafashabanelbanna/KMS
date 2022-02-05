@@ -114,11 +114,11 @@ const RolesList = () => {
   }, [store.deleteResponse.statusCode])
 
   const addDimension = () => {
-    dispatch({type: "GET_DIMENSION", selectedRole:{}})
+    dispatch({type: "GET_DIMENSION", selectedDimension:{}})
     toggleSidebar()
 }
   const updateDimension = id => {
-    dispatch({type: "GET_DIMENSION", selectedRole:{}})
+    dispatch({type: "GET_DIMENSION", selectedDimension:{}})
     dispatch({type:"RESET_DIMENSION_UPDATE_RESPONSE"})
     dispatch(getDimension(id))
     toggleSidebar()

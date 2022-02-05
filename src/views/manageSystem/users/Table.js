@@ -41,7 +41,7 @@ const UsersList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   
   const [pageNumber, setPageNumber] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [rowsPerPage, setRowsPerPage] = useState(2)
   const [searchData, setSearchData] = useState({
     name: "",
     email: "",

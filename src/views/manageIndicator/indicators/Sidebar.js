@@ -181,7 +181,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
      } else if (code === 500) {
        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
      } 
-     resetUpdateResponse() 
+     dispatch(resetUpdateResponse())
     }
   }, [store.updateResponse.statusCode])
 
@@ -189,7 +189,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
     <Sidebar
       size='lg'
       open={open}
-      title={intl.formatMessage({id: "Add"}) }
+      title={selectedIndicator.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"}) }
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}

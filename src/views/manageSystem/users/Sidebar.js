@@ -175,7 +175,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
     <Sidebar
       size='lg'
       open={open}
-      title={intl.formatMessage({id: "Add User"})}
+      title={selectedUser.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"})}
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
