@@ -44,7 +44,7 @@ const LookupsView = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [pageNumber, setPageNumber] = useState(1)
     const [selectedLookup, setSelectedLookup] = useState('')
-    const [rowsPerPage, setRowsPerPage] = useState(3)
+    const [rowsPerPage, setRowsPerPage] = useState(10)
     const [searchData, setSearchData] = useState({
       name: ""
     })

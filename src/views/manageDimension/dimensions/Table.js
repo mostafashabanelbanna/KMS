@@ -40,7 +40,7 @@ const RolesList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   
   const [pageNumber, setPageNumber] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
 
     // useIntl
     const intl = useIntl()
