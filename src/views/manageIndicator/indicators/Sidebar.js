@@ -331,6 +331,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         <FormGroup>
               <Label>{intl.formatMessage({id: "Periodicities"})}</Label>
               <Select
+                placeholder="تحديد"
                 isClearable={false}
                 theme={selectThemeColors}
                 defaultValue={selectedIndicator ? (selectedIndicator.indicatorPeriodicities ? convertSelectArr(selectedIndicator.indicatorPeriodicities) : null) : []}

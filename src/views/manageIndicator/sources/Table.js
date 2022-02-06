@@ -30,7 +30,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {isAuthorized} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin} from '../../../utility/Utils'
 
 const IndictorList = () => {
   // ** Store Vars
@@ -285,11 +285,7 @@ const IndictorList = () => {
     <Fragment>
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
         <>
-          <div className="my-1">
-            <Button.Ripple color='primary' onClick={addSource} >
-              <FormattedMessage id="Add" />
-            </Button.Ripple>
-          </div>
+         
           <Card>
             <DataTable
               noHeader
@@ -305,7 +301,15 @@ const IndictorList = () => {
               subHeaderWrap={false}
               subHeaderComponent={
                 <div className='w-100'>
-                  <SearchForm  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
+                  <div className="rounded" style={{backgroundColor: isNotLightSkin() ? "#343d55" : "#f3f2f7"}}>
+                     <SearchForm  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
+
+                  </div>
+                  <div className="my-1 d-flex justify-content-end">
+                    <Button.Ripple color='primary' onClick={addSource} >
+                      <FormattedMessage id="Add" />
+                    </Button.Ripple>
+                  </div>
                 </div>
               }
             />
