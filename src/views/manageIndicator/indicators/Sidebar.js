@@ -11,7 +11,7 @@ import { isObjEmpty, getSelected, selectThemeColors, convertSelectArr } from '@u
 // ** Third Party Components
 import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
-import Select, { components } from 'react-select'
+import Select from 'react-select'
 import CustomInput from 'reactstrap/lib/CustomInput'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 import Row from 'reactstrap/lib/Row'

@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import { Redirect } from 'react-router-dom'
 
-const ManageIndicatorRoutes = [
+const ManageDimensionRoutes = [
   {
     path: '/dimensions',
     component: lazy(() => import('../../views/manageDimension/dimensions'))
@@ -16,4 +16,4 @@ const ManageIndicatorRoutes = [
   }
 ]
 
-export default ManageIndicatorRoutes
+export default ManageDimensionRoutes

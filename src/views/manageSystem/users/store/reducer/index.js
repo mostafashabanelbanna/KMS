@@ -42,13 +42,13 @@ const users = (state = initialState, action) => {
         errorCode: action.errorCode
       }
     case 'GET_USER':
-      return { ...state, selectedUser: action.selectedUser }
+      return { ...state, selectedUser: action.selectedUser, errorCode: action.errorCode }
     case 'ADD_USER':
       return { ...state, createResponse: action.response, errorCode: action.errorCode  }
     case 'UPDATE_USER':
       return { ...state, updateResponse: action.response, errorCode: action.errorCode }
     case 'DELETE_USER':
-      return { ...state, deleteResponse: action.response }
+      return { ...state, deleteResponse: action.response, errorCode: action.errorCode  }
     case 'RESET_USER_GET_RESPONSE':
       return { ...state, getResponse: {error:{}, statusCode: 0, errors:[]}}
     case 'RESET_USER_CREATE_RESPONSE':
