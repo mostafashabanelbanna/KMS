@@ -29,7 +29,7 @@ import axios from '../../../../axios'
 const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificationValue, classificationId}) => {
 
    // ** States
-   const [classificationValues, setClassificationValues] = useState([])
+   const [parent, setParent] = useState({})
    const [allClassificationValues, setAllClassificationValues] = useState([])
 
      // fetch all ClassificationValues options
@@ -48,9 +48,7 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
   }, [])
 
    const handleClassificationValuesChange = (event) => {
-    const options = []
-    event.map(opt => options.push(opt.value))
-    setClassificationValues(options)
+    setParent(event)
   }
   // Import localization files
   const intl = useIntl()
@@ -84,7 +82,7 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
             description_E: values.descriptionE,
             icon: values.icon,
             color: values.color,
-            classificationValues,
+            parentId: parent.id,
             sortIndex: values.sortIndex,
             focus: values.focus,
             active: values.active
@@ -93,18 +91,18 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
       } else {
         await dispatch(
           updateClassificationValue({
-                classificationId,
-                id: selectedClassificationValue.id,
-                name_A: values.name,
-                name_E: values.nameE,
-                description_A: values.descriptionA,
-                description_E: values.descriptionE,
-                icon: values.icon,
-                color: values.color,
-                classificationValues,
-                sortIndex: values.sortIndex,
-                focus: values.focus,
-                active: values.active
+            classificationId,
+            id: selectedClassificationValue.id,
+            name_A: values.name,
+            name_E: values.nameE,
+            description_A: values.descriptionA,
+            description_E: values.descriptionE,
+            icon: values.icon,
+            color: values.color,
+            parentId: parent.id,
+            sortIndex: values.sortIndex,
+            focus: values.focus,
+            active: values.active
             }
           )
         )
@@ -246,8 +244,7 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
                 placeholder="تحديد"
                 isClearable={false}
                 theme={selectThemeColors}
-                defaultValue={selectedClassificationValue ? selectedClassificationValue.indicatorPeriodicities : []}
-                isMulti
+                value={selectedClassificationValue ? selectedClassificationValue.parent : null}
                 name='classificationValues'
                 id='classificationValues'
                 options={allClassificationValues}
