@@ -45,7 +45,10 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
 
   useEffect(() => {
     getAllClassificationValues()
+   
   }, [])
+   // ** Get data on mount
+ 
 
    const handleClassificationValuesChange = (event) => {
     setParent(event)
@@ -66,6 +69,7 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
   const dispatch = useDispatch()
   const store = useSelector(state => state.classificationValues)
 
+ 
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
 
