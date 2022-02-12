@@ -130,8 +130,7 @@ const DatasetDimensions = ({data, handleDeleteDimensionLevel, id, orderLevel, ty
     }
   }
   const handleDimensionValuesChange = (e) => {
-      let selectedValues = dimensionValues
-      console.log(e.length)
+      let selectedValues = [...dimensionValues]
       if (e.length === 0) {
           selectedValues = []
           setDimensionValues([SelectAllOption, ...dimensionValues])
