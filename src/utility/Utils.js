@@ -110,3 +110,11 @@ export const selectThemeColors = theme => ({
     neutral30: '#ededed' // for input hover border-color
   }
 })
+
+// Check mood
+export const isNotLightSkin = () => {
+  // get current skin 
+  const currentSkin = JSON.parse(localStorage.getItem("skin")) 
+  // wether skin is light or not
+  return currentSkin !== "light" 
+}

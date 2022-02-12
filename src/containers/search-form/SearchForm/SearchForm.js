@@ -14,7 +14,7 @@ const SearchForm = (props) => {
             case 'text':
                 return  <Col key={index} className='my-2' lg={item.colSizeLg}><Input  type={item.fieldType}   placeholder={item.label} onChange={(e) => props.searchHandler(e.target.value, item.attr)} /></Col> 
             case 'select':
-                return (<Col  key={index} className='my-2' lg="4"> <CreatableSelect options={item.dropdownArr} className='react-select' classNamePrefix='select' multiple={item.multiple} onChange={(e) => props.searchHandler(e.value, item.attr)} /></Col>)
+                return (<Col  key={index} className='my-2' lg="4"> <CreatableSelect options={item.dropdownArr} placeholder="تحديد" className='react-select' classNamePrefix='select' multiple={item.multiple} onChange={(e) => props.searchHandler(e.value, item.attr)} /></Col>)
             case 'checkbox':
                 return  (<Col  key={index} className='my-2' lg={item.colSizeLg}><FormGroup check inline>
                     <Input type='checkbox' defaultChecked={false} id={item.attr} onChange={(e) => props.searchHandler(e.target.checked, item.attr)}/>

@@ -121,7 +121,8 @@ const SidebarNewUnit = ({ open, toggleSidebar, selectedUnit }) => {
      } else if (code === 500) {
        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
      } 
-     resetUpdateResponse() 
+     dispatch(resetUpdateResponse())
+    
     }
   }, [store.updateResponse.statusCode])
 
@@ -129,7 +130,7 @@ const SidebarNewUnit = ({ open, toggleSidebar, selectedUnit }) => {
     <Sidebar
       size='lg'
       open={open}
-      title={selectedUnit ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"}) }
+      title={selectedUnit.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"}) }
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}

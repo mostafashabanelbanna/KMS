@@ -34,8 +34,8 @@ const initialState = {
       error : {},
       statusCode: 0,
       errors: []
-    }
-   
+    },
+    selectedDimension: {}
   }
   
   const Dimensions = (state = initialState, action) => {

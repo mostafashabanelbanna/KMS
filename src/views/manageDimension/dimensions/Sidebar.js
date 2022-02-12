@@ -17,7 +17,7 @@ import Col from 'reactstrap/lib/Col'
 import Toastr from '../../../containers/toastr/Toastr'
 
 // ** Store & Actions
-import { addDimension, updateDimension } from './store/action'
+import { addDimension, setRolePermission, updateDimension } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
 import CustomInput from 'reactstrap/lib/CustomInput'
 import { useIntl } from 'react-intl'
@@ -47,6 +47,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
   // ** Function to handle form submit
   const onSubmit = async values => {
     if (isObjEmpty(errors)) {
+      console.log(selectedDimension)
       if (!selectedDimension.id) {
         await dispatch(
           addDimension({
@@ -82,8 +83,6 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
   
   useEffect(() => {
     const code = store.createResponse.statusCode
-    console.log(code)
-
     if (code !== 0) {
        if (code === 200) {
             notify('success', intl.formatMessage({id: "AddSuccess"}))
@@ -98,7 +97,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
         notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
 
       } 
-      dispatch({type: "RESET_ROLE_CREATE_RESPONSE"})
+      dispatch({type: "RESET_DIMENSION_CREATE_RESPONSE"})
     }
   }, [store.createResponse.statusCode])
 
@@ -116,7 +115,8 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
      } else if (code === 500) {
        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
      } 
-     dispatch({type: "RESET_ROLE_UPDATE_RESPONSE"})
+     dispatch({type: "RESET_DIMENSION_UPDATE_RESPONSE"})
+
     }
   }, [store.updateResponse.statusCode])
 
@@ -124,7 +124,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
     <Sidebar
       size='lg'
       open={open}
-      title={`${intl.formatMessage({id: "Add"})} `}
+      title={selectedDimension.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"}) }
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}

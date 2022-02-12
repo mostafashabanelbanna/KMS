@@ -129,7 +129,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
      } else if (code === 500) {
        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
      } 
-     resetUpdateResponse() 
+     dispatch(resetUpdateResponse()) 
     }
   }, [store.updateResponse.statusCode])
 
@@ -137,7 +137,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
     <Sidebar
       size='lg'
       open={open}
-      title={intl.formatMessage({id: "Add"}) }
+      title={selectedSource.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"}) }
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}

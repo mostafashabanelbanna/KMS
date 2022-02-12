@@ -116,7 +116,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedRole }) => {
     <Sidebar
       size='lg'
       open={open}
-      title={`${intl.formatMessage({id: "Add"})} ${intl.formatMessage({id: "Role"})}`}
+      title={selectedRole.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"})}
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}

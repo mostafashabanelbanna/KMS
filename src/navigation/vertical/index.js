@@ -1,26 +1,22 @@
 // ** Navigation sections imports
 import apps from './apps'
-import manageSystem from './manageSystem'
-import pages from './pages'
-import forms from './forms'
-import tables from './tables'
-import others from './others'
-import dashboards from './dashboards'
-import uiElements from './ui-elements'
-import chartsAndMaps from './charts-maps'
+import manageDataset from './manageDataset'
+import manageClassifications from './manageClassifications'
 import manageIndicators from './manageIndicators'
 import manageDimensions from './manageDimensions'
-import manageDataset from './manageDataset'
+
 import managePublications from './managePublications'
 import manageInquiries from './manageInquiries'
 import manageComments from './manageComments'
 import manageNotifications from './manageNotifications'
+import manageSystem from './manageSystem'
 
 
 // ** Merge & Export
 export default [
     ...apps,
     ...manageDataset,
+    ...manageClassifications,
     ...manageIndicators,
     ...manageDimensions,
     ...managePublications,

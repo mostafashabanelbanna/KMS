@@ -11,7 +11,7 @@ import { isObjEmpty, getSelected, selectThemeColors, convertSelectArr } from '@u
 // ** Third Party Components
 import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
-import Select, { components } from 'react-select'
+import Select from 'react-select'
 import CustomInput from 'reactstrap/lib/CustomInput'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 import Row from 'reactstrap/lib/Row'
@@ -181,7 +181,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
      } else if (code === 500) {
        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
      } 
-     resetUpdateResponse() 
+     dispatch(resetUpdateResponse())
     }
   }, [store.updateResponse.statusCode])
 
@@ -189,7 +189,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
     <Sidebar
       size='lg'
       open={open}
-      title={intl.formatMessage({id: "Add"}) }
+      title={selectedIndicator.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"}) }
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
@@ -331,6 +331,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         <FormGroup>
               <Label>{intl.formatMessage({id: "Periodicities"})}</Label>
               <Select
+                placeholder="تحديد"
                 isClearable={false}
                 theme={selectThemeColors}
                 defaultValue={selectedIndicator ? (selectedIndicator.indicatorPeriodicities ? convertSelectArr(selectedIndicator.indicatorPeriodicities) : null) : []}

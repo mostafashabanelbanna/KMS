@@ -1,4 +1,3 @@
-import { data } from 'jquery'
 import axios from '../../../../axios'
 
 export const getAllClassifications = () => {

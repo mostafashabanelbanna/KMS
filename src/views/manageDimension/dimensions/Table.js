@@ -40,7 +40,7 @@ const RolesList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   
   const [pageNumber, setPageNumber] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
 
     // useIntl
     const intl = useIntl()
@@ -114,11 +114,11 @@ const RolesList = () => {
   }, [store.deleteResponse.statusCode])
 
   const addDimension = () => {
-    dispatch({type: "GET_DIMENSION", selectedRole:{}})
+    dispatch({type: "GET_DIMENSION", selectedDimension:{}})
     toggleSidebar()
 }
   const updateDimension = id => {
-    dispatch({type: "GET_DIMENSION", selectedRole:{}})
+    dispatch({type: "GET_DIMENSION", selectedDimension:{}})
     dispatch({type:"RESET_DIMENSION_UPDATE_RESPONSE"})
     dispatch(getDimension(id))
     toggleSidebar()
