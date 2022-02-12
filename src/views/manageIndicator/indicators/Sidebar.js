@@ -49,7 +49,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
   // fetch all Periodicities options
   const getAllPeriodicities = async () => {
     const response = await axios
-      .post('Lookups/GetLookupValues', { lookupName: "periodicity" })
+      .get('/Periodicity/GetPeriodicities')
       .catch((err) => console.log("Error", err)) //handle errors
 
       if (response && response.data) {
@@ -334,11 +334,13 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
                 placeholder="تحديد"
                 isClearable={false}
                 theme={selectThemeColors}
-                defaultValue={selectedIndicator ? (selectedIndicator.indicatorPeriodicities ? convertSelectArr(selectedIndicator.indicatorPeriodicities) : null) : []}
+                defaultValue={selectedIndicator ? selectedIndicator.indicatorPeriodicities : []}
                 isMulti
                 name='periodicities'
                 id='periodicities'
-                options={convertSelectArr(allPeriodicities)}
+                options={allPeriodicities}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.id}
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handlePeriodicitiesChange(e) }
@@ -347,13 +349,16 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
           <FormGroup>
               <Label>{intl.formatMessage({id: "Sources"})}</Label>
               <Select
+                placeholder="تحديد"
                 isClearable={false}
                 theme={selectThemeColors}
-                defaultValue={selectedIndicator ? (selectedIndicator.indicatorSources ? convertSelectArr(selectedIndicator.indicatorSources) : null) : []}
+                defaultValue={selectedIndicator ? selectedIndicator.indicatorSources : []}
                 isMulti
                 name='sources'
                 id='sources'
-                options={convertSelectArr(allSources)}
+                options={allSources}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.id}
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handleSourcesChange(e) }

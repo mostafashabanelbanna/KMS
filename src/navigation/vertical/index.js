@@ -10,19 +10,21 @@ import manageInquiries from './manageInquiries'
 import manageComments from './manageComments'
 import manageNotifications from './manageNotifications'
 import manageSystem from './manageSystem'
+import dashboard from './dashboard'
 
 
 // ** Merge & Export
 export default [
     ...apps,
+    ...dashboard,
     ...manageDataset,
-    ...manageClassifications,
+    // ...manageClassifications,
     ...manageIndicators,
-    ...manageDimensions,
+    // ...manageDimensions,
     ...managePublications,
     ...manageInquiries,
-    ...manageComments,
-    ...manageNotifications,
+    // ...manageComments,
+    // ...manageNotifications,
     ...manageSystem
     //, ...dashboards,  ...pages, ...uiElements, ...forms, ...tables, ...chartsAndMaps, ...others
 ]

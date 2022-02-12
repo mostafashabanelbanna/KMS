@@ -10,12 +10,7 @@ export default [
     icon: <User size={20} />,
     navLink: '/users'
   },
-  {
-    id: 'lookups',
-    title: 'Lookups',
-    icon: <Columns size={20} />,
-    navLink: '/lookups'
-  },
+
   {
     id: 'roles',
     title: 'Manage Roles',

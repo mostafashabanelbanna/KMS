@@ -127,5 +127,7 @@
 	"By Excel": "By Excel",
 	"InvalidExcelFileFormat": "Invalid Excel File Format",
 	"ThisFileAlreadyImported": "This File Already Imported",
-	"InvalidDataset": "Invalid Dataset"
+	"InvalidDataset": "Invalid Dataset",
+	"Indicators And Datasets": "Indicators And Datasets",
+	"System Settings" : "System Settings"
 }
