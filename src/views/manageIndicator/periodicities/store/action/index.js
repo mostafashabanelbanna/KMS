@@ -38,12 +38,14 @@ export const getData = params => {
 export const addPeriodicity = periodicity => {
 //console.log("source", periodicity)
    return (dispatch, getState) => {
+     
     
     axios
       .post('/Periodicity/CreatePeriodicity', periodicity)
       .then(response => {
         
         console.log(response)
+        
 
         dispatch({
           type: 'ADD_PERIODICITY',

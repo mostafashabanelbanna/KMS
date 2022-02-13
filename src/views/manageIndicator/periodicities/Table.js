@@ -42,53 +42,72 @@ const IndictorList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-
-  // periodicity types
-  const [allPeriodicityTypes, setAllPeriodicityTypes] = useState() 
-  const [isDaily, setIsDaily] = useState()
-  const [isWeekly, setIsWeekly] = useState()
-  const [isMonthly, setIsMonthly] = useState()
-
-  const [searchData, setSearchData] = useState({
+   // periodicity types
+   const [allPeriodicityTypes, setAllPeriodicityTypes] = useState()
+   
+   
+   const [searchData, setSearchData] = useState({
     name: "",
     active: null, 
-    isDaily,
-    isWeekly,
-    isMonthly 
+    isDaily:null,
+    isWeekly:null,
+    isMonthly:null
+    
+    //allPeriodicityTypes
   })
 
   const handleSearch = (value, attrName) => {
       switch (value) {
-        case 'daily':
-          setIsDaily(true)
-          setAllPeriodicityTypes(null)
-          setIsWeekly(null)
-          setIsMonthly(null)
-          return
+        case 'daily': 
+          setSearchData({
+            ...searchData,
+           isDaily : true,
+            isWeekly : null,
+            isMonthly :null}
+         
+          )
+         
+         return
         case 'weekly':
-          setIsDaily(null)
-          setAllPeriodicityTypes(null)
-          setIsWeekly(true)
-          setIsMonthly(null)
-          return
+        
+          setSearchData({
+            ...searchData,
+            isDaily : null,
+            isWeekly : true,
+            isMonthly :null
+          
+          })
+         return
         case 'monthly':
-          setIsDaily(null)
-          setAllPeriodicityTypes(null)
-          setIsWeekly(null)
-          setIsMonthly(true)
-          return
-        default:
-          setIsDaily(null)
-          setAllPeriodicityTypes(true)
-          setIsWeekly(null)
-          setIsMonthly(null)
+          
+          setSearchData({
+            ...searchData,
+            isDaily : null,
+            isWeekly : null,
+            isMonthly :true
+           
+          })
+         return
+      default :
+         setSearchData({
+          ...searchData,
+          isDaily : null,
+          isWeekly : null,
+          isMonthly :null
+          
+        }) 
+        return
+        
     }
+  
    setSearchData({
-      ...searchData, 
-      [attrName] : value 
+      ...searchData
     })
+   
   } 
 
+ 
+ console.log(searchData)
 
   // useIntl
   const intl = useIntl()
@@ -282,10 +301,7 @@ const IndictorList = () => {
       })
     )
   }
-  console.log('isDaily:', isDaily)
-  console.log('isWeekly:', isWeekly)
-  console.log('isMonthly:', isMonthly)
-  console.log('allPeriodicityTypes:', allPeriodicityTypes)
+  
  const columns =  [
     {
       name: <FormattedMessage id="Name" />,
