@@ -24,10 +24,10 @@ import axios from '../../../axios'
 
 
 // ** Store & Actions
-import { addSource, resetCreateResponse, updateSource, resetUpdateResponse } from './store/action'
+import { addPeriodicity, resetCreateResponse, updatePeriodicity, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
 
-const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
+const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => {
 
   // Import localization files
   const intl = useIntl()
@@ -44,7 +44,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
  
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.sources)
+  const store = useSelector(state => state.periodicities)
   
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
@@ -53,9 +53,9 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
   // ** Function to handle form submit
   const onSubmit = async values => {
     if (isObjEmpty(errors)) {
-      if (!selectedSource.id) {
+      if (!selectedPeriodicity.id) {
         await dispatch(
-            addSource({
+            addPeriodicity({
               name_A: values.name,
               name_E: values.nameE,
               description_A: values.descriptionA,
@@ -70,7 +70,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           )
       } else {
         await dispatch(
-          updateSource(
+          updatePeriodicity(
             {
               name_A: values.name,
               name_E: values.nameE,
@@ -82,7 +82,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
               isDefault: values.isDefault,
               focus: values.focus,
               active: values.active,
-              id: selectedSource.id
+              id: selectedPeriodicity.id
             }
           )
         )
@@ -137,7 +137,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
     <Sidebar
       size='lg'
       open={open}
-      title={selectedSource.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"}) }
+      //title={selectedPeriodicity.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"}) }
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
@@ -150,7 +150,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='name'
             id='name'
-            defaultValue={selectedSource ? selectedSource.name_A : ''}
+            defaultValue={selectedPeriodicity ? selectedPeriodicity.name_A : ''}
             placeholder={intl.formatMessage({id: "Name"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['name'] })}
@@ -163,7 +163,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='nameE'
             id='nameE'
-            defaultValue={selectedSource ? selectedSource.name_E : ''}
+            defaultValue={selectedPeriodicity ? selectedPeriodicity.name_E : ''}
             placeholder={intl.formatMessage({id: "Name In English"})}
             innerRef={register({ required:  false})}
             className={classnames({ 'is-invalid': errors['nameE'] })}
@@ -176,7 +176,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='descriptionA'
             id='descriptionA'
-            defaultValue={selectedSource ? selectedSource.description_A : ''}
+            defaultValue={selectedPeriodicity ? selectedPeriodicity.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Description'] })}
@@ -189,7 +189,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='descriptionE'
             id='descriptionE'
-            defaultValue={selectedSource ? selectedSource.description_E : ''}
+            defaultValue={selectedPeriodicity ? selectedPeriodicity.description_E : ''}
             placeholder={intl.formatMessage({id: "descriptionE"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['descriptionE'] })}
@@ -204,7 +204,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='color'
             id='color'
-            defaultValue={selectedSource ? selectedSource.color : ''}
+            defaultValue={selectedPeriodicity ? selectedPeriodicity.color : ''}
             placeholder={intl.formatMessage({id: "Color"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['color'] })}
@@ -219,60 +219,104 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedSource ? selectedSource.sortIndex : 0}
+            defaultValue={selectedPeriodicity ? selectedPeriodicity.sortIndex : 0}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
         </FormGroup>
+
         <Row className="mx-0">
-        <Col sm='6' >
+          <Col sm='4' >
+            <FormGroup>
+              <Input 
+                type="radio" 
+                placeholder={intl.formatMessage({id: "isDaily"})}
+                name="isDaily" 
+                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.isDaily : false}
+                innerRef={register()} />
+                  <Label for='isDaily'>
+                {intl.formatMessage({id: "isDaily"})}
+              </Label>
+            </FormGroup>
+          </Col>
+          <Col sm='4' >
+            <FormGroup>
+              <Input 
+                type="radio" 
+                placeholder={intl.formatMessage({id: "isWeekly"})}  
+                name="isWeekly" 
+                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.isWeekly : false}
+                innerRef={register()} />
+                  <Label for='focus'>
+                {intl.formatMessage({id: "isWeekly"})}
+              </Label>
+            </FormGroup>
+          </Col>
+          <Col sm='4' >
+            <FormGroup>
+              <Input 
+                type="radio" 
+                placeholder={intl.formatMessage({id: "isMonthly"})}  
+                name="isMonthly" 
+                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.isMonthly : false}
+                innerRef={register()}
+                />
+                 <Label for='isMonthly'>
+                  {intl.formatMessage({id: "isMonthly"})}
+                  
+                  </Label>
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row className="mx-0">
+        {/*<Col sm='4' >
             <FormGroup>
               <Input 
                 type="checkbox" 
                 placeholder={intl.formatMessage({id: "National"})}
                 name="isNational" 
-                defaultChecked ={selectedSource ? selectedSource.isNational : false}
+                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.isNational : false}
                 innerRef={register()} />
                   <Label for='isNational'>
                 {intl.formatMessage({id: "National"})}
               </Label>
             </FormGroup>
-          </Col>
+  </Col>*/}
 
-          <Col sm='6' >
+          <Col sm='4' >
             <FormGroup>
               <Input 
                 type="checkbox" 
                 placeholder={intl.formatMessage({id: "Default"})}
                 name="isDefault" 
-                defaultChecked ={selectedSource ? selectedSource.isDefault : false}
+                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.isDefault : false}
                 innerRef={register()} />
                   <Label for='isDefault'>
                 {intl.formatMessage({id: "Default"})}
               </Label>
             </FormGroup>
           </Col>
-          <Col sm='6' >
+          <Col sm='4' >
             <FormGroup>
               <Input 
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedSource ? selectedSource.focus : false}
+                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.focus : false}
                 innerRef={register()} />
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
             </FormGroup>
           </Col>
-          <Col sm='6' >
+          <Col sm='4' >
             <FormGroup>
               <Input 
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedSource ? selectedSource.active : false}
+                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.active : false}
                 innerRef={register()}
                 />
                  <Label for='active'>
@@ -294,5 +338,5 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
   )
 }
 
-export default SidebarNewSource
+export default SidebarNewPeriodicity
 

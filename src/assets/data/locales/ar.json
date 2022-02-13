@@ -126,5 +126,8 @@
 	"By Excel": "بإستخدام إكسيل",
 	"InvalidExcelFileFormat": "هذا الملف غير مدعوم",
 	"ThisFileAlreadyImported": "هذا الملف قد تم حفظه من قبل",
-	"InvalidDataset": "بيانات غير صالحة"
+	"InvalidDataset": "بيانات غير صالحة",
+	"isDaily":"يومى" ,
+	"isWeekly": "اسبوعى" ,
+	"isMonthly" : "شهرى"
 }

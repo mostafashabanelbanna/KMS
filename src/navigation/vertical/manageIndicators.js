@@ -23,5 +23,11 @@ export default [
     title: 'Units',
     icon: <CgPathUnite size={20} />,
     navLink: '/units'
+  },
+  {
+    id: '/periodicities',
+    title: 'Periodicities',
+    icon: <CgPathUnite size={20} />,
+    navLink: '/periodicities'
   }
 ]

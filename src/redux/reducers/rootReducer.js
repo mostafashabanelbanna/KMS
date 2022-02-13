@@ -10,6 +10,7 @@ import lookups from '@src/views/manageSystem/Lookups/store/reducer/Index'
 import roles from '@src/views/manageSystem/Roles/store/reducer/index'
 import indicators from '@src/views/manageIndicator/indicators/store/reducer/index'
 import sources from '@src/views/manageIndicator/sources/store/reducer/index'
+import periodicities from '@src/views/manageIndicator/periodicities/store/reducer/index'
 import units from '@src/views/manageIndicator/units/store/reducer/index'
 import dimensions from '@src/views/manageDimension/dimensions/store/reducer/index'
 import dimensionValues from '@src/views/manageDimension/dimensions/dimensionValues/store/reducer/index'
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
     roles,
     indicators,
     sources,
+    periodicities,
     units,
     dimensions,
     dimensionValues,
