@@ -47,8 +47,12 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
     getAllClassificationValues()
    
   }, [])
-   // ** Get data on mount
+
  
+  //set parent value for udate
+   useEffect(() => {
+    setParent(selectedClassificationValue.parent)
+  }, [selectedClassificationValue.parent])
 
    const handleClassificationValuesChange = (event) => {
     setParent(event)
@@ -245,10 +249,10 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
         <FormGroup>
               <Label>{intl.formatMessage({id: "Classification Values"})}</Label>
               <Select
+                value={ parent }
                 placeholder="تحديد"
                 isClearable={false}
                 theme={selectThemeColors}
-                value={selectedClassificationValue ? selectedClassificationValue.parent : null}
                 name='classificationValues'
                 id='classificationValues'
                 options={allClassificationValues}

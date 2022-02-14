@@ -133,7 +133,6 @@ const IndictorList = () => {
   useEffect(() => {
     if (store.errorCode !== 0 && store.errorCode !== 200 && store.errorCode !== 401 && store.errorCode !== 403) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
-
     }
   }, [store.errorCode])
 

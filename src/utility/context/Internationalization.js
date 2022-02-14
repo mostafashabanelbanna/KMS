@@ -5,8 +5,10 @@ import { useState, createContext } from 'react'
 import { IntlProvider } from 'react-intl'
 
 // ** Third Party Components
+import { useDispatch, useSelector } from 'react-redux'
 //import { useTranslation } from "react-i18next"
 
+import { handleRTL } from '@store/actions/layout'
 
 // ** Core Language Data
 import messagesAr from '@assets/data/locales/ar.json'
@@ -39,10 +41,14 @@ const IntlProviderWrapper = ({ children }) => {
   const [locale, setLocale] = useState('ar')
   const [messages, setMessages] = useState(menuMessages['ar'])
 
+  const dispatch = useDispatch()
+
+
   // ** Switches Language
   const switchLanguage = lang => {
     setLocale(lang)
     setMessages(menuMessages[lang])
+    dispatch(handleRTL(false))
   }
   
   return (

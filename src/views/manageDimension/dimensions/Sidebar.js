@@ -17,7 +17,7 @@ import Col from 'reactstrap/lib/Col'
 import Toastr from '../../../containers/toastr/Toastr'
 
 // ** Store & Actions
-import { addDimension, setRolePermission, updateDimension } from './store/action'
+import { addDimension, updateDimension } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
 import CustomInput from 'reactstrap/lib/CustomInput'
 import { useIntl } from 'react-intl'

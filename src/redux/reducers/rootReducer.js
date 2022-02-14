@@ -13,6 +13,7 @@ import sources from '@src/views/manageIndicator/sources/store/reducer/index'
 import units from '@src/views/manageIndicator/units/store/reducer/index'
 import dimensions from '@src/views/manageDimension/dimensions/store/reducer/index'
 import dimensionValues from '@src/views/manageDimension/dimensions/dimensionValues/store/reducer/index'
+import dimensionLevels from '@src/views/manageDimension/dimensions/dimensionLevels/store/reducer/index'
 import datasets from '@src/views/dataset/store/reducer/index'
 import classifications from '@src/views/manageClassification/classifications/store/reducer/index'
 import classificationValues from '@src/views/manageClassification/classifications/classificationValues/store/reducer/index'
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
     units,
     dimensions,
     dimensionValues,
+    dimensionLevels,
     datasets,
     classifications,
     classificationValues

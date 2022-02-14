@@ -16,8 +16,8 @@ import dashboard from './dashboard'
 // ** Merge & Export
 export default [
     ...apps,
-    ...dashboard,
-    ...manageDataset,
+    // ...dashboard,
+    // ...manageDataset,
     // ...manageClassifications,
     ...manageIndicators,
     // ...manageDimensions,

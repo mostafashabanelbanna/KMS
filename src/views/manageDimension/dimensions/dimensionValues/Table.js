@@ -31,7 +31,7 @@ import Toastr from '../../../../containers/toastr/Toastr'
 
 
 // helper function
-import {isAuthorized} from '../../../../utility/Utils'
+import {isAuthorized, isNotLightSkin} from '../../../../utility/Utils'
 
 const dimensionValueList = ({dimensionId}) => {
   // ** Store Vars
@@ -118,6 +118,17 @@ const dimensionValueList = ({dimensionId}) => {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
     } else if (store.deleteResponse.statusCode === 200) {
       notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
+      const Pages = Math.ceil((store.data.length - 1) / rowsPerPage)
+      if (Pages <= 0) {
+         setPageNumber(store.totalPages - 1)
+         
+      } else {
+        dispatch(getData({
+          ...searchData,
+          pageNumber,
+          pageSize: rowsPerPage
+        }))
+      }
     }
     dispatch({type:" RESET_DELETE_DIMENSION_VALUE_RESPONSE"})
 
@@ -146,17 +157,18 @@ const dimensionValueList = ({dimensionId}) => {
 
   // ** Function in get data on page change
   const handlePagination = page => {
-    dispatch(
-      getData(
-        {
-          ...searchData,
-          pageNumber: page.selected + 1,
-          rowsPerPage
-        }
-      )
-    )
+  
     setPageNumber(page.selected + 1)
   }
+    
+  useEffect(() => {
+    dispatch(getData({
+      ...searchData,
+      pageNumber,
+      pageSize: rowsPerPage
+    }))
+  }, [pageNumber])
+
   // ** Custom Pagination
   const CustomPagination = () => {
     const count = store.totalPages
@@ -264,11 +276,6 @@ const dimensionValueList = ({dimensionId}) => {
     <Fragment>
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
         <>
-          <div className="my-1">
-            <Button.Ripple color='primary' onClick={addDimensionValue} >
-              <FormattedMessage id="Add" />
-            </Button.Ripple>
-          </div>
           <Card>
             <DataTable
               noHeader
@@ -284,7 +291,15 @@ const dimensionValueList = ({dimensionId}) => {
               subHeaderWrap={false}
               subHeaderComponent={
                 <div className='w-100'>
-                  <SearchForm display='inline'  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
+                  <div className="rounded" style={{backgroundColor: isNotLightSkin() ? "#343d55" : "#f3f2f7"}}>
+                  <SearchForm display='inline' searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
+
+                  </div>
+                  <div className="my-1 d-flex justify-content-end">
+                    <Button.Ripple color='primary' onClick={addDimensionValue} >
+                      <FormattedMessage id="Add" />
+                    </Button.Ripple>
+                  </div>
                 </div>
               }
             />

@@ -57,7 +57,7 @@
 	"Manage Classifications": "إدارة التصنيفات",
 	"Manage Dataset": "إدارة عناصر البيانات",
 	"Manage Dimensions": "إدارة الأبعاد",
-	"Manage Indicators": "إدارة المؤشرات",
+	"Manage Indicators": "إدارة عناصر البيانات",
 	"Manage Publication": "إدارة الإصدارات",
 	"Manage Roles": "إدارة المجموعات",
 	"Manage System": "إدارة النظام",
@@ -128,5 +128,6 @@
 	"ThisFileAlreadyImported": "هذا الملف قد تم حفظه من قبل",
 	"InvalidDataset": "بيانات غير صالحة",
 	"Indicators And Datasets": "عناصر البيانات والمؤشرات",
-	"System Settings" : "ضبط النظام"
+	"System Settings" : "ضبط النظام",
+	"Dashboard": "اللوحة المعلوماتية"
 }
