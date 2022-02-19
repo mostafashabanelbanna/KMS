@@ -26,14 +26,22 @@ import axios from '../../../axios'
 // ** Store & Actions
 import { addIndicator, resetCreateResponse, updateIndicator, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
+import ClassificationValues from './ClassificationValues'
+// import ClassificationValues from './ClassificationValues'
 
 const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
+    // ** Store Vars
+    const dispatch = useDispatch()
+    const store = useSelector(state => state.indicators)
+  
    // ** States
    const [periodicities, setPeriodicities] = useState([])
    const [allPeriodicities, setAllPeriodicities] = useState([])
 
    const [sources, setSources] = useState([])
    const [allSources, setAllSources] = useState([])
+  
+
   // Import localization files
   const intl = useIntl()
   
@@ -73,10 +81,14 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
     getAllSources()
   }, [])
 
- 
-  // ** Store Vars
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.indicators)
+  const addClassificationValue = () => {
+    const addedObj = {
+      classificationId: 0,
+      classificationValues: []
+    }
+    dispatch({type: 'SET_SELECTED_CLASSIFICATION_VALUES', selectedClassificationValues: [...store.selectedClassificationValues, addedObj]})
+    
+  }
 
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
@@ -184,7 +196,8 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
      dispatch(resetUpdateResponse())
     }
   }, [store.updateResponse.statusCode])
-
+ 
+  
   return (
     <Sidebar
       size='lg'
@@ -193,8 +206,14 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
+      width={800}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
+        <Button  color='secondary' outline onClick={addClassificationValue}>إضافة قيم التصنيف</Button>
+        {store.selectedClassificationValues.map((item, index) => {
+          return <ClassificationValues index={index} key={index}/>
+        })}
+        
         <FormGroup>
           <Label for='name'>
             <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}

@@ -25,7 +25,8 @@ const initialState = {
     statusCode: 0,
     errors: []
   },
-  selectedIndicator:{}
+  selectedIndicator:{},
+  selectedClassificationValues: []
 }
 
 const users = (state = initialState, action) => {
@@ -57,6 +58,8 @@ const users = (state = initialState, action) => {
       return { ...state, updateResponse: {error:{}, statusCode: 0, errors:[]}}
     case 'RESET_INDICATOR_DELETE_RESPONSE':
       return { ...state, deleteResponse: {error:{}, statusCode: 0, errors:[]}}
+    case 'SET_SELECTED_CLASSIFICATION_VALUES':
+      return { ...state, selectedClassificationValues: action.selectedClassificationValues}
     case 'RESET_AUTH_ERROR':
       return {...state, errorCode : 0}
     default:
