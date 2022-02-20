@@ -17,6 +17,7 @@ import dimensionLevels from '@src/views/manageDimension/dimensions/dimensionLeve
 import datasets from '@src/views/dataset/store/reducer/index'
 import classifications from '@src/views/manageClassification/classifications/store/reducer/index'
 import classificationValues from '@src/views/manageClassification/classifications/classificationValues/store/reducer/index'
+import researcherIndicators from '@src/views/indicator/store/reducer/index'
 
 
 const rootReducer = combineReducers({
@@ -34,7 +35,8 @@ const rootReducer = combineReducers({
     dimensionLevels,
     datasets,
     classifications,
-    classificationValues
+    classificationValues,
+    researcherIndicators
 })
 
 export default rootReducer
