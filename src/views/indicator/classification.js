@@ -48,7 +48,6 @@ const classification = (props) => {
               <Link to={{pathname: `/indicator/classification/${props.match.params.classificationId ? props.match.params.classificationId : store.classifications[0].id}/${item.id}`}}>
                 <span>{item.name}</span> <span>({item.indicatorsCount})</span>
               </Link>
-             
           </div>
       ))}
       </div>
