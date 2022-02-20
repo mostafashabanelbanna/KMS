@@ -21,7 +21,6 @@ const classification = (props) => {
             const Url = `/ClassificationValue/GetClassificationValuesWithIndicatorsCount/${classificationId}/${parentId}`
             await axios.get(Url)
             .then(response => {
-                console.log(response.data.data)
                 setClassificationValues(response.data.data)
                })
                .catch(error => {
