@@ -1,8 +1,9 @@
 import axios from '../../../../../axios'
 
+
 // getdata
 export const getData = params => {
-  console.log(params)
+  
   return async dispatch => {
     await axios.post('/Periodicity/GetPeriodicitiesWithPagination', params)
     .then(response => {
@@ -26,7 +27,6 @@ export const getData = params => {
   
 }
 
-
 // export const getSourceValue = params => {
 //   return async (dispatch, getState) => {
 //       const indicator = getState().indicators.data.find(ind => ind.id === params)
@@ -38,15 +38,10 @@ export const getData = params => {
 export const addPeriodicity = periodicity => {
 //console.log("source", periodicity)
    return (dispatch, getState) => {
-     
-    
     axios
       .post('/Periodicity/CreatePeriodicity', periodicity)
       .then(response => {
-        
-        console.log(response)
-        
-
+            console.log(response)
         dispatch({
           type: 'ADD_PERIODICITY',
           periodicity,
@@ -65,8 +60,10 @@ export const addPeriodicity = periodicity => {
       .then(() => {
         dispatch(getData(getState().periodicities.params))
       })
+      
   }
 }
+
 
 export const resetCreateResponse = () => {
   return (dispatch) => {
@@ -101,6 +98,7 @@ export const updatePeriodicity = periodicity => {
     })
  }
 }
+
 
 export const resetUpdateResponse = () => {
   return (dispatch) => {

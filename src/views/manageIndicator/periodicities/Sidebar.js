@@ -1,5 +1,5 @@
 // ** React Import
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createElement} from 'react'
 
 // ** Custom Components
 import Sidebar from '@components/sidebar'
@@ -27,8 +27,8 @@ import axios from '../../../axios'
 import { addPeriodicity, resetCreateResponse, updatePeriodicity, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
 
-const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => {
 
+const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => {
   // Import localization files
   const intl = useIntl()
   
@@ -40,15 +40,95 @@ const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => 
         hideProgressBar: true 
       })
   }
-
+  // radio-button values
+  const [dailyValue, setDailyValue] = useState()
+  const [weeklyValue, setWeeklyValue] = useState()
+  const [monthlyValue, setMonthlyValue] = useState()
  
-  // ** Store Vars
+ const radioButtonValues = (value) => {
+   switch (value) {
+     case 'daily' :
+       setDailyValue(true)
+       setWeeklyValue(false)
+       setMonthlyValue(false)
+      
+       return
+      case 'weekly' : 
+      setDailyValue(false)
+      setWeeklyValue(true)
+      setMonthlyValue(false)
+  
+      return
+      case 'monthly' :
+        setDailyValue(false)
+        setWeeklyValue(false)
+        setMonthlyValue(true)
+        
+        return
+      default : 
+      setDailyValue(false)
+      setWeeklyValue(false)
+      setMonthlyValue(false)
+      
+     
+   } 
+   
+ }
+ //console.log(dailyValue, weeklyValue, monthlyValue)
+
+ //days in month function
+ const monthsArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+ const [monthValue, setMonthValue] = useState()
+ //console.log(monthValue)
+ 
+ function daysInMonth (month = 1) {
+  const currentYear = new Date().getFullYear() 
+  return new Date(currentYear, month, 0).getDate() 
+  
+}
+//console.log(daysInMonth(monthValue))
+
+const daysArr = []
+for (let i = 1; i <= daysInMonth(monthValue); i++) {
+  daysArr.push(i)
+  
+}
+//console.log(daysArr)
+// addPeriod function                                                                                                                                                                                                                                                   
+const [addperiod, setAddPeriod] = useState([])
+const renderPeriod = () => {
+const period = document.createElement("div")
+  setAddPeriod([...addperiod, {id:Math.random(), element:period}]) 
+  
+}
+
+//remove period function
+const removePeriod = (id) => {
+
+setAddPeriod(addperiod.filter((period) => period.id !== id))
+
+}
+// target periodicity interval 
+const [month, setMonth] = useState()
+const [day, setDay] = useState()
+const [periodicityInterval, setPeriodicityInterval] = useState(
+  [
+    {
+      month,
+      day
+    }
+  ]
+)
+
+console.log(periodicityInterval)
+
+
+// ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.periodicities)
   
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
-
 
   // ** Function to handle form submit
   const onSubmit = async values => {
@@ -62,11 +142,17 @@ const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => 
               description_E: values.descriptionE,
               color: values.color,
               sortIndex: values.sortIndex,
-              isNational: values.isNational,
               isDefault: values.isDefault,
               focus: values.focus,
-              active: values.active
+              active: values.active,
+              isDaily : dailyValue,
+             isMontly : monthlyValue,
+             isWeekly : weeklyValue,
+             intervals : periodicityInterval
+          
+              
             })
+           
           )
       } else {
         await dispatch(
@@ -78,11 +164,15 @@ const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => 
               description_E: values.descriptionE,
               color: values.color,
               sortIndex: values.sortIndex,
-              isNational: values.isNational,
               isDefault: values.isDefault,
               focus: values.focus,
               active: values.active,
-              id: selectedPeriodicity.id
+              id: selectedPeriodicity.id,
+              isDaily : dailyValue,
+              isMontly :monthlyValue,
+              isWeekly : weeklyValue,
+              intervals : periodicityInterval
+            
             }
           )
         )
@@ -90,7 +180,7 @@ const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => 
      
     }
   }
-  
+
   useEffect(() => {
     const code = store.createResponse.statusCode
     if (code !== 0) {
@@ -232,8 +322,9 @@ const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => 
               <Input 
                 type="radio" 
                 placeholder={intl.formatMessage({id: "isDaily"})}
-                name="isDaily" 
-                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.isDaily : false}
+                name="radioButton" 
+                value = "daily"
+                onChange = {(e) => radioButtonValues(e.target.value)}
                 innerRef={register()} />
                   <Label for='isDaily'>
                 {intl.formatMessage({id: "isDaily"})}
@@ -245,8 +336,9 @@ const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => 
               <Input 
                 type="radio" 
                 placeholder={intl.formatMessage({id: "isWeekly"})}  
-                name="isWeekly" 
-                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.isWeekly : false}
+                name="radioButton" 
+                value="weekly"
+                onChange = {(e) => radioButtonValues(e.target.value)}
                 innerRef={register()} />
                   <Label for='focus'>
                 {intl.formatMessage({id: "isWeekly"})}
@@ -258,8 +350,9 @@ const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => 
               <Input 
                 type="radio" 
                 placeholder={intl.formatMessage({id: "isMonthly"})}  
-                name="isMonthly" 
-                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.isMonthly : false}
+                name="radioButton" 
+                value = "monthly"
+                onChange = {(e) => radioButtonValues(e.target.value)}
                 innerRef={register()}
                 />
                  <Label for='isMonthly'>
@@ -270,19 +363,6 @@ const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => 
           </Col>
         </Row>
         <Row className="mx-0">
-        {/*<Col sm='4' >
-            <FormGroup>
-              <Input 
-                type="checkbox" 
-                placeholder={intl.formatMessage({id: "National"})}
-                name="isNational" 
-                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.isNational : false}
-                innerRef={register()} />
-                  <Label for='isNational'>
-                {intl.formatMessage({id: "National"})}
-              </Label>
-            </FormGroup>
-  </Col>*/}
 
           <Col sm='4' >
             <FormGroup>
@@ -326,7 +406,73 @@ const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => 
             </FormGroup>
           </Col>
         </Row>
+      
+          <div className='add-period mb-1'   >
+         <span onClick={renderPeriod}style={{cursor:"pointer"}}>
+          + اضافة فترة
+         </span>
+            </div>
+            {addperiod.map((item) => (
 
+            
+            <Row key={item.id} className="align-items-center mb-1 "> 
+
+           <Col sm={5}   >
+          <select  style={{width:"100%", padding: " 3px", color:"#6e6b7b", border: "1px solid #6e6b7b", borderRadius: "0.357rem", backgroundColor: "transparent " }} onChange={(e) => {
+            setMonthValue(e.target.value)
+            setMonth(e.target.value)
+            setPeriodicityInterval(
+              [
+                ...periodicityInterval,
+                {
+                  
+                  month,
+                  day:e.target.value
+                
+              }
+              ]
+              
+            )
+            
+          } } > 
+          {monthsArray.map((month, index) => (
+
+           <option value={index + 1} >{month}</option>
+
+          ))}
+       </select>
+          </Col>
+        <Col sm={5} >
+        <select style={{width:"100%", padding: " 3px", color:"#6e6b7b", border: "1px solid #6e6b7b", borderRadius: "0.357rem", backgroundColor: "transparent " }} onChange={(e) => {
+          setDay(e.target.value)
+          setPeriodicityInterval(
+            
+             [
+              ...periodicityInterval,
+              {
+                month,
+                day:e.target.value
+              }
+            
+             ]
+          )
+        }} >
+           {daysArr.map(day => (
+           <option value={day}>{day}</option>
+             ))}
+            </select>
+            </Col>
+
+           <Col sm={2}  >
+
+             <div className='remove-butoon' style={{cursor:"pointer", color:"#6e6b7b", fontSize:"16px", fontWeight:"bold"}} onClick={() => removePeriod(item.id)}>x</div>
+
+         </Col>
+        </Row>
+
+              
+            ))}
+       
         <Button type='submit' className='mr-1' color='primary'>
           {intl.formatMessage({id: "Save"}) }
         </Button>

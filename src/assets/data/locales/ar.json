@@ -1,3 +1,4 @@
+
 {
 	"Actions": "المهام",
 	"Active": "فعال",
@@ -130,4 +131,5 @@
 	"isDaily":"يومى" ,
 	"isWeekly": "اسبوعى" ,
 	"isMonthly" : "شهرى"
+	
 }

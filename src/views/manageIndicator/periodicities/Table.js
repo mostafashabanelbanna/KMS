@@ -56,7 +56,7 @@ const IndictorList = () => {
     //allPeriodicityTypes
   })
 
-  const handleSearch = (value, attrName) => {
+  const handleSearch = (value) => {
       switch (value) {
         case 'daily': 
           setSearchData({
@@ -257,6 +257,7 @@ const IndictorList = () => {
       return store.data
     } 
   }
+  
 
   // Search Form Items we need to pass to Search Form container
   const formItems =  [
