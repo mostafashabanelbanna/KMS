@@ -13,6 +13,26 @@ const ManageIndicatorRoutes = [
   {
     path: '/units',
     component: lazy(() => import('../../views/manageIndicator/units'))
+  },
+  {
+    path: '/indicator/classification/:classificationId/:parentId',
+    component: lazy(() => import('../../views/indicator/classification'))
+  },
+  {
+    path: '/indicator/classification/:classificationId',
+    component: lazy(() => import('../../views/indicator/classification'))
+  },
+  {
+    path: '/indicator/classification',
+    component: lazy(() => import('../../views/indicator/classification'))
+  },
+  {
+    path: '/indicator/periodicity',
+    component: lazy(() => import('../../views/indicator/periodicity'))
+  },
+  {
+    path: '/indicator/search',
+    component: lazy(() => import('../../views/indicator/search'))
   }
 ]
 
