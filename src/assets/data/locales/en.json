@@ -129,5 +129,7 @@
 	"ThisFileAlreadyImported": "This File Already Imported",
 	"InvalidDataset": "Invalid Dataset",
 	"Indicators And Datasets": "Indicators And Datasets",
-	"System Settings" : "System Settings"
+	"System Settings" : "System Settings",
+	"Unit Measures": "Unit Measures",
+	"Unit Labels": "Unit Labels"
 }

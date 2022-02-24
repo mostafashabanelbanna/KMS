@@ -4,66 +4,90 @@ import Select from 'react-select'
 import { useIntl } from "react-intl"
 import { useDispatch, useSelector  } from 'react-redux'
 import { selectThemeColors } from '@utils'
-
+import { toast } from 'react-toastify'
+import Toastr from '../../../containers/toastr/Toastr'
 import axios from '../../../axios'
 
-const ClassificationValues = ({index}) => {
-        // ** Store Vars
-        const dispatch = useDispatch()
-        const store = useSelector(state => state.indicators)
-      
-    
-    const [classificationValues, setClassificationValues] = useState([])
+const ClassificationValues = ({selectedIndicator, index }) => {
+    // ** Store Vars
+    const dispatch = useDispatch()
+    const store = useSelector(state => state.indicators)
+    const notify = (type, message) => {
+        return toast.success(
+            <Toastr type={type} message={message} />,
+            { 
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: true 
+            })
+    }
+    const [classification, setClassification] = useState(null)
     const [allClassificationValues, setAllClassificationValues] = useState([])
 
-    const [allClassifications, setAllClassifications] = useState([])
-    const [classification, setClassification] = useState(null)
- 
-    const getAllClassifications = async () => {
-     const response = await axios
-       .get('Classification/GetClassifications')
-       .catch((err) => console.log("Error", err)) //handle errors
- 
-       if (response && response.data) {
-           setAllClassifications(response.data.data)
-       }
-    } 
-  
- 
-     useEffect(() => {
-         getAllClassifications()
-     }, [])
- 
+    const validateClassification = id => {
+        let isValidated = true
+        for (let i = 0; i < store.selectedClassificationValues.length; i++) {
+            if (id === store.selectedClassificationValues[i].id && index !== i) {
+                isValidated = false
+            }
+        }
+        if (!isValidated) {
+            notify('error', "هذا التصنيف مستخدم من قبل")
+            // setClassification(null)
+            setAllClassificationValues([])
+            const temp = store.selectedClassificationValues
+            temp[index].id = 0
+            temp[index].name = ''
+            temp[index].classificationValues = []
+            dispatch({type:"SET_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: temp})
+        }
+        return isValidated
+    }
  
     const handleClassificationsChange = event => {
-      setClassification(event.id)
- 
+        const isValid = validateClassification(event.id)
+        if (isValid) {
+            if (event) {
+                // setClassification(event)
+                const temp = store.selectedClassificationValues
+                temp[index].id = event.id
+                temp[index].name = event.name
+                temp[index].classificationValues = []
+                dispatch({type:"SET_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: temp})
+            } 
+        }
+     
    }
 
 
     const getAllClassificationValues = async () => {
-        const response = await axios
-        .get(`/ClassificationValue/GetClassificationValues/${classification}`)
-        .catch((err) => console.log("Error", err)) //handle errors
-
-        if (response && response.data) {
-            setAllClassificationValues(response.data.data)
+        if (store.selectedClassificationValues[index]) {
+            const response = await axios
+            .get(`/ClassificationValue/GetClassificationValues/${store.selectedClassificationValues[index].id}`)
+            .catch((err) => console.log("Error", err)) //handle errors
+    
+            if (response && response.data) {
+                setAllClassificationValues(response.data.data)
+            }
         }
+      
     }
     
-        useEffect(() => {
-            setClassificationValues([])
-            getAllClassificationValues()
-        }, [classification])
+    useEffect(() => {
+        const temp = store.selectedClassificationValues
+        // temp[index].classificationValues = []
+        dispatch({type:"SET_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: temp})
+        getAllClassificationValues()
+    }, [store.selectedClassificationValues[index].id])
     
     
-        const handleClassificationValuesChange = event => {
-            setClassificationValues(event)
-        }
+    const handleClassificationValuesChange = event => {
+        
+        const temp = store.selectedClassificationValues
+        temp[index].classificationValues = event
+        dispatch({type:"SET_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: temp})
+    }
     
     const intl = useIntl()
-    
-    // console.log(classificationValues)
     return (
         <Row className="mx-0">
             <Col sm='6' >
@@ -72,12 +96,13 @@ const ClassificationValues = ({index}) => {
                 {intl.formatMessage({id: "Classifications"})}
             </Label>
             <Select
+                value={store.selectedClassificationValues[index]}
                 placeholder="تحديد"
                 isClearable={false}
                 theme={selectThemeColors}
                 name='classifications'
                 id='classifications'
-                options={allClassifications}
+                options={store.allClassifications}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
                 className='react-select'
@@ -101,7 +126,7 @@ const ClassificationValues = ({index}) => {
                 getOptionValue={(option) => option.id}
                 className='react-select'
                 classNamePrefix='select'
-                value={classificationValues}
+                value={store.selectedClassificationValues[index].classificationValues}
                 onChange={e => handleClassificationValuesChange(e) }
               />
          </FormGroup>

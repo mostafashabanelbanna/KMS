@@ -25,3 +25,25 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
 * {
   font-family: "GESSTwo";
 }
+
+.modal-slide-in .modal-dialog.sidebar-lg.bigger_modal {
+  width: 900px;
+}
+
+@media only screen and (max-width: 992px) {
+  .modal-slide-in .modal-dialog.sidebar-lg.bigger_modal {
+    width: 750px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .modal-slide-in .modal-dialog.sidebar-lg.bigger_modal {
+    width: 450px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .modal-slide-in .modal-dialog.sidebar-lg.bigger_modal {
+    width: 300px;
+  }
+}

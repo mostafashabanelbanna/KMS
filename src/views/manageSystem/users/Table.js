@@ -32,6 +32,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 // helper function
 import {isAuthorized, isNotLightSkin} from '../../../utility/Utils'
 
+
 const UsersList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
@@ -281,6 +282,14 @@ const UsersList = () => {
       )
     }
   ]
+
+  const ExpandedComponent = ({ data }) => (
+    <div>
+        <div>{data.name}</div>  
+        <div>{data.email}</div>  
+    </div>
+  )
+
   return (
     <Fragment>
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
@@ -288,6 +297,8 @@ const UsersList = () => {
           
           <Card>
             <DataTable
+              expandableRows 
+              expandableRowsComponent={<ExpandedComponent/>}
               noHeader
               pagination
               subHeader

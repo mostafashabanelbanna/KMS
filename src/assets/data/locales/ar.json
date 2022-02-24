@@ -129,5 +129,7 @@
 	"InvalidDataset": "بيانات غير صالحة",
 	"Indicators And Datasets": "عناصر البيانات والمؤشرات",
 	"System Settings" : "ضبط النظام",
-	"Dashboard": "اللوحة المعلوماتية"
+	"Dashboard": "اللوحة المعلوماتية",
+	"Unit Measures": "وحدة القياس",
+	"Unit Labels": "مسمى الوحدة"
 }
