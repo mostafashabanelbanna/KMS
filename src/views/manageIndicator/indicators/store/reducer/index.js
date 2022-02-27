@@ -26,7 +26,10 @@ const initialState = {
     errors: []
   },
   selectedIndicator:{},
-  selectedClassificationValues: []
+  allClassifications: [],
+  selectedClassificationValues: [],
+  allUnitLabels: [],
+  selectedUnits: []
 }
 
 const users = (state = initialState, action) => {
@@ -58,8 +61,14 @@ const users = (state = initialState, action) => {
       return { ...state, updateResponse: {error:{}, statusCode: 0, errors:[]}}
     case 'RESET_INDICATOR_DELETE_RESPONSE':
       return { ...state, deleteResponse: {error:{}, statusCode: 0, errors:[]}}
+    case 'SET_ALL_CLASSIFICATIONS':
+      return { ...state, allClassifications: action.allClassifications}
     case 'SET_SELECTED_CLASSIFICATION_VALUES':
       return { ...state, selectedClassificationValues: action.selectedClassificationValues}
+    case 'SET_ALL_UNIT_LABELS':
+      return {...state, allUnitLabels: action.allUnitLabels}
+    case 'SET_SELECTED_UNITS':
+      return {...state, selectedUnits: action.selectedUnits}
     case 'RESET_AUTH_ERROR':
       return {...state, errorCode : 0}
     default:

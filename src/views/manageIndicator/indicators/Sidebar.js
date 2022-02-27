@@ -27,6 +27,7 @@ import axios from '../../../axios'
 import { addIndicator, resetCreateResponse, updateIndicator, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
 import ClassificationValues from './ClassificationValues'
+import Units from './Units'
 // import ClassificationValues from './ClassificationValues'
 
 const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
@@ -75,19 +76,53 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         setAllSources(response.data.data)
       }
     } 
+    const getAllClassifications = async () => {
+      const response = await axios
+        .get('Classification/GetClassifications')
+        .catch((err) => console.log("Error", err)) //handle errors
+  
+        if (response && response.data) {
+            dispatch({type: 'SET_ALL_CLASSIFICATIONS', allClassifications: response.data.data})
+        }
+     } 
+
+  const getAllUnitLabels = async () => {
+    const response = await axios
+      .post(`/Lookups/GetLookupValues/`, {lookupName: "UnitLabel"})
+      .catch((err) => console.log("Error", err)) //handle errors
+     
+      if (response && response.data) {
+          dispatch({type: 'SET_ALL_UNIT_LABELS', allUnitLabels: response.data.data})
+      }
+  } 
 
   useEffect(() => {
     getAllPeriodicities()
     getAllSources()
+    getAllClassifications()
+    getAllUnitLabels()
   }, [])
 
   const addClassificationValue = () => {
-    const addedObj = {
-      classificationId: 0,
-      classificationValues: []
+    if (store.selectedClassificationValues.length < store.allClassifications.length) {
+      const addedObj = {
+        // id: null,
+        classificationValues: []
+      }
+      dispatch({type: 'SET_SELECTED_CLASSIFICATION_VALUES', selectedClassificationValues: [...store.selectedClassificationValues, addedObj]})    
     }
-    dispatch({type: 'SET_SELECTED_CLASSIFICATION_VALUES', selectedClassificationValues: [...store.selectedClassificationValues, addedObj]})
-    
+  
+  }
+
+  const addUnit = () => {
+    if (store.selectedUnits.length < store.allUnitLabels.length) {
+      const addedObj = {
+        // unitLabelId: 0,
+        unitMeasures: []
+      }
+      dispatch({type: 'SET_SELECTED_UNITS', selectedUnits: [...store.selectedUnits, addedObj]})    
+    }
+  
   }
 
   // ** Vars
@@ -95,14 +130,14 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
 
    // pass only role id to userRoles
    const handlePeriodicitiesChange = (event) => {
-    const options = []
-    event.map(opt => options.push(opt.value))
-    setPeriodicities(options)
+     const options = []
+     event.map(opt => options.push(opt.id))
+     setPeriodicities(options)
   }
-
+    
   const handleSourcesChange = (event) => {
     const options = []
-    event.map(opt => options.push(opt.value))
+    event.map(opt => options.push(opt.id))
     setSources(options)
   }
 
@@ -110,6 +145,18 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
   const onSubmit = async values => {
     if (isObjEmpty(errors)) {
       if (!selectedIndicator.id) {
+        const classificationValues = []
+        for (let i = 0; i < store.selectedClassificationValues.length; i++) {
+          store.selectedClassificationValues[i].classificationValues.map(item => {
+            classificationValues.push(item.id)
+          })
+        }
+        const units = []
+        for (const selectedUnit of store.selectedUnits) {
+         for (const unitMeasure of selectedUnit.unitMeasures) {
+           units.push({unitLabelId : selectedUnit.unitLabelId, unitMeasureId: unitMeasure.id})
+        }      
+      }
         await dispatch(
             addIndicator({
               name_A: values.name,
@@ -125,7 +172,9 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               focus: values.focus,
               active: values.active,
               periodicities,
-              sources
+              sources,
+              classificationValues,
+              units
             })
           )
       } else {
@@ -196,24 +245,99 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
      dispatch(resetUpdateResponse())
     }
   }, [store.updateResponse.statusCode])
- 
+
+  useEffect(() => {
+   if (selectedIndicator.id) {
+      dispatch({type:"SET_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: selectedIndicator.indicatorClassifications})
+      dispatch({type:"SET_SELECTED_UNITS", selectedUnits: selectedIndicator.indicatorUnitDTOs})
+   }
+  }, [selectedIndicator])
+
   
+  const data = [
+    {
+      label: 'location',
+      id: 999,
+      options: [
+          {id: '1,1', name: 'بلاد', did: 5},
+          {id: '1,2', name: 'محافظات'}
+      ]
+    },
+    {
+      label: 'gender',
+      id: 333,
+  
+        options: [
+            {id: '2,1', name: 'male'},
+            {id: '2,2', name: 'female'}
+        ]
+    }
+  ]
+
+ const [selectedArr, setSelectedArr] = useState([
+  {
+      id: "1,2",
+      name: "محافظات"
+  },
+  {
+      id: "1,1",
+      name: "بلاد",
+      did: 5
+  }
+])
+  
+  const handleDimensionLevelsChange = (event) => {
+    setSelectedArr(event)
+  }
+  
+  console.log(selectedArr)
   return (
     <Sidebar
       size='lg'
       open={open}
       title={selectedIndicator.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"}) }
+      className="bigger_modal"
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
-      width={800}
+      // width={'}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
+      <Row className="mx-0">
+            <Col sm='6' >
+        <FormGroup>
+            <Label for='name'>
+                {intl.formatMessage({id: "Classifications"})}
+            </Label>
+            <Select
+                value= {selectedArr}
+                isMulti
+                placeholder="تحديد"
+                isClearable={false}
+                theme={selectThemeColors}
+                name='classifications'
+                id='classifications'
+                options={data}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.id}
+                className='react-select'
+                classNamePrefix='select'
+                onChange={e => handleDimensionLevelsChange(e) }
+            />
+            </FormGroup>
+            </Col>
+          </Row>
+        <Button  color='secondary' outline onClick={addUnit}>إضافة وحدات </Button>
+          {store.selectedUnits.map((item, index) => {
+            return <Units selectedIndicator={selectedIndicator} index={index} key={index}/>
+        })}
+        <br/>
         <Button  color='secondary' outline onClick={addClassificationValue}>إضافة قيم التصنيف</Button>
         {store.selectedClassificationValues.map((item, index) => {
-          return <ClassificationValues index={index} key={index}/>
+          return <ClassificationValues selectedIndicator={selectedIndicator} index={index} key={index}/>
         })}
-        
+          <Row className="mx-0">
+            <Col sm='6' >
         <FormGroup>
           <Label for='name'>
             <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
@@ -227,6 +351,8 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             className={classnames({ 'is-invalid': errors['name'] })}
           />
         </FormGroup>
+        </Col>
+        <Col sm='6' >
         <FormGroup>
           <Label for='nameE'>
             {intl.formatMessage({id: "Name In English"})}
@@ -240,19 +366,25 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             className={classnames({ 'is-invalid': errors['nameE'] })}
           />
         </FormGroup>
+        </Col>
+        </Row>
+        <Row className="mx-0">
+            <Col sm='6' >
         <FormGroup>
           <Label for='descriptionA'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Description"})}
+           {intl.formatMessage({id: "Description"})}
           </Label>
           <Input
             name='descriptionA'
             id='descriptionA'
             defaultValue={selectedIndicator ? selectedIndicator.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
-            innerRef={register({ required: true })}
+            innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['Description'] })}
           />
         </FormGroup>
+        </Col>
+        <Col sm='6' >
         <FormGroup>
           <Label for='descriptionE'>
             {intl.formatMessage({id: "descriptionE"})}
@@ -268,7 +400,11 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         </FormGroup>
    
        
-        <FormGroup>
+</Col>
+        </Row>
+        <Row className="mx-0">
+            <Col sm='6' >
+            <FormGroup>
           <Label for='acquisitionA'>
              {intl.formatMessage({id: "acquisitionA"})}
           </Label>
@@ -281,7 +417,9 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             className={classnames({ 'is-invalid': errors['acquisitionA'] })}
           />
         </FormGroup>
-        <FormGroup>
+            </Col>
+            <Col sm='6' >
+            <FormGroup>
           <Label for='acquisitionE'>
            {intl.formatMessage({id: "acquisitionE"})}
           </Label>
@@ -294,7 +432,11 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             className={classnames({ 'is-invalid': errors['acquisitionE'] })}
           />
         </FormGroup>
-        <FormGroup>
+            </Col>
+        </Row>
+        <Row className="mx-0">
+            <Col sm='6' >
+              <FormGroup>
           <Label for='calculationA'>
              {intl.formatMessage({id: "calculationA"})}
           </Label>
@@ -307,7 +449,9 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             className={classnames({ 'is-invalid': errors['calculationA'] })}
           />
         </FormGroup>
-        <FormGroup>
+        </Col>
+            <Col sm='6' >
+            <FormGroup>
           <Label for='calculationE'>
            {intl.formatMessage({id: "calculationE"})}
           </Label>
@@ -320,7 +464,10 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             className={classnames({ 'is-invalid': errors['calculationE'] })}
           />
         </FormGroup>
-        <FormGroup>
+            </Col>
+        </Row>
+        <Row className="mx-0">
+            <Col sm='6' ><FormGroup>
           <Label for='url'>
            {intl.formatMessage({id: "url"})}
           </Label>
@@ -333,7 +480,9 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             className={classnames({ 'is-invalid': errors['url'] })}
           />
         </FormGroup>
-        <FormGroup>
+        </Col>
+            <Col sm='6' >
+            <FormGroup>
           <Label for='sortIndex'>
             <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
           </Label>
@@ -347,7 +496,10 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
         </FormGroup>
-        <FormGroup>
+            </Col>
+        </Row>
+        <Row className="mx-0">
+            <Col sm='6' ><FormGroup>
               <Label>{intl.formatMessage({id: "Periodicities"})}</Label>
               <Select
                 placeholder="تحديد"
@@ -364,7 +516,9 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
                 classNamePrefix='select'
                 onChange={e => handlePeriodicitiesChange(e) }
               />
-          </FormGroup>
+          </FormGroup></Col>
+            <Col sm='6' >
+               
           <FormGroup>
               <Label>{intl.formatMessage({id: "Sources"})}</Label>
               <Select
@@ -383,6 +537,9 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
                 onChange={e => handleSourcesChange(e) }
               />
           </FormGroup>
+            </Col>
+        </Row>
+       
         <Row className="mx-0">
           <Col sm='6' >
             <FormGroup>
