@@ -2,7 +2,7 @@ import axios from '../../../../axios'
 
 export const getAllClassifications = () => {
   return async dispatch => {
-    await axios.get('/Classification/GetClassifications')
+    await axios.post('/Classification/GetClassifications', {focus: null})
       .then(response => {
         dispatch({
           type: 'GET_DATASET_CLASSIFICATIONS',
