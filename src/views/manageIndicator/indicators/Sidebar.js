@@ -41,11 +41,12 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
 
    const [sources, setSources] = useState([])
    const [allSources, setAllSources] = useState([])
-  
+
+   const [dimensionLevels, setDimenionLevels] = useState([])
+   const [allDimensionLevels, setAllDimensionLevels] = useState([])
 
   // Import localization files
   const intl = useIntl()
-  
   // Toastr notify function
   const notify = (type, message) => {
     return toast.success(
@@ -65,7 +66,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         setAllPeriodicities(response.data.data)
       }
     } 
-
+console.log(periodicities)
   // fetch all Periodicities options
   const getAllSources = async () => {
     const response = await axios
@@ -95,12 +96,21 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
           dispatch({type: 'SET_ALL_UNIT_LABELS', allUnitLabels: response.data.data})
       }
   } 
+  const getAllDimensionLevels = async () => {
+    const response = await axios
+      .get('DimensionsLevel/GetDimensionLevels')
+      .catch((err) => console.log("Error", err)) //handle errors
 
+      if (response && response.data) {
+        setAllDimensionLevels(response.data.data)
+      }
+    } 
   useEffect(() => {
     getAllPeriodicities()
     getAllSources()
     getAllClassifications()
     getAllUnitLabels()
+    getAllDimensionLevels()
   }, [])
 
   const addClassificationValue = () => {
@@ -135,28 +145,48 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
      setPeriodicities(options)
   }
     
+  useEffect(() => {
+    if (selectedIndicator.indicatorPeriodicities) {
+      handlePeriodicitiesChange(selectedIndicator.indicatorPeriodicities)
+    }
+  }, [selectedIndicator])
+
   const handleSourcesChange = (event) => {
     const options = []
     event.map(opt => options.push(opt.id))
     setSources(options)
   }
 
+  const handleDimensionLevelsChange = (event) => {
+    setDimenionLevels(event)
+  }
+  
   // ** Function to handle form submit
   const onSubmit = async values => {
+    const classificationValues = []
+    for (let i = 0; i < store.selectedClassificationValues.length; i++) {
+      store.selectedClassificationValues[i].classificationValues.map(item => {
+        classificationValues.push(item.id)
+      })
+    }
+
+    const units = []
+
+    for (const selectedUnit of store.selectedUnits) {
+     for (const unitMeasure of selectedUnit.unitMeasures) {
+       units.push({unitLabelId : selectedUnit.id, unitMeasureId: unitMeasure.id})
+      }      
+    }
+
+    const tempDimensionLevels = []
+    for (const dimensionLevel of dimensionLevels) {
+      tempDimensionLevels.push(dimensionLevel.id)
+         
+    }
+
     if (isObjEmpty(errors)) {
       if (!selectedIndicator.id) {
-        const classificationValues = []
-        for (let i = 0; i < store.selectedClassificationValues.length; i++) {
-          store.selectedClassificationValues[i].classificationValues.map(item => {
-            classificationValues.push(item.id)
-          })
-        }
-        const units = []
-        for (const selectedUnit of store.selectedUnits) {
-         for (const unitMeasure of selectedUnit.unitMeasures) {
-           units.push({unitLabelId : selectedUnit.unitLabelId, unitMeasureId: unitMeasure.id})
-        }      
-      }
+   
         await dispatch(
             addIndicator({
               name_A: values.name,
@@ -174,7 +204,8 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               periodicities,
               sources,
               classificationValues,
-              units
+              units,
+              indicatorDimensions:tempDimensionLevels
             })
           )
       } else {
@@ -195,6 +226,9 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               active: values.active,
               periodicities,
               sources, 
+              classificationValues,
+              units,
+              indicatorDimensions: tempDimensionLevels,
               id: selectedIndicator.id
             }
           )
@@ -274,23 +308,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
     }
   ]
 
- const [selectedArr, setSelectedArr] = useState([
-  {
-      id: "1,2",
-      name: "محافظات"
-  },
-  {
-      id: "1,1",
-      name: "بلاد",
-      did: 5
-  }
-])
-  
-  const handleDimensionLevelsChange = (event) => {
-    setSelectedArr(event)
-  }
-  
-  console.log(selectedArr)
+ 
   return (
     <Sidebar
       size='lg'
@@ -307,17 +325,17 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             <Col sm='6' >
         <FormGroup>
             <Label for='name'>
-                {intl.formatMessage({id: "Classifications"})}
+                {intl.formatMessage({id: "Dimensions"})}
             </Label>
             <Select
-                value= {selectedArr}
+               defaultValue={selectedIndicator ? selectedIndicator.indicatorDimensions : []}
                 isMulti
                 placeholder="تحديد"
                 isClearable={false}
                 theme={selectThemeColors}
-                name='classifications'
-                id='classifications'
-                options={data}
+                name='dimensions'
+                id='dimensions'
+                options={allDimensionLevels}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
                 className='react-select'
@@ -327,15 +345,17 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             </FormGroup>
             </Col>
           </Row>
-        <Button  color='secondary' outline onClick={addUnit}>إضافة وحدات </Button>
-          {store.selectedUnits.map((item, index) => {
-            return <Units selectedIndicator={selectedIndicator} index={index} key={index}/>
-        })}
-        <br/>
-        <Button  color='secondary' outline onClick={addClassificationValue}>إضافة قيم التصنيف</Button>
-        {store.selectedClassificationValues.map((item, index) => {
-          return <ClassificationValues selectedIndicator={selectedIndicator} index={index} key={index}/>
-        })}
+            <div  className='my-2' style={{textDecoration: 'underline', cursor: 'pointer'}} onClick={addUnit}>+ إضافة وحدات </div>
+              {store.selectedUnits.map((item, index) => {
+                return <Units selectedIndicator={selectedIndicator} index={index} key={index}/>
+            })}
+            {store.selectedUnits.length > 0 ? <div className='mx-auto my-2' style={{borderBottom: '1px solid', width: '80%'}}></div> : null}
+
+            <div className='my-2' style={{textDecoration: 'underline', cursor: 'pointer'}} onClick={addClassificationValue}>+ إضافة قيم التصنيف </div>
+            {store.selectedClassificationValues.map((item, index) => {
+              return <ClassificationValues selectedIndicator={selectedIndicator} index={index} key={index}/>
+            })}
+            {store.selectedClassificationValues.length > 0 ? <div className='mx-auto my-2' style={{borderBottom: '1px solid', width: '80%'}}></div> : null}
           <Row className="mx-0">
             <Col sm='6' >
         <FormGroup>
@@ -490,8 +510,8 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedIndicator ? selectedIndicator.sortIndex : 0}
-            placeholder='0'
+            defaultValue={selectedIndicator.sortIndex ? selectedIndicator.sortIndex : 0}
+            placeholder={intl.formatMessage({id: "Sort Index"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
