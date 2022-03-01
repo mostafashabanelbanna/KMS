@@ -11,11 +11,13 @@ import manageComments from './manageComments'
 import manageNotifications from './manageNotifications'
 import manageSystem from './manageSystem'
 import dashboard from './dashboard'
+import researcherServices from './researcherServices'
 
 
 // ** Merge & Export
 export default [
     ...apps,
+    // ...researcherServices,
     // ...dashboard,
     // ...manageDataset,
     // ...manageClassifications,

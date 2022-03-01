@@ -3,6 +3,8 @@ import IndicatorHeader from './header'
 import {convertSelectArr} from '../../utility/Utils'
 import SearchForm from '../../containers/search-form/SearchForm/SearchForm'
 import axios from '../../axios'
+import IndicatorList from './IindicatorList'
+
 import {tabEnum} from './tabEnum'
 
 const search = ({ props }) => {
@@ -17,7 +19,9 @@ const search = ({ props }) => {
     const [pageNumber, setPageNumber] = useState(1)
     const [rowsPerPage, setRowsPerPage] = useState(10)
 
-
+    const handlePagination = page => {
+        setPageNumber(page.selected + 1)
+    }
     const getAllDropDowns = async () => {
         await axios.get(`/Indicator/GetSearchDropdownListsForIndicator`)
         .then(response => {
@@ -123,10 +127,14 @@ const search = ({ props }) => {
         getAllDropDowns()
         getIndicators()
     }, [])
+    useEffect(() => {
+        getIndicators()
+    }, [pageNumber])
   return (
       <>
       {<IndicatorHeader tabEnumValue={tabEnum.search} /> }
       {response && <SearchForm display='inline' searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText='بحث'/>}
+      <IndicatorList indicators={indicators.items} count={indicators.totalCount} pageNumber={pageNumber} handlePagination={handlePagination}/>
       
       </>
   )

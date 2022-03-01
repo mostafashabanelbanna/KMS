@@ -138,20 +138,23 @@ const IndictorList = () => {
 
 
   const addIndicator = () => {
-    dispatch({type:"SET_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: []})
-    dispatch({type:"SET_SELECTED_UNITS", selectedUnits: []})
+    dispatch({type:"SET_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
+    dispatch({type:"SET_SELECTED_UNITS", selectedUnits:  [{ id : 0, name : '', unitMeasures: [] }]})
     dispatch({type: "GET_INDICATOR", selectedIndicator:{}})
     dispatch({type: "RESET_CREATE_INDICATOR_RESPONSE"})
     toggleSidebar()
   }
   
   const updateIndicator = id => {
-    dispatch({type:"SET_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: []})
-    dispatch({type:"SET_SELECTED_UNITS", selectedUnits: []})
+    dispatch({type:"SET_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
+    dispatch({type:"SET_SELECTED_UNITS", selectedUnits:  [{ id : 0, name : '', unitMeasures: [] }]})
     dispatch({type: "GET_INDICATOR", selectedIndicator:{}})
     dispatch(resetUpdateResponse())
     dispatch(getIndicator(id))
-    toggleSidebar()
+    if (store.selectedIndicator) {
+      toggleSidebar()
+
+    }
   }
 
   // ** Function in get data on page change

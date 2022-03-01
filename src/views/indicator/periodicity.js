@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import IndicatorHeader from './header'
 import axios from '../../axios'
 import { Link } from 'react-router-dom'
+import {RiDatabase2Fill} from 'react-icons/ri'
+import IndicatorList from './IindicatorList'
 
 import {tabEnum} from './tabEnum'
 
@@ -11,7 +13,10 @@ const periodicity = ({ props}) => {
     const [pageNumber, setPageNumber] = useState(1)
     const [rowsPerPage, setRowsPerPage] = useState(10)
 
-
+    const handlePagination = page => {
+        setPageNumber(page.selected + 1)
+    }
+    
     const getPeridicities = async () => {
         await axios.get(`/Periodicity/GetPeriodicitiesWithIndicatorsCount`)
         .then(response => {
@@ -42,27 +47,39 @@ const periodicity = ({ props}) => {
             setIndicators([])
         })
     }
+    let periodicityId
     const handlePeriodicityClick = (id) => {
         console.log(id)
+        periodicityId = id
         getIndicators(id)
     }
     useEffect(() => {
         getPeridicities()
         getIndicators(null)
     }, [])
-
+    useEffect(() => {
+        getIndicators(periodicityId)
+    }, [pageNumber])
   return (
       <>
       {<IndicatorHeader  tabEnumValue={tabEnum.periodicity} /> }
       <div className='row'>
       {periodicities.length > 0 && periodicities.map((item, idx) => (
-          <div className='col-md-3' key={idx}>
-              <a onClick={() => handlePeriodicityClick(item.id)}>
-                <span>{item.name}</span> <span>({item.indicatorsCount})</span>
-              </a>
+          <div className='col-md-2 my-3' key={idx}>
+            <a className='d-flex rounded' style={{backgroundColor: '#fff'}} onClick={() => handlePeriodicityClick(item.id)}>
+                <div style={{ width: '40px', backgroundColor: '#7367f0'}} className='rounded mr-1 d-inline-flex justify-content-center align-items-center'  >
+                    <RiDatabase2Fill color='#fff'  fontSize={28}/>
+                </div>
+                <div >
+                    <h4 className='mb-0' style={{fontWeight: 'bold', fontFamily: '30px'}}>{item.indicatorsCount}</h4>
+                    <strong style={{textDecoration: 'underLine'}} className='mr-1 circle'>{item.name}</strong> 
+                </div>
+            </a>
           </div>
       ))}
       </div>
+      <IndicatorList indicators={indicators.items} count={indicators.totalCount} pageNumber={pageNumber} handlePagination={handlePagination}/>
+
       </>
   )
 }

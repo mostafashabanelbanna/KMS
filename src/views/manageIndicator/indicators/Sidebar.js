@@ -31,9 +31,7 @@ import Units from './Units'
 // import ClassificationValues from './ClassificationValues'
 
 const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
-    // ** Store Vars
-    const dispatch = useDispatch()
-    const store = useSelector(state => state.indicators)
+   
   
    // ** States
    const [periodicities, setPeriodicities] = useState([])
@@ -55,18 +53,6 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         hideProgressBar: true 
       })
   }
-
-  // fetch all Periodicities options
-  const getAllPeriodicities = async () => {
-    const response = await axios
-      .get('/Periodicity/GetPeriodicities')
-      .catch((err) => console.log("Error", err)) //handle errors
-
-      if (response && response.data) {
-        setAllPeriodicities(response.data.data)
-      }
-    } 
-console.log(periodicities)
   // fetch all Periodicities options
   const getAllSources = async () => {
     const response = await axios
@@ -77,25 +63,21 @@ console.log(periodicities)
         setAllSources(response.data.data)
       }
     } 
-    const getAllClassifications = async () => {
-      const response = await axios
-        .get('Classification/GetClassifications')
-        .catch((err) => console.log("Error", err)) //handle errors
-  
-        if (response && response.data) {
-            dispatch({type: 'SET_ALL_CLASSIFICATIONS', allClassifications: response.data.data})
-        }
-     } 
 
-  const getAllUnitLabels = async () => {
+  useEffect(() => {
+    getAllSources()
+  }, [])
+  // fetch all Periodicities options
+  const getAllPeriodicities = async () => {
     const response = await axios
-      .post(`/Lookups/GetLookupValues/`, {lookupName: "UnitLabel"})
+      .get('/Periodicity/GetPeriodicities')
       .catch((err) => console.log("Error", err)) //handle errors
-     
+
       if (response && response.data) {
-          dispatch({type: 'SET_ALL_UNIT_LABELS', allUnitLabels: response.data.data})
+        setAllPeriodicities(response.data.data)
       }
-  } 
+    } 
+
   const getAllDimensionLevels = async () => {
     const response = await axios
       .get('DimensionsLevel/GetDimensionLevels')
@@ -105,18 +87,52 @@ console.log(periodicities)
         setAllDimensionLevels(response.data.data)
       }
     } 
-  useEffect(() => {
-    getAllPeriodicities()
-    getAllSources()
-    getAllClassifications()
-    getAllUnitLabels()
-    getAllDimensionLevels()
-  }, [])
+  
+  
+ // ** Store Vars
+ const dispatch = useDispatch()
+ const store = useSelector(state => state.indicators)
 
+ const handleSourcesChange = (event) => {
+  const options = []
+  event.map(opt => options.push(opt.id))
+  setSources(options)
+}
+
+useEffect(() => {
+  if (selectedIndicator.indicatorSources) {
+    handleSourcesChange(selectedIndicator.indicatorSources)
+  }
+}, [selectedIndicator])
+  
+const getAllClassifications = async () => {
+  const response = await axios
+    .get('Classification/GetClassifications')
+    .catch((err) => console.log("Error", err)) //handle errors
+
+    if (response && response.data) {
+        dispatch({type: 'SET_ALL_CLASSIFICATIONS', allClassifications: response.data.data})
+    }
+ } 
+
+const getAllUnitLabels = async () => {
+const response = await axios
+  .post(`/Lookups/GetLookupValues/`, {lookupName: "UnitLabel"})
+  .catch((err) => console.log("Error", err)) //handle errors
+ 
+  if (response && response.data) {
+      dispatch({type: 'SET_ALL_UNIT_LABELS', allUnitLabels: response.data.data})
+  }
+} 
+useEffect(() => {
+  getAllPeriodicities()
+  getAllClassifications()
+  getAllUnitLabels()
+  getAllDimensionLevels()
+}, [])
   const addClassificationValue = () => {
     if (store.selectedClassificationValues.length < store.allClassifications.length) {
       const addedObj = {
-        // id: null,
         classificationValues: []
       }
       dispatch({type: 'SET_SELECTED_CLASSIFICATION_VALUES', selectedClassificationValues: [...store.selectedClassificationValues, addedObj]})    
@@ -151,16 +167,19 @@ console.log(periodicities)
     }
   }, [selectedIndicator])
 
-  const handleSourcesChange = (event) => {
+ 
+  const handleDimensionLevelsChange = (event) => {
+    console.log(event)
     const options = []
     event.map(opt => options.push(opt.id))
-    setSources(options)
+    setDimenionLevels(options)
   }
-
-  const handleDimensionLevelsChange = (event) => {
-    setDimenionLevels(event)
-  }
-  
+  useEffect(() => {
+    if (selectedIndicator.indicatorDimensionsDtos) {
+      handleDimensionLevelsChange(selectedIndicator.indicatorDimensionsDtos)
+    }
+  }, [selectedIndicator])
+ 
   // ** Function to handle form submit
   const onSubmit = async values => {
     const classificationValues = []
@@ -228,7 +247,7 @@ console.log(periodicities)
               sources, 
               classificationValues,
               units,
-              indicatorDimensions: tempDimensionLevels,
+              dimensions: tempDimensionLevels,
               id: selectedIndicator.id
             }
           )
@@ -286,29 +305,12 @@ console.log(periodicities)
       dispatch({type:"SET_SELECTED_UNITS", selectedUnits: selectedIndicator.indicatorUnitDTOs})
    }
   }, [selectedIndicator])
-
-  
-  const data = [
+ const test =  [
     {
-      label: 'location',
-      id: 999,
-      options: [
-          {id: '1,1', name: 'بلاد', did: 5},
-          {id: '1,2', name: 'محافظات'}
-      ]
-    },
-    {
-      label: 'gender',
-      id: 333,
-  
-        options: [
-            {id: '2,1', name: 'male'},
-            {id: '2,2', name: 'female'}
-        ]
+        id: 1,
+        name: "التعبئة العامة والاحصاء"
     }
-  ]
-
- 
+]
   return (
     <Sidebar
       size='lg'
@@ -321,41 +323,7 @@ console.log(periodicities)
       // width={'}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
-      <Row className="mx-0">
-            <Col sm='6' >
-        <FormGroup>
-            <Label for='name'>
-                {intl.formatMessage({id: "Dimensions"})}
-            </Label>
-            <Select
-               defaultValue={selectedIndicator ? selectedIndicator.indicatorDimensions : []}
-                isMulti
-                placeholder="تحديد"
-                isClearable={false}
-                theme={selectThemeColors}
-                name='dimensions'
-                id='dimensions'
-                options={allDimensionLevels}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.id}
-                className='react-select'
-                classNamePrefix='select'
-                onChange={e => handleDimensionLevelsChange(e) }
-            />
-            </FormGroup>
-            </Col>
-          </Row>
-            <div  className='my-2' style={{textDecoration: 'underline', cursor: 'pointer'}} onClick={addUnit}>+ إضافة وحدات </div>
-              {store.selectedUnits.map((item, index) => {
-                return <Units selectedIndicator={selectedIndicator} index={index} key={index}/>
-            })}
-            {store.selectedUnits.length > 0 ? <div className='mx-auto my-2' style={{borderBottom: '1px solid', width: '80%'}}></div> : null}
-
-            <div className='my-2' style={{textDecoration: 'underline', cursor: 'pointer'}} onClick={addClassificationValue}>+ إضافة قيم التصنيف </div>
-            {store.selectedClassificationValues.map((item, index) => {
-              return <ClassificationValues selectedIndicator={selectedIndicator} index={index} key={index}/>
-            })}
-            {store.selectedClassificationValues.length > 0 ? <div className='mx-auto my-2' style={{borderBottom: '1px solid', width: '80%'}}></div> : null}
+   
           <Row className="mx-0">
             <Col sm='6' >
         <FormGroup>
@@ -501,22 +469,7 @@ console.log(periodicities)
           />
         </FormGroup>
         </Col>
-            <Col sm='6' >
-            <FormGroup>
-          <Label for='sortIndex'>
-            <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
-          </Label>
-          <Input
-            type="number"
-            name='sortIndex'
-            id='sortIndex'
-            defaultValue={selectedIndicator.sortIndex ? selectedIndicator.sortIndex : 0}
-            placeholder={intl.formatMessage({id: "Sort Index"})}
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['sortIndex'] })}
-          />
-        </FormGroup>
-            </Col>
+         
         </Row>
         <Row className="mx-0">
             <Col sm='6' ><FormGroup>
@@ -545,13 +498,13 @@ console.log(periodicities)
                 placeholder="تحديد"
                 isClearable={false}
                 theme={selectThemeColors}
-                defaultValue={selectedIndicator ? selectedIndicator.indicatorSources : []}
+                defaultValue={selectedIndicator.indicatorSources ? selectedIndicator.indicatorSources : []}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.id}
                 isMulti
                 name='sources'
                 id='sources'
                 options={allSources}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.id}
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handleSourcesChange(e) }
@@ -559,9 +512,25 @@ console.log(periodicities)
           </FormGroup>
             </Col>
         </Row>
-       
         <Row className="mx-0">
-          <Col sm='6' >
+        <Col sm='6' >
+            <FormGroup>
+          <Label for='sortIndex'>
+            <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
+          </Label>
+          <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            defaultValue={selectedIndicator.sortIndex ? selectedIndicator.sortIndex : 0}
+            placeholder={intl.formatMessage({id: "Sort Index"})}
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+        </FormGroup>
+            </Col>
+          <Col sm='3' className='pl-3' >
+          <br/><br/>
             <FormGroup>
               <Input 
                 type="checkbox" 
@@ -574,8 +543,9 @@ console.log(periodicities)
               </Label>
             </FormGroup>
           </Col>
-          <Col sm='6' >
+          <Col  sm='3' >
             <FormGroup>
+            <br/><br/>
               <Input 
                 type="checkbox" 
                 placeholder="active"  
@@ -589,8 +559,45 @@ console.log(periodicities)
                   </Label>
             </FormGroup>
           </Col>
+          
         </Row>
+        <div className='mx-auto mb-1' style={{borderBottom: '1px solid #d8d6de', width: '50%'}}></div>
+        <Row className="mx-0">
+            <Col sm='12' >
+        <FormGroup>
+            <Label for='name'>
+                {intl.formatMessage({id: "Dimensions"})}
+            </Label>
+            <Select
+                defaultValue={selectedIndicator ? selectedIndicator.indicatorDimensionsDtos : []}
+                isMulti
+                placeholder="تحديد"
+                isClearable={false}
+                theme={selectThemeColors}
+                name='dimensions'
+                id='dimensions'
+                options={allDimensionLevels}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.id}
+                className='react-select'
+                classNamePrefix='select'
+                onChange={e => handleDimensionLevelsChange(e) }
+            />
+            </FormGroup>
+            </Col>
+            
+      </Row>
+            <div  className='my-2' style={{textDecoration: 'underline', cursor: 'pointer'}} onClick={addUnit}>+ إضافة وحدات </div>
+              {store.selectedUnits.map((item, index) => {
+                return <Units selectedIndicator={selectedIndicator} index={index} key={index}/>
+              })}
+            {store.selectedUnits.length > 0 ? <div className='mx-auto mb-1' style={{borderBottom: '1px solid #d8d6de', width: '50%'}}></div> : null}
 
+            <div className='my-2' style={{textDecoration: 'underline', cursor: 'pointer'}} onClick={addClassificationValue}>+ إضافة قيم التصنيف </div>
+            {store.selectedClassificationValues.map((item, index) => {
+              return <ClassificationValues selectedIndicator={selectedIndicator} index={index} key={index}/>
+            })}
+            {store.selectedClassificationValues.length > 0 ? <div className='mx-auto mb-1' style={{borderBottom: '1px solid #d8d6de', width: '50%'}}></div> : null}
         <Button type='submit' className='mr-1' color='primary'>
           {intl.formatMessage({id: "Save"}) }
         </Button>

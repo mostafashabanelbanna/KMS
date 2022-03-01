@@ -64,7 +64,6 @@ const Units = ({ index }) => {
             const response = await axios
             .get('UnitMeasure/GetUnitMeasures')
             .catch((err) => console.log("Error", err)) //handle errors
-            console.log(response)
             if (response && response.data) {
                 setAllUnitMeasurs(response.data.data)
             }
