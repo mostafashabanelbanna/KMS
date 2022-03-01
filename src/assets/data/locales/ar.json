@@ -131,5 +131,9 @@
 	"System Settings" : "ضبط النظام",
 	"Dashboard": "اللوحة المعلوماتية",
 	"Unit Measures": "وحدة القياس",
-	"Unit Labels": "مسمى الوحدة"
+	"Unit Labels": "مسمى الوحدة",
+	"Researchers Services": "خدمات الباحثين",
+	"Search by classifications": "بحث بالتصنيفات",
+	"Search by periodicities": "بحث بالدوريات",
+	"General search": "بحث عام"
 }

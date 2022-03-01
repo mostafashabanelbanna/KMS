@@ -151,10 +151,7 @@ const IndictorList = () => {
     dispatch({type: "GET_INDICATOR", selectedIndicator:{}})
     dispatch(resetUpdateResponse())
     dispatch(getIndicator(id))
-    if (store.selectedIndicator) {
-      toggleSidebar()
-
-    }
+    toggleSidebar()
   }
 
   // ** Function in get data on page change
@@ -245,8 +242,14 @@ const IndictorList = () => {
       minWidth: '225px'
     },
     {
-      name: <FormattedMessage id="Description" />,
-      selector: 'description_A',
+      name: <FormattedMessage id="Unit" />,
+      selector: 'units',
+      sortable: true,
+      minWidth: '250px'
+    },
+    {
+      name: <FormattedMessage id="Periodicity" />,
+      selector: 'periodicities',
       sortable: true,
       minWidth: '250px'
     },

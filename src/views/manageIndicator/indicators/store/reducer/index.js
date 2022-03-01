@@ -29,7 +29,7 @@ const initialState = {
   allClassifications: [],
   selectedClassificationValues: [{classificationValues: []}],
   allUnitLabels: [],
-  selectedUnits: [{ id : 0, name : '', unitMeasures: [] }]
+  selectedUnits: [{id : 0, name : '', unitMeasures: [] }]
 }
 
 const users = (state = initialState, action) => {

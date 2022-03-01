@@ -17,7 +17,7 @@ import researcherServices from './researcherServices'
 // ** Merge & Export
 export default [
     ...apps,
-    // ...researcherServices,
+    ...researcherServices,
     // ...dashboard,
     // ...manageDataset,
     // ...manageClassifications,

@@ -31,7 +31,9 @@ import Units from './Units'
 // import ClassificationValues from './ClassificationValues'
 
 const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
-   
+    // ** Store Vars
+    const dispatch = useDispatch()
+    const store = useSelector(state => state.indicators)
   
    // ** States
    const [periodicities, setPeriodicities] = useState([])
@@ -53,20 +55,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         hideProgressBar: true 
       })
   }
-  // fetch all Periodicities options
-  const getAllSources = async () => {
-    const response = await axios
-      .get('Source/GetSources')
-      .catch((err) => console.log("Error", err)) //handle errors
-
-      if (response && response.data) {
-        setAllSources(response.data.data)
-      }
-    } 
-
-  useEffect(() => {
-    getAllSources()
-  }, [])
+console.log(allSources)
   // fetch all Periodicities options
   const getAllPeriodicities = async () => {
     const response = await axios
@@ -77,7 +66,35 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         setAllPeriodicities(response.data.data)
       }
     } 
+  // fetch all Periodicities options
+  const getAllSources = async () => {
+    const response = await axios
+      .get('Source/GetSources')
+      .catch((err) => console.log("Error", err)) //handle errors
 
+      if (response && response.data) {
+        setAllSources(response.data.data)
+      }
+    } 
+    const getAllClassifications = async () => {
+      const response = await axios
+        .get('Classification/GetClassifications')
+        .catch((err) => console.log("Error", err)) //handle errors
+  
+        if (response && response.data) {
+            dispatch({type: 'SET_ALL_CLASSIFICATIONS', allClassifications: response.data.data})
+        }
+     } 
+
+  const getAllUnitLabels = async () => {
+    const response = await axios
+      .post(`/Lookups/GetLookupValues/`, {lookupName: "UnitLabel"})
+      .catch((err) => console.log("Error", err)) //handle errors
+     
+      if (response && response.data) {
+          dispatch({type: 'SET_ALL_UNIT_LABELS', allUnitLabels: response.data.data})
+      }
+  } 
   const getAllDimensionLevels = async () => {
     const response = await axios
       .get('DimensionsLevel/GetDimensionLevels')
@@ -87,49 +104,14 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         setAllDimensionLevels(response.data.data)
       }
     } 
-  
-  
- // ** Store Vars
- const dispatch = useDispatch()
- const store = useSelector(state => state.indicators)
+  useEffect(() => {
+    getAllPeriodicities()
+    getAllSources()
+    getAllClassifications()
+    getAllUnitLabels()
+    getAllDimensionLevels()
+  }, [])
 
- const handleSourcesChange = (event) => {
-  const options = []
-  event.map(opt => options.push(opt.id))
-  setSources(options)
-}
-
-useEffect(() => {
-  if (selectedIndicator.indicatorSources) {
-    handleSourcesChange(selectedIndicator.indicatorSources)
-  }
-}, [selectedIndicator])
-  
-const getAllClassifications = async () => {
-  const response = await axios
-    .get('Classification/GetClassifications')
-    .catch((err) => console.log("Error", err)) //handle errors
-
-    if (response && response.data) {
-        dispatch({type: 'SET_ALL_CLASSIFICATIONS', allClassifications: response.data.data})
-    }
- } 
-
-const getAllUnitLabels = async () => {
-const response = await axios
-  .post(`/Lookups/GetLookupValues/`, {lookupName: "UnitLabel"})
-  .catch((err) => console.log("Error", err)) //handle errors
- 
-  if (response && response.data) {
-      dispatch({type: 'SET_ALL_UNIT_LABELS', allUnitLabels: response.data.data})
-  }
-} 
-useEffect(() => {
-  getAllPeriodicities()
-  getAllClassifications()
-  getAllUnitLabels()
-  getAllDimensionLevels()
-}, [])
   const addClassificationValue = () => {
     if (store.selectedClassificationValues.length < store.allClassifications.length) {
       const addedObj = {
@@ -167,6 +149,17 @@ useEffect(() => {
     }
   }, [selectedIndicator])
 
+  const handleSourcesChange = (event) => {
+    const options = []
+    event.map(opt => options.push(opt.id))
+    setSources(options)
+  }
+
+  useEffect(() => {
+    if (selectedIndicator.indicatorSources) {
+      handleSourcesChange(selectedIndicator.indicatorSources)
+    }
+  }, [selectedIndicator])
  
   const handleDimensionLevelsChange = (event) => {
     console.log(event)
@@ -474,7 +467,7 @@ useEffect(() => {
         <Row className="mx-0">
             <Col sm='6' ><FormGroup>
               <Label>{intl.formatMessage({id: "Periodicities"})}</Label>
-              <Select
+              { selectedIndicator.indicatorPeriodicities && <Select
                 placeholder="تحديد"
                 isClearable={false}
                 theme={selectThemeColors}
@@ -488,28 +481,59 @@ useEffect(() => {
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handlePeriodicitiesChange(e) }
-              />
-          </FormGroup></Col>
-            <Col sm='6' >
-               
-          <FormGroup>
-              <Label>{intl.formatMessage({id: "Sources"})}</Label>
-              <Select
+              />}
+               {!selectedIndicator.indicatorPeriodicities && <Select
                 placeholder="تحديد"
                 isClearable={false}
                 theme={selectThemeColors}
-                defaultValue={selectedIndicator.indicatorSources ? selectedIndicator.indicatorSources : []}
+                defaultValue={selectedIndicator ? selectedIndicator.indicatorPeriodicities : []}
+                isMulti
+                name='periodicities'
+                id='periodicities'
+                options={allPeriodicities}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
-                isMulti
-                name='sources'
-                id='sources'
-                options={allSources}
                 className='react-select'
                 classNamePrefix='select'
-                onChange={e => handleSourcesChange(e) }
-              />
+                onChange={e => handlePeriodicitiesChange(e) }
+              />}
+              
           </FormGroup>
+          </Col>
+            <Col sm='6' >
+              <FormGroup>
+                  <Label>{intl.formatMessage({id: "Sources"})}</Label>
+                  {selectedIndicator.indicatorSources && <Select
+                    placeholder="تحديد"
+                    isClearable={false}
+                    theme={selectThemeColors}
+                    defaultValue={selectedIndicator ? selectedIndicator.indicatorSources : []}
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    isMulti
+                    name='sources'
+                    id='sources'
+                    options={allSources}
+                    className='react-select'
+                    classNamePrefix='select'
+                    onChange={e => handleSourcesChange(e) }
+                  />}
+                   {!selectedIndicator.indicatorSources && <Select
+                    placeholder="تحديد"
+                    isClearable={false}
+                    theme={selectThemeColors}
+                    defaultValue={selectedIndicator ? selectedIndicator.indicatorSources : []}
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    isMulti
+                    name='sources'
+                    id='sources'
+                    options={allSources}
+                    className='react-select'
+                    classNamePrefix='select'
+                    onChange={e => handleSourcesChange(e) }
+                  />}
+              </FormGroup>
             </Col>
         </Row>
         <Row className="mx-0">
@@ -529,9 +553,10 @@ useEffect(() => {
           />
         </FormGroup>
             </Col>
-          <Col sm='3' className='pl-3' >
-          <br/><br/>
+          <Col sm='3' className="pl-3" >
             <FormGroup>
+              <br/>
+              <br/>
               <Input 
                 type="checkbox" 
                 placeholder="focus"  
@@ -543,9 +568,11 @@ useEffect(() => {
               </Label>
             </FormGroup>
           </Col>
-          <Col  sm='3' >
+          <Col sm='3' >
             <FormGroup>
-            <br/><br/>
+              <br/>
+              <br/>
+
               <Input 
                 type="checkbox" 
                 placeholder="active"  
@@ -559,7 +586,7 @@ useEffect(() => {
                   </Label>
             </FormGroup>
           </Col>
-          
+     
         </Row>
         <div className='mx-auto mb-1' style={{borderBottom: '1px solid #d8d6de', width: '50%'}}></div>
         <Row className="mx-0">
@@ -568,21 +595,37 @@ useEffect(() => {
             <Label for='name'>
                 {intl.formatMessage({id: "Dimensions"})}
             </Label>
-            <Select
-                defaultValue={selectedIndicator ? selectedIndicator.indicatorDimensionsDtos : []}
-                isMulti
-                placeholder="تحديد"
-                isClearable={false}
-                theme={selectThemeColors}
-                name='dimensions'
-                id='dimensions'
-                options={allDimensionLevels}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.id}
-                className='react-select'
-                classNamePrefix='select'
-                onChange={e => handleDimensionLevelsChange(e) }
-            />
+            {selectedIndicator.indicatorDimensionsDtos &&  <Select
+                    defaultValue={selectedIndicator ? selectedIndicator.indicatorDimensionsDtos : []}
+                    isMulti
+                    placeholder="تحديد"
+                    isClearable={false}
+                    theme={selectThemeColors}
+                    name='dimensions'
+                    id='dimensions'
+                    options={allDimensionLevels}
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    className='react-select'
+                    classNamePrefix='select'
+                    onChange={e => handleDimensionLevelsChange(e) }
+                  />}
+                   {!selectedIndicator.indicatorDimensionsDtos &&  <Select
+                    defaultValue={selectedIndicator ? selectedIndicator.indicatorDimensionsDtos : []}
+                    isMulti
+                    placeholder="تحديد"
+                    isClearable={false}
+                    theme={selectThemeColors}
+                    name='dimensions'
+                    id='dimensions'
+                    options={allDimensionLevels}
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    className='react-select'
+                    classNamePrefix='select'
+                    onChange={e => handleDimensionLevelsChange(e) }
+                  />}
+     
             </FormGroup>
             </Col>
             
