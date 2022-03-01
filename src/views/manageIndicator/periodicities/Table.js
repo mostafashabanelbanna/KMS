@@ -31,8 +31,6 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 // helper function
 import {isAuthorized, isNotLightSkin} from '../../../utility/Utils'
-import { use } from 'i18next'
-
 const IndictorList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
@@ -42,10 +40,6 @@ const IndictorList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-   // periodicity types
-   const [allPeriodicityTypes, setAllPeriodicityTypes] = useState()
-   
-   
    const [searchData, setSearchData] = useState({
     name: "",
     active: null, 
@@ -60,28 +54,23 @@ const IndictorList = () => {
       switch (value) {
         case 'daily': 
           setSearchData({
-            ...searchData,
-           isDaily : true,
+           ...searchData, 
+            isDaily : true,
             isWeekly : null,
-            isMonthly :null}
-         
-          )
-         
+            isMonthly :null
+          })
          return
         case 'weekly':
-        
           setSearchData({
-            ...searchData,
+           ...searchData,
             isDaily : null,
             isWeekly : true,
             isMonthly :null
-          
           })
          return
         case 'monthly':
-          
           setSearchData({
-            ...searchData,
+          ...searchData,
             isDaily : null,
             isWeekly : null,
             isMonthly :true
@@ -90,24 +79,19 @@ const IndictorList = () => {
          return
       default :
          setSearchData({
-          ...searchData,
+          searchData,
           isDaily : null,
           isWeekly : null,
           isMonthly :null
           
-        }) 
-        return
-        
-    }
-  
+        })  
+         
+      }
    setSearchData({
       ...searchData
     })
    
   } 
-
- 
- console.log(searchData)
 
   // useIntl
   const intl = useIntl()
@@ -260,7 +244,7 @@ const IndictorList = () => {
   
 
   // Search Form Items we need to pass to Search Form container
-  const formItems =  [
+    const  formItems =  [
     {
       fieldType: 'text',
       label: `${intl.formatMessage({id: "Name"})}`, 
