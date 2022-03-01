@@ -33,6 +33,10 @@ const ManageIndicatorRoutes = [
   {
     path: '/indicator/search',
     component: lazy(() => import('../../views/indicator/search'))
+  },
+  {
+    path: '/indicator/indicatorDetails',
+    component: lazy(() => import('../../views/indicator/indicatorDetails'))
   }
 ]
 
