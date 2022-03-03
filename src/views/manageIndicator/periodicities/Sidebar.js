@@ -26,6 +26,7 @@ import axios from '../../../axios'
 // ** Store & Actions
 import { addPeriodicity, resetCreateResponse, updatePeriodicity, resetUpdateResponse } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
+import Intervals from './Intervals'
 
 
 const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => {
@@ -96,11 +97,16 @@ for (let i = 1; i <= daysInMonth(monthValue); i++) {
 const [interval, setInterval] = useState([])
 const [day, setDay] = useState()
 const [month, setMonth] = useState()
+
+const monthHandler = (month) => {
+  setMonth(month)
+}
 const addInterval = () => {
   setInterval([...interval, {id:Math.random(), day:"1", month:"1"}])
   
 }
-console.log(interval)
+
+//console.log(interval)
 //console.log(day)
 //console.log(month)
 
@@ -110,7 +116,9 @@ const removePeriod = (id) => {
   setInterval(interval.filter((period, i) => period.id !== id))
   
   }
-
+const removeInterval = (id) => {
+  setInterval(interval.filter((interval, i) => interval.id !== id))
+}
 // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.periodicities)
@@ -210,6 +218,14 @@ const removePeriod = (id) => {
      dispatch(resetUpdateResponse()) 
     }
   }, [store.updateResponse.statusCode])
+
+  useEffect(() => {
+   
+    if (store.selectedPeriodicity.periodicityIntervals) {
+//console.log(store.selectedPeriodicity.periodicityIntervals)
+      setInterval(store.selectedPeriodicity.periodicityIntervals)
+    }
+    }, [store.selectedPeriodicity])
 
   return (
     <Sidebar
@@ -402,53 +418,14 @@ const removePeriod = (id) => {
           </Col>
         </Row>
       
-          <div className='add-period mb-1'   >
+        <div className='add-intervals mb-1'>
          <span style={{cursor:"pointer"}} onClick={addInterval}>
           + اضافة فترة
          </span>
-            </div>
-            {interval.map((item) => (
-
-            
-            <Row key={item.id} className="align-items-center mb-1 "> 
-
-           <Col sm={5}   >
-          <select  style={{width:"100%", padding: " 3px", color:"#6e6b7b", border: "1px solid #6e6b7b", borderRadius: "0.357rem", backgroundColor: "transparent " }} onChange={(e) => {
-            setMonthValue(e.target.value) 
-            item.month = e.target.value
-            setMonth(item.month)
-            
-           
-          } } > 
-          {monthsArray.map((month, index) => (
-
-           <option value={index + 1}>{month}</option>
-
-          ))}
-       </select>
-          </Col>
-        <Col sm={5} >
-        <select style={{width:"100%", padding: " 3px", color:"#6e6b7b", border: "1px solid #6e6b7b", borderRadius: "0.357rem", backgroundColor: "transparent " }} onChange={(e) => {
-         item.day = e.target.value
-         setDay(item.day)
-         
-        }} >
-           {daysArr.map(day => (
-           <option value={day}>{day}</option>
-             ))}
-            </select>
-            </Col>
-
-           <Col sm={2}  >
-
-             <div className='remove-butoon' style={{cursor:"pointer", color:"#6e6b7b", fontSize:"16px", fontWeight:"bold"}} onClick={() => removePeriod(item.id)}>x</div>
-
-         </Col>
-        </Row>
-
-              
-            ))}
-       
+        </div>
+        {interval.map((item, index) => (
+          <Intervals monthHandler={monthHandler} selectedPeriodicity={selectedPeriodicity} index={index} item={item} intervals={interval} setDay={setDay} setMonth={setMonth} removeInterval={removeInterval} key={item.id} />
+        ))}
         <Button type='submit' className='mr-1' color='primary'>
           {intl.formatMessage({id: "Save"}) }
         </Button>
