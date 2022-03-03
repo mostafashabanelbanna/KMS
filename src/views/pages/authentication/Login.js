@@ -27,7 +27,7 @@ import {
   UncontrolledTooltip
 } from 'reactstrap'
 
-import { isLoading, isNotLoading } from '../../manageSystem/users/store/action'
+import { isLoading, isNotLoading } from '../../../redux/actions/layout'
 
 import logo from '../../../assets/images/logo/logo.svg'
 

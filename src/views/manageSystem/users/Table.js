@@ -27,6 +27,7 @@ import Toastr from '../../../containers/toastr/Toastr'
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 
 // helper function
@@ -37,6 +38,7 @@ const UsersList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.users)
+  const LayoutStore = useSelector(state => state)
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -177,6 +179,7 @@ const UsersList = () => {
         previousLinkClassName={'page-link'}
         pageLinkClassName={'page-link'}
         containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
+        
       />
     )
   }
@@ -184,8 +187,9 @@ const UsersList = () => {
   // ** Table data to render
   const dataToRender = () => {
     if (store.data.length > 0 && !store.error) {
+      // setPending(false)
       return store.data
-    } 
+    }
   }
 
   // Search Form Items we need to pass to Search Form container
@@ -283,13 +287,6 @@ const UsersList = () => {
     }
   ]
 
-  const ExpandedComponent = ({ data }) => (
-    <div>
-        <div>{data.name}</div>  
-        <div>{data.email}</div>  
-    </div>
-  )
-
   return (
     <Fragment>
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
@@ -297,8 +294,8 @@ const UsersList = () => {
           
           <Card>
             <DataTable
-              expandableRows 
-              expandableRowsComponent={<ExpandedComponent/>}
+              progressPending={LayoutStore.loading}
+              progressComponent={<ComponentSpinner/>}
               noHeader
               pagination
               subHeader

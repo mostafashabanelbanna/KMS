@@ -10,6 +10,7 @@ import { BiShow} from   "react-icons/bi"
 
 
 import "moment/locale/ar"
+import { Link } from 'react-router-dom'
 
 const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
 
@@ -39,7 +40,7 @@ const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
       
  const parentColumns =  [
     {
-      name: <FormattedMessage id="code" />,
+      name: <FormattedMessage id="Code" />,
       selector: 'id',
       sortable: true,
       minWidth: '225px'
@@ -102,8 +103,10 @@ const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
           </DropdownToggle>
           <DropdownMenu right>
             <DropdownItem
+              tag={Link}
               className='w-100'
-              onClick={() => updateUser(row.id)}
+              to="/indicator/indicatorDetails"
+              // onClick={() => updateUser(row.id)}
             >
               <BiShow size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Show" /></span>

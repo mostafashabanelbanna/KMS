@@ -21,7 +21,8 @@ const initialState = {
   isRTL: themeConfig.layout.isRTL,
   menuCollapsed: initialMenuCollapsed(),
   menuHidden: themeConfig.layout.menu.isHidden,
-  contentWidth: themeConfig.layout.contentWidth
+  contentWidth: themeConfig.layout.contentWidth,
+  loading: false
 }
 
 const layoutReducer = (state = initialState, action) => {
@@ -37,6 +38,10 @@ const layoutReducer = (state = initialState, action) => {
       return { ...state, isRTL: action.value }
     case 'HANDLE_SKIN':
       return { ...state, skin: action.value }
+    case "SET_LOADING":
+        return {...state, loading: action.loading}
+    case "RESET_LOADING":
+        return {...state,  loading: action.loading}
     default:
       return state
   }

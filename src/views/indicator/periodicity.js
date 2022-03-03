@@ -4,6 +4,8 @@ import axios from '../../axios'
 import { Link } from 'react-router-dom'
 import {RiDatabase2Fill} from 'react-icons/ri'
 import IndicatorList from './IindicatorList'
+import { useIntl } from 'react-intl'
+import Breadcrumbs from '@components/breadcrumbs'
 
 import {tabEnum} from './tabEnum'
 
@@ -60,9 +62,13 @@ const periodicity = ({ props}) => {
     useEffect(() => {
         getIndicators(periodicityId)
     }, [pageNumber])
+  const intl = useIntl()
+
   return (
       <>
-      {<IndicatorHeader  tabEnumValue={tabEnum.periodicity} /> }
+        <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "Search by periodicities"})}  breadCrumbParent2={intl.formatMessage({id: "Indicators And Datasets"})} breadCrumbParent={intl.formatMessage({id: "Researchers Services"})} breadCrumbActive={intl.formatMessage({id: "Search by periodicities"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
+
+      {/* {<IndicatorHeader  tabEnumValue={tabEnum.periodicity} /> } */}
       <div className='row'>
       {periodicities.length > 0 && periodicities.map((item, idx) => (
           <div className='col-md-2 my-3' key={idx}>

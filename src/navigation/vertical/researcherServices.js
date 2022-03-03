@@ -7,7 +7,7 @@ export default [
     header: 'Researchers Services'
   },
   {
-    id: 'dataset',
+    id: 'indicators',
     title: 'Indicators And Datasets',
     icon: <CgPerformance size={20} />,
     children: [
