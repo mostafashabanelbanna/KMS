@@ -30,6 +30,10 @@ import Intervals from './Intervals'
 
 
 const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => {
+  // ** Store Vars
+  const dispatch = useDispatch()
+  const store = useSelector(state => state.periodicities)
+  
   // Import localization files
   const intl = useIntl()
   
@@ -100,11 +104,14 @@ const monthHandler = (month) => {
   setMonth(month)
 }
 const addInterval = () => {
-  setInterval([...interval, {id:Math.random(), day:"1", month:"1"}])
-  
+  const addedObj = {
+   day: null,
+   month: null
+  }
+  dispatch({type: 'SET_SELECTED_INTERVALS', seletctedIntervals: [...store.seletctedIntervals, addedObj]})     
 }
 
-console.log(interval)
+
 //remove period function
 const removePeriod = (id) => {
 
@@ -114,15 +121,16 @@ const removePeriod = (id) => {
 const removeInterval = (id) => {
   setInterval(interval.filter((interval, i) => interval.id !== id))
 }
-// ** Store Vars
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.periodicities)
-  
+
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
 
   // ** Function to handle form submit
   const onSubmit = async values => {
+    const intervals = []
+    for (let i = 0; i < store.seletctedIntervals.length; i++) {
+      intervals.push({day: store.seletctedIntervals[i].day.value, month: store.seletctedIntervals[i].month.value})
+    }
     if (isObjEmpty(errors)) {
       if (!selectedPeriodicity.id) {
         await dispatch(
@@ -139,8 +147,7 @@ const removeInterval = (id) => {
               isDaily : dailyValue,
              isMontly : monthlyValue,
              isWeekly : weeklyValue,
-             intervals : interval
-           
+             intervals
             })
            
           )
@@ -161,9 +168,7 @@ const removeInterval = (id) => {
               isDaily : dailyValue,
               isMontly :monthlyValue,
               isWeekly : weeklyValue,
-              intervals : interval
-              
-            
+              intervals 
             }
           )
         )
@@ -220,6 +225,12 @@ const removeInterval = (id) => {
     }
   }, [store.selectedPeriodicity])
 
+  useEffect(() => {
+    if (selectedPeriodicity.id) {
+       dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: selectedPeriodicity.seletctedIntervals})
+    }
+   }, [selectedPeriodicity])
+
   return (
     <Sidebar
       size='lg'
@@ -235,9 +246,11 @@ const removeInterval = (id) => {
           + اضافة فترة
          </span>
         </div>
-        {interval.map((item, index) => (
+        {store.seletctedIntervals.map((item, index) => (
           <Intervals monthHandler={monthHandler} selectedPeriodicity={selectedPeriodicity} index={index} item={item} intervals={interval} setDay={setDay} setMonth={setMonth} removeInterval={removeInterval} key={index} />
         ))}
+        {store.seletctedIntervals.length > 0 ? <div className='mx-auto mb-1' style={{borderBottom: '1px solid #d8d6de', width: '50%'}}></div> : null}
+
         <FormGroup>
           <Label for='name'>
             <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}

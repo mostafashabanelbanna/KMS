@@ -26,11 +26,13 @@ const initialState = {
     errors: []
   },
   selectedPeriodicity:{},
-  seletctedInterval: []
+  seletctedIntervals: []
 }
 
 const periodicities = (state = initialState, action) => {
   switch (action.type) {
+    case 'SET_SELECTED_INTERVALS':
+      return {...state, seletctedIntervals: action.seletctedIntervals}
     case 'GET_PERIODICITIES_DATA':
       return {
         ...state,
