@@ -135,10 +135,6 @@ export const getDimension = id => {
 //     }
 // }
 
-// ********** //
-// Role Permission
-// ********** //
-
 export const getDimensionLevel = (id) => {
   return async dispatch => {
     await axios.post('/DimensionsLevel/GetLevelsByDimensionId', id).then(response => {

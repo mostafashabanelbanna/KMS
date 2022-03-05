@@ -301,7 +301,8 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
         </FormGroup>
         <FormGroup>
               <Label>{intl.formatMessage({id: "Roles"})}</Label>
-              <Select
+             {  selectedUser.roles &&
+                <Select
                 isClearable={false}
                 theme={selectThemeColors}
                 defaultValue={selectedUser ?  selectedUser.roles : []}
@@ -315,6 +316,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                 classNamePrefix='select'
                 onChange={e => handleRolesChange(e) }
               />
+             } 
           </FormGroup>
           <Row className="mx-0">
             <Col sm='6' >
@@ -372,8 +374,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                 innerRef={register()}
                 />
                  <Label for='active'>
-                  {intl.formatMessage({id: "Active"})}
-                  
+                    {intl.formatMessage({id: "Active"})}
                   </Label>
             </FormGroup>
               </Col>

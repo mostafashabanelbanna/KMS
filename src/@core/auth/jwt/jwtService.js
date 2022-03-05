@@ -45,7 +45,6 @@ export default class JwtService {
 
         // Toastr notify function
         const notify = (type, message) => {
-          console.log(type)
           return toast.success(
             <Toastr type={type} message={message} />,
             { position: toast.POSITION.TOP_CENTER,

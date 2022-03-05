@@ -29,7 +29,9 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {isAuthorized} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+
+import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 const RolesList = () => {
     // ** Store Vars
@@ -41,6 +43,10 @@ const RolesList = () => {
   
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [searchData, setSearchData] = useState({
+    name: "",
+    active: null
+  })
 
     // useIntl
     const intl = useIntl()
@@ -88,7 +94,7 @@ const RolesList = () => {
       getData({
         pageNumber,
         rowsPerPage,
-        active: true
+        ...searchData
       })
     )
   }, [dispatch, store.data.length])
@@ -109,12 +115,30 @@ const RolesList = () => {
       notify('error', `${intl.formatMessage({id: store.deleteResponse.errors[0]})} `)
     } else if (store.deleteResponse.statusCode === 200) {
       notify('success', `${intl.formatMessage({id: "DeletedSuccess"})} `)
+      const Pages = Math.ceil((store.data.length - 1) / rowsPerPage)
+      if (Pages <= 0) {
+         setPageNumber(store.totalPages - 1)
+         
+      } else {
+        dispatch(getData({
+          ...searchData,
+          pageNumber,
+          pageSize: rowsPerPage
+        }))
+      }
     }
     dispatch({type:"RESET_DIMENSION_DELETE_RESPONSE"})
   }, [store.deleteResponse.statusCode])
 
+  useEffect(() => {
+    if (store.errorCode !== 0 && store.errorCode !== 200 && store.errorCode !== 401 && store.errorCode !== 403) {
+      notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
+    }
+  }, [store.errorCode])
+
   const addDimension = () => {
     dispatch({type: "GET_DIMENSION", selectedDimension:{}})
+    dispatch({type: "RESET_CREATE_DIMENSION_RESPONSE"})
     toggleSidebar()
 }
   const updateDimension = id => {
@@ -125,17 +149,16 @@ const RolesList = () => {
   }
   // ** Function in get data on page change
   const handlePagination = page => {
-    dispatch(
-      getData(
-        {
-          ...searchData,
-          pageNumber: page.selected + 1,
-          rowsPerPage
-        }
-      )
-    )
     setPageNumber(page.selected + 1)
   }
+  
+  useEffect(() => {
+    dispatch(getData({
+      ...searchData,
+      pageNumber,
+      pageSize: rowsPerPage
+    }))
+  }, [pageNumber])
 
   // ** Custom Pagination
   const CustomPagination = () => {
@@ -168,6 +191,43 @@ const RolesList = () => {
     } 
   }
 
+  // Search Form Items we need to pass to Search Form container
+  const formItems =  [
+    {
+      fieldType: 'text',
+      label: `${intl.formatMessage({id: "Name"})}`, 
+      colSizeLg: 4,
+      attr: "name",
+      dropdownArr: [], 
+      multiple: true, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `${intl.formatMessage({id: "Active"})}`, 
+      colSizeLg: 4, 
+      attr: "active", 
+      dropdownArr: [{label: 'all', value: null}, {label:'active', value: true}, {label:'notActive', value: false}], 
+      multiple: true,
+      radioArr: [] 
+    }
+  ]
+
+  const handleSearch = (value, attrName) => {
+    setSearchData({...searchData, [attrName] : value })
+  } 
+
+  const handlSubmit = () => {
+    setPageNumber(1)
+    dispatch(
+      getData({
+        pageNumber,
+        pageSize: rowsPerPage,
+        ...searchData
+      })
+    )
+  }
+
   const columns =  [
     {
       name: <FormattedMessage id="Name" />,
@@ -191,7 +251,6 @@ const RolesList = () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
-            {/* <DropdownItem className='w-100' onClick={() => dispatch(getRolePermission(row.id))} tag={Link} to='/permissions' > */}
             <DropdownItem className='w-100' tag={Link} to={{ pathname: `/dimension-levels/${row.id}`, state: { id : row.id, name: row.name_A}}} >
               <FaLevelUpAlt size={14} className='mr-50'/>
               <span className='align-middle'>{intl.formatMessage({id: "DimensionLevels"})}</span>
@@ -221,15 +280,11 @@ const RolesList = () => {
       <Fragment>
           {isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
               <>
-                <div className="my-1">
-                    <Button.Ripple color='primary' onClick={addDimension} >
-                        <FormattedMessage id="Add" />
-                    </Button.Ripple>
-                </div>
                 <Card>
                     <DataTable
                         noHeader
                         pagination
+                        subHeader
                         responsive
                         paginationServer
                         columns={columns}
@@ -237,6 +292,20 @@ const RolesList = () => {
                         className='react-dataTable'
                         paginationComponent={CustomPagination}
                         data={dataToRender()}
+                        subHeaderWrap={false}
+                        subHeaderComponent={
+                          <div className='w-100'>
+                            <div className="rounded" style={{backgroundColor: isNotLightSkin() ? "#343d55" : "#f3f2f7"}}>
+                            <SearchForm display='inline' searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
+          
+                            </div>
+                            <div className="my-1 d-flex justify-content-end">
+                              <Button.Ripple color='primary' onClick={addDimension} >
+                                <FormattedMessage id="Add" />
+                              </Button.Ripple>
+                            </div>
+                          </div>
+                        }
                     />
                 </Card>
                 <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedDimension={store.selectedDimension} />

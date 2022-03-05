@@ -34,7 +34,7 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
   const store = useSelector(state => state.dimensionValues)
   
    // ** States
-   const [parentId, setParentId] = useState(null)
+   const [parent, setParent] = useState({})
    const [allDimensionValues, setAllDimensionValues] = useState([])
 
     // fetch all Periodicities options
@@ -52,10 +52,15 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
       getAllDimensionValues()
     }, [])
 
+      //set parent value for udate
+   useEffect(() => {
+    setParent(selectedDimensionValue.parent)
+  }, [selectedDimensionValue.parent])
+
     // pass only role id to userRoles
    const handleDimensionValuesChange = (event) => {
      console.log(event)
-    setParentId(event.id)
+    setParent(event)
   }
   // Import localization files
   const intl = useIntl()
@@ -87,7 +92,7 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
               icon: values.icon,
               color: values.color,
               dimensionId,
-              parentId,
+              parentId: parent.id,
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active
@@ -104,7 +109,7 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
               icon: values.icon,
               color: values.color,
               dimensionId,
-              parentId,
+              parentId: parent.id,
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active,
@@ -254,9 +259,10 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
               <Select
                 isClearable={false}
                 theme={selectThemeColors}
-                defaultValue={selectedDimensionValue ?  selectedDimensionValue.parent : []}
-                name='parentId'
-                id='parentId'
+                // defaultValue={selectedDimensionValue ?  selectedDimensionValue.parent : null}
+                value={ parent }
+                name='parent'
+                id='parent'
                 options={allDimensionValues}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}

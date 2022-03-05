@@ -133,18 +133,21 @@ const IndictorList = () => {
   useEffect(() => {
     if (store.errorCode !== 0 && store.errorCode !== 200 && store.errorCode !== 401 && store.errorCode !== 403) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
-
     }
   }, [store.errorCode])
 
 
   const addIndicator = () => {
+    dispatch({type:"SET_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
+    dispatch({type:"SET_SELECTED_UNITS", selectedUnits:  [{ id : 0, name : '', unitMeasures: [] }]})
     dispatch({type: "GET_INDICATOR", selectedIndicator:{}})
     dispatch({type: "RESET_CREATE_INDICATOR_RESPONSE"})
     toggleSidebar()
   }
   
   const updateIndicator = id => {
+    dispatch({type:"SET_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
+    dispatch({type:"SET_SELECTED_UNITS", selectedUnits:  [{ id : 0, name : '', unitMeasures: [] }]})
     dispatch({type: "GET_INDICATOR", selectedIndicator:{}})
     dispatch(resetUpdateResponse())
     dispatch(getIndicator(id))
@@ -239,8 +242,14 @@ const IndictorList = () => {
       minWidth: '225px'
     },
     {
-      name: <FormattedMessage id="Description" />,
-      selector: 'description_A',
+      name: <FormattedMessage id="Unit" />,
+      selector: 'units',
+      sortable: true,
+      minWidth: '250px'
+    },
+    {
+      name: <FormattedMessage id="Periodicity" />,
+      selector: 'periodicities',
       sortable: true,
       minWidth: '250px'
     },

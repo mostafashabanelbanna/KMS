@@ -12,3 +12,9 @@ export const handleRTL = value => dispatch => dispatch({ type: 'HANDLE_RTL', val
 
 // ** Handle Layout Skin
 export const handleSkin = value => dispatch => dispatch({ type: 'HANDLE_SKIN', value })
+
+
+export const isLoading = () =>  ({type: 'SET_LOADING', loading: true})
+
+export const isNotLoading = () =>  ({type: 'RESET_LOADING', loading: false})
+  

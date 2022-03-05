@@ -160,7 +160,7 @@ const IndicatorDimension = () => {
               toggle('1')
             }}
           >
-            عمودى
+              <h4 className='mb-0'>عمودى</h4> 
           </NavLink>
         </NavItem>
         <NavItem>
@@ -170,7 +170,8 @@ const IndicatorDimension = () => {
               toggle('2')
             }}
           >
-              افقى
+              <h4 className='mb-0'>افقى</h4>
+              
           </NavLink>
         </NavItem>
         

@@ -10,19 +10,23 @@ import manageInquiries from './manageInquiries'
 import manageComments from './manageComments'
 import manageNotifications from './manageNotifications'
 import manageSystem from './manageSystem'
+import dashboard from './dashboard'
+import researcherServices from './researcherServices'
 
 
 // ** Merge & Export
 export default [
     ...apps,
-    ...manageDataset,
-    ...manageClassifications,
+    ...researcherServices,
+    // ...dashboard,
+    // ...manageDataset,
+    // ...manageClassifications,
     ...manageIndicators,
-    ...manageDimensions,
+    // ...manageDimensions,
     ...managePublications,
     ...manageInquiries,
-    ...manageComments,
-    ...manageNotifications,
+    // ...manageComments,
+    // ...manageNotifications,
     ...manageSystem
     //, ...dashboards,  ...pages, ...uiElements, ...forms, ...tables, ...chartsAndMaps, ...others
 ]

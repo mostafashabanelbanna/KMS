@@ -143,6 +143,17 @@
 	"September": "September",
 	"October": "October",
 	"November": "November",
-	"December": "December"
+	"December": "December",
+	"Indicators And Datasets": "Indicators And Datasets",
+	"System Settings" : "System Settings",
+	"Unit Measures": "Unit Measures",
+	"Unit Labels": "Unit Labels",
+	"Researchers Services": "Researchers Services",
+	"Search by classifications": "Search by classifications",
+	"Search by periodicities": "Search by periodicities",
+	"General search": "General search",
+	"ManageDocumentIssues": "Manage Document Issues",
+	"CreateDate": "Create Date",
+	"Attachments": "Attachments"
 
 }
