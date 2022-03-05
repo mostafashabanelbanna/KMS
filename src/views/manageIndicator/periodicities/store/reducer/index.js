@@ -25,7 +25,8 @@ const initialState = {
     statusCode: 0,
     errors: []
   },
-  selectedPeriodicity:{}
+  selectedPeriodicity:{},
+  seletctedInterval: []
 }
 
 const periodicities = (state = initialState, action) => {

@@ -71,27 +71,25 @@ const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => 
    } 
    
  }
+
+//  //days in month function
+//  const monthsArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+//  const [monthValue, setMonthValue] = useState()
+//  //console.log(monthValue)
  
-
- //console.log(dailyValue, weeklyValue, monthlyValue)
-
- //days in month function
- const monthsArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
- const [monthValue, setMonthValue] = useState()
- //console.log(monthValue)
- 
- function daysInMonth (month) {
-  const currentYear = new Date().getFullYear() 
-  return new Date(currentYear, month, 0).getDate() 
+//  function daysInMonth (month) {
+//   const currentYear = new Date().getFullYear() 
+//   return new Date(currentYear, month, 0).getDate() 
   
-}
-//console.log(daysInMonth(monthValue))
+// }
 
-const daysArr = []
-for (let i = 1; i <= daysInMonth(monthValue); i++) {
-  daysArr.push(i)
+// const daysArr = []
+
+// for (let i = 1; i <= daysInMonth(monthValue); i++) {
+//   daysArr.push(i)
   
-}
+// }
+
 
 // target periodicity interval 
 const [interval, setInterval] = useState([])
@@ -106,10 +104,7 @@ const addInterval = () => {
   
 }
 
-//console.log(interval)
-//console.log(day)
-//console.log(month)
-
+console.log(interval)
 //remove period function
 const removePeriod = (id) => {
 
@@ -220,12 +215,10 @@ const removeInterval = (id) => {
   }, [store.updateResponse.statusCode])
 
   useEffect(() => {
-   
     if (store.selectedPeriodicity.periodicityIntervals) {
-//console.log(store.selectedPeriodicity.periodicityIntervals)
       setInterval(store.selectedPeriodicity.periodicityIntervals)
     }
-    }, [store.selectedPeriodicity])
+  }, [store.selectedPeriodicity])
 
   return (
     <Sidebar
@@ -237,6 +230,14 @@ const removeInterval = (id) => {
       toggleSidebar={toggleSidebar}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
+      <div className='add-intervals mb-1'>
+         <span style={{cursor:"pointer"}} onClick={addInterval}>
+          + اضافة فترة
+         </span>
+        </div>
+        {interval.map((item, index) => (
+          <Intervals monthHandler={monthHandler} selectedPeriodicity={selectedPeriodicity} index={index} item={item} intervals={interval} setDay={setDay} setMonth={setMonth} removeInterval={removeInterval} key={index} />
+        ))}
         <FormGroup>
           <Label for='name'>
             <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
@@ -418,14 +419,7 @@ const removeInterval = (id) => {
           </Col>
         </Row>
       
-        <div className='add-intervals mb-1'>
-         <span style={{cursor:"pointer"}} onClick={addInterval}>
-          + اضافة فترة
-         </span>
-        </div>
-        {interval.map((item, index) => (
-          <Intervals monthHandler={monthHandler} selectedPeriodicity={selectedPeriodicity} index={index} item={item} intervals={interval} setDay={setDay} setMonth={setMonth} removeInterval={removeInterval} key={item.id} />
-        ))}
+      
         <Button type='submit' className='mr-1' color='primary'>
           {intl.formatMessage({id: "Save"}) }
         </Button>

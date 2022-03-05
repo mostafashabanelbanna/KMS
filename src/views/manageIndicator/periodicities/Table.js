@@ -186,6 +186,7 @@ const IndictorList = () => {
 
 
   const addPeriodicity = () => {
+    clearIntervalArr()
     dispatch({type: "GET_PERIODICITY",  selectedPeriodicity:{}})
     dispatch({type: "RESET_CREATE_PERIODICITIES_RESPONSE"})
     toggleSidebar()
