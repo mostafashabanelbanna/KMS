@@ -1,9 +1,9 @@
-import { useState, useContext, Fragment } from 'react'
+import { useState, useContext, Fragment, useEffect } from 'react'
 import classnames from 'classnames'
 import Avatar from '@components/avatar'
 import { useSkin } from '@hooks/useSkin'
 import useJwt from '@src/auth/jwt/useJwt'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { toast, Slide } from 'react-toastify'
 import { handleLogin } from '@store/actions/auth'
@@ -26,6 +26,8 @@ import {
   Button,
   UncontrolledTooltip
 } from 'reactstrap'
+
+import { isLoading, isNotLoading } from '../../../redux/actions/layout'
 
 import logo from '../../../assets/images/logo/logo.svg'
 
@@ -56,16 +58,26 @@ const Login = props => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(true)
-
+ 
   const { register, errors, handleSubmit } = useForm()
+  const store = useSelector(state => state.users)
+
+  // useEffect(() => {
+  //   dispatch(isNotLoading())
+  // }, [])
+  
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
     const onSubmit = data => {
       if (isObjEmpty(errors)) {
+        dispatch(isLoading())
+        // debugger
         useJwt
         .login({ username, password })
         .then(res => {
           console.log(res)
+          dispatch(isNotLoading())
+
           // debugger
           const data = { ...res.data.data.userData, accessToken: res.data.data.accessToken, refreshToken: res.data.data.refreshToken, expiration: res.data.data.expiration }
           dispatch(handleLogin(data))
@@ -77,14 +89,14 @@ const Login = props => {
           )
         })
         .catch(err => {
-          console.log(err)
+          console.log('errrr', err)
+          dispatch(isNotLoading())
         })
     }
   }
 
   return (
-    <div className='auth-wrapper auth-v2'>
-     
+    <div className='auth-wrapper auth-v2'> 
       <Row className='auth-inner m-0'>
         <Link className='brand-logo align-items-center' to='/' onClick={e => e.preventDefault()}>
           <img src={logo}  height='46' />
@@ -96,7 +108,7 @@ const Login = props => {
           </div>
         </Col>
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
-          {loading ? (<Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
+          {store.loading ?   <ComponentSpinner/> : (<Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
             <CardTitle tag='h2' className='font-weight-bold mb-1'>
             <FormattedMessage id="Welcome Message" /> <FormattedMessage id="appFullName" /> 👋
             </CardTitle>
@@ -168,7 +180,7 @@ const Login = props => {
                 <GitHub size={14} />
               </Button.Ripple>
             </div> */}
-          </Col>) :   <ComponentSpinner/>
+          </Col>) 
           }
       
          

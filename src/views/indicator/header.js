@@ -23,20 +23,20 @@ const indicatorHeader = ({ classificationId, tabEnumValue  }) => {
 
   const toggle = () => setIsOpen(!isOpen)
   return (
-    <Card className='profile-header mb-2'>
-      <div className='profile-header-nav'>
-        <Navbar className='justify-content-end justify-content-md-between w-100' expand='md' light>
+    // <Card className='profile-header mb-2'>
+    //   <div className='profile-header-nav'>
+        <Navbar className='justify-content-end justify-content-md-between w-100' expand='md' >
           <Button color='' className='btn-icon navbar-toggler' onClick={toggle}>
             <AlignJustify size={21} />
           </Button>
           <Collapse isOpen={isOpen} navbar>
             <div className='profile-tabs d-flex justify-content-between flex-wrap mt-1 mt-md-0'>
-              <Nav className='mb-0' pills>
+              <Nav tabs>
                   {store.classifications.length > 0 &&  store.classifications.map((item, idx) => (
                      <NavItem key={idx}>
                        <NavLink tag={Link} to={{pathname: `/indicator/classification/${item.id}`}} className='font-weight-bold' active={((classificationId && parseInt(item.id) === parseInt(classificationId)) || (!classificationId && item.id === store.classifications[0].id)) && tabEnumValue === tabEnum.classification}>
-                         <span className='d-none d-md-block'>{item.name}</span>
-                         <span className='d-block d-md-none'>{item.name}</span>
+                         <h4 className='d-none d-md-block mb-0'>{item.name}</h4>
+                         <h4 className='d-block d-md-none mb-0'>{item.name}</h4>
                        </NavLink>
                      </NavItem>
                    ))}
@@ -56,8 +56,8 @@ const indicatorHeader = ({ classificationId, tabEnumValue  }) => {
             </div>
           </Collapse>
         </Navbar>
-      </div>
-    </Card>
+    //   </div>
+    // </Card>
   )
 }
 

@@ -4,6 +4,8 @@ import {convertSelectArr} from '../../utility/Utils'
 import SearchForm from '../../containers/search-form/SearchForm/SearchForm'
 import axios from '../../axios'
 import IndicatorList from './IindicatorList'
+import { useIntl } from 'react-intl'
+import Breadcrumbs from '@components/breadcrumbs'
 
 import {tabEnum} from './tabEnum'
 
@@ -130,8 +132,12 @@ const search = ({ props }) => {
     useEffect(() => {
         getIndicators()
     }, [pageNumber])
+  const intl = useIntl()
+
   return (
       <>
+        <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "General search"})}  breadCrumbParent2={intl.formatMessage({id: "Indicators And Datasets"})} breadCrumbParent={intl.formatMessage({id: "Researchers Services"})} breadCrumbActive={intl.formatMessage({id: "General search"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
+
       {/* {<IndicatorHeader tabEnumValue={tabEnum.search} /> } */}
       {response && <SearchForm display='inline' searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText='بحث'/>}
       <IndicatorList indicators={indicators.items} count={indicators.totalPages} pageNumber={pageNumber} handlePagination={handlePagination}/>
