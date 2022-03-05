@@ -102,7 +102,7 @@ const classification = (props) => {
           </div>
       ))}
       </div>
-      <IndicatorList indicators={indicators.items} count={indicators.totalCount} pageNumber={pageNumber} handlePagination={handlePagination}/>
+      <IndicatorList indicators={indicators.items} count={indicators.totalPages} pageNumber={pageNumber} handlePagination={handlePagination}/>
       </>
   )
 }

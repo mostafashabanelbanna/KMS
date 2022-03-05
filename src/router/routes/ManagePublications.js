@@ -5,6 +5,10 @@ const ManageIndicatorRoutes = [
   {
     path: '/dashboard',
     component: lazy(() => import('../../views/apps/dashboard'))
+  },
+  {
+    path: '/publication',
+    component: lazy(() => import('../../views/managePublication/documentIssue/index'))
   }
 ]
 

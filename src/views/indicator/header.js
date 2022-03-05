@@ -40,7 +40,7 @@ const indicatorHeader = ({ classificationId, tabEnumValue  }) => {
                        </NavLink>
                      </NavItem>
                    ))}
-                <NavItem>
+                {/* <NavItem>
                   <NavLink tag={Link} to='/indicator/periodicity' className='font-weight-bold' active={tabEnum.periodicity === tabEnumValue}>
                     <span className='d-none d-md-block'>الدورية</span>
                     <span className='d-block d-md-none'>الدورية</span>
@@ -51,7 +51,7 @@ const indicatorHeader = ({ classificationId, tabEnumValue  }) => {
                     <span className='d-none d-md-block'>بحث</span>
                     <span className='d-block d-md-none'>بحث</span>
                   </NavLink>
-                </NavItem>               
+                </NavItem>                */}
               </Nav>
             </div>
           </Collapse>

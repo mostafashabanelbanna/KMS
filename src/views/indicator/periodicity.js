@@ -62,7 +62,7 @@ const periodicity = ({ props}) => {
     }, [pageNumber])
   return (
       <>
-      {<IndicatorHeader  tabEnumValue={tabEnum.periodicity} /> }
+      {/* {<IndicatorHeader  tabEnumValue={tabEnum.periodicity} /> } */}
       <div className='row'>
       {periodicities.length > 0 && periodicities.map((item, idx) => (
           <div className='col-md-2 my-3' key={idx}>
@@ -78,7 +78,7 @@ const periodicity = ({ props}) => {
           </div>
       ))}
       </div>
-      <IndicatorList indicators={indicators.items} count={indicators.totalCount} pageNumber={pageNumber} handlePagination={handlePagination}/>
+      <IndicatorList indicators={indicators.items} count={indicators.totalPages} pageNumber={pageNumber} handlePagination={handlePagination}/>
 
       </>
   )

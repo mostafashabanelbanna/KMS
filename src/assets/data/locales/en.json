@@ -135,5 +135,9 @@
 	"Researchers Services": "Researchers Services",
 	"Search by classifications": "Search by classifications",
 	"Search by periodicities": "Search by periodicities",
-	"General search": "General search"
+	"General search": "General search",
+	"ManageDocumentIssues": "Manage Document Issues",
+	"CreateDate": "Create Date",
+	"Attachments": "Attachments"
+
 }

@@ -68,8 +68,6 @@ const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
     {
       name: <FormattedMessage id="Time Line" />,
       selector: (row, index) => {
-          console.log(row)
-          console.log(index)
           return (<>
                      <span> من :  {' '} </span> 
                      <span style={{color: '#7367f0'}}>

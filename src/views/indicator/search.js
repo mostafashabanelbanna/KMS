@@ -132,9 +132,9 @@ const search = ({ props }) => {
     }, [pageNumber])
   return (
       <>
-      {<IndicatorHeader tabEnumValue={tabEnum.search} /> }
+      {/* {<IndicatorHeader tabEnumValue={tabEnum.search} /> } */}
       {response && <SearchForm display='inline' searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText='بحث'/>}
-      <IndicatorList indicators={indicators.items} count={indicators.totalCount} pageNumber={pageNumber} handlePagination={handlePagination}/>
+      <IndicatorList indicators={indicators.items} count={indicators.totalPages} pageNumber={pageNumber} handlePagination={handlePagination}/>
       
       </>
   )
