@@ -136,5 +136,9 @@
 	"Search by classifications": "بحث بالتصنيفات",
 	"Search by periodicities": "بحث بالدوريات",
 	"General search": "بحث عام",
-	"Code": "الكود"
+	"Code": "الكود",
+	"ManageDocumentIssues":"أدارة الاصدارات",
+	"CreateDate": "تاريخ الانشاء",
+	"Attachments": "المرفقات"
+
 }
