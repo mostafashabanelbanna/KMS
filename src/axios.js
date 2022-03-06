@@ -2,8 +2,8 @@ import Axios from "axios"
 import jwt from "./auth/jwt/useJwt"
 
 const axios = Axios.create({
-  // baseURL: process.env.REACT_APP_BASEURL,
-  baseURL: "http://163.121.36.62:81/api",
+  baseURL: process.env.REACT_APP_BASEURL,
+  // baseURL: "http://163.121.36.62:81/api",
   // baseURL: "https://localhost:7262/api",
   // baseURL: "https://localhost:44386/api",
   headers:  {

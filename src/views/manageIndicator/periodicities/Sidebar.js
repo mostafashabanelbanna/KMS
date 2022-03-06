@@ -76,33 +76,7 @@ const SidebarNewPeriodicity = ({ open, toggleSidebar, selectedPeriodicity }) => 
    
  }
 
-//  //days in month function
-//  const monthsArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-//  const [monthValue, setMonthValue] = useState()
-//  //console.log(monthValue)
- 
-//  function daysInMonth (month) {
-//   const currentYear = new Date().getFullYear() 
-//   return new Date(currentYear, month, 0).getDate() 
-  
-// }
 
-// const daysArr = []
-
-// for (let i = 1; i <= daysInMonth(monthValue); i++) {
-//   daysArr.push(i)
-  
-// }
-
-
-// target periodicity interval 
-const [interval, setInterval] = useState([])
-const [day, setDay] = useState()
-const [month, setMonth] = useState()
-
-const monthHandler = (month) => {
-  setMonth(month)
-}
 const addInterval = () => {
   const addedObj = {
    day: null,
@@ -111,16 +85,6 @@ const addInterval = () => {
   dispatch({type: 'SET_SELECTED_INTERVALS', seletctedIntervals: [...store.seletctedIntervals, addedObj]})     
 }
 
-
-//remove period function
-const removePeriod = (id) => {
-
-  setInterval(interval.filter((period, i) => period.id !== id))
-  
-  }
-const removeInterval = (id) => {
-  setInterval(interval.filter((interval, i) => interval.id !== id))
-}
 
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
@@ -145,9 +109,9 @@ const removeInterval = (id) => {
               focus: values.focus,
               active: values.active,
               isDaily : dailyValue,
-             isMontly : monthlyValue,
-             isWeekly : weeklyValue,
-             intervals
+              isMontly : monthlyValue,
+              isWeekly : weeklyValue,
+              intervals
             })
            
           )
@@ -219,15 +183,16 @@ const removeInterval = (id) => {
     }
   }, [store.updateResponse.statusCode])
 
-  useEffect(() => {
-    if (store.selectedPeriodicity.periodicityIntervals) {
-      setInterval(store.selectedPeriodicity.periodicityIntervals)
-    }
-  }, [store.selectedPeriodicity])
+  // useEffect(() => {
+  //   if (store.selectedPeriodicity.periodicityIntervals) {
+  //     setInterval(store.selectedPeriodicity.periodicityIntervals)
+  //   }
+  // }, [store.selectedPeriodicity])
 
   useEffect(() => {
     if (selectedPeriodicity.id) {
-       dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: selectedPeriodicity.seletctedIntervals})
+      console.log(selectedPeriodicity.periodicityIntervals)
+       dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: selectedPeriodicity.periodicityIntervals})
     }
    }, [selectedPeriodicity])
 
@@ -235,22 +200,13 @@ const removeInterval = (id) => {
     <Sidebar
       size='lg'
       open={open}
-      //title={selectedPeriodicity.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"}) }
+      title={selectedPeriodicity.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"}) }
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
-      <div className='add-intervals mb-1'>
-         <span style={{cursor:"pointer"}} onClick={addInterval}>
-          + اضافة فترة
-         </span>
-        </div>
-        {store.seletctedIntervals.map((item, index) => (
-          <Intervals monthHandler={monthHandler} selectedPeriodicity={selectedPeriodicity} index={index} item={item} intervals={interval} setDay={setDay} setMonth={setMonth} removeInterval={removeInterval} key={index} />
-        ))}
-        {store.seletctedIntervals.length > 0 ? <div className='mx-auto mb-1' style={{borderBottom: '1px solid #d8d6de', width: '50%'}}></div> : null}
-
+      
         <FormGroup>
           <Label for='name'>
             <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
@@ -424,14 +380,21 @@ const removeInterval = (id) => {
                 defaultChecked ={selectedPeriodicity ? selectedPeriodicity.active : false}
                 innerRef={register()}
                 />
-                 <Label for='active'>
+                <Label for='active'>
                   {intl.formatMessage({id: "Active"})}
-                  
-                  </Label>
+                </Label>
             </FormGroup>
           </Col>
         </Row>
-      
+        <div className='mx-auto mb-1' style={{borderBottom: '1px solid #d8d6de', width: '50%'}}></div>
+         {/* {store.seletctedIntervals.length > 0 ? <div className='mx-auto mb-1' style={{borderBottom: '1px solid #d8d6de', width: '50%'}}></div> : null} */}
+        <div className='my-2' style={{textDecoration: 'underline', cursor: 'pointer'}} onClick={addInterval}>
+          + اضافة فترة
+        </div>
+        {store.seletctedIntervals.map((item, index) => (
+          <Intervals  selectedPeriodicity={selectedPeriodicity} index={index} key={index} />
+        ))}
+
       
         <Button type='submit' className='mr-1' color='primary'>
           {intl.formatMessage({id: "Save"}) }

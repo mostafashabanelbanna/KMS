@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Row from "reactstrap/lib/Row"
 import Col from "reactstrap/lib/Col"
 import Select from 'react-select'
@@ -21,43 +21,62 @@ const Intervals = ({index}) => {
     const currentYear = new Date().getFullYear() 
     return new Date(currentYear, month, 0).getDate() 
   }
-// const setDaysArray = () => {
- 
-// }
 
-const handleMonthChange = event => {
-  console.log(event)
-  const temp = store.seletctedIntervals
-  temp[index].month = event
-  dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: temp})
-  const tempDays = []
-  for (let i = 1; i <= daysInMonth(store.seletctedIntervals[index].month.value); i++) {
-    tempDays.push({value: i, label: i})
-    
+  const handleMonthChange = event => {
+    console.log(event)
+    const temp = store.seletctedIntervals
+    temp[index].month = event
+    dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: temp})
+    const tempDays = []
+    for (let i = 1; i <= daysInMonth(store.seletctedIntervals[index].month.value); i++) {
+      tempDays.push({day: i, day: i})
+      
+    }
+    setDaysArray(tempDays)
   }
-  setDaysArray(tempDays)
-}
 
-const handleDayChange = event => {
-  const temp = store.seletctedIntervals
-  temp[index].day = event
-  dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: temp})
-}
+  const handleDayChange = event => {
+    const temp = store.seletctedIntervals
+    temp[index].day = event
+    dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: temp})
+  }
+
+  useEffect(() => {
+    const temp = store.seletctedIntervals
+    dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: temp})
+ 
+  }, [store.seletctedIntervals[index].id])
+
     return (
         <div className="add-inteval">
           <Row  className="align-items-center mb-1 "> 
-            <Col sm={5}   >
-              <Select 
-                className='react-select'
-                classNamePrefix='select'
-                onChange = {(e) => handleMonthChange(e)}
-                options = {monthsArray}
-                placeholder = 'تحديد'
-                theme={selectThemeColors}
-              />
+            <Col sm={6}  >
+              {store.seletctedIntervals[index].month &&
+                   <Select 
+                      value={store.seletctedIntervals[index].month}
+                      // getOptionLabel={(option) => option.month}
+                      // getOptionValue={(option) => option.month}
+                      placeholder="تحديد"
+                      isClearable={false}
+                      name='month'
+                      id='month'
+                      className='react-select'
+                      classNamePrefix='select'
+                      onChange = {(e) => handleMonthChange(e)}
+                      options = {monthsArray}
+                      theme={selectThemeColors}
+                    />
+              }
+           
             </Col>
-            <Col sm={5} >
-              <Select 
+            <Col sm={6} >
+              <Select
+                  value={store.seletctedIntervals[index].day}
+                  // getOptionLabel={(option) => option.day}
+                  // getOptionValue={(option) => option.day}
+                  isClearable={false}
+                  name='day'
+                  id='day'
                   className='react-select'
                   classNamePrefix='select'
                   onChange = {(e) =>  handleDayChange((e)) }
@@ -66,9 +85,9 @@ const handleDayChange = event => {
                   theme={selectThemeColors}
                 />
             </Col>
-            <Col sm={2}  >
+            {/* <Col sm={2}  >
               <div className='remove-butoon' style={{cursor:"pointer", color:"#6e6b7b", fontSize:"16px", fontWeight:"bold"}} onClick={() => props.removeInterval(id)} >x</div>
-            </Col>
+            </Col> */}
           </Row>
         </div>
     )

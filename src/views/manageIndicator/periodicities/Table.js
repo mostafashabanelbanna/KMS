@@ -186,14 +186,14 @@ const IndictorList = () => {
 
 
   const addPeriodicity = () => {
-    dispatch({type: "SET_SELECTED_INTERVALS", seletctedIntervals: []})
+    dispatch({type: "SET_SELECTED_INTERVALS", seletctedIntervals: [{day: {}, month: {}}]})
     dispatch({type: "GET_PERIODICITY",  selectedPeriodicity:{}})
     dispatch({type: "RESET_CREATE_PERIODICITIES_RESPONSE"})
     toggleSidebar()
   }
   
   const updatePeriodicity = id => {
-    dispatch({type: "SET_SELECTED_INTERVALS", seletctedIntervals: []})
+    dispatch({type: "SET_SELECTED_INTERVALS", seletctedIntervals: [{day: {}, month: {}}]})
     dispatch({type: "GET_PERIODICITY", selectedPeriodicity:{}})
     dispatch(resetUpdateResponse())
     dispatch(getPeriodicity(id))
