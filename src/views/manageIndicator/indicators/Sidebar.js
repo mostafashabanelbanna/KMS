@@ -298,12 +298,8 @@ console.log(allSources)
       dispatch({type:"SET_SELECTED_UNITS", selectedUnits: selectedIndicator.indicatorUnitDTOs})
    }
   }, [selectedIndicator])
- const test =  [
-    {
-        id: 1,
-        name: "التعبئة العامة والاحصاء"
-    }
-]
+
+  
   return (
     <Sidebar
       size='lg'

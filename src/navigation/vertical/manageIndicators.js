@@ -60,6 +60,12 @@ export default [
     navLink: '/units'
   },
   {
+    id: '/periodicities',
+    title: 'Periodicities',
+    icon: <CgPathUnite size={20} />,
+    navLink: '/periodicities'
+  },
+  {
     id: 'lookups',
     title: 'Lookups',
     icon: <Columns size={20} />,
