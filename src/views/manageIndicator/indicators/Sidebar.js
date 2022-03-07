@@ -55,7 +55,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         hideProgressBar: true 
       })
   }
-console.log(allSources)
+  
   // fetch all Periodicities options
   const getAllPeriodicities = async () => {
     const response = await axios
@@ -78,7 +78,7 @@ console.log(allSources)
     } 
     const getAllClassifications = async () => {
       const response = await axios
-        .get('Classification/GetClassifications')
+        .post('Classification/GetClassifications', {focus: null})
         .catch((err) => console.log("Error", err)) //handle errors
   
         if (response && response.data) {

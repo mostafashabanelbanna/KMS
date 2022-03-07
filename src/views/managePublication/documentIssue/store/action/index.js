@@ -40,9 +40,9 @@ export const addDocumentIssue = documentIssue => {
    documentIssueFormData.append('focus', documentIssue.focus)
    documentIssueFormData.append('sortIndex', parseInt(documentIssue.sortIndex))
    documentIssueFormData.append('active', documentIssue.active)
-  //  for (let i = 0; i < documentIssue.classificationValues.length; i++) {
-  //   documentIssueFormData.append('ClassificationValues', ocumentIssue.classificationValues[i])
-  //  }
+   for (let i = 0; i < documentIssue.classificationValues.length; i++) {
+    documentIssueFormData.append('ClassificationValues', documentIssue.classificationValues[i])
+   }
    return (dispatch, getState) => {
     axios
       .post('/DocumentIssue/CreateDocumentIssue', documentIssueFormData, {headers : { "Content-Type": "multipart/form-data" }})
@@ -89,9 +89,9 @@ export const updateDocumentIssue = documentIssue => {
   documentIssueFormData.append('focus', documentIssue.focus)
   documentIssueFormData.append('sortIndex', parseInt(documentIssue.sortIndex))
   documentIssueFormData.append('active', documentIssue.active)
-  // for (let i = 0; i < documentIssue.classificationValues.length; i++) {
-  //  documentIssueFormData.append('ClassificationValues', documentIssue.classificationValues[i])
-  // }
+  for (let i = 0; i < documentIssue.classificationValues.length; i++) {
+    documentIssueFormData.append('ClassificationValues', documentIssue.classificationValues[i])
+  }
   return async (dispatch, getState) => {
     await axios
      .put('/DocumentIssue/UpdateDocumentIssue/', documentIssueFormData, {headers : { "Content-Type": "multipart/form-data" }})

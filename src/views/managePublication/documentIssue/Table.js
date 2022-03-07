@@ -148,11 +148,13 @@ const UsersList = () => {
 
 
   const addDocumentIssue = () => {
+    dispatch({type:"SET_DOCUMENTISSUE_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
     dispatch({type: "GET_DOCUMENTISSUE", selectedDocumentIssue:{}})
     toggleSidebar()
   }
   
   const updateDocumentIssue = id => {
+    dispatch({type:"SET_DOCUMENTISSUE_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
     dispatch({type: "GET_DOCUMENTISSUE", selectedDocumentIssue:{}})
     dispatch(resetUpdateResponse())
     dispatch(getDocumentIssue(id))

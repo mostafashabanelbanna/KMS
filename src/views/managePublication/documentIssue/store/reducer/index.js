@@ -25,7 +25,9 @@ const initialState = {
         statusCode: 0,
         errors: []
     },
-    selectedDocumentIssue:{}
+    selectedDocumentIssue:{},
+    allClassifications: [],
+    selectedClassificationValues: [{classificationValues: []}]
   }
   
   const DocumentIssue = (state = initialState, action) => {
@@ -46,6 +48,10 @@ const initialState = {
         return { ...state, updateResponse: action.response, errorCode: action.errorCode }
       case 'DELETE_DOCUMENTISSUE':
         return { ...state, deleteResponse: action.response, errorCode: action.errorCode }
+      case 'SET_DOCUMENTISSUE_ALL_CLASSIFICATIONS':
+        return { ...state, allClassifications: action.allClassifications}
+      case 'SET_DOCUMENTISSUE_SELECTED_CLASSIFICATION_VALUES':
+        return { ...state, selectedClassificationValues: action.selectedClassificationValues}
       case 'RESET_DOCUMENTISSUE_GET_RESPONSE':
         return { ...state, getResponse: {error:{}, statusCode: 0, errors:[]}}
       case 'RESET_DOCUMENTISSUE_CREATE_RESPONSE':

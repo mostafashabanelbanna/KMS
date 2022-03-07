@@ -20,7 +20,7 @@ import { useIntl } from 'react-intl'
 
 // Axios
 import axios from '../../../axios'
-
+import ClassificationValues from './ClassificationValues'
 
 // ** Store & Actions
 import { addDocumentIssue, resetCreateResponse, updateDocumentIssue, resetUpdateResponse } from './store/action'
@@ -54,6 +54,13 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
 
   // ** Function to handle form submit
   const onSubmit = async values => {
+    const classificationValues = []
+    for (let i = 0; i < store.selectedClassificationValues.length; i++) {
+      store.selectedClassificationValues[i].classificationValues.map(item => {
+        classificationValues.push(item.id)
+      })
+    }
+
     if (isObjEmpty(errors)) {
       if (!selectedDocumentIssue.id) {
         await dispatch(
@@ -68,7 +75,8 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
               sourceId: selectedSource ? selectedSource.id : null,
               sortIndex: values.sortIndex,
               focus: values.focus,
-              active: values.active
+              active: values.active,
+              classificationValues
             })
           )
       } else {
@@ -86,13 +94,26 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active,
-              id: selectedDocumentIssue.id
+              id: selectedDocumentIssue.id,
+              classificationValues
             }
           )
         )
       }
     }
   }
+  const getAllClassifications = async () => {
+    const response = await axios
+      .post('Classification/GetClassifications', {focus: null})
+      .catch((err) => console.log("Error", err)) //handle errors
+
+      if (response && response.data) {
+          dispatch({type: 'SET_DOCUMENTISSUE_ALL_CLASSIFICATIONS', allClassifications: response.data.data})
+      }
+  } 
+  useEffect(() => {
+    getAllClassifications()
+  }, [])
 
   useEffect(() => {
     setSelectedSource(selectedDocumentIssue.source)
@@ -101,6 +122,12 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
   useEffect(() => {
     setSelectedPeriodicity(selectedDocumentIssue.periodicity)
   }, [selectedDocumentIssue.periodicity])
+
+  useEffect(() => {
+    if (selectedDocumentIssue.id) {
+       dispatch({type:"SET_DOCUMENTISSUE_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: selectedDocumentIssue.documentIssueClassifications})
+    }
+   }, [selectedDocumentIssue])
   
   useEffect(() => {
     const code = store.createResponse.statusCode
@@ -150,6 +177,17 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
   const handleSourceChange = (e) => {
     setSelectedSource(e)
   }
+
+  const addClassificationValue = () => {
+    if (store.selectedClassificationValues.length < store.allClassifications.length) {
+      const addedObj = {
+        classificationValues: []
+      }
+      dispatch({type: 'SET_DOCUMENTISSUE_SELECTED_CLASSIFICATION_VALUES', selectedClassificationValues: [...store.selectedClassificationValues, addedObj]})    
+    }
+  
+  }
+
   return (
     <Sidebar
       size='lg'
@@ -341,6 +379,13 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
             </FormGroup>
               </Col>
           </Row>
+          
+          <div className='mx-auto mb-1' style={{borderBottom: '1px solid #d8d6de', width: '50%'}}></div>
+          <div className='my-2' style={{textDecoration: 'underline', cursor: 'pointer'}} onClick={addClassificationValue}>+ إضافة قيم التصنيف </div>
+            {store.selectedClassificationValues.map((item, index) => {
+              return <ClassificationValues selectedDocumentIssue={selectedDocumentIssue} index={index} key={index}/>
+            })}
+            {store.selectedClassificationValues.length > 0 ? <div className='mx-auto mb-1' style={{borderBottom: '1px solid #d8d6de', width: '50%'}}></div> : null}
           <Row className="mx-0">
             <Col md={12}>
               <Button type='submit' className='mr-1' color='primary'>
