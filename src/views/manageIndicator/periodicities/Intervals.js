@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Row from "reactstrap/lib/Row"
 import Col from "reactstrap/lib/Col"
+import Label from "reactstrap/lib/Label"
 import Select from 'react-select'
 import { useIntl } from 'react-intl'
 import { selectThemeColors } from '@utils'
@@ -23,14 +24,12 @@ const Intervals = ({index}) => {
   }
 
   const handleMonthChange = event => {
-    console.log(event)
     const temp = store.seletctedIntervals
     temp[index].month = event
     dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: temp})
     const tempDays = []
     for (let i = 1; i <= daysInMonth(store.seletctedIntervals[index].month.value); i++) {
-      tempDays.push({day: i, day: i})
-      
+      tempDays.push({value: i, label: i})  
     }
     setDaysArray(tempDays)
   }
@@ -44,6 +43,15 @@ const Intervals = ({index}) => {
   useEffect(() => {
     const temp = store.seletctedIntervals
     dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: temp})
+    const tempDays = []
+    if (store.seletctedIntervals[index].month) {
+      for (let i = 1; i <= daysInMonth(store.seletctedIntervals[index].month.value); i++) {
+        tempDays.push({value: i, label: i})
+        
+      }
+      setDaysArray(tempDays)
+    }
+  
  
   }, [store.seletctedIntervals[index].id])
 
@@ -51,25 +59,29 @@ const Intervals = ({index}) => {
         <div className="add-inteval">
           <Row  className="align-items-center mb-1 "> 
             <Col sm={6}  >
-              {store.seletctedIntervals[index].month &&
-                   <Select 
-                      value={store.seletctedIntervals[index].month}
-                      // getOptionLabel={(option) => option.month}
-                      // getOptionValue={(option) => option.month}
-                      placeholder="تحديد"
-                      isClearable={false}
-                      name='month'
-                      id='month'
-                      className='react-select'
-                      classNamePrefix='select'
-                      onChange = {(e) => handleMonthChange(e)}
-                      options = {monthsArray}
-                      theme={selectThemeColors}
-                    />
-              }
+              <Label for='name'>
+                {intl.formatMessage({id: "Month"})}
+              </Label>
+              <Select 
+                value={store.seletctedIntervals[index].month}
+                // getOptionLabel={(option) => option.month}
+                // getOptionValue={(option) => option.month}
+                placeholder="تحديد"
+                isClearable={false}
+                name='month'
+                id='month'
+                className='react-select'
+                classNamePrefix='select'
+                onChange = {(e) => handleMonthChange(e)}
+                options = {monthsArray}
+                theme={selectThemeColors}
+              />
            
             </Col>
             <Col sm={6} >
+              <Label for='name'>
+                {intl.formatMessage({id: "Day"})}
+              </Label>
               <Select
                   value={store.seletctedIntervals[index].day}
                   // getOptionLabel={(option) => option.day}

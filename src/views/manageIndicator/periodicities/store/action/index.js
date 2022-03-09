@@ -7,7 +7,6 @@ export const getData = params => {
   return async dispatch => {
     await axios.post('/Periodicity/GetPeriodicitiesWithPagination', params)
     .then(response => {
-      console.log("getData", response)
       dispatch({
         type: 'GET_PERIODICITIES_DATA',
         data: response.data.data.items,

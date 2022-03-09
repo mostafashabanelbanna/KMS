@@ -154,6 +154,13 @@
 	"General search": "General search",
 	"ManageDocumentIssues": "Manage Document Issues",
 	"CreateDate": "Create Date",
-	"Attachments": "Attachments"
-
+	"Attachments": "Attachments",
+	"System Services" : "System Services",
+	"Providers" : "Providers",
+	"Provider Category":  "Provider Category",
+	"Month": "Month",
+	"Day":"Day",
+	"Address In English": "Address In English",
+	"Address" : "Address",
+	"Fax": "Fax"
 }

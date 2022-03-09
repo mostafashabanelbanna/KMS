@@ -12,12 +12,13 @@ import manageNotifications from './manageNotifications'
 import manageSystem from './manageSystem'
 import dashboard from './dashboard'
 import researcherServices from './researcherServices'
-
+import systemServices from './systemServices'
 
 // ** Merge & Export
 export default [
     ...apps,
     ...researcherServices,
+    ...systemServices,
     // ...dashboard,
     // ...manageDataset,
     // ...manageClassifications,

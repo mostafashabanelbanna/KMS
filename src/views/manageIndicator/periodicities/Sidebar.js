@@ -188,14 +188,28 @@ const addInterval = () => {
   //     setInterval(store.selectedPeriodicity.periodicityIntervals)
   //   }
   // }, [store.selectedPeriodicity])
-
+  
   useEffect(() => {
     if (selectedPeriodicity.id) {
-      console.log(selectedPeriodicity.periodicityIntervals)
-       dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: selectedPeriodicity.periodicityIntervals})
-    }
-   }, [selectedPeriodicity])
+      
+      const monthsArray = [{value :1, label:intl.formatMessage({id: "January"})}, {value:2,  label:intl.formatMessage({id: "February"})}, {value:3,  label:intl.formatMessage({id: "March"})}, {value:4, label:intl.formatMessage({id: "April"})}, { value:5,  label:intl.formatMessage({id: "May"})}, {value:6,  label:intl.formatMessage({id: "June"})}, {value:7,  label:intl.formatMessage({id: "July"})}, {value:8,  label:intl.formatMessage({id: "August"})}, {value:9,  label:intl.formatMessage({id: "September"})}, {value:10,  label:intl.formatMessage({id: "October"})}, {value:11,  label:intl.formatMessage({id: "November"})}, {value:12,  label:intl.formatMessage({id: "December"})}]
+      const selectedMonthsArray = []
 
+      
+      for (let i = 0;  i < selectedPeriodicity.periodicityIntervals.length; i++) {
+        monthsArray.filter(monthObj => {
+          if (monthObj.value === selectedPeriodicity.periodicityIntervals[i].month) { 
+            // console.log('monthObj.value: ', monthObj.value, ' selectedInterval', selectedPeriodicity.periodicityIntervals[i].month)
+            selectedMonthsArray.push({month: monthObj, day: {value: selectedPeriodicity.periodicityIntervals[i].day, label: selectedPeriodicity.periodicityIntervals[i].day}})
+          }
+        })
+      }
+      console.log(selectedMonthsArray)
+          
+      dispatch({type:"SET_SELECTED_INTERVALS", seletctedIntervals: selectedMonthsArray})
+    }
+  }, [selectedPeriodicity])
+  
   return (
     <Sidebar
       size='lg'
