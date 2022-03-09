@@ -1,7 +1,7 @@
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
 
-// import Sidebar from './Sidebar'
+import Sidebar from './Sidebar'
 // ** Invoice List SearchForm
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
@@ -28,10 +28,9 @@ import "moment/locale/ar"
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-
-
+import axios from '../../../axios'
 // helper function
-import {isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
 
 
 const UsersList = () => {
@@ -40,8 +39,10 @@ const UsersList = () => {
   const store = useSelector(state => state.documentIssues)
 
   // ** States
+  const [sources, setSources] = useState([])
+  const [periodicities, setPeriodicities] = useState([])
+  const [classifications, setClassifications] = useState([])
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [searchData, setSearchData] = useState({
@@ -63,6 +64,17 @@ const UsersList = () => {
       })
     }
 
+    const getAllDropDowns = async () => {
+        await axios.get(`/Indicator/GetSearchDropdownListsForIndicator`)
+        .then(response => {
+            const result = response.data.data
+            setSources(result.sources)
+            setPeriodicities(result.periodicities)
+            setClassifications(result.classifications)
+           })
+           .catch(error => {
+        })
+    }
  // ** Function to toggle sidebar
 
  const toggleSidebar = (Submit) => {
@@ -101,6 +113,7 @@ const UsersList = () => {
         ...searchData
       })
     )
+    getAllDropDowns()
   }, [dispatch, store.data.length])
 
   useEffect(() => {
@@ -135,12 +148,14 @@ const UsersList = () => {
 
 
   const addDocumentIssue = () => {
+    dispatch({type:"SET_DOCUMENTISSUE_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
     dispatch({type: "GET_DOCUMENTISSUE", selectedDocumentIssue:{}})
     toggleSidebar()
   }
   
   const updateDocumentIssue = id => {
-    dispatch({type: "GET_DOCUMENTISSUE", selectedUser:{}})
+    dispatch({type:"SET_DOCUMENTISSUE_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
+    dispatch({type: "GET_DOCUMENTISSUE", selectedDocumentIssue:{}})
     dispatch(resetUpdateResponse())
     dispatch(getDocumentIssue(id))
     toggleSidebar()
@@ -199,6 +214,24 @@ const UsersList = () => {
       dropdownArr: [], 
       multiple: true, 
       radioArr: [] 
+    },
+    {
+        fieldType: 'select',
+        label: `المصدر`, 
+        colSizeLg: 4, 
+        attr: "sourceId", 
+        dropdownArr: convertSelectArr(sources),
+        multiple: true,
+        radioArr: [] 
+    },
+    {
+        fieldType: 'select',
+        label: `الدورية`, 
+        colSizeLg: 4, 
+        attr: "periodicityId", 
+        dropdownArr: convertSelectArr(periodicities),
+        multiple: true,
+        radioArr: [] 
     }
   ]
 
@@ -208,6 +241,13 @@ const UsersList = () => {
 
   const handlSubmit = () => {
     setPageNumber(1)
+    dispatch(
+        getData({
+          pageNumber,
+          rowsPerPage,
+          ...searchData
+        })
+    )
   }
   
  const columns =  [
@@ -219,13 +259,13 @@ const UsersList = () => {
     },
     {
       name: <FormattedMessage id="Periodicity" />,
-      selector: (row, idx) => { return (<> {row.periodicity ? row.periodicity.name_A : ""} </>) },
+      selector: (row, idx) => { return (<> {row.periodicity ? row.periodicity.name : ""} </>) },
       sortable: true,
       minWidth: '250px'
     },
     {
       name: <FormattedMessage id="Source" />,
-      selector: (row, idx) => { return (<> {row.source ? row.source.name_A : ""} </>) },
+      selector: (row, idx) => { return (<> {row.source ? row.source.name : ""} </>) },
       sortable: true,
       minWidth: '250px'
     },
@@ -252,7 +292,7 @@ const UsersList = () => {
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100'>
+            <DropdownItem className='w-100' tag={Link} to={{ pathname: `/documentLibrary/${row.id}`, state: { id : row.id, name: row.name_A}}} >
               <File size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Attachments" /></span>
             </DropdownItem>
@@ -299,7 +339,7 @@ const UsersList = () => {
               }
             />
           </Card>
-          {/* <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedUser={store.selectedUser} /> */}
+          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedDocumentIssue={store.selectedDocumentIssue} periodicities={periodicities} sources={sources} classifications={classifications} />
         </>
       )}
     </Fragment>

@@ -21,6 +21,7 @@ import classificationValues from '@src/views/manageClassification/classification
 import researcherIndicators from '@src/views/indicator/store/reducer/index'
 import documentIssues from '@src/views/managePublication/documentIssue/store/reducer/index'
 import providers from '@src/views/systemServices/providers/store/reducer/index'
+import documentLibraries from '@src/views/managePublication/documentLibrary/store/reducer/index'
 
 const rootReducer = combineReducers({
     auth,
@@ -41,7 +42,8 @@ const rootReducer = combineReducers({
     classificationValues,
     researcherIndicators,
     documentIssues,
-    providers
+    providers,
+    documentLibraries
 })
 
 export default rootReducer

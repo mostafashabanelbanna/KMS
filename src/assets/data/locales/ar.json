@@ -164,5 +164,21 @@
 	"Day":"اليوم",
 	"Address In English": "Address In English",
 	"Address" : "Address",
-	"Fax": "Fax"
+	"Fax": "Fax",
+	"PhotoA": "الصورة (عربى)",
+	"PhotoE": "الصورة (أنجليزى)",
+	"coverPhotoA": "صورة الغلاف (عربى)",
+	"coverPhotoE": "صورة الغلاف (أنجليزى)",
+	"attachmentA": "الملف (عربى)",
+	"attachmentE": "الملف (أنجليزى)",
+	"NameA": "الاسم (عربى)",
+	"NameE": "الاسم (أنجليزى)",
+	"Choose Photo": "أختر الصورة",
+	"Choose File": "أختر الملف",
+	"Title": "العنوان",
+	"TitleA": "العنوان (عربى)",
+	"TitleE": "العنوان (أنجليزى)",
+	"contentA": "المحتوى (عربى)",
+	"contentE": "المحتوى (عربى)",
+	"PublishDate": "تاريخ النشر"
 }
