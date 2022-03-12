@@ -71,9 +71,9 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
               descriptionE: values.descriptionE,
               photoA: values.photoA,
               photoE: values.photoE,
-              periodicityId: selectedPeriodicity ? selectedPeriodicity.id : null,
-              sourceId: selectedSource ? selectedSource.id : null,
-              sortIndex: values.sortIndex,
+              periodicityId: selectedPeriodicity ? selectedPeriodicity.id : "",
+              sourceId: selectedSource ? selectedSource.id : "",
+              sortIndex: values.sortIndex ? value.sortIndex : 0,
               focus: values.focus,
               active: values.active,
               classificationValues
@@ -89,9 +89,9 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
               descriptionE: values.descriptionE,
               photoA: values.photoA,
               photoE: values.photoE,
-              periodicityId: selectedPeriodicity ? selectedPeriodicity.id : null,
-              sourceId: selectedSource ? selectedSource.id : null,
-              sortIndex: values.sortIndex,
+              periodicityId: selectedPeriodicity ? selectedPeriodicity.id : "",
+              sourceId: selectedSource ? selectedSource.id : "",
+              sortIndex: values.sortIndex ? value.sortIndex : 0,
               focus: values.focus,
               active: values.active,
               id: selectedDocumentIssue.id,
@@ -203,7 +203,7 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
           <Col md={6}>
             <FormGroup>
               <Label for='nameA'>
-              <span className='text-danger'>*</span> {intl.formatMessage({id: "NameA"})}
+               {intl.formatMessage({id: "NameA"})} <span className='text-danger'>*</span> 
               </Label>
               <Input
                 name='nameA'
@@ -338,7 +338,7 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
             <Col md={6}>
               <FormGroup>
                 <Label for='sortIndex'>
-                <span className='text-danger'>*</span> {intl.formatMessage({id: "Sort Index"})}
+                {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
                 </Label>
                 <Input
                   type="number"

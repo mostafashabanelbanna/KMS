@@ -2,11 +2,11 @@
 import { Fragment, useState, useEffect } from 'react'
 
 import Sidebar from './Sidebar'
-// ** Invoice List SearchForm
+
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 // ** Store & Actions
-import {  getData, getDocumentIssue, resetCreateResponse, resetUpdateResponse, deleteDocumentIssue, resetDeleteResponse} from './store/action'
+import {  getData, getInquiry, resetCreateResponse, resetUpdateResponse, deleteInquiry, resetDeleteResponse} from './store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -16,7 +16,7 @@ import { Link, Redirect} from 'react-router-dom'
 
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
-import { ChevronDown, MoreVertical,  Trash2, Archive, File } from 'react-feather'
+import { ChevronDown, MoreVertical,  Trash2, Archive, File, Settings } from 'react-feather'
 import DataTable from 'react-data-table-component'
 import { selectThemeColors } from '@utils'
 import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
@@ -36,12 +36,13 @@ import {isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/U
 const UsersList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.documentIssues)
+  const store = useSelector(state => state.inquiries)
 
   // ** States
-  const [sources, setSources] = useState([])
-  const [periodicities, setPeriodicities] = useState([])
+  const [departments, setDepartments] = useState([])
+  const [providers, setProviders] = useState([])
   const [classifications, setClassifications] = useState([])
+  const [classificationValues, setClassificationValues] = useState([])
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -64,17 +65,38 @@ const UsersList = () => {
       })
     }
 
-    const getAllDropDowns = async () => {
-        await axios.get(`/Indicator/GetSearchDropdownListsForIndicator`)
-        .then(response => {
-            const result = response.data.data
-            setSources(result.sources)
-            setPeriodicities(result.periodicities)
-            setClassifications(result.classifications)
-           })
-           .catch(error => {
-        })
+    
+    const getDepartments = async () => {
+      await axios.post(`/Lookups/GetLookupValues`, {lookupName: 'Department'})
+      .then(response => {
+          setDepartments(response.data.data)
+         })
+         .catch(error => {
+      })
     }
+    const getProviders = async () => {
+      await axios.get(`/Provider/GetProviders`)
+      .then(response => {
+          setProviders(response.data.data)
+         })
+         .catch(error => {})
+    }
+    const getClassifications = async () => {
+      await axios.post(`/Classification/GetClassifications`, {focus: null})
+      .then(response => {
+          setClassifications(response.data.data)
+          dispatch({type:"SET_INQUIRY_ALL_CLASSIFICATIONS", allClassifications: response.data.data})
+         })
+         .catch(error => {})
+    }
+    const getClassificationValues = async (id) => {
+      await axios.get(`/ClassificationValue/GetClassificationValues/${id}`)
+      .then(response => {
+          setClassificationValues(response.data.data)
+         })
+         .catch(error => {})
+    }
+
  // ** Function to toggle sidebar
 
  const toggleSidebar = (Submit) => {
@@ -113,14 +135,16 @@ const UsersList = () => {
         ...searchData
       })
     )
-    getAllDropDowns()
+    getDepartments()
+    getProviders()
+    getClassifications()
   }, [dispatch, store.data.length])
 
   useEffect(() => {
     if (store.getResponse.statusCode !== 200 && store.getResponse.statusCode !== 0) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})}`)
     }
-    dispatch({type:"RESET_DOCUMENTISSUE_GET_RESPONSE"})
+    dispatch({type:"RESET_INQUIRY_GET_RESPONSE"})
   }, [store.getResponse.statusCode])
 
   useEffect(() => {
@@ -147,17 +171,17 @@ const UsersList = () => {
   }, [store.deleteResponse.statusCode])
 
 
-  const addDocumentIssue = () => {
-    dispatch({type:"SET_DOCUMENTISSUE_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
-    dispatch({type: "GET_DOCUMENTISSUE", selectedDocumentIssue:{}})
+  const addInquiry = () => {
+    dispatch({type:"SET_INQUIRY_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
+    dispatch({type: "GET_INQUIRY", selectedInquiry:{}})
     toggleSidebar()
   }
   
-  const updateDocumentIssue = id => {
-    dispatch({type:"SET_DOCUMENTISSUE_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
-    dispatch({type: "GET_DOCUMENTISSUE", selectedDocumentIssue:{}})
+  const updateInquiry = id => {
+    dispatch({type:"SET_INQUIRY_SELECTED_CLASSIFICATION_VALUES", selectedClassificationValues: [{classificationValues: []}]})
+    dispatch({type: "GET_INQUIRY", selectedInquiry:{}})
     dispatch(resetUpdateResponse())
-    dispatch(getDocumentIssue(id))
+    dispatch(getInquiry(id))
     toggleSidebar()
   }
 
@@ -217,26 +241,57 @@ const UsersList = () => {
     },
     {
         fieldType: 'select',
-        label: `المصدر`, 
+        label: `مزود بيانات`, 
         colSizeLg: 4, 
-        attr: "sourceId", 
-        dropdownArr: convertSelectArr(sources),
-        multiple: true,
+        attr: "providerId", 
+        dropdownArr: convertSelectArr(providers),
+        multiple: false,
         radioArr: [] 
     },
     {
         fieldType: 'select',
-        label: `الدورية`, 
+        label: `الأدارة`, 
         colSizeLg: 4, 
-        attr: "periodicityId", 
-        dropdownArr: convertSelectArr(periodicities),
-        multiple: true,
+        attr: "departmentId", 
+        dropdownArr: convertSelectArr(departments),
+        multiple: false,
         radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `التصنيف`, 
+      colSizeLg: 4, 
+      attr: "classificationId", 
+      dropdownArr: convertSelectArr(classifications),
+      multiple: false,
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `قيم التصنيف`, 
+      colSizeLg: 4, 
+      attr: "classificationValueId", 
+      dropdownArr: convertSelectArr(classificationValues),
+      multiple: false,
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `${intl.formatMessage({id: "Active"})}`, 
+      colSizeLg: 4, 
+      attr: "active", 
+      dropdownArr: [{label: intl.formatMessage({id: "All"}), value: null}, {label: intl.formatMessage({id: "Active"}), value: true}, {label: intl.formatMessage({id: "Inactive"}), value: false}], 
+      multiple: true,
+      radioArr: [] 
     }
   ]
 
   const handleSearch = (value, attrName) => {
     setSearchData({...searchData, [attrName] : value })
+
+    if (attrName === 'classificationId') {
+      getClassificationValues(value)
+    }
   } 
 
   const handlSubmit = () => {
@@ -255,17 +310,17 @@ const UsersList = () => {
       name: <FormattedMessage id="Id" />,
       selector: 'id',
       sortable: true,
-      minWidth: '50px'
+      minWidth: '10px'
     },
     {
-      name: <FormattedMessage id="Periodicity" />,
-      selector: (row, idx) => { return (<> {row.periodicity ? row.periodicity.name : ""} </>) },
+      name: <FormattedMessage id="Name" />,
+      selector: 'name',
       sortable: true,
-      minWidth: '250px'
+      minWidth: '400px'
     },
     {
-      name: <FormattedMessage id="Source" />,
-      selector: (row, idx) => { return (<> {row.source ? row.source.name : ""} </>) },
+      name: <FormattedMessage id="Provider" />,
+      selector: (row, idx) => { return (<> {row.provider ? row.provider.name : ""} </>) },
       sortable: true,
       minWidth: '250px'
     },
@@ -287,16 +342,16 @@ const UsersList = () => {
           <DropdownMenu right>
             <DropdownItem
               className='w-100'
-              onClick={() => updateDocumentIssue(row.id)}
+              onClick={() => updateInquiry(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' tag={Link} to={{ pathname: `/documentLibrary/${row.id}`, state: { id : row.id, name: row.name_A}}} >
-              <File size={14} className='mr-50' />
-              <span className='align-middle'><FormattedMessage id="Attachments" /></span>
+            <DropdownItem className='w-100' tag={Link} to={{ pathname: `/inquiryProcedure/${row.id}`, state: { id : row.id, name: row.name_A}}} >
+              <Settings size={14} className='mr-50' />
+              <span className='align-middle'><FormattedMessage id="InquiryProcedure" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteDocumentIssue(row.id))}>
+            <DropdownItem className='w-100' onClick={() => dispatch(deleteInquiry(row.id))}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>
@@ -310,7 +365,6 @@ const UsersList = () => {
     <Fragment>
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
         <>
-          
           <Card>
             <DataTable
               noHeader
@@ -331,7 +385,7 @@ const UsersList = () => {
                     <SearchForm display='inline'  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                   </div>
                   <div className="my-1 d-flex justify-content-end">
-                    <Button.Ripple color='primary' onClick={addDocumentIssue} >
+                    <Button.Ripple color='primary' onClick={addInquiry} >
                       <FormattedMessage id="Add" />
                     </Button.Ripple>
                   </div>
@@ -339,7 +393,7 @@ const UsersList = () => {
               }
             />
           </Card>
-          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedDocumentIssue={store.selectedDocumentIssue} periodicities={periodicities} sources={sources} classifications={classifications} />
+          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedInquiry={store.selectedInquiry} departments={departments} providers={providers} classifications={classifications} />
         </>
       )}
     </Fragment>

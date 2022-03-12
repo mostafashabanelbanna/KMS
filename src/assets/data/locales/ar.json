@@ -181,5 +181,19 @@
 	"contentA": "المحتوى (عربى)",
 	"contentE": "المحتوى (عربى)",
 	"PublishDate": "تاريخ النشر",
-	"WebResources": "مصادر على الويب"
+	"WebResources": "مصادر على الويب",
+	"ManageInquiry": "أدارة طلبات البيانات",
+	"Inquiry": "طلبات البيانات",
+	"All": "الكل",
+	"Inactive": "غير فعال",
+	"Provider": "مزود البيانات",
+	"Id": "الكود",
+	"Department": "الأدارة",
+	"expectedPeriod": "الفترة المتوقعة",
+	"startDate": "تاريخ البدء",
+	"plannedEndDate": "تاريخ الأنتهاء المخطط",
+	"actualEndDate": "تاريخ الأنتهاء الفعلى",
+	"referenceNo": "رقم الطلب",
+	"attachment": "ملف",
+	"InquiryProcedure": "إجراءات طلب البيانات"
 }

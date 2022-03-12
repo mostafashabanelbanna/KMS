@@ -23,7 +23,8 @@ import documentIssues from '@src/views/managePublication/documentIssue/store/red
 import providers from '@src/views/systemServices/providers/store/reducer/index'
 import webResources from '@src/views/systemServices/webResources/store/reducer/index'
 import documentLibraries from '@src/views/managePublication/documentLibrary/store/reducer/index'
-
+import inquiries from  '@src/views/manageInquiry/Inquiry/store/reducer/index'
+import inquiryProcedures from '@src/views/manageInquiry/InquiryProcedures/store/reducer/index'
 const rootReducer = combineReducers({
     auth,
     users,
@@ -45,7 +46,9 @@ const rootReducer = combineReducers({
     documentIssues,
     providers,
     webResources,
-    documentLibraries
+    documentLibraries,
+    inquiries,
+    inquiryProcedures
 })
 
 export default rootReducer

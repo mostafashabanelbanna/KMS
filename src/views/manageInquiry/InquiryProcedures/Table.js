@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 
 // ** Store & Actions
-import {  getData, deleteDocumentLibrary, getDocumentLibrary } from './store/action'
+import {  getData, deleteInquiryProcedure, getInquiryProcedure } from './store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -21,6 +21,7 @@ import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
 import { BsUiRadiosGrid } from "react-icons/bs"
 import * as moment from "moment"
+import "moment/locale/ar"
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -31,10 +32,10 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 import {isAuthorized, isNotLightSkin} from '../../../utility/Utils'
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
-const DocumentLibraryList = ({documentIssueId}) => {
+const InquiryProcedureList = ({inquiryId}) => {
     // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.documentLibraries)
+  const store = useSelector(state => state.inquiryProcedures)
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -42,8 +43,7 @@ const DocumentLibraryList = ({documentIssueId}) => {
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [searchData, setSearchData] = useState({
-    documentIssueId,
-    name: "",
+    inquiryId,
     active: true
   })
 
@@ -91,10 +91,10 @@ const DocumentLibraryList = ({documentIssueId}) => {
   useEffect(() => {
     dispatch(
       getData({
-        documentIssueId,
         pageNumber,
         pageSize: rowsPerPage,
-        ...searchData
+        ...searchData,
+        inquiryId
       })
     )
   }, [dispatch, store.data.length])
@@ -103,7 +103,7 @@ const DocumentLibraryList = ({documentIssueId}) => {
     if (store.getResponse.statusCode !== 200 && store.getResponse.statusCode !== 0) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
     }
-    dispatch({type:"RESET_DOCUMENTLIBRARY_GET_RESPONSE"})
+    dispatch({type:"RESET_INQUIRYPROCEDURE_GET_RESPONSE"})
   }, [store.getResponse.statusCode])
 
   useEffect(() => {
@@ -121,23 +121,23 @@ const DocumentLibraryList = ({documentIssueId}) => {
       } else {
         dispatch(getData({
           ...searchData,
-          documentIssueId,
+          inquiryId,
           pageNumber,
           pageSize: rowsPerPage
         }))
       }
     }
-    dispatch({type:"RESET_DOCUMENTLIBRARY_DELETE_RESPONSE"})
+    dispatch({type:"RESET_INQUIRYPROCEDURE_DELETE_RESPONSE"})
   }, [store.deleteResponse.statusCode])
 
-  const addDocumentLibrary = () => {
-    dispatch({type: "GET_DOCUMENTLIBRARY", selectedDocumentLibrary:{}})
+  const addInquiryProcedure = () => {
+    dispatch({type: "GET_INQUIRYPROCEDURE", selectedInquiryProcedure:{}})
     toggleSidebar()
   }
-  const updateDocumentLibrary = id => {
-    dispatch({type: "GET_DOCUMENTLIBRARY", selectedDocumentLibrary:{}})
-    dispatch({type:"RESET_DOCUMENTLIBRARY_UPDATE_RESPONSE"})
-    dispatch(getDocumentLibrary(id))
+  const updateInquiryProcedure = id => {
+    dispatch({type: "GET_INQUIRYPROCEDURE", selectedInquiryProcedure:{}})
+    dispatch({type:"RESET_INQUIRYPROCEDURE_UPDATE_RESPONSE"})
+    dispatch(getInquiryProcedure(id))
     toggleSidebar()
   }
 
@@ -149,7 +149,7 @@ const DocumentLibraryList = ({documentIssueId}) => {
   useEffect(() => {
     dispatch(getData({
       ...searchData,
-      documentIssueId,
+      inquiryId,
       pageNumber,
       pageSize: rowsPerPage
     }))
@@ -189,15 +189,6 @@ const DocumentLibraryList = ({documentIssueId}) => {
   // Search Form Items we need to pass to Search Form container
   const formItems =  [
     {
-      fieldType: 'text',
-      label: `${intl.formatMessage({id: "Name"})}`, 
-      colSizeLg: 4,
-      attr: "name",
-      dropdownArr: [], 
-      multiple: true, 
-      radioArr: [] 
-    },
-    {
       fieldType: 'select',
       label: `${intl.formatMessage({id: "Active"})}`, 
       colSizeLg: 4, 
@@ -207,7 +198,6 @@ const DocumentLibraryList = ({documentIssueId}) => {
       radioArr: [] 
     }
   ]
-
   const handleSearch = (value, attrName) => {
     setSearchData({...searchData, [attrName] : value })
   } 
@@ -217,7 +207,7 @@ const DocumentLibraryList = ({documentIssueId}) => {
     dispatch(
       getData({
         ...searchData,
-        documentIssueId,
+        inquiryId,
         pageNumber,
         pageSize: rowsPerPage
       })
@@ -232,16 +222,22 @@ const DocumentLibraryList = ({documentIssueId}) => {
       minWidth: '50px'
     },
     {
-      name: <FormattedMessage id="Title" />,
-      selector: 'title_A',
+      name: <FormattedMessage id="Name" />,
+      selector: 'name',
       sortable: true,
       minWidth: '225px'
     },
     {
-        name: <FormattedMessage id="PublishDate" />,
-        selector: (row, idx) => { return (<> {moment(row.publishDate).locale("ar").format("LL")} </>) },
+        name: <FormattedMessage id="CreateDate" />,
+        selector: (row, idx) => { return (<> {moment(row.createDate).locale("ar").format("LL")} </>) },
         sortable: true,
         minWidth: '225px'
+    },
+    {
+      name: <FormattedMessage id="Provider" />,
+      selector: (row, idx) => { return (<> {row.provider ? row.provider.name : ""} </>) },
+      sortable: true,
+      minWidth: '225px'
     },
     {
       name: <div className="justify-content-center"><FormattedMessage id="Actions" /></div>,
@@ -255,12 +251,12 @@ const DocumentLibraryList = ({documentIssueId}) => {
           <DropdownMenu right>
             <DropdownItem
               className='w-100'
-              onClick={() => updateDocumentLibrary(row.id)}
+              onClick={() => updateInquiryProcedure(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteDocumentLibrary(row.id))}>
+            <DropdownItem className='w-100' onClick={() => dispatch(deleteInquiryProcedure(row.id))}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>
@@ -292,7 +288,7 @@ const DocumentLibraryList = ({documentIssueId}) => {
                           <SearchForm  display='inline' searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                           </div>
                           <div className="my-1 d-flex justify-content-end">
-                            <Button.Ripple color='primary' onClick={addDocumentLibrary} >
+                            <Button.Ripple color='primary' onClick={addInquiryProcedure} >
                               <FormattedMessage id="Add" />
                             </Button.Ripple>
                           </div>
@@ -300,7 +296,7 @@ const DocumentLibraryList = ({documentIssueId}) => {
                       }
                     />
                 </Card>
-                <Sidebar documentIssueId={documentIssueId} open={sidebarOpen} toggleSidebar={toggleSidebar} selectedDocumentLibrary={store.selectedDocumentLibrary} />
+                <Sidebar inquiryId={inquiryId} open={sidebarOpen} toggleSidebar={toggleSidebar} selectedInquiryProcedure={store.selectedInquiryProcedure} />
               </>
           )}
       </Fragment>
@@ -309,4 +305,4 @@ const DocumentLibraryList = ({documentIssueId}) => {
 
 }
 
-export default DocumentLibraryList
+export default InquiryProcedureList

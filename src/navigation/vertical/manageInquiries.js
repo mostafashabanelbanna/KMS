@@ -7,10 +7,10 @@ export default [
     header: 'خدمات الباحثين'
   },
   {
-    id: '/inquiries',
+    id: '/inquiry',
     title: 'Inquiries',
     icon: <FaInfoCircle size={20} />,
-    navLink: '/inquiries'
+    navLink: '/inquiry'
   },
   {
     id: '/comments',
