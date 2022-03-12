@@ -321,7 +321,7 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
                     views={["year", "month", "date"]}
                   />
                 </MuiPickersUtilsProvider>
-             </Col>
+            </Col>
         </Row>
         <Row className="mx-0">
           <Col md={12}>
