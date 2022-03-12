@@ -4,6 +4,7 @@ import jwtDefaultConfig from './jwtDefaultConfig'
 import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
 
+import { store } from '../../../redux/storeConfig/store'
 
 export default class JwtService {
   
@@ -53,8 +54,10 @@ export default class JwtService {
             })
         }
 
+        // store.disptch({type: 'RESET_LOADING', loading: false})
         // ** if (status === 401) {
         if (response && response.status === 401) {
+          store.dispatch({type: 'RESET_LOADING', loading: false})
           notify('fail', 'بيانات دخول غير صحيحة')
           // alert('here')
           if (!this.isAlreadyFetchingAccessToken) {

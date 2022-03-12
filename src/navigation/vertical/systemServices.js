@@ -9,5 +9,11 @@ export default [
     title: 'Providers',
     icon: <User size={20} />,
     navLink: '/providers'
+  },
+  {
+    id: 'webResources',
+    title: 'WebResources',
+    icon: <User size={20} />,
+    navLink: '/web-resources'
   }
 ]

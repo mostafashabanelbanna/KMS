@@ -60,7 +60,7 @@ const Login = props => {
   const [loading, setLoading] = useState(true)
  
   const { register, errors, handleSubmit } = useForm()
-  const store = useSelector(state => state.users)
+  const store = useSelector(state => state.layout)
 
   // useEffect(() => {
   //   dispatch(isNotLoading())
@@ -90,7 +90,7 @@ const Login = props => {
         })
         .catch(err => {
           console.log('errrr', err)
-          dispatch(isNotLoading())
+          dispatch(isLoading())
         })
     }
   }

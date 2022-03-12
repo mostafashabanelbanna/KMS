@@ -82,8 +82,6 @@ const PermissionsForm = ({roleId, storePerm, currentObjectFunctions, currentObje
           permissions : removdDeuplicates
         })
       )
-   
-     
     }
   }
 

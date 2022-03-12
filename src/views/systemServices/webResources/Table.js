@@ -15,11 +15,9 @@ import swal from "sweetalert"
 
 import { Link, Redirect} from 'react-router-dom'
 
-import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
 import { ChevronDown, MoreVertical,  Trash2, Archive } from 'react-feather'
 import DataTable from 'react-data-table-component'
-import { selectThemeColors } from '@utils'
 import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
@@ -37,37 +35,39 @@ import axios from '../../../axios'
 const List = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.providers)
+  const store = useSelector(state => state.webResources)
   const LayoutStore = useSelector(state => state)
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  const [allProviderCategories, setAllProviderCategories] = useState([])
-  const [providerCategory, setProviderCategory] = useState(null)
+  const [alltWebResourceCategories, setAlltWebResourceCategories] = useState([])
+  const [webResourceCategory, setWebResourceCategory] = useState(null)
   
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [searchData, setSearchData] = useState({
     name: "",
     email: "",
-    providerCategoryId: providerCategory,
+    webResourceCategoryId: webResourceCategory,
     active : true
   })
 
   // useIntl
   const intl = useIntl()
 
-  const getAllProviderCategories = async () => {
+  const getAllWebResourceCategories = async () => {
     const response = await axios
-      .post("/Lookups/GetLookupValues", { lookupName: "providerCategory" })
+      .post("/Lookups/GetLookupValues", { lookupName: "webResourceCategory" })
       .catch((err) => console.log("Error", err)) //handle errors
 
-      if (response && response.data) setAllProviderCategories(response.data.data)
+     
+      if (response && response.data)  console.log(response)
+      if (response && response.data) setAlltWebResourceCategories(response.data.data)
   }
 
   useEffect(() => {
-    getAllProviderCategories()
+    getAllWebResourceCategories()
   }, [])
 
   // Toastr notify function
@@ -124,7 +124,7 @@ const List = () => {
     if (store.getResponse.statusCode !== 200 && store.getResponse.statusCode !== 0) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})}`)
     }
-    dispatch({type:"RESET_PROVIDER_GET_RESPONSE"})
+    dispatch({type:"RESET_WEB_SOURCE_GET_RESPONSE"})
   }, [store.getResponse.statusCode])
 
   useEffect(() => {
@@ -146,18 +146,18 @@ const List = () => {
         }))
       }
     }
-    dispatch({type:"RESET_PROVIDER_DELETE_RESPONSE"})
+    dispatch({type:"RESET_WEB_SOURCE_DELETE_RESPONSE"})
 
   }, [store.deleteResponse.statusCode])
 
 
   const add = () => {
-    dispatch({type: "GET_PROVIDER", selectedProvider:{}})
+    dispatch({type: "GET_WEB_SOURCE", selectedWebResource:{}})
     toggleSidebar()
   }
   
   const update = id => {
-    dispatch({type: "GET_PROVIDER", selectedProvider:{}})
+    dispatch({type: "GET_WEB_SOURCE", selectedWebResource:{}})
     dispatch(resetUpdateResponse())
     dispatch(getItem(id))
     toggleSidebar()
@@ -219,15 +219,15 @@ const List = () => {
       multiple: true, 
       radioArr: [] 
     },
-    {
-      fieldType: 'text',
-      label: `${intl.formatMessage({id: "Email"})}`, 
-      colSizeLg: 4, 
-      attr: "email", 
-      dropdownArr: [], 
-      multiple: true,
-      radioArr: [] 
-    },
+    // {
+    //   fieldType: 'text',
+    //   label: `${intl.formatMessage({id: "Email"})}`, 
+    //   colSizeLg: 4, 
+    //   attr: "email", 
+    //   dropdownArr: [], 
+    //   multiple: true,
+    //   radioArr: [] 
+    // },
     {
       fieldType: 'select',
       label: `${intl.formatMessage({id: "Active"})}`, 
@@ -239,10 +239,10 @@ const List = () => {
     },
     {
       fieldType: 'select',
-      label: `${intl.formatMessage({id: "Provider Category"})}`, 
+      label: `${intl.formatMessage({id: "Web Resource Category"})}`, 
       colSizeLg: 4, 
-      attr: "providerCategoryId", 
-      dropdownArr: convertSelectArr(allProviderCategories), 
+      attr: "webResourceCategoryId", 
+      dropdownArr: convertSelectArr(alltWebResourceCategories), 
       multiple: true,
       radioArr: [] 
     }
@@ -283,12 +283,6 @@ const List = () => {
       sortable: true,
       minWidth: '250px'
     },
-    // {
-    //   name: <FormattedMessage id="providerCategory" />,
-    //   selector: 'providerCategory',
-    //   sortable: true,
-    //   minWidth: '250px'
-    // },
     {
       name: <div className="justify-content-center"><FormattedMessage id="Actions" /></div>,
       width: '100px',
@@ -340,7 +334,7 @@ const List = () => {
                 <div className='w-100'>
                   <div className="rounded" style={{backgroundColor: isNotLightSkin() ? "#343d55" : "#f3f2f7"}}>
 
-                    <SearchForm display='inline'  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
+                    <SearchForm display='block'  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                   </div>
                   <div className="my-1 d-flex justify-content-end">
                     <Button.Ripple color='primary' onClick={add} >
@@ -351,7 +345,7 @@ const List = () => {
               }
             />
           </Card>
-          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedProvider={store.selectedProvider} />
+          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedWebResource={store.selectedWebResource} />
         </>
       )}
     </Fragment>

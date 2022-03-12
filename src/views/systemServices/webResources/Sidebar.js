@@ -27,10 +27,59 @@ import { add, resetCreateResponse, updateItem, resetUpdateResponse } from './sto
 import { useDispatch, useSelector  } from 'react-redux'
 import Toastr from '../../../containers/toastr/Toastr'
 
-const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
+const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
   // ** States
-  const [providerCategory, setProviderCategory] = useState(null)
-  const [allProviderCategories, setAllProviderCategories] = useState([])
+  const [indicators, setIndicators] = useState([])
+  const [allIndicators, setAllIndicators] = useState([])
+
+  const [alltWebResourceCategories, setAlltWebResourceCategories] = useState([])
+  const [webResourceCategory, setWebResourceCategory] = useState(null)
+
+  const getAllWebResourceCategories = async () => {
+    const response = await axios
+      .post("/Lookups/GetLookupValues", { lookupName: "webResourceCategory" })
+      .catch((err) => console.log("Error", err)) //handle errors
+
+     
+      if (response && response.data)  console.log(response)
+      if (response && response.data) setAlltWebResourceCategories(response.data.data)
+  }
+
+  useEffect(() => {
+    getAllWebResourceCategories()
+  }, [])
+
+  const handleWebResourceCategoryChange = (event) => {
+    console.log(event)
+    setWebResourceCategory(event)
+  }
+
+
+  const getAllIndicators = async () => {
+    const response = await axios
+      .get('/Indicator/GetIndicators/0')
+      .catch((err) => console.log("Error", err)) //handle errors
+
+      if (response && response.data) {
+        setAllIndicators(response.data.data)
+      }
+    } 
+  useEffect(() => {
+    getAllIndicators()
+  }, [])
+
+  const handleIndicatorsChange = (event) => {
+    console.log(event)
+    const options = []
+    event.map(opt => options.push(opt.id))
+    setIndicators(options)
+  }
+
+  useEffect(() => {
+    if (selectedWebResource.indicators) {
+      handleDimensionLevelsChange(selectedWebResource.indicators)
+    }
+  }, [selectedWebResource])
 
   // Import localization files
   const intl = useIntl()
@@ -44,67 +93,48 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
       })
     }
 
-  // fetch all Provider Categories options
-  const getProviderCategories = async () => {
-    const response = await axios
-      .post('/Lookups/GetLookupValues/', {lookupName : "providerCategory"})
-      .catch((err) => console.log("Error", err)) //handle errors
-
-    if (response && response.data) {
-      setAllProviderCategories(response.data.data)
-    }
-  } 
-
-  useEffect(() => {
-    getProviderCategories()
-  }, [])
 
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.providers)
+  const store = useSelector(state => state.webResources)
 
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
 
-  
-  const handleProviderCategoriesChange = (event) => {
-   
-    setProviderCategory(event)
-  }
-
   useEffect(() => {
-    if (selectedProvider.providerCategory) {
-      handleProviderCategoriesChange(selectedProvider.providerCategory)
+    if (selectedWebResource.webResourceCategory) {
+      handleWebResourceCategoriesChange(selectedWebResource.webResourceCategory)
     }
-  }, [selectedProvider])
+  }, [selectedWebResource])
   
 
   // ** Function to handle form submit
   const onSubmit = async values => {
     if (isObjEmpty(errors)) {
-      if (!selectedProvider.id) {
+      if (!selectedWebResource.id) {
         await dispatch(
             add({
+              photo: values.photo,
               name_A: values.name_A,
               name_E: values.name_E,
               description_A: values.description_A,
               description_E: values.description_E,
-              address_A: values.address_A,
-              address_E: values.address_E,
-              phone: values.phone,
-              fax: values.fax,
-              email: values.email,
               url: values.url,
-              providerCategoryId: providerCategory.id,
+              logo: values.logo,
+              login: values.login,
+              passWord: values.passWord,
+              webResourceCategoryId: webResourceCategory.id,
               sortIndex: values.sortIndex,
               focus: values.focus,
-              active: values.active
+              active: values.active,
+              indicators
             })
           )
       } else {
         await dispatch(
           updateItem(
             {
+              photo: values.photo,
               name_A: values.name_A,
               name_E: values.name_E,
               description_A: values.description_A,
@@ -115,11 +145,12 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
               fax: values.fax,
               email: values.email,
               url: values.url,
-              providerCategoryId: providerCategory.id,
+              webResourceCategoryId: webResourceCategory.id,
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active,
-              id: selectedProvider.id
+              indicators,
+              id: selectedWebResource.id
             }
           )
         )
@@ -141,7 +172,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
       } else if (code === 5) {
         notify('error', intl.formatMessage({id: "InvalidFileExtension"}))
       } else if (code === 1) {
-        notify('error', `${intl.formatMessage({id: "CreationFialed"})} ${intl.formatMessage({id: "Provider"})}`)
+        notify('error', `${intl.formatMessage({id: "CreationFialed"})} ${intl.formatMessage({id: "WebResource"})}`)
 
       } else if (code === 500) {
         notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
@@ -162,7 +193,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
      } else if (code === 5) {
       notify('error', intl.formatMessage({id: "InvalidFileExtension"}))
      } else if (code === 3) {
-       notify('error', `${intl.formatMessage({id: "UpdateFailed"})} ${intl.formatMessage({id: "Provider"})}`)
+       notify('error', `${intl.formatMessage({id: "UpdateFailed"})} ${intl.formatMessage({id: "WebResource"})}`)
      } else if (code === 500) {
        notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
      } 
@@ -173,12 +204,68 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
     <Sidebar
       size='lg'
       open={open}
-      // title={selectedProvider.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"})}
+      // title={selectedWebResource.id ? intl.formatMessage({id: "Edit"}) : intl.formatMessage({id: "Add"})}
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
+      <FormGroup>
+          <Label for='name'>
+              {intl.formatMessage({id: "WebResourceCategory"})}
+          </Label>
+          <Select
+            defaultValue={selectedWebResource ? selectedWebResource.webResourceCategoryId : ''}
+            placeholder="تحديد"
+            isClearable={false}
+            theme={selectThemeColors}
+            name='webResourceCategory'
+            id='webResourceCategory'
+            options={alltWebResourceCategories}
+            getOptionLabel={(option) => option.name}
+            getOptionValue={(option) => option.id}
+            className='react-select'
+            classNamePrefix='select'
+            onChange={e => handleWebResourceCategoryChange(e) }
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for='name'>
+              {intl.formatMessage({id: "Indicators"})}
+          </Label>
+          {selectedWebResource.indicators &&  <Select
+                  defaultValue={selectedWebResource ? selectedWebResource.indicators : []}
+                  isMulti
+                  placeholder="تحديد"
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  name='indicators'
+                  id='indicators'
+                  options={allIndicators}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  className='react-select'
+                  classNamePrefix='select'
+                  onChange={e => handleIndicatorsChange(e) }
+                />}
+                  {!selectedWebResource.indicators &&  <Select
+                  defaultValue={selectedWebResource ? selectedWebResource.indicators : []}
+                  isMulti
+                  placeholder="تحديد"
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  name='indicators'
+                  id='indicators'
+                  options={allIndicators}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  className='react-select'
+                  classNamePrefix='select'
+                  onChange={e => handleIndicatorsChange(e) }
+                />}
+     
+            </FormGroup>
+     
         <FormGroup>
           <Label for='name_A'>
           <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
@@ -186,7 +273,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
           <Input
             name='name_A'
             id='name_A'
-            defaultValue={selectedProvider ? selectedProvider.name_A : ''}
+            defaultValue={selectedWebResource ? selectedWebResource.name_A : ''}
             placeholder={intl.formatMessage({id: "Name"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['name'] })}
@@ -199,7 +286,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
           <Input
             name='name_E'
             id='name_E'
-            defaultValue={selectedProvider ? selectedProvider.name_E : ''}
+            defaultValue={selectedWebResource ? selectedWebResource.name_E : ''}
             placeholder={intl.formatMessage({id: "Name In English"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['nameE'] })}
@@ -212,7 +299,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
           <Input
             name='description_A'
             id='description_A'
-            defaultValue={selectedProvider ? selectedProvider.description_A : ''}
+            defaultValue={selectedWebResource ? selectedWebResource.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Description'] })}
@@ -225,11 +312,21 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
           <Input
             name='description_E'
             id='description_E'
-            defaultValue={selectedProvider ? selectedProvider.description_E : ''}
+            defaultValue={selectedWebResource ? selectedWebResource.description_E : ''}
             placeholder={intl.formatMessage({id: "Description"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Description'] })}
           />
+        </FormGroup>
+        <FormGroup>
+          <Label for='logo'>{intl.formatMessage({id: "logo"})}</Label>
+          <CustomInput
+            type='file' 
+            id='logo'
+            name='logo' 
+            label={intl.formatMessage({id: "Chose Photo"})}
+            innerRef={register({ required: false })}
+            className={classnames({ 'is-invalid': errors['logo'] })}/>
         </FormGroup>
         <FormGroup>
           <Label for='address_A'>
@@ -238,7 +335,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
           <Input
             name='address_A'
             id='address_A'
-            defaultValue={selectedProvider ? selectedProvider.address_A : ''}
+            defaultValue={selectedWebResource ? selectedWebResource.address_A : ''}
             placeholder={intl.formatMessage({id: "Address"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Address'] })}
@@ -251,7 +348,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
           <Input
             name='address_E'
             id='address_E'
-            defaultValue={selectedProvider ? selectedProvider.address_E : ''}
+            defaultValue={selectedWebResource ? selectedWebResource.address_E : ''}
             placeholder={intl.formatMessage({id: "Address In English"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Address In English'] })}
@@ -264,7 +361,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
           <Input
             name='phone'
             id='phone'
-            defaultValue={selectedProvider ? selectedProvider.phone : ''}
+            defaultValue={selectedWebResource ? selectedWebResource.phone : ''}
             // placeholder='(397) 294-5153'
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['phone'] })}
@@ -277,7 +374,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
           <Input
             name='fax'
             id='fax'
-            defaultValue={selectedProvider ? selectedProvider.fax : ''}
+            defaultValue={selectedWebResource ? selectedWebResource.fax : ''}
             // placeholder='(397) 294-5153'
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['fax'] })}
@@ -291,7 +388,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             // type='email'
             name='email'
             id='email'
-            defaultValue={selectedProvider ? selectedProvider.email : ''}
+            defaultValue={selectedWebResource ? selectedWebResource.email : ''}
             placeholder={intl.formatMessage({id: "Email"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['email'] })}
@@ -305,7 +402,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
           <Input
             name='url'
             id='url'
-            defaultValue={selectedProvider ? selectedProvider.url : ''}
+            defaultValue={selectedWebResource ? selectedWebResource.url : ''}
             placeholder={intl.formatMessage({id: "url"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['url'] })}
@@ -320,46 +417,12 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedProvider ? selectedProvider.sortIndex : 0}
+            defaultValue={selectedWebResource ? selectedWebResource.sortIndex : 0}
             placeholder='0'
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
         </FormGroup>
-        
-        <FormGroup>
-              <Label>{intl.formatMessage({id: "Provider Category"})}</Label>
-              {  !selectedProvider.providerCategory &&
-                <Select
-                isClearable={false}
-                theme={selectThemeColors}
-                defaultValue={selectedProvider ?  selectedProvider.providerCategory : []}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.id}
-                name='providerCategory'
-                id='providerCategory'
-                options={allProviderCategories}
-                className='react-select'
-                classNamePrefix='select'
-                onChange={e => handleProviderCategoriesChange(e)}
-              />
-              }
-              {  selectedProvider.providerCategory &&
-                <Select
-                isClearable={false}
-                theme={selectThemeColors}
-                defaultValue={selectedProvider ?  selectedProvider.providerCategory : []}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.id}
-                name='providerCategory'
-                id='providerCategory'
-                options={allProviderCategories}
-                className='react-select'
-                classNamePrefix='select'
-                onChange={e => handleProviderCategoriesChange(e)}
-              />
-              }
-          </FormGroup>
           <Row className="mx-0">
             <Col sm='6' >
             <FormGroup>
@@ -368,7 +431,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedProvider ? selectedProvider.focus : false}
+                defaultChecked ={selectedWebResource ? selectedWebResource.focus : false}
                 innerRef={register()} />
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
@@ -382,7 +445,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedProvider ? selectedProvider.active : false}
+                defaultChecked ={selectedWebResource ? selectedWebResource.active : false}
                 innerRef={register()}
                 />
                  <Label for='active'>
@@ -403,5 +466,5 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
   )
 }
 
-export default SidebarNew
 
+export default SidebarNew

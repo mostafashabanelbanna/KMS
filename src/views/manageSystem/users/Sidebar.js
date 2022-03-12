@@ -89,7 +89,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
               name: values.name,
               nameE: values.nameE,
               jobTitle: values.jobTitle,
-              photo: values.photo,
+              logo: values.logo,
               password: values.password,
               userName: values.userName,
               email: values.email,
@@ -109,7 +109,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
               name: values.name,
               nameE: values.nameE,
               jobTitle: values.jobTitle,
-              photo: values.photo,
+              logo: values.logo,
               password: values.password,
               userName: values.userName,
               email: values.email,
@@ -290,32 +290,50 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
           />
         </FormGroup>
         <FormGroup>
-          <Label for='photo'>{intl.formatMessage({id: "Photo"})}</Label>
+          <Label for='logo'>{intl.formatMessage({id: "Photo"})}</Label>
           <CustomInput
             type='file' 
-            id='photo'
-            name='photo' 
+            id='logo'
+            name='logo' 
             label={intl.formatMessage({id: "Chose Photo"})}
             innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['photo'] })}/>
+            className={classnames({ 'is-invalid': errors['logo'] })}/>
         </FormGroup>
         <FormGroup>
               <Label>{intl.formatMessage({id: "Roles"})}</Label>
-             {  selectedUser.roles &&
+              {!selectedUser.roles &&
                 <Select
-                isClearable={false}
-                theme={selectThemeColors}
-                defaultValue={selectedUser ?  selectedUser.roles : []}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.id}
-                isMulti
-                name='userRoles'
-                id='userRoles'
-                options={allRoles}
-                className='react-select'
-                classNamePrefix='select'
-                onChange={e => handleRolesChange(e) }
-              />
+                  placeholder="تحديد"
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  defaultValue={selectedUser ?  selectedUser.roles : []}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  isMulti
+                  name='userRoles'
+                  id='userRoles'
+                  options={allRoles}
+                  className='react-select'
+                  classNamePrefix='select'
+                  onChange={e => handleRolesChange(e) }
+                />
+             } 
+             {selectedUser.roles &&
+                <Select
+                  placeholder="تحديد"
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  defaultValue={selectedUser ?  selectedUser.roles : []}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  isMulti
+                  name='userRoles'
+                  id='userRoles'
+                  options={allRoles}
+                  className='react-select'
+                  classNamePrefix='select'
+                  onChange={e => handleRolesChange(e) }
+                />
              } 
           </FormGroup>
           <Row className="mx-0">
