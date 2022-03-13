@@ -31,24 +31,25 @@ export const getData = params => {
 // ** Add
 export const add = webResource => {
   const webResourceFormData = new FormData()
-
-   webResourceFormData.append('name_A', webResource.name_A)
-   webResourceFormData.append('name_E', webResource.name_E)
-   webResourceFormData.append('description_A', webResource.description_A)
-   webResourceFormData.append('description_E', webResource.description_E)
-   webResourceFormData.append('url', webResource.url)
-   webResourceFormData.append('logo', webResource.logo[0])
-   webResourceFormData.append('login', webResource.login)
-   webResourceFormData.append('passWord', webResource.passWord)
-   webResourceFormData.append('webResourceCategoryId', webResource.webResourceCategoryId)
-   webResourceFormData.append('sortIndex', webResource.sortIndex)
-   webResourceFormData.append('focus', webResource.focus)
-   webResourceFormData.append('active', webResource.active)
-
+  
+  webResourceFormData.append('name_A', webResource.name_A)
+  webResourceFormData.append('name_E', webResource.name_E)
+  webResourceFormData.append('description_A', webResource.description_A)
+  webResourceFormData.append('description_E', webResource.description_E)
+  webResourceFormData.append('url', webResource.url)
+  webResourceFormData.append('logo', webResource.logo[0])
+  webResourceFormData.append('login', webResource.login)
+  webResourceFormData.append('password', webResource.password)
+  webResourceFormData.append('webResourceCategoryId', webResource.webResourceCategoryId)
+  webResourceFormData.append('sortIndex', webResource.sortIndex)
+  webResourceFormData.append('focus', webResource.focus)
+  webResourceFormData.append('active', webResource.active)
    for (let i = 0; i < webResource.indicators.length; i++) {
-    webResourceFormData.append('indicators', webResource.indicators[i])
-   }
-
+     console.log(webResource.indicators)
+      webResourceFormData.append('indicators', webResource.indicators[i])
+     }
+    
+    console.log(webResourceFormData)
    return (dispatch, getState) => {
     axios
       .post('/WebResource/CreateWebResource',  webResourceFormData, {headers : { "Content-Type": "multipart/form-data" }})
@@ -84,9 +85,10 @@ export const getItem = id => {
     await axios
       .get(`/WebResource/GetWebResource/${id}`)
       .then(response => {
+        console.log('here')
         dispatch({
           type: 'GET_WEB_SOURCE',
-          selectedProvider: response.data.data,
+          selectedWebResource: response.data.data,
           response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
           errorCode: 200
         })
@@ -94,7 +96,7 @@ export const getItem = id => {
       .catch(err => {
         dispatch({
           type: 'GET_WEB_SOURCE',
-          selectedProvider: {},
+          selectedWebResource: {},
           errorCode: err.response.status
         })
       })

@@ -5,10 +5,11 @@ import Col from 'reactstrap/lib/Col'
 import Row from 'reactstrap/lib/Row'
 import Form from 'reactstrap/lib/Form'
 import Button from 'reactstrap/lib/Button'
-
+import AppCollapse from '@components/app-collapse'
+import { useIntl } from 'react-intl'
 
 const SearchForm = (props) => {
-
+    const intl = useIntl()
   const formItems = props.formConfig.map((item, index) => {
         switch (item.fieldType) {
             case 'text':
@@ -39,11 +40,20 @@ const SearchForm = (props) => {
     })
 
     return (
-        <Row className="m-2">
-            {formItems}
-            {/* {console.log(formItems.length)} */}
-            <Col lg={props.display === 'inline' ? 4 : 12}  className={`d-flex my-2  align-items-center ${props.display === 'inline' ? "justify-content-start" : "justify-content-end"}`}><Button color='success' onClick={props.submitHandler}>{props.btnText}</Button></Col>
-        </Row>
+        <AppCollapse className='m-0 p-0' data={[
+                                {
+                                    title: intl.formatMessage({id: "Advanced Search"}),
+                                    content: (
+                                        <Row className="">
+                                            {formItems}
+                                            <Col lg={props.display === 'inline' ? 4 : 12}  className={`d-flex my-2  align-items-center ${props.display === 'inline' ? "justify-content-start" : "justify-content-end"}`}><Button color='success' onClick={props.submitHandler}>{props.btnText}</Button></Col>
+                                        </Row>
+                                    )
+                                }
+                            ]}
+            
+        accordion />
+        
     )
 }
 

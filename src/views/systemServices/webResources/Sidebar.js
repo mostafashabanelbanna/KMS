@@ -77,7 +77,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
 
   useEffect(() => {
     if (selectedWebResource.indicators) {
-      handleDimensionLevelsChange(selectedWebResource.indicators)
+      handleIndicatorsChange(selectedWebResource.indicators)
     }
   }, [selectedWebResource])
 
@@ -103,7 +103,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
 
   useEffect(() => {
     if (selectedWebResource.webResourceCategory) {
-      handleWebResourceCategoriesChange(selectedWebResource.webResourceCategory)
+      handleWebResourceCategoryChange(selectedWebResource.webResourceCategory)
     }
   }, [selectedWebResource])
   
@@ -114,7 +114,6 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
       if (!selectedWebResource.id) {
         await dispatch(
             add({
-              photo: values.photo,
               name_A: values.name_A,
               name_E: values.name_E,
               description_A: values.description_A,
@@ -122,7 +121,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
               url: values.url,
               logo: values.logo,
               login: values.login,
-              passWord: values.passWord,
+              password: values.password,
               webResourceCategoryId: webResourceCategory.id,
               sortIndex: values.sortIndex,
               focus: values.focus,
@@ -134,17 +133,14 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
         await dispatch(
           updateItem(
             {
-              photo: values.photo,
               name_A: values.name_A,
               name_E: values.name_E,
               description_A: values.description_A,
               description_E: values.description_E,
-              address_A: values.address_A,
-              address_E: values.address_E,
-              phone: values.phone,
-              fax: values.fax,
-              email: values.email,
               url: values.url,
+              logo: values.logo,
+              login: values.login,
+              password: values.password,
               webResourceCategoryId: webResourceCategory.id,
               sortIndex: values.sortIndex,
               focus: values.focus,
@@ -210,62 +206,6 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
       toggleSidebar={toggleSidebar}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormGroup>
-          <Label for='name'>
-              {intl.formatMessage({id: "WebResourceCategory"})}
-          </Label>
-          <Select
-            defaultValue={selectedWebResource ? selectedWebResource.webResourceCategoryId : ''}
-            placeholder="تحديد"
-            isClearable={false}
-            theme={selectThemeColors}
-            name='webResourceCategory'
-            id='webResourceCategory'
-            options={alltWebResourceCategories}
-            getOptionLabel={(option) => option.name}
-            getOptionValue={(option) => option.id}
-            className='react-select'
-            classNamePrefix='select'
-            onChange={e => handleWebResourceCategoryChange(e) }
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='name'>
-              {intl.formatMessage({id: "Indicators"})}
-          </Label>
-          {selectedWebResource.indicators &&  <Select
-                  defaultValue={selectedWebResource ? selectedWebResource.indicators : []}
-                  isMulti
-                  placeholder="تحديد"
-                  isClearable={false}
-                  theme={selectThemeColors}
-                  name='indicators'
-                  id='indicators'
-                  options={allIndicators}
-                  getOptionLabel={(option) => option.name}
-                  getOptionValue={(option) => option.id}
-                  className='react-select'
-                  classNamePrefix='select'
-                  onChange={e => handleIndicatorsChange(e) }
-                />}
-                  {!selectedWebResource.indicators &&  <Select
-                  defaultValue={selectedWebResource ? selectedWebResource.indicators : []}
-                  isMulti
-                  placeholder="تحديد"
-                  isClearable={false}
-                  theme={selectThemeColors}
-                  name='indicators'
-                  id='indicators'
-                  options={allIndicators}
-                  getOptionLabel={(option) => option.name}
-                  getOptionValue={(option) => option.id}
-                  className='react-select'
-                  classNamePrefix='select'
-                  onChange={e => handleIndicatorsChange(e) }
-                />}
-     
-            </FormGroup>
-     
         <FormGroup>
           <Label for='name_A'>
           <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
@@ -319,83 +259,6 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
           />
         </FormGroup>
         <FormGroup>
-          <Label for='logo'>{intl.formatMessage({id: "logo"})}</Label>
-          <CustomInput
-            type='file' 
-            id='logo'
-            name='logo' 
-            label={intl.formatMessage({id: "Chose Photo"})}
-            innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['logo'] })}/>
-        </FormGroup>
-        <FormGroup>
-          <Label for='address_A'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Address"})}
-          </Label>
-          <Input
-            name='address_A'
-            id='address_A'
-            defaultValue={selectedWebResource ? selectedWebResource.address_A : ''}
-            placeholder={intl.formatMessage({id: "Address"})}
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['Address'] })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='address_E'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Address In English"})}
-          </Label>
-          <Input
-            name='address_E'
-            id='address_E'
-            defaultValue={selectedWebResource ? selectedWebResource.address_E : ''}
-            placeholder={intl.formatMessage({id: "Address In English"})}
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['Address In English'] })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='phone'>
-           {intl.formatMessage({id: "Phone Number"})}
-          </Label>
-          <Input
-            name='phone'
-            id='phone'
-            defaultValue={selectedWebResource ? selectedWebResource.phone : ''}
-            // placeholder='(397) 294-5153'
-            innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['phone'] })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='fax'>
-           {intl.formatMessage({id: "Fax"})}
-          </Label>
-          <Input
-            name='fax'
-            id='fax'
-            defaultValue={selectedWebResource ? selectedWebResource.fax : ''}
-            // placeholder='(397) 294-5153'
-            innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['fax'] })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for='email'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Email"})}
-          </Label>
-          <Input
-            // type='email'
-            name='email'
-            id='email'
-            defaultValue={selectedWebResource ? selectedWebResource.email : ''}
-            placeholder={intl.formatMessage({id: "Email"})}
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['email'] })}
-          />
-        </FormGroup>
-       
-        <FormGroup>
           <Label for='url'>
             {intl.formatMessage({id: "url"})}
           </Label>
@@ -408,6 +271,117 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
             className={classnames({ 'is-invalid': errors['url'] })}
           />
         </FormGroup>
+        <FormGroup>
+          <Label for='logo'>{intl.formatMessage({id: "logo"})}</Label>
+          <CustomInput
+            type='file' 
+            id='logo'
+            name='logo' 
+            label={intl.formatMessage({id: "Chose Photo"})}
+            innerRef={register({ required: false })}
+            className={classnames({ 'is-invalid': errors['logo'] })}/>
+        </FormGroup>
+        <FormGroup>
+          <Label for='login'>
+            {intl.formatMessage({id: "login"})}
+          </Label>
+          <Input
+            name='login'
+            id='login'
+            defaultValue={selectedWebResource ? selectedWebResource.login : ''}
+            placeholder={intl.formatMessage({id: "login"})}
+            innerRef={register({ required: false })}
+            className={classnames({ 'is-invalid': errors['login'] })}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for='password'>
+            {intl.formatMessage({id: "password"})}
+          </Label>
+          <Input
+            name='password'
+            id='password'
+            defaultValue={selectedWebResource ? selectedWebResource.password : ''}
+            placeholder={intl.formatMessage({id: "password"})}
+            innerRef={register({ required: false })}
+            className={classnames({ 'is-invalid': errors['password'] })}
+          />
+        </FormGroup>
+        <FormGroup>
+            <Label for='webResourceCategory'>
+                {intl.formatMessage({id: "WebResourceCategory"})}
+            </Label>
+            {selectedWebResource.webResourceCategory &&
+                 <Select
+                 defaultValue={selectedWebResource ? selectedWebResource.webResourceCategory : ''}
+                 placeholder="تحديد"
+                 isClearable={false}
+                 theme={selectThemeColors}
+                 name='webResourceCategory'
+                 id='webResourceCategory'
+                 options={alltWebResourceCategories}
+                 getOptionLabel={(option) => option.name}
+                 getOptionValue={(option) => option.id}
+                 className='react-select'
+                 classNamePrefix='select'
+                 onChange={e => handleWebResourceCategoryChange(e) }
+               />
+            }
+            {!selectedWebResource.webResourceCategory &&
+                 <Select
+                 defaultValue={selectedWebResource ? selectedWebResource.webResourceCategory : ''}
+                 placeholder="تحديد"
+                 isClearable={false}
+                 theme={selectThemeColors}
+                 name='webResourceCategory'
+                 id='webResourceCategory'
+                 options={alltWebResourceCategories}
+                 getOptionLabel={(option) => option.name}
+                 getOptionValue={(option) => option.id}
+                 className='react-select'
+                 classNamePrefix='select'
+                 onChange={e => handleWebResourceCategoryChange(e) }
+               />
+            }
+        </FormGroup>
+     
+        <FormGroup>
+          <Label for='indicators'>
+              {intl.formatMessage({id: "Indicators"})}
+          </Label>
+          {selectedWebResource.indicatorWebResources &&  <Select
+                  defaultValue={selectedWebResource ? selectedWebResource.indicatorWebResources : []}
+                  isMulti
+                  placeholder="تحديد"
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  name='indicators'
+                  id='indicators'
+                  options={allIndicators}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  className='react-select'
+                  classNamePrefix='select'
+                  onChange={e => handleIndicatorsChange(e) }
+                />}
+                  {!selectedWebResource.indicatorWebResources &&  <Select
+                  defaultValue={selectedWebResource ? selectedWebResource.indicatorWebResources : []}
+                  isMulti
+                  placeholder="تحديد"
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  name='indicators'
+                  id='indicators'
+                  options={allIndicators}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  className='react-select'
+                  classNamePrefix='select'
+                  onChange={e => handleIndicatorsChange(e) }
+                />}
+     
+        </FormGroup>
+       
      
         <FormGroup>
           <Label for='sortIndex'>
@@ -440,7 +414,6 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
             </Col>
             <Col sm='6' >
             <FormGroup>
-             
               <Input 
                 type="checkbox" 
                 placeholder="active"  
