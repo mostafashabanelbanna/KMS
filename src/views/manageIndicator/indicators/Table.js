@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import swal from "sweetalert"
 
 import { Link, Redirect} from 'react-router-dom'
-
+import axios from '../../../axios'
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
 import { ChevronDown, MoreVertical,  Trash2, Archive } from 'react-feather'
@@ -30,7 +30,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
 
 const IndictorList = () => {
   // ** Store Vars
@@ -39,12 +39,24 @@ const IndictorList = () => {
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sources, setSources] = useState([])
+  const [unitLabels, setUnitLabels] = useState([])
+  const [periodicities, setPeriodicities] = useState([])
+  const [classifications, setClassifications] = useState([])
+  const [classificationValues, setClassificationValues] = useState([])
+  const [owners, setOwners] = useState([])
   
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [searchData, setSearchData] = useState({
     name: "",
-    active: null
+    id: null,
+    active: null,
+    periodicityId: null,
+    sourceId: null,
+    classificationValueId: null,
+    indicatorUnitId: null,
+    ownerId: null
   })
 
   // useIntl
@@ -59,7 +71,38 @@ const IndictorList = () => {
       })
     }
 
+  const getAllDropDowns = async () => {
+    await axios.get(`/Indicator/GetSearchDropdownListsForIndicator`)
+    .then(response => {
+        const result = response.data.data
+        setSources(result.sources)
+        setUnitLabels(result.units)
+        setPeriodicities(result.periodicities)
+        setClassifications(result.classifications)
+        })
+        .catch(error => {
+    })
+
+    await axios.get(`/User/GetAllUsers`)
+    .then(response => {
+        const result = response.data.data
+        setOwners(result)
+        })
+        .catch(error => {
+    })
+  }
+  const getClassificationValues = async (classificationId) => {
+    await axios.get(`/ClassificationValue/GetClassificationValues/${classificationId}`)
+    .then(response => {
+        setClassificationValues(response.data.data)
+       })
+       .catch(error => {
+        setIndicators([])
+    })
+  }
+
  // ** Function to toggle sidebar
+
 
  const toggleSidebar = (Submit) => {
   if (sidebarOpen && Submit !== 1) {
@@ -98,6 +141,7 @@ const IndictorList = () => {
         ...searchData
       })
     )
+    getAllDropDowns()
   }, [dispatch, store.data.length])
 
   useEffect(() => {
@@ -201,11 +245,74 @@ const IndictorList = () => {
   const formItems =  [
     {
       fieldType: 'text',
+      label: `${intl.formatMessage({id: "Id"})}`, 
+      colSizeLg: 4,
+      attr: "id",
+      dropdownArr: [], 
+      multiple: false, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'text',
       label: `${intl.formatMessage({id: "Name"})}`, 
       colSizeLg: 4,
       attr: "name",
       dropdownArr: [], 
-      multiple: true, 
+      multiple: false, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `المصدر`, 
+      colSizeLg: 4, 
+      attr: "sourceId", 
+      dropdownArr: convertSelectArr(sources),
+      multiple: false,
+      radioArr: [] 
+    },
+    {
+        fieldType: 'select',
+        label: `الوحدة`, 
+        colSizeLg: 4, 
+        attr: "UnitLabelId", 
+        dropdownArr: convertSelectArr(unitLabels),
+        multiple: false,
+        radioArr: [] 
+    },
+    {
+        fieldType: 'select',
+        label: `الدورية`, 
+        colSizeLg: 4, 
+        attr: "periodicityId", 
+        dropdownArr: convertSelectArr(periodicities),
+        multiple: false,
+        radioArr: [] 
+    },
+    {
+        fieldType: 'select',
+        label: `التصنيف`, 
+        colSizeLg: 4, 
+        attr: "classificationId", 
+        dropdownArr: convertSelectArr(classifications),
+        multiple: false,
+        radioArr: [] 
+    },
+    {
+        fieldType: 'select',
+        label: `نوع التصنيف`, 
+        colSizeLg: 4, 
+        attr: "classificationValueId", 
+        dropdownArr: convertSelectArr(classificationValues),
+        multiple: false,
+        radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `المالك`, 
+      colSizeLg: 4, 
+      attr: "ownerId", 
+      dropdownArr: convertSelectArr(owners),
+      multiple: false,
       radioArr: [] 
     },
     {
@@ -214,13 +321,16 @@ const IndictorList = () => {
       colSizeLg: 4, 
       attr: "active", 
       dropdownArr: [{label: 'all', value: null}, {label:'active', value: true}, {label:'notActive', value: false}], 
-      multiple: true,
+      multiple: false,
       radioArr: [] 
     }
   ]
 
   const handleSearch = (value, attrName) => {
-    setSearchData({...searchData, [attrName] : value })
+    setSearchData({...searchData, [attrName] : (value !== undefined && value !== '' ? value : null) })
+    if (attrName ===  'classificationId') {
+      getClassificationValues(value)
+    }
   } 
 
   const handlSubmit = () => {
