@@ -285,7 +285,6 @@ const UsersList = () => {
   ]
 
   const handleSearch = (value, attrName) => {
-    console.log(value)
     setSearchData({...searchData, [attrName] : (value !== undefined && value !== '' ? value : null) })
     if (attrName === 'classificationId') {
       getClassificationValues(value)
