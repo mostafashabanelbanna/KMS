@@ -33,6 +33,8 @@ import {isAuthorized, isNotLightSkin} from '../../../utility/Utils'
 
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+
 const RolesList = () => {
     // ** Store Vars
   const dispatch = useDispatch()
@@ -230,6 +232,12 @@ const RolesList = () => {
 
   const columns =  [
     {
+      name: <FormattedMessage id="Code" />,
+      selector: 'id',
+      sortable: true,
+      minWidth: '25px'
+    },
+    {
       name: <FormattedMessage id="Name" />,
       selector: 'name_A',
       sortable: true,
@@ -276,12 +284,47 @@ const RolesList = () => {
     }
   ]
 
+  const parentCustomStyles = 
+  { 
+    // headRow: {
+    //     style: {
+    //         borderTopWidth: 'none',
+    //         borderBottomWidth: 'none'
+    //         }
+    //     },
+    //     cells: {
+    //         borderBottomWidth: '0'
+
+    //     },
+     
+    //     expanderRow: {
+    //         style: {
+    //             backgroundColor: 'rgba(0,0,0,.12)'
+    //         }
+    //     }
+    }
+
+  const ExpandedComponent = ({ data }) => (
+    data ? (
+       <ExpandedRowDetails rowData={data} columns={columns} /> 
+        ) : null    
+  )
+
   return (
       <Fragment>
           {isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
               <>
                 <Card>
                     <DataTable
+                        expandableRows
+                        onRowExpandToggled={(expanded, row) => {
+                         
+                        }}
+                        expandableRowExpanded={row => {
+                          return false 
+                        }}
+                        expandableRowsComponent={<ExpandedComponent/>}
+                        customStyles={parentCustomStyles}
                         noHeader
                         pagination
                         subHeader

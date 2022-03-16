@@ -196,5 +196,6 @@
 	"referenceNo": "رقم الطلب",
 	"attachment": "ملف",
 	"InquiryProcedure": "إجراءات طلب البيانات",
-	"Advanced Search": "بحث متقدم"
+	"Advanced Search": "بحث متقدم",
+	"name_E" :"الأسم بالإنجليزية"
 }
