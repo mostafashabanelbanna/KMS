@@ -42,14 +42,19 @@ const UsersList = () => {
   const [sources, setSources] = useState([])
   const [periodicities, setPeriodicities] = useState([])
   const [classifications, setClassifications] = useState([])
+  const [classificationValues, setClassificationValues] = useState([])
+  const [owners, setOwners] = useState([])
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [searchData, setSearchData] = useState({
+    id: null,
     name: "",
     periodicityId: null,
     sourceId: null,
-    Active: true
+    ownerId: null,
+    classificationValueId: null,
+    active: true
   })
 
   // useIntl
@@ -74,6 +79,22 @@ const UsersList = () => {
            })
            .catch(error => {
         })
+    }
+    const getOwners = async () => {
+      await axios.get(`/User/GetAllUsers`)
+      .then(response => {
+          const result = response.data.data
+          setOwners(result)
+          })
+          .catch(error => {
+      })
+    }
+    const getClassificationValues = async (id) => {
+      await axios.get(`/ClassificationValue/GetClassificationValues/${id}`)
+      .then(response => {
+          setClassificationValues(response.data.data)
+         })
+         .catch(error => {})
     }
  // ** Function to toggle sidebar
 
@@ -114,6 +135,7 @@ const UsersList = () => {
       })
     )
     getAllDropDowns()
+    getOwners()
   }, [dispatch, store.data.length])
 
   useEffect(() => {
@@ -208,11 +230,20 @@ const UsersList = () => {
   const formItems =  [
     {
       fieldType: 'text',
+      label: `${intl.formatMessage({id: "Id"})}`, 
+      colSizeLg: 4,
+      attr: "id",
+      dropdownArr: [], 
+      multiple: false, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'text',
       label: `${intl.formatMessage({id: "Name"})}`, 
       colSizeLg: 4,
       attr: "name",
       dropdownArr: [], 
-      multiple: true, 
+      multiple: false, 
       radioArr: [] 
     },
     {
@@ -221,7 +252,7 @@ const UsersList = () => {
         colSizeLg: 4, 
         attr: "sourceId", 
         dropdownArr: convertSelectArr(sources),
-        multiple: true,
+        multiple: false,
         radioArr: [] 
     },
     {
@@ -230,16 +261,38 @@ const UsersList = () => {
         colSizeLg: 4, 
         attr: "periodicityId", 
         dropdownArr: convertSelectArr(periodicities),
-        multiple: true,
+        multiple: false,
         radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `المالك`, 
+      colSizeLg: 4, 
+      attr: "ownerId", 
+      dropdownArr: convertSelectArr(owners),
+      multiple: false,
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `${intl.formatMessage({id: "Active"})}`, 
+      colSizeLg: 4, 
+      attr: "active", 
+      dropdownArr: [{label: intl.formatMessage({id: "All"}), value: null}, {label: intl.formatMessage({id: "Active"}), value: true}, {label: intl.formatMessage({id: "Inactive"}), value: false}], 
+      multiple: true,
+      radioArr: [] 
     }
   ]
 
   const handleSearch = (value, attrName) => {
-    setSearchData({...searchData, [attrName] : value })
+    setSearchData({...searchData, [attrName] : (value !== undefined && value !== '' ? value : null) })
+    if (attrName === 'classificationId') {
+      getClassificationValues(value)
+    }
   } 
 
   const handlSubmit = () => {
+    console.log(searchData)
     setPageNumber(1)
     dispatch(
         getData({

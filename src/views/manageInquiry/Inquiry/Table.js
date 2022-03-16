@@ -46,9 +46,14 @@ const UsersList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [owners, setOwners] = useState([])
   const [searchData, setSearchData] = useState({
+    id: null,
     name: "",
     periodicityId: null,
+    departmentId: null,
+    ownerId: null,
+    classificationValueId: null,
     sourceId: null,
     Active: true
   })
@@ -65,7 +70,15 @@ const UsersList = () => {
       })
     }
 
-    
+    const getOwners = async () => {
+      await axios.get(`/User/GetAllUsers`)
+      .then(response => {
+          const result = response.data.data
+          setOwners(result)
+          })
+          .catch(error => {
+      })
+    }
     const getDepartments = async () => {
       await axios.post(`/Lookups/GetLookupValues`, {lookupName: 'Department'})
       .then(response => {
@@ -138,6 +151,7 @@ const UsersList = () => {
     getDepartments()
     getProviders()
     getClassifications()
+    getOwners()
   }, [dispatch, store.data.length])
 
   useEffect(() => {
@@ -232,11 +246,20 @@ const UsersList = () => {
   const formItems =  [
     {
       fieldType: 'text',
+      label: `${intl.formatMessage({id: "Id"})}`, 
+      colSizeLg: 4,
+      attr: "id",
+      dropdownArr: [], 
+      multiple: false, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'text',
       label: `${intl.formatMessage({id: "Name"})}`, 
       colSizeLg: 4,
       attr: "name",
       dropdownArr: [], 
-      multiple: true, 
+      multiple: false, 
       radioArr: [] 
     },
     {
@@ -277,6 +300,15 @@ const UsersList = () => {
     },
     {
       fieldType: 'select',
+      label: `المالك`, 
+      colSizeLg: 4, 
+      attr: "ownerId", 
+      dropdownArr: convertSelectArr(owners),
+      multiple: false,
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
       label: `${intl.formatMessage({id: "Active"})}`, 
       colSizeLg: 4, 
       attr: "active", 
@@ -287,8 +319,7 @@ const UsersList = () => {
   ]
 
   const handleSearch = (value, attrName) => {
-    setSearchData({...searchData, [attrName] : value })
-
+    setSearchData({...searchData, [attrName] : (value !== undefined && value !== '' ? value : null) })
     if (attrName === 'classificationId') {
       getClassificationValues(value)
     }

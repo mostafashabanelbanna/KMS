@@ -29,7 +29,8 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
-
+import * as moment from "moment"
+import "moment/locale/ar"
 // helper function
 import {convertSelectArr, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
 import axios from '../../../axios'
@@ -45,13 +46,18 @@ const List = () => {
 
   const [allProviderCategories, setAllProviderCategories] = useState([])
   const [providerCategory, setProviderCategory] = useState(null)
+  const [owners, setOwners] = useState([])
   
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [searchData, setSearchData] = useState({
+    id: null,
     name: "",
     email: "",
+    url: "",
+    username:"",
     providerCategoryId: providerCategory,
+    ownerId: null,
     active : true
   })
 
@@ -65,9 +71,18 @@ const List = () => {
 
       if (response && response.data) setAllProviderCategories(response.data.data)
   }
-
+  const getOwners = async () => {
+    await axios.get(`/User/GetAllUsers`)
+    .then(response => {
+        const result = response.data.data
+        setOwners(result)
+        })
+        .catch(error => {
+    })
+  }
   useEffect(() => {
     getAllProviderCategories()
+    getOwners()
   }, [])
 
   // Toastr notify function
@@ -212,6 +227,15 @@ const List = () => {
   const formItems =  [
     {
       fieldType: 'text',
+      label: `${intl.formatMessage({id: "Id"})}`, 
+      colSizeLg: 4,
+      attr: "id",
+      dropdownArr: [], 
+      multiple: false, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'text',
       label: `${intl.formatMessage({id: "Name"})}`, 
       colSizeLg: 4,
       attr: "name",
@@ -229,12 +253,21 @@ const List = () => {
       radioArr: [] 
     },
     {
-      fieldType: 'select',
-      label: `${intl.formatMessage({id: "Active"})}`, 
+      fieldType: 'text',
+      label: `${intl.formatMessage({id: "Url"})}`, 
       colSizeLg: 4, 
-      attr: "active", 
-      dropdownArr: [{label: 'all', value: null}, {label:'active', value: true}, {label:'notActive', value: false}], 
-      multiple: true,
+      attr: "url", 
+      dropdownArr: [], 
+      multiple: false,
+      radioArr: [] 
+    },
+    {
+      fieldType: 'text',
+      label: `${intl.formatMessage({id: "Username"})}`, 
+      colSizeLg: 4, 
+      attr: "username", 
+      dropdownArr: [], 
+      multiple: false,
       radioArr: [] 
     },
     {
@@ -245,11 +278,29 @@ const List = () => {
       dropdownArr: convertSelectArr(allProviderCategories), 
       multiple: true,
       radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `المالك`, 
+      colSizeLg: 4, 
+      attr: "ownerId", 
+      dropdownArr: convertSelectArr(owners),
+      multiple: false,
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `${intl.formatMessage({id: "Active"})}`, 
+      colSizeLg: 4, 
+      attr: "active", 
+      dropdownArr: [{label: intl.formatMessage({id: "All"}), value: null}, {label: intl.formatMessage({id: "Active"}), value: true}, {label: intl.formatMessage({id: "Inactive"}), value: false}], 
+      multiple: true,
+      radioArr: [] 
     }
   ]
 
   const handleSearch = (value, attrName) => {
-    setSearchData({...searchData, [attrName] : value })
+    setSearchData({...searchData, [attrName] : (value !== undefined && value !== '' ? value : null) })
   } 
 
   const handlSubmit = () => {
@@ -278,17 +329,17 @@ const List = () => {
       minWidth: '225px'
     },
     {
-      name: <FormattedMessage id="Email" />,
-      selector: 'email',
+      name: <FormattedMessage id="Provider Category" />,
+      selector: (row, idx) => { return (<> {row.providerCategory ? row.providerCategory.name : ""} </>) },
       sortable: true,
       minWidth: '250px'
     },
-    // {
-    //   name: <FormattedMessage id="providerCategory" />,
-    //   selector: 'providerCategory',
-    //   sortable: true,
-    //   minWidth: '250px'
-    // },
+    {
+      name: <FormattedMessage id="CreateDate" />,
+      selector: (row, idx) => { return (<> {moment(row.CreateDate).locale("ar").format("LL")} </>) },
+      sortable: true,
+      minWidth: '250px'
+    },
     {
       name: <div className="justify-content-center"><FormattedMessage id="Actions" /></div>,
       width: '100px',

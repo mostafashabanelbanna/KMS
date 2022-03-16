@@ -26,6 +26,8 @@ import Toastr from '../../../containers/toastr/Toastr'
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
+import * as moment from "moment"
+import "moment/locale/ar"
 
 
 // helper function
@@ -43,13 +45,15 @@ const List = () => {
 
   const [alltWebResourceCategories, setAlltWebResourceCategories] = useState([])
   const [webResourceCategory, setWebResourceCategory] = useState(null)
+  const [owners, setOwners] = useState([])
   
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [searchData, setSearchData] = useState({
+    id: null,
     name: "",
-    email: "",
     webResourceCategoryId: webResourceCategory,
+    ownerId : null,
     active : true
   })
 
@@ -65,9 +69,19 @@ const List = () => {
       if (response && response.data)  console.log(response)
       if (response && response.data) setAlltWebResourceCategories(response.data.data)
   }
+  const getOwners = async () => {
+    await axios.get(`/User/GetAllUsers`)
+    .then(response => {
+        const result = response.data.data
+        setOwners(result)
+        })
+        .catch(error => {
+    })
+  }
 
   useEffect(() => {
     getAllWebResourceCategories()
+    getOwners()
   }, [])
 
   // Toastr notify function
@@ -212,6 +226,15 @@ const List = () => {
   const formItems =  [
     {
       fieldType: 'text',
+      label: `${intl.formatMessage({id: "Id"})}`, 
+      colSizeLg: 4,
+      attr: "id",
+      dropdownArr: [], 
+      multiple: false, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'text',
       label: `${intl.formatMessage({id: "Name"})}`, 
       colSizeLg: 4,
       attr: "name",
@@ -219,37 +242,37 @@ const List = () => {
       multiple: true, 
       radioArr: [] 
     },
-    // {
-    //   fieldType: 'text',
-    //   label: `${intl.formatMessage({id: "Email"})}`, 
-    //   colSizeLg: 4, 
-    //   attr: "email", 
-    //   dropdownArr: [], 
-    //   multiple: true,
-    //   radioArr: [] 
-    // },
     {
       fieldType: 'select',
-      label: `${intl.formatMessage({id: "Active"})}`, 
+      label: 'التصنيف', 
       colSizeLg: 4, 
-      attr: "active", 
-      dropdownArr: [{label: 'all', value: null}, {label:'active', value: true}, {label:'notActive', value: false}], 
+      attr: "webResourceCategoryId", 
+      dropdownArr: convertSelectArr(alltWebResourceCategories), 
       multiple: true,
       radioArr: [] 
     },
     {
       fieldType: 'select',
-      label: `${intl.formatMessage({id: "Web Resource Category"})}`, 
+      label: `المالك`, 
       colSizeLg: 4, 
-      attr: "webResourceCategoryId", 
-      dropdownArr: convertSelectArr(alltWebResourceCategories), 
+      attr: "ownerId", 
+      dropdownArr: convertSelectArr(owners),
+      multiple: false,
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `${intl.formatMessage({id: "Active"})}`, 
+      colSizeLg: 4, 
+      attr: "active", 
+      dropdownArr: [{label: intl.formatMessage({id: "All"}), value: null}, {label: intl.formatMessage({id: "Active"}), value: true}, {label: intl.formatMessage({id: "Inactive"}), value: false}], 
       multiple: true,
       radioArr: [] 
     }
   ]
 
   const handleSearch = (value, attrName) => {
-    setSearchData({...searchData, [attrName] : value })
+    setSearchData({...searchData, [attrName] : (value !== undefined && value !== '' ? value : null) })
   } 
 
   const handlSubmit = () => {
@@ -275,13 +298,25 @@ const List = () => {
       name: <FormattedMessage id="Name" />,
       selector: 'name_A',
       sortable: true,
-      minWidth: '225px'
+      minWidth: '150px'
     },
     {
-      name: <FormattedMessage id="Email" />,
-      selector: 'email',
+      name: <FormattedMessage id="Url" />,
+      selector: 'url',
       sortable: true,
-      minWidth: '250px'
+      minWidth: '150px'
+    },
+    {
+      name: <FormattedMessage id="Category" />,
+      selector: (row, idx) => { return (<> {row.WebResourceCategory ? row.WebResourceCategory.name : ""} </>) },
+      sortable: true,
+      minWidth: '150px'
+    },
+    {
+      name: <FormattedMessage id="CreateDate" />,
+      selector: (row, idx) => { return (<> {moment(row.CreateDate).locale("ar").format("LL")} </>) },
+      sortable: true,
+      minWidth: '150px'
     },
     {
       name: <div className="justify-content-center"><FormattedMessage id="Actions" /></div>,

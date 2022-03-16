@@ -197,5 +197,8 @@
 	"attachment": "ملف",
 	"InquiryProcedure": "إجراءات طلب البيانات",
 	"Advanced Search": "بحث متقدم",
-	"name_E" :"الأسم بالإنجليزية"
+	"name_E" :"الأسم بالإنجليزية",
+	"WebSources": "مصادر على الويب",
+	"Category": "التصنيف",
+	"Url": "الرابط"
 }
