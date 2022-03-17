@@ -34,6 +34,7 @@ import "moment/locale/ar"
 // helper function
 import {convertSelectArr, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
 import axios from '../../../axios'
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
 
 const List = () => {
   // ** Store Vars
@@ -374,6 +375,9 @@ const List = () => {
           
           <Card>
             <DataTable
+               expandableRows
+               expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
+
               progressPending={LayoutStore.loading}
               progressComponent={<ComponentSpinner/>}
               noHeader

@@ -22,6 +22,7 @@ import Toastr from '../../../containers/toastr/Toastr'
 import { BsUiRadiosGrid } from "react-icons/bs"
 import * as moment from "moment"
 import "moment/locale/ar"
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -272,6 +273,8 @@ const InquiryProcedureList = ({inquiryId}) => {
               <>
                 <Card>
                     <DataTable
+                        expandableRows
+                        expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
                         noHeader
                         pagination
                         subHeader

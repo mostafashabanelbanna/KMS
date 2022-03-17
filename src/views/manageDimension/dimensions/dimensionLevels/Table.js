@@ -19,6 +19,9 @@ import { selectThemeColors } from '@utils'
 import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
+import ExpandedRowDetails from '../../../../containers/expanded-row-details/expandedRowDetails'
+
+
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
@@ -265,6 +268,8 @@ const dimensionLevelList = ({dimensionId}) => {
         <>
           <Card>
             <DataTable
+              expandableRows
+              expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
               noHeader
               pagination
               subHeader

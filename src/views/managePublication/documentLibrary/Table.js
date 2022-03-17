@@ -21,6 +21,7 @@ import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
 import { BsUiRadiosGrid } from "react-icons/bs"
 import * as moment from "moment"
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -276,6 +277,8 @@ const DocumentLibraryList = ({documentIssueId}) => {
               <>
                 <Card>
                     <DataTable
+                        expandableRows
+                        expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
                         noHeader
                         pagination
                         subHeader

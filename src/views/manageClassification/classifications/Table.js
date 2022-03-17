@@ -20,6 +20,7 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
 import { BsUiRadiosGrid } from "react-icons/bs"
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
 
 
 // ** Styles
@@ -271,6 +272,8 @@ const RolesList = () => {
                
                 <Card>
                     <DataTable
+                        expandableRows
+                        expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
                         noHeader
                         pagination
                         subHeader

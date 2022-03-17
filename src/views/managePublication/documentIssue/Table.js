@@ -29,6 +29,8 @@ import "moment/locale/ar"
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import axios from '../../../axios'
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+
 // helper function
 import {isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
 
@@ -366,6 +368,8 @@ const UsersList = () => {
           
           <Card>
             <DataTable
+              expandableRows
+              expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
               noHeader
               pagination
               subHeader

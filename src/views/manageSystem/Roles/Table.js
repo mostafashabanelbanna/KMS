@@ -20,6 +20,7 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
 import { FaUserLock } from 'react-icons/fa'
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -229,6 +230,8 @@ const RolesList = () => {
                 </div>
                 <Card>
                     <DataTable
+                        expandableRows
+                        expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
                         noHeader
                         pagination
                         responsive

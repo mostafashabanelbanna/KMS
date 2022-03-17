@@ -26,6 +26,7 @@ import { ThemeColors } from '@src/utility/context/ThemeColors'
 import { toast } from 'react-toastify'
 import Row from 'reactstrap/lib/Row'
 import {useIntl, FormattedMessage } from 'react-intl'
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -280,6 +281,8 @@ const LookupsView = () => {
                         </div> 
 
                         <DataTable
+                            expandableRows
+                            expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
                             noHeader
                             pagination
                             responsive

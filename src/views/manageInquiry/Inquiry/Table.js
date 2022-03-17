@@ -25,6 +25,8 @@ import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
 import * as moment from "moment"
 import "moment/locale/ar"
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
@@ -398,6 +400,8 @@ const UsersList = () => {
         <>
           <Card>
             <DataTable
+              expandableRows
+              expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
               noHeader
               pagination
               subHeader

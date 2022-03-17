@@ -284,31 +284,11 @@ const RolesList = () => {
     }
   ]
 
-  const parentCustomStyles = 
-  { 
-    // headRow: {
-    //     style: {
-    //         borderTopWidth: 'none',
-    //         borderBottomWidth: 'none'
-    //         }
-    //     },
-    //     cells: {
-    //         borderBottomWidth: '0'
-
-    //     },
-     
-    //     expanderRow: {
-    //         style: {
-    //             backgroundColor: 'rgba(0,0,0,.12)'
-    //         }
-    //     }
-    }
-
-  const ExpandedComponent = ({ data }) => (
-    data ? (
-       <ExpandedRowDetails rowData={data} columns={columns} /> 
-        ) : null    
-  )
+  // const ExpandedComponent = ({ data }) => (
+  //   data ? (
+  //      <ExpandedRowDetails rowData={data} columns={columns} /> 
+  //       ) : null    
+  // )
 
   return (
       <Fragment>
@@ -317,14 +297,7 @@ const RolesList = () => {
                 <Card>
                     <DataTable
                         expandableRows
-                        onRowExpandToggled={(expanded, row) => {
-                         
-                        }}
-                        expandableRowExpanded={row => {
-                          return false 
-                        }}
-                        expandableRowsComponent={<ExpandedComponent/>}
-                        customStyles={parentCustomStyles}
+                        expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
                         noHeader
                         pagination
                         subHeader
