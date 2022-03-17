@@ -1,8 +1,11 @@
 import axios from '../../../../../axios'
 import DocumentLibrary from '../reducer'
+import { isLoading, isNotLoading } from '../../../../../redux/actions/layout'
 
 export const getData = params => {
   return async dispatch => {
+    dispatch(isLoading())
+
     await axios.post('/DocumentLibrary/GetDocumentLibrariesWithPagination', params).then(response => {
       dispatch({
         type: 'GET_DOCUMENTLIBRARY_DATA',
@@ -12,6 +15,8 @@ export const getData = params => {
         response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
         errorCode: 200
       })
+      dispatch(isNotLoading())
+
     }).catch(error => {
       const ErrorCode = 500
       if (error.response) {
@@ -22,6 +27,8 @@ export const getData = params => {
         data : [],
         errorCode : ErrorCode
       })
+      dispatch(isNotLoading())
+
     })
   }
 }

@@ -26,6 +26,7 @@ import Toastr from '../../../containers/toastr/Toastr'
 import * as moment from "moment"
 import "moment/locale/ar"
 import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -39,6 +40,7 @@ const UsersList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.inquiries)
+  const layoutStore = useSelector(state => state.layout)
 
   // ** States
   const [departments, setDepartments] = useState([])
@@ -400,6 +402,9 @@ const UsersList = () => {
         <>
           <Card>
             <DataTable
+              noDataComponent={<FormattedMessage id="NoData" />}
+              progressPending={layoutStore.loading}
+              progressComponent={<ComponentSpinner/>}
               expandableRows
               expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
               noHeader

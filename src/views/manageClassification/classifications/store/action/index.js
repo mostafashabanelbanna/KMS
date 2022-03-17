@@ -1,8 +1,10 @@
 import axios from '../../../../../axios'
+import { isLoading, isNotLoading } from '../../../../../redux/actions/layout'
 
 // ** Get users data 
 export const getData = params => {
   return async dispatch => {
+    dispatch(isLoading())
     await axios.post('/Classification/GetClassificationsWithPagination', params).then(response => {
       dispatch({
         type: 'GET_CLASSIFICATION_DATA',
@@ -12,12 +14,15 @@ export const getData = params => {
         response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
         errorCode: 200
       })
+      dispatch(isNotLoading())
     }).catch(error => {
       dispatch({
         type: 'GET_CLASSIFICATION_DATA',
         data : [],
         errorCode : error.response.status
       })
+    isNotLoading()
+
     })
   }
 }

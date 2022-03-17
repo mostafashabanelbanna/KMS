@@ -21,7 +21,8 @@ import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
 import { FaLevelUpAlt } from 'react-icons/fa'
 import { BsUiRadiosGrid } from "react-icons/bs"
-
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -33,12 +34,13 @@ import {isAuthorized, isNotLightSkin} from '../../../utility/Utils'
 
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
-import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
 
 const RolesList = () => {
     // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.dimensions)
+  const layoutStore = useSelector(state => state.layout)
+
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -284,18 +286,14 @@ const RolesList = () => {
     }
   ]
 
-  // const ExpandedComponent = ({ data }) => (
-  //   data ? (
-  //      <ExpandedRowDetails rowData={data} columns={columns} /> 
-  //       ) : null    
-  // )
-
   return (
       <Fragment>
           {isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
               <>
                 <Card>
                     <DataTable
+                        progressPending={layoutStore.loading}
+                        progressComponent={<ComponentSpinner/>}
                         expandableRows
                         expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
                         noHeader

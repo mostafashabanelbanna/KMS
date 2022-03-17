@@ -23,6 +23,7 @@ import { BsUiRadiosGrid } from "react-icons/bs"
 import * as moment from "moment"
 import "moment/locale/ar"
 import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -37,6 +38,7 @@ const InquiryProcedureList = ({inquiryId}) => {
     // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.inquiryProcedures)
+  const layoutStore = useSelector(state => state.layout)
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -273,6 +275,9 @@ const InquiryProcedureList = ({inquiryId}) => {
               <>
                 <Card>
                     <DataTable
+                        noDataComponent={<FormattedMessage id="NoData" />}
+                        progressPending={layoutStore.loading}
+                        progressComponent={<ComponentSpinner/>}
                         expandableRows
                         expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
                         noHeader

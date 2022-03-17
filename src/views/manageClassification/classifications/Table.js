@@ -21,6 +21,7 @@ import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
 import { BsUiRadiosGrid } from "react-icons/bs"
 import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 
 // ** Styles
@@ -36,7 +37,8 @@ const RolesList = () => {
     // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.classifications)
-
+  const layoutStore = useSelector(state => state.layout)
+  
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
   
@@ -272,6 +274,8 @@ const RolesList = () => {
                
                 <Card>
                     <DataTable
+                        progressPending={layoutStore.loading}
+                        progressComponent={<ComponentSpinner/>}
                         expandableRows
                         expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
                         noHeader

@@ -1,17 +1,24 @@
 import axios from '../../../../../axios'
+import { isLoading, isNotLoading } from '../../../../../redux/actions/layout'
 
 export const getLookups = params => {
     return async dispatch => {
+      dispatch(isLoading())
+
       await axios.get('/Lookups/GetAllLookups').then(response => {
         dispatch({
           type: 'GET_LOOKUPS',
           AllLookups: response.data.data.modules
         })
+        dispatch(isNotLoading())
+
       }).catch(error => {
         dispatch({
           type: 'GET_LOOKUPS',
           AllLookups : []
         })
+        dispatch(isNotLoading())
+
       })
     }
   }

@@ -20,6 +20,7 @@ import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, Drop
 import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
 import ExpandedRowDetails from '../../../../containers/expanded-row-details/expandedRowDetails'
+import ComponentSpinner from '../../../../@core/components/spinner/Fallback-spinner'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -39,6 +40,7 @@ const dimensionValueList = ({dimensionId}) => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.dimensionValues)
+  const layoutStore = useSelector(state => state.layout)
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -280,6 +282,8 @@ const dimensionValueList = ({dimensionId}) => {
         <>
           <Card>
             <DataTable
+              progressPending={layoutStore.loading}
+              progressComponent={<ComponentSpinner/>}
               expandableRows
               expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
               noHeader

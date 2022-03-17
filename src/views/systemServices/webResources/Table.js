@@ -38,7 +38,7 @@ const List = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.webResources)
-  const LayoutStore = useSelector(state => state)
+  const layoutStore = useSelector(state => state.layout)
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -352,7 +352,8 @@ const List = () => {
           
           <Card>
             <DataTable
-              progressPending={LayoutStore.loading}
+              noDataComponent={<FormattedMessage id="NoData" />}
+              progressPending={layoutStore.loading}
               progressComponent={<ComponentSpinner/>}
               noHeader
               pagination

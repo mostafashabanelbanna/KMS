@@ -1,8 +1,11 @@
 import axios from '../../../../../axios'
+import { isLoading, isNotLoading } from '../../../../../redux/actions/layout'
 
 // ** Get users data 
 export const getData = params => {
   return async dispatch => {
+    dispatch(isLoading())
+
     await axios.post('/DocumentIssue/GetDocumentIssuesWithPagination', params).then(response => {
       dispatch({
         type: 'GET_DOCUMENTISSUE_DATA',
@@ -12,6 +15,8 @@ export const getData = params => {
         response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
         errorCode: 200
       })
+      dispatch(isNotLoading())
+
     }).catch(error => {
       const ErrorCode = 500
       if (error.response) {
@@ -22,12 +27,14 @@ export const getData = params => {
         data : [],
         errorCode : ErrorCode
       })
+      dispatch(isNotLoading())
+
     })
   }
 }
 
 export const addDocumentIssue = documentIssue => {
-  console.log(documentIssue)
+
    const documentIssueFormData = new FormData()
    documentIssueFormData.append('name_A', documentIssue.nameA)
    documentIssueFormData.append('name_E', documentIssue.nameE)

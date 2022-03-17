@@ -32,11 +32,13 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 // helper function
 import {isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
 import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 const IndictorList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.indicators)
+  const layoutStore = useSelector(state => state.layout)
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -397,8 +399,10 @@ const IndictorList = () => {
         <>
           <Card>
             <DataTable
-             expandableRows
-             expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
+              progressPending={layoutStore.loading}
+              progressComponent={<ComponentSpinner/>}
+              expandableRows
+              expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
               noHeader
               pagination
               subHeader

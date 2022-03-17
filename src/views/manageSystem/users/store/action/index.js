@@ -3,9 +3,7 @@ import { isLoading, isNotLoading } from '../../../../../redux/actions/layout'
 
 // ** Get users data 
 export const getData = params => {
-
   return async dispatch => {
-    // dispatch({type: 'SET_LOADING'})
     dispatch(isLoading())
     await axios.post('/User/GetUsers', params).then(response => {
       dispatch({
@@ -16,7 +14,6 @@ export const getData = params => {
         response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
         errorCode: 200
       })
-      // dispatch({type: 'RESET_LOADING'})
       dispatch(isNotLoading())
 
     }).catch(error => {
@@ -25,9 +22,7 @@ export const getData = params => {
         data : [],
         errorCode : error.response.status
       })
-    isNotLoading()
-
-      dispatch({type: 'RESET_LOADING'})
+      dispatch(isNotLoading())
     })
   }
 }

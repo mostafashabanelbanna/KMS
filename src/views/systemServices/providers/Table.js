@@ -24,23 +24,24 @@ import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, Drop
 import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
+
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 import * as moment from "moment"
 import "moment/locale/ar"
 // helper function
 import {convertSelectArr, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
 import axios from '../../../axios'
-import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
 
 const List = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.providers)
-  const LayoutStore = useSelector(state => state)
+  const layoutStore = useSelector(state => state.layout)
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -375,11 +376,11 @@ const List = () => {
           
           <Card>
             <DataTable
-               expandableRows
-               expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
-
-              progressPending={LayoutStore.loading}
+              noDataComponent={<FormattedMessage id="NoData" />}
+              progressPending={layoutStore.loading}
               progressComponent={<ComponentSpinner/>}
+              expandableRows
+              expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
               noHeader
               pagination
               subHeader

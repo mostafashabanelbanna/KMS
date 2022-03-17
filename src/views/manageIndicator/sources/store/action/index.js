@@ -1,10 +1,11 @@
 import axios from '../../../../../axios'
+import { isLoading, isNotLoading } from '../../../../../redux/actions/layout'
 
 // ** Get Source data 
 export const getData = params => {
   return async dispatch => {
+    dispatch(isLoading())
     await axios.post('/Source/GetSourcesWithPagination', params).then(response => {
-      console.log("getData", response)
       dispatch({
         type: 'GET_DATA',
         data: response.data.data.items,
@@ -13,12 +14,14 @@ export const getData = params => {
         response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
         errorCode: 200
       })
+      dispatch(isNotLoading())
     }).catch(error => {
       dispatch({
         type: 'GET_DATA',
         data : [],
         errorCode : error.response.status
       })
+      dispatch(isNotLoading())
     })
   }
 }

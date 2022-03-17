@@ -1,10 +1,11 @@
 import axios from '../../../../../axios'
-
+import { isLoading, isNotLoading } from '../../../../../redux/actions/layout'
 
 // getdata
 export const getData = params => {
   
   return async dispatch => {
+    dispatch(isLoading())
     await axios.post('/Periodicity/GetPeriodicitiesWithPagination', params)
     .then(response => {
       dispatch({
@@ -15,12 +16,14 @@ export const getData = params => {
         response: {statusCode: response.data.statusCode, error: {}, errors: response.data.errors},
         errorCode: 200
       })
+      dispatch(isNotLoading())
     }).catch(error => {
       dispatch({
         type: 'GET_PERIODICITIES_DATA',
         data : [],
         errorCode : error.response.status
       })
+      dispatch(isNotLoading())
     })
   }
   

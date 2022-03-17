@@ -25,11 +25,11 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
 import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 import axios from '../../../axios'
 
 // helper function
@@ -40,7 +40,7 @@ const UsersList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.users)
-  const LayoutStore = useSelector(state => state)
+  const layoutStore = useSelector(state => state.layout)
   const [owners, setOwners] = useState([])
 
   // ** States
@@ -345,10 +345,10 @@ const getOwners = async () => {
     <Fragment>
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
         <>
-          
           <Card>
             <DataTable
-              progressPending={LayoutStore.loading}
+              noDataComponent={<FormattedMessage id="NoData" />}
+              progressPending={layoutStore.loading}
               progressComponent={<ComponentSpinner/>}
               expandableRows
               expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}

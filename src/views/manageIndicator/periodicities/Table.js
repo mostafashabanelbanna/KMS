@@ -25,6 +25,7 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
 import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -37,6 +38,7 @@ const IndictorList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.periodicities)
+  const layoutStore = useSelector(state => state.layout)
 
   // ** States
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -337,6 +339,8 @@ const IndictorList = () => {
          
           <Card>
             <DataTable
+              progressPending={layoutStore.loading}
+              progressComponent={<ComponentSpinner/>}
               expandableRows
               expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
               noHeader

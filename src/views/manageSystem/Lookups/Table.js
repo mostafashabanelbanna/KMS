@@ -27,6 +27,7 @@ import { toast } from 'react-toastify'
 import Row from 'reactstrap/lib/Row'
 import {useIntl, FormattedMessage } from 'react-intl'
 import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -42,6 +43,9 @@ const LookupsView = () => {
     // ** Store Vars
     const dispatch = useDispatch()
     const store = useSelector(state => state.lookups)
+    const layoutStore = useSelector(state => state.layout)
+
+
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [pageNumber, setPageNumber] = useState(1)
     const [selectedLookup, setSelectedLookup] = useState('')
@@ -281,6 +285,9 @@ const LookupsView = () => {
                         </div> 
 
                         <DataTable
+                            noDataComponent={<FormattedMessage id="NoData" />}
+                            progressPending={layoutStore.loading}
+                            progressComponent={<ComponentSpinner/>}
                             expandableRows
                             expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
                             noHeader
