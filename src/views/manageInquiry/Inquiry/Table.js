@@ -341,6 +341,13 @@ const UsersList = () => {
   }
   
  const columns =  [
+  {
+    name: <FormattedMessage id="Code" />,
+    selector: 'id',
+    sortable: true,
+    minWidth: '50px',
+    maxWidth: '60px'
+  },
     {
       name: <FormattedMessage id="Id" />,
       selector: 'id',

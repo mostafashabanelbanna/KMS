@@ -309,10 +309,11 @@ const UsersList = () => {
   
  const columns =  [
     {
-      name: <FormattedMessage id="Id" />,
+      name: <FormattedMessage id="Code" />,
       selector: 'id',
       sortable: true,
-      minWidth: '50px'
+      minWidth: '50px',
+      maxWidth: '60px'
     },
     {
       name: <FormattedMessage id="Periodicity" />,

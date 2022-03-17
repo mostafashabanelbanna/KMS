@@ -238,6 +238,13 @@ const LookupsView = () => {
 
     const columns = [
         {
+          name: <FormattedMessage id="Code" />,
+          selector: 'id',
+          sortable: true,
+          minWidth: '50px',
+          maxWidth: '60px'
+        },
+        {
             name: intl.formatMessage({id: "Name"}),
             selector: 'name_A',
             sortable: true,

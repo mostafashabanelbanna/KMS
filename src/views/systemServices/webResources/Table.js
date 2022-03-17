@@ -12,9 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
 import swal from "sweetalert"
-
 import { Link, Redirect} from 'react-router-dom'
-
 import ReactPaginate from 'react-paginate'
 import { ChevronDown, MoreVertical,  Trash2, Archive } from 'react-feather'
 import DataTable from 'react-data-table-component'
@@ -22,10 +20,13 @@ import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, Drop
 import { useIntl, FormattedMessage } from 'react-intl'
 import { toast } from 'react-toastify'
 import Toastr from '../../../containers/toastr/Toastr'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
+import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
+
 import * as moment from "moment"
 import "moment/locale/ar"
 
@@ -355,6 +356,8 @@ const List = () => {
               noDataComponent={<FormattedMessage id="NoData" />}
               progressPending={layoutStore.loading}
               progressComponent={<ComponentSpinner/>}
+              expandableRows
+              expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
               noHeader
               pagination
               subHeader

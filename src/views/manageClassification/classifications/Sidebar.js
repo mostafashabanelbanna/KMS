@@ -64,15 +64,15 @@ const SidebarRole = ({ open, toggleSidebar, selectedClassification }) => {
       } else {
         await dispatch(
           updateClassification({
-                id: selectedClassification.id,
-                name_A: values.name,
-                name_E: values.nameE,
-                description_A: values.descriptionA,
-                description_E: values.descriptionE,
-                icon: values.icon,
-                sortIndex: values.sortIndex,
-                focus: values.focus,
-                active: values.active
+            id: selectedClassification.id,
+            name_A: values.name,
+            name_E: values.nameE,
+            description_A: values.descriptionA,
+            description_E: values.descriptionE,
+            icon: values.icon,
+            sortIndex: values.sortIndex,
+            focus: values.focus,
+            active: values.active
             }
           )
         )
