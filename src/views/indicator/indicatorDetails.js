@@ -3,8 +3,10 @@ import axios from '../../axios'
 import {tabEnum} from './tabEnum'
 import Dimensions from './dimensions'
 import { Button } from 'reactstrap'
+import Feedback from '../Feedback/index'
 
-const IndicatorDetails = ({IndicatorSubDetails, IndicatorId}) => {
+const IndicatorDetails = (props) => {
+    console.log(props)
     const [indicatorData, setIndicatorData] = useState({})
     const [dimensionLevels, setDimensionLevels] = useState([])
     const [selectedDimensions, setSelectedDimensions] = useState([[]])
@@ -13,24 +15,24 @@ const IndicatorDetails = ({IndicatorSubDetails, IndicatorId}) => {
     const [pageNumber, setPageNumber] = useState(1)
     const [rowsPerPage, setRowsPerPage] = useState(10)
 
-    const getDimensionLevels = async  () => {
-        await axios.get(`/DimensionsLevel/GetDimensionLevelsByDimension/0`)
-        .then(response => {
-            setDimensionLevels(response.data.data)
-           })
-           .catch(error => {
-            setDimensionLevels([])
-        })
-    }
-    const getIndicatorData = async () => {
-        await axios.get(`/Indicator/GetIndicator/${IndicatorId}`)
-        .then(response => {
-            setIndicatorData(response.data.data)
-           })
-           .catch(error => {
-            setIndicatorData({})
-        })
-    }
+    // const getDimensionLevels = async  () => {
+    //     await axios.get(`/DimensionsLevel/GetDimensionLevelsByDimension/0`)
+    //     .then(response => {
+    //         setDimensionLevels(response.data.data)
+    //        })
+    //        .catch(error => {
+    //         setDimensionLevels([])
+    //     })
+    // }
+    // const getIndicatorData = async () => {
+    //     await axios.get(`/Indicator/GetIndicator/${IndicatorId}`)
+    //     .then(response => {
+    //         setIndicatorData(response.data.data)
+    //        })
+    //        .catch(error => {
+    //         setIndicatorData({})
+    //     })
+    // }
     const getDatasetValues = async () => {
         let DimensionsValues = []
         for (let i = 0; i < selectedDimensions.length; i++) {
@@ -66,21 +68,24 @@ const IndicatorDetails = ({IndicatorSubDetails, IndicatorId}) => {
         setSelectedDimensions([...selectedDimensions, []])
     }
     
-    useEffect(() => {
-        getDimensionLevels()
-        getIndicatorData()
-    }, [])
+    // useEffect(() => {
+    //     getDimensionLevels()
+    //     getIndicatorData()
+    // }, [])
 
     return (
         <>
           <h2>Details</h2>
-          {selectedDimensions.map((item, idx) => (
+          {/* {selectedDimensions.map((item, idx) => (
               <Dimensions selectedDimensions={selectedDimensions[idx]} key={idx} addDimensionHandler={addDimensionHandler} dimensionValuesStateHandler={dimensionValuesStateHandler} orderLevel={idx} dimensionLevels={dimensionLevels}></Dimensions>
           ))}
            <Button.Ripple style={{position: 'absolute', left: '5%' }} color='primary' onClick={getDatasetValues} >
              بحث
-          </Button.Ripple>
-         
+          </Button.Ripple> */}
+          <div className='container'>
+              <Feedback objectId='1' objectName='Indicator'></Feedback>
+          </div>
+
         </>
     )
 }

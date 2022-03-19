@@ -138,7 +138,7 @@ const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
             <DropdownItem
               tag={Link}
               className='w-100'
-              to="/indicator/indicatorDetails"
+              to={{pathname: `/indicator/indicatorDetails/${row.id}`}} 
               // onClick={() => updateUser(row.id)}
             >
               <BiShow size={14} className='mr-50' />

@@ -1,6 +1,7 @@
 
 import { CgPerformance }  from "react-icons/cg"
 import {HiOutlineSearchCircle} from 'react-icons/hi'
+import { FaHeart } from "react-icons/fa"
 
 export default [
   {
@@ -31,5 +32,11 @@ export default [
       }
      
     ]
+  },
+  {
+    id:"Favorites",
+    title:"Favorites",
+    icon: <FaHeart size={20} />,
+    navLink: '/Researcher/Favorite'
   }
 ]
