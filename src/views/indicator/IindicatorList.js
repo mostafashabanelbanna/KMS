@@ -2,18 +2,43 @@ import DataTable from 'react-data-table-component'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import { ChevronDown, MoreVertical,  Trash2, Archive } from 'react-feather'
+import { ChevronDown, MoreVertical,  Trash2, Archive, Heart } from 'react-feather'
 import ReactPaginate from 'react-paginate'
 import * as moment from "moment"
 
 import { BiShow} from   "react-icons/bi"
+import { FaHeart } from "react-icons/fa"
 
 
 import "moment/locale/ar"
 import { Link } from 'react-router-dom'
+import { addToFavorit, notify, removeFromFavorit } from '../../utility/Utils'
+import { useEffect, useState } from 'react'
 
 const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
+  const [allIndicators, setAllIndicators] = useState(indicators)
 
+  const AddIndicatorToFavorite = async (id) => {  
+    const result = await addToFavorit("Indicator", id)
+    if (result) {
+      const ele = allIndicators.find(x => x.id === id)
+      ele.isFavorit = true
+      setAllIndicators([...allIndicators])
+    }
+  }
+
+  const RemoveIndicatorFromFavorite = async (id) => {  
+    const result = await removeFromFavorit("Indicator", id)
+    if (result) {
+      const ele = allIndicators.find(x => x.id === id)
+      ele.isFavorit = false
+      setAllIndicators([...allIndicators])
+    }
+  }
+
+  useEffect(() => {
+    setAllIndicators(indicators)
+  }, indicators)
   // ** Custom Pagination
   const CustomPagination = () => {
     // const count = store.totalPages
@@ -39,6 +64,16 @@ const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
 
       
  const parentColumns =  [
+    {
+      name: 'المفضلة',
+      selector: (row, index) => {
+        return (<>
+                   {row.isFavorit ? <FaHeart size={25} className='cursor-pointer' onClick={e => RemoveIndicatorFromFavorite(row.id)}/> : <Heart onClick={e => AddIndicatorToFavorite(row.id)} size={25} className='cursor-pointer'/>} 
+              </>)
+    },
+      sortable: true,
+      minWidth: '225px'
+    },
     {
       name: <FormattedMessage id="Code" />,
       selector: 'id',
@@ -103,7 +138,7 @@ const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
             <DropdownItem
               tag={Link}
               className='w-100'
-              to="/indicator/indicatorDetails"
+              to={{pathname: `/indicator/indicatorDetails/${row.id}`}} 
               // onClick={() => updateUser(row.id)}
             >
               <BiShow size={14} className='mr-50' />
@@ -191,7 +226,7 @@ const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
                 sortIcon={<ChevronDown />}
                 className='react-dataTable'
                 paginationComponent={CustomPagination}
-                data={indicators}
+                data={allIndicators}
                 subHeaderWrap={false}
                
             />

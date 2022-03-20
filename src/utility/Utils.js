@@ -1,3 +1,7 @@
+import axios from './../axios'
+import { toast } from 'react-toastify'
+import Toastr from './../containers/toastr/Toastr'
+
 // ** Checks if an object is empty (returns boolean)
 export const isObjEmpty = obj => Object.keys(obj).length === 0
 
@@ -118,3 +122,72 @@ export const isNotLightSkin = () => {
   // wether skin is light or not
   return currentSkin !== "light" 
 }
+
+export const notify = (type, message) => {
+  return toast.success(
+    <Toastr type={type} message={message} />,
+    { position: toast.POSITION.TOP_CENTER,
+      hideProgressBar: true 
+    })
+  }
+
+// Add To Favorit
+
+// export const addToFavorit = async (objectName, objectId) => {
+//   await axios.post(`/Favorite/CreateFavorite`, {objectId, objectName})
+//   .then(response => {
+//     if (response.data.statusCode === 200) {
+//       notify('success', `تمت الأضافة الى المفضلة`)
+//       return true
+//     } else {
+//       notify('error', 'حدث خطأ ما')
+//       return false
+//     }
+//   })
+//   .catch(error => {
+//      return false
+//   })
+// }
+
+
+export function addToFavorit(objectName, objectId) {
+  return new Promise(function (resolve, reject) {
+    axios.post(`/Favorite/CreateFavorite`, {objectId, objectName}).then(
+          (response) => {
+            if (response.data.statusCode === 200) {
+              notify('success', `تمت الأضافة الى المفضلة`)
+              resolve(true)
+            } else {
+              notify('error', 'حدث خطأ ما')
+              resolve(false)
+            }
+          },
+              (error) => {
+              reject(error)
+          }
+      )
+  })
+}
+
+// Remove From Favorit
+
+export function removeFromFavorit(objectName, objectId) {
+  return new Promise(function (resolve, reject) {
+    axios.post(`/Favorite/DeleteFavorite`, {objectId, objectName}).then(
+          (response) => {
+            if (response.data.statusCode === 200) {
+              notify('success', `تم الحذف من المفضلة`)
+              resolve(true)
+            } else {
+              notify('error', 'حدث خطأ ما')
+              resolve(false)
+            }
+          },
+            (error) => {
+              notify('error', 'حدث خطأ ما')
+              reject(error)
+          }
+      )
+  })
+}
+
