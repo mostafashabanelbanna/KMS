@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Row from 'reactstrap/lib/Row'
 import Col from 'reactstrap/lib/Col'
 import { useIntl, FormattedMessage } from 'react-intl'
+import * as moment from "moment"
+import "moment/locale/ar"
 
 const ExpandedRowDetails = ({data, columns}) => {
     console.log(data)
@@ -38,13 +40,30 @@ const ExpandedRowDetails = ({data, columns}) => {
     // useIntl
     const intl = useIntl()
 
-    /*
-    // check if detailsData has boolean value 
-    //   if it has return yes or no beased on boolean value
-    //   if it hasn't retun the original value
-    */
-    const checkBoolean = (itemValue) => {
-        return  typeof itemValue === 'boolean' ? itemValue ? intl.formatMessage({id:'Yes'}) :  intl.formatMessage({id:'No'}) : itemValue  
+    
+   const checkValue = (itemValue, itemKey) => {
+
+         /*
+        // check if detailsData has boolean value 
+        //   if it has return yes or no beased on boolean value
+        //   if it hasn't retun the original value
+        */
+        if (typeof itemValue === 'boolean') {
+            if (itemValue) {
+                return  intl.formatMessage({id:'Yes'}) 
+            } else {
+               return intl.formatMessage({id:'No'})
+            }
+        } 
+        // check if the value is date and convert its format
+        if (itemKey.toLowerCase().includes("date")) {
+            return   moment(itemValue)
+                .locale("ar")
+                .format("LL")
+            
+        }
+        return itemValue
+        // return  typeof itemValue === 'boolean' ? itemValue ? intl.formatMessage({id:'Yes'}) :  intl.formatMessage({id:'No'}) : itemValue  
     }
 
     return (
@@ -54,11 +73,12 @@ const ExpandedRowDetails = ({data, columns}) => {
                     <div className='p-1 ' style={{backgroundColor: '#f3f2f7'}}>
                         <Row>
                             {detailsData.map((item, index) => {
+                                // console.log(item)
                                 const keyName = Object.keys(item)[0]
                                 return ( 
                                     <Col key={index} className='my-1' md={6}>
                                         <span style={{color: '#7367f0'}}>{intl.formatMessage({id: keyName})} :</span>
-                                        <span className='px-1'>{checkBoolean(item[keyName])}</span>
+                                        <span className='px-1'>{checkValue(item[keyName], keyName)}</span>
                                     
                                     </Col>
                                 )
