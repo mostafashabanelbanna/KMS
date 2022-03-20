@@ -6,6 +6,7 @@ export const getData = params => {
   return async dispatch => {
     dispatch(isLoading())
     await axios.post('/User/GetUsers', params).then(response => {
+      console.log(response)
       dispatch({
         type: 'GET_DATA',
         data: response.data.data.items,
@@ -31,7 +32,7 @@ export const getData = params => {
 // ** Add new user
 export const addUser = user => {
    const userFormData = new FormData()
-
+console.log(user)
    userFormData.append('name', user.name)
    userFormData.append('nameE', user.nameE)
    userFormData.append('jobTitle', user.jobTitle)

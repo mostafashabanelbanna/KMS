@@ -89,7 +89,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
               name: values.name,
               nameE: values.nameE,
               jobTitle: values.jobTitle,
-              logo: values.logo,
+              photo: values.photo,
               password: values.password,
               userName: values.userName,
               email: values.email,
@@ -109,7 +109,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
               name: values.name,
               nameE: values.nameE,
               jobTitle: values.jobTitle,
-              logo: values.logo,
+              photo: values.photo,
               password: values.password,
               userName: values.userName,
               email: values.email,
@@ -279,25 +279,39 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
           <Label for='sortIndex'>
           <span className='text-danger'>*</span> {intl.formatMessage({id: "Sort Index"})}
           </Label>
-          <Input
-            type="number"
-            name='sortIndex'
-            id='sortIndex'
-            defaultValue={selectedUser ? selectedUser.sortIndex : 0}
-            placeholder='0'
-            innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['sortIndex'] })}
-          />
+          {!selectedUser.sortIndex &&
+            <Input
+              type="number"
+              name='sortIndex'
+              id='sortIndex'
+              defaultValue={0}
+              placeholder='0'
+              innerRef={register({ required: false })}
+              className={classnames({ 'is-invalid': errors['sortIndex'] })}
+            />
+          }
+           {selectedUser.sortIndex &&
+            <Input
+              type="number"
+              name='sortIndex'
+              id='sortIndex'
+              defaultValue={selectedUser.sortIndex}
+              placeholder='0'
+              innerRef={register({ required: false })}
+              className={classnames({ 'is-invalid': errors['sortIndex'] })}
+            />
+          }
+          
         </FormGroup>
         <FormGroup>
-          <Label for='logo'>{intl.formatMessage({id: "Photo"})}</Label>
+          <Label for='photo'>{intl.formatMessage({id: "Photo"})}</Label>
           <CustomInput
             type='file' 
-            id='logo'
-            name='logo' 
+            id='photo'
+            name='photo' 
             label={intl.formatMessage({id: "Chose Photo"})}
             innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['logo'] })}/>
+            className={classnames({ 'is-invalid': errors['photo'] })}/>
         </FormGroup>
         <FormGroup>
               <Label>{intl.formatMessage({id: "Roles"})}</Label>
