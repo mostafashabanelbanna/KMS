@@ -316,16 +316,23 @@ const UsersList = () => {
       maxWidth: '60px'
     },
     {
+      name: <FormattedMessage id="Name" />,
+      selector: 'name',
+      sortable: true,
+      minWidth: '300px',
+      maxWidth: '150px'
+    },
+    {
       name: <FormattedMessage id="Periodicity" />,
       selector: (row, idx) => { return (<> {row.periodicity ? row.periodicity.name : ""} </>) },
       sortable: true,
-      minWidth: '250px'
+      minWidth: '150px'
     },
     {
       name: <FormattedMessage id="Source" />,
       selector: (row, idx) => { return (<> {row.source ? row.source.name : ""} </>) },
       sortable: true,
-      minWidth: '250px'
+      minWidth: '150px'
     },
     {
         name: <FormattedMessage id="CreateDate" />,

@@ -239,6 +239,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
           <Input
             name='description_A'
             id='description_A'
+            type="textarea"
             defaultValue={selectedWebResource ? selectedWebResource.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
             innerRef={register({ required: true })}
@@ -247,13 +248,14 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
         </FormGroup>
         <FormGroup>
           <Label for='description_E'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Description"})}
+           <span className='text-danger'>*</span> {intl.formatMessage({id: "descriptionE"})}
           </Label>
           <Input
             name='description_E'
             id='description_E'
+            type="textarea"
             defaultValue={selectedWebResource ? selectedWebResource.description_E : ''}
-            placeholder={intl.formatMessage({id: "Description"})}
+            placeholder={intl.formatMessage({id: "descriptionE"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Description'] })}
           />
@@ -272,7 +274,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
           />
         </FormGroup>
         <FormGroup>
-          <Label for='logo'>{intl.formatMessage({id: "logo"})}</Label>
+          <Label for='logo'>{intl.formatMessage({id: "Icon"})}</Label>
           <CustomInput
             type='file' 
             id='logo'
@@ -283,33 +285,33 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
         </FormGroup>
         <FormGroup>
           <Label for='login'>
-            {intl.formatMessage({id: "login"})}
+            {intl.formatMessage({id: "Login"})}
           </Label>
           <Input
             name='login'
             id='login'
             defaultValue={selectedWebResource ? selectedWebResource.login : ''}
-            placeholder={intl.formatMessage({id: "login"})}
+            placeholder={intl.formatMessage({id: "Login"})}
             innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['login'] })}
+            className={classnames({ 'is-invalid': errors['Login'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='password'>
-            {intl.formatMessage({id: "password"})}
+            {intl.formatMessage({id: "Password"})}
           </Label>
           <Input
             name='password'
             id='password'
             defaultValue={selectedWebResource ? selectedWebResource.password : ''}
-            placeholder={intl.formatMessage({id: "password"})}
+            placeholder={intl.formatMessage({id: "Password"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['password'] })}
           />
         </FormGroup>
         <FormGroup>
             <Label for='webResourceCategory'>
-                {intl.formatMessage({id: "WebResourceCategory"})}
+                {intl.formatMessage({id: "Category"})}
             </Label>
             {selectedWebResource.webResourceCategory &&
                  <Select

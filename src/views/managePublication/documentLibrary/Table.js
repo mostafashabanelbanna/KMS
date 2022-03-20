@@ -22,6 +22,7 @@ import Toastr from '../../../containers/toastr/Toastr'
 import { BsUiRadiosGrid } from "react-icons/bs"
 import * as moment from "moment"
 import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -234,7 +235,7 @@ const DocumentLibraryList = ({documentIssueId}) => {
       maxWidth: '60px'
     },
     {
-      name: <FormattedMessage id="Title" />,
+      name: <FormattedMessage id="Name" />,
       selector: 'title_A',
       sortable: true,
       minWidth: '225px'
@@ -280,6 +281,7 @@ const DocumentLibraryList = ({documentIssueId}) => {
                     <DataTable
                         expandableRows
                         expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
+                        progressComponent={<ComponentSpinner/>}
                         noHeader
                         pagination
                         subHeader
