@@ -122,7 +122,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
               logo: values.logo,
               login: values.login,
               password: values.password,
-              webResourceCategoryId: webResourceCategory.id,
+              webResourceCategoryId: webResourceCategory ? webResourceCategory.id : "",
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active,
@@ -141,7 +141,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
               logo: values.logo,
               login: values.login,
               password: values.password,
-              webResourceCategoryId: webResourceCategory.id,
+              webResourceCategoryId: webResourceCategory ? webResourceCategory.id : "",
               sortIndex: values.sortIndex,
               focus: values.focus,
               active: values.active,
@@ -208,7 +208,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name_A'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+           {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name_A'
@@ -221,7 +221,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
         </FormGroup>
         <FormGroup>
           <Label for='name_E'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name In English"})}
+           {intl.formatMessage({id: "Name In English"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name_E'
@@ -234,7 +234,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
         </FormGroup>
         <FormGroup>
           <Label for='description_A'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Description"})}
+           {intl.formatMessage({id: "Description"})}
           </Label>
           <Input
             name='description_A'
@@ -242,13 +242,13 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
             type="textarea"
             defaultValue={selectedWebResource ? selectedWebResource.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['Description'] })}
+            innerRef={register({ required: false })}
+            className={classnames({ 'is-invalid': errors['description_A'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='description_E'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "descriptionE"})}
+            {intl.formatMessage({id: "descriptionE"})} 
           </Label>
           <Input
             name='description_E'
@@ -256,20 +256,20 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
             type="textarea"
             defaultValue={selectedWebResource ? selectedWebResource.description_E : ''}
             placeholder={intl.formatMessage({id: "descriptionE"})}
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['Description'] })}
+            innerRef={register({ required: false })}
+            className={classnames({ 'is-invalid': errors['description_E'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='url'>
-            {intl.formatMessage({id: "url"})}
+            {intl.formatMessage({id: "url"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='url'
             id='url'
             defaultValue={selectedWebResource ? selectedWebResource.url : ''}
             placeholder={intl.formatMessage({id: "url"})}
-            innerRef={register({ required: false })}
+            innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['url'] })}
           />
         </FormGroup>
@@ -285,13 +285,13 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
         </FormGroup>
         <FormGroup>
           <Label for='login'>
-            {intl.formatMessage({id: "Login"})}
+            {intl.formatMessage({id: "Username"})}
           </Label>
           <Input
             name='login'
             id='login'
             defaultValue={selectedWebResource ? selectedWebResource.login : ''}
-            placeholder={intl.formatMessage({id: "Login"})}
+            placeholder={intl.formatMessage({id: "Username"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['Login'] })}
           />

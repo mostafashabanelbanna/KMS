@@ -75,7 +75,7 @@ export const resetCreateResponse = () => {
 
 
 export const updateIndicator = indicator => {  
-
+  console.log(indicator)
   return async (dispatch, getState) => {
     await axios
      .put('/Indicator/UpdateIndicator/', indicator)

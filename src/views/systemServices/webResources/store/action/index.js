@@ -49,7 +49,6 @@ export const add = webResource => {
       webResourceFormData.append('indicators', webResource.indicators[i])
      }
     
-    console.log(webResourceFormData)
    return (dispatch, getState) => {
     axios
       .post('/WebResource/CreateWebResource',  webResourceFormData, {headers : { "Content-Type": "multipart/form-data" }})
@@ -106,10 +105,29 @@ export const getItem = id => {
 
 
 export const updateItem = webResource => {  
+  const webResourceFormData = new FormData()
   
+  webResourceFormData.append('name_A', webResource.name_A)
+  webResourceFormData.append('name_E', webResource.name_E)
+  webResourceFormData.append('description_A', webResource.description_A)
+  webResourceFormData.append('description_E', webResource.description_E)
+  webResourceFormData.append('url', webResource.url)
+  webResourceFormData.append('logo', webResource.logo[0])
+  webResourceFormData.append('login', webResource.login)
+  webResourceFormData.append('password', webResource.password)
+  webResourceFormData.append('webResourceCategoryId', webResource.webResourceCategoryId)
+  webResourceFormData.append('sortIndex', webResource.sortIndex)
+  webResourceFormData.append('focus', webResource.focus)
+  webResourceFormData.append('active', webResource.active)
+  webResourceFormData.append('id', webResource.id)
+
+   for (let i = 0; i < webResource.indicators.length; i++) {
+     console.log(webResource.indicators)
+      webResourceFormData.append('indicators', webResource.indicators[i])
+     }
   return async (dispatch, getState) => {
     await axios
-     .put('/WebResource/UpdateWebResource/', webResource)
+     .put('/WebResource/UpdateWebResource/', webResourceFormData, {headers : { "Content-Type": "multipart/form-data" }})
      .then(response => {
        dispatch({
          type: 'UPDATE_WEB_SOURCE',

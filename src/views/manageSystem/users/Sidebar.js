@@ -286,7 +286,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
               id='sortIndex'
               defaultValue={0}
               placeholder='0'
-              innerRef={register({ required: false })}
+              innerRef={register({ required: true })}
               className={classnames({ 'is-invalid': errors['sortIndex'] })}
             />
           }
@@ -297,7 +297,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
               id='sortIndex'
               defaultValue={selectedUser.sortIndex}
               placeholder='0'
-              innerRef={register({ required: false })}
+              innerRef={register({ required: true })}
               className={classnames({ 'is-invalid': errors['sortIndex'] })}
             />
           }

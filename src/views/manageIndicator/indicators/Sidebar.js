@@ -162,7 +162,6 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
   }, [selectedIndicator])
  
   const handleDimensionLevelsChange = (event) => {
-    console.log(event)
     const options = []
     event.map(opt => options.push(opt.id))
     setDimenionLevels(options)
@@ -189,11 +188,10 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
        units.push({unitLabelId : selectedUnit.id, unitMeasureId: unitMeasure.id})
       }      
     }
-
+    
     const tempDimensionLevels = []
     for (const dimensionLevel of dimensionLevels) {
-      tempDimensionLevels.push(dimensionLevel.id)
-         
+      tempDimensionLevels.push(dimensionLevel.split("::")[1])
     }
 
     if (isObjEmpty(errors)) {
@@ -317,7 +315,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             <Col sm='6' >
         <FormGroup>
           <Label for='name'>
-            <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+            {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name'
@@ -332,14 +330,14 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         <Col sm='6' >
         <FormGroup>
           <Label for='nameE'>
-            {intl.formatMessage({id: "Name In English"})}
+            {intl.formatMessage({id: "Name In English"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='nameE'
             id='nameE'
             defaultValue={selectedIndicator ? selectedIndicator.name_E : ''}
             placeholder={intl.formatMessage({id: "Name In English"})}
-            innerRef={register({ required:  false})}
+            innerRef={register({ required:  true})}
             className={classnames({ 'is-invalid': errors['nameE'] })}
           />
         </FormGroup>
@@ -354,6 +352,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
           <Input
             name='descriptionA'
             id='descriptionA'
+            type="textarea"
             defaultValue={selectedIndicator ? selectedIndicator.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
             innerRef={register({ required: false })}
@@ -369,15 +368,14 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
           <Input
             name='descriptionE'
             id='descriptionE'
+            type="textarea"
             defaultValue={selectedIndicator ? selectedIndicator.description_E : ''}
             placeholder={intl.formatMessage({id: "descriptionE"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['descriptionE'] })}
           />
         </FormGroup>
-   
-       
-</Col>
+        </Col>
         </Row>
         <Row className="mx-0">
             <Col sm='6' >
@@ -388,6 +386,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
           <Input
             name='acquisitionA'
             id='acquisitionA'
+            type="textarea"
             defaultValue={selectedIndicator ? selectedIndicator.acquisition_A : ''}
             placeholder={intl.formatMessage({id: "acquisitionA"})}
             innerRef={register({ required: false })}
@@ -403,6 +402,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
           <Input
             name='acquisitionE'
             id='acquisitionE'
+            type="textarea"
             defaultValue={selectedIndicator ? selectedIndicator.acquisition_E : ''}
             placeholder={intl.formatMessage({id: "acquisitionE"})}
             innerRef={register({ required: false })}
@@ -420,6 +420,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
           <Input
             name='calculationA'
             id='calculationA'
+            type="textarea"
             defaultValue={selectedIndicator ? selectedIndicator.calculation_A : ''}
             placeholder={intl.formatMessage({id: "calculationA"})}
             innerRef={register({ required: false })}
@@ -435,6 +436,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
           <Input
             name='calculationE'
             id='calculationE'
+            type="textarea"
             defaultValue={selectedIndicator ? selectedIndicator.calculation_E : ''}
             placeholder={intl.formatMessage({id: "calculationE"})}
             innerRef={register({ required: false })}
@@ -462,7 +464,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         </Row>
         <Row className="mx-0">
             <Col sm='6' ><FormGroup>
-              <Label>{intl.formatMessage({id: "Periodicities"})}</Label>
+              <Label>{intl.formatMessage({id: "Periodicities"})} <span className='text-danger'>*</span></Label>
               { selectedIndicator.indicatorPeriodicities && <Select
                 placeholder="تحديد"
                 isClearable={false}
@@ -476,6 +478,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
                 getOptionValue={(option) => option.id}
                 className='react-select'
                 classNamePrefix='select'
+                innerRef={register({ required: true })}
                 onChange={e => handlePeriodicitiesChange(e) }
               />}
                {!selectedIndicator.indicatorPeriodicities && <Select
@@ -491,6 +494,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
                 getOptionValue={(option) => option.id}
                 className='react-select'
                 classNamePrefix='select'
+                innerRef={register({ required: true })}
                 onChange={e => handlePeriodicitiesChange(e) }
               />}
               
@@ -498,7 +502,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
           </Col>
             <Col sm='6' >
               <FormGroup>
-                  <Label>{intl.formatMessage({id: "Sources"})}</Label>
+                  <Label>{intl.formatMessage({id: "Sources"})} <span className='text-danger'>*</span></Label>
                   {selectedIndicator.indicatorSources && <Select
                     placeholder="تحديد"
                     isClearable={false}
@@ -512,6 +516,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
                     options={allSources}
                     className='react-select'
                     classNamePrefix='select'
+                    innerRef={register({ required: true })}
                     onChange={e => handleSourcesChange(e) }
                   />}
                    {!selectedIndicator.indicatorSources && <Select
@@ -527,6 +532,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
                     options={allSources}
                     className='react-select'
                     classNamePrefix='select'
+                    innerRef={register({ required: true })}
                     onChange={e => handleSourcesChange(e) }
                   />}
               </FormGroup>
@@ -536,7 +542,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
         <Col sm='6' >
             <FormGroup>
           <Label for='sortIndex'>
-            <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
+            {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             type="number"

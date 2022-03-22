@@ -302,14 +302,14 @@ const List = () => {
       minWidth: '150px'
     },
     {
-      name: <FormattedMessage id="Url" />,
+      name: <FormattedMessage id="url" />,
       selector: 'url',
       sortable: true,
       minWidth: '150px'
     },
     {
       name: <FormattedMessage id="Category" />,
-      selector: (row, idx) => { return (<> {row.WebResourceCategory ? row.WebResourceCategory.name : ""} </>) },
+      selector: "webResourceCategoryName",
       sortable: true,
       minWidth: '150px'
     },

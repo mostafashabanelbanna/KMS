@@ -256,7 +256,7 @@ const List = () => {
     },
     {
       fieldType: 'text',
-      label: `${intl.formatMessage({id: "Url"})}`, 
+      label: `${intl.formatMessage({id: "url"})}`, 
       colSizeLg: 4, 
       attr: "url", 
       dropdownArr: [], 
@@ -337,10 +337,16 @@ const List = () => {
       minWidth: '250px'
     },
     {
+      name: 'المستخدم',
+      selector: 'username',
+      sortable: true,
+      minWidth: '150px'
+    },
+    {
       name: <FormattedMessage id="CreateDate" />,
       selector: (row, idx) => { return (<> {moment(row.CreateDate).locale("ar").format("LL")} </>) },
       sortable: true,
-      minWidth: '250px'
+      minWidth: '150px'
     },
     {
       name: <div className="justify-content-center"><FormattedMessage id="Actions" /></div>,
