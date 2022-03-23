@@ -81,6 +81,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
 
   // ** Function to handle form submit
   const onSubmit = async values => {
+    console.log(values)
     if (isObjEmpty(errors)) {
       if (!selectedProvider.id) {
         await dispatch(
@@ -365,9 +366,11 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             <FormGroup>
             
               <Input 
+                value={false}
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
+                onChange={(e) => console.log(e.target.value)}
                 defaultChecked ={selectedProvider ? selectedProvider.focus : false}
                 innerRef={register()} />
                   <Label for='focus'>

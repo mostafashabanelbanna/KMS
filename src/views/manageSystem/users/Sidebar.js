@@ -9,7 +9,7 @@ import { isObjEmpty, getSelected, selectThemeColors } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import Select, { components } from 'react-select'
 import CustomInput from 'reactstrap/lib/CustomInput'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
@@ -64,8 +64,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
   const store = useSelector(state => state.users)
 
   // ** Vars
-  const { register, errors, handleSubmit } = useForm()
-
+  const { register, errors, handleSubmit, control  } = useForm()
   // pass only role id to userRoles
   const handleRolesChange = (event) => {
     const options = []
@@ -316,21 +315,31 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
         <FormGroup>
               <Label>{intl.formatMessage({id: "Roles"})}</Label>
               {!selectedUser.roles &&
-                <Select
-                  placeholder="تحديد"
-                  isClearable={false}
-                  theme={selectThemeColors}
-                  defaultValue={selectedUser ?  selectedUser.roles : []}
-                  getOptionLabel={(option) => option.name}
-                  getOptionValue={(option) => option.id}
-                  isMulti
-                  name='userRoles'
-                  id='userRoles'
-                  options={allRoles}
-                  className='react-select'
-                  classNamePrefix='select'
-                  onChange={e => handleRolesChange(e) }
-                />
+                <>
+                  <Controller
+                    control={control} 
+                    rules={{ required: true }} 
+                    name="rolesSelect"
+                    render={({}) => (
+                      <Select
+                        placeholder="تحديد"
+                        isClearable={false}
+                        theme={selectThemeColors}
+                        defaultValue={selectedUser ?  selectedUser.roles : []}
+                        getOptionLabel={(option) => option.name}
+                        getOptionValue={(option) => option.id}
+                        isMulti
+                        name='userRoles'
+                        id='userRoles'
+                        options={allRoles}
+                        className='react-select'
+                        classNamePrefix='select'
+                        onChange={e => handleRolesChange(e) }
+                      />
+                    )}
+                  />
+                  {errors.rolesSelect && <p className="text-danger">{intl.formatMessage({id: "Choose"})}</p>}
+              </>
              } 
              {selectedUser.roles &&
                 <Select

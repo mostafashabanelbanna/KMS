@@ -33,7 +33,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 import axios from '../../../axios'
 
 // helper function
-import {isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete} from '../../../utility/Utils'
 
 
 const UsersList = () => {
@@ -331,7 +331,7 @@ const getOwners = async () => {
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteUser(row.id))}>
+            <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteUser, row.id) }}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>

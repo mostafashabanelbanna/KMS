@@ -1,6 +1,18 @@
-import axios from './../axios'
+import swal from "sweetalert"
 import { toast } from 'react-toastify'
+import { store } from '../redux/storeConfig/store'
+// import { FormattedMessage } from 'react-intl'
+
+
+import axios from './../axios'
 import Toastr from './../containers/toastr/Toastr'
+
+import { IntlProvider, addLocaleData } from 'react-intl'
+
+const locale = 'en'
+const intlProvider = new IntlProvider({ locale })
+const { intl } = intlProvider // this is how you get access to the formatMessage function to use i18n for your messages
+
 
 // ** Checks if an object is empty (returns boolean)
 export const isObjEmpty = obj => Object.keys(obj).length === 0
@@ -190,4 +202,26 @@ export function removeFromFavorit(objectName, objectId) {
       )
   })
 }
+
+export const confirmDelete = (deleteRow, rowId) => {
+
+  swal("هل تريد حذف العنصر؟", {
+    buttons: {
+      catch: {
+        text:  "نعم",
+        value: "ok"
+      },
+      cancel: "لا"
+    }
+  })
+  .then((value) => {
+    switch (value) {
+      case "ok":
+        return store.dispatch(deleteRow(rowId))
+        break
+
+      default:
+    }
+  })
+ }
 
