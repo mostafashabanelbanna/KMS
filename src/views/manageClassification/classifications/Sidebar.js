@@ -213,6 +213,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedClassification }) => {
           <Col sm='6' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -226,6 +227,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedClassification }) => {
           <Col sm='6' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

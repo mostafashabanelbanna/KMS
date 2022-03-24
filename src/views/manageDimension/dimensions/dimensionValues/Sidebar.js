@@ -289,6 +289,7 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
           <Col sm='6' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -302,6 +303,7 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
           <Col sm='6' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

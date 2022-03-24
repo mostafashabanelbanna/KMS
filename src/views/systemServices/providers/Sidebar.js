@@ -81,7 +81,9 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
 
   // ** Function to handle form submit
   const onSubmit = async values => {
-    console.log(values)
+    // if (!providerCategory.id) {
+
+    // }
     if (isObjEmpty(errors)) {
       if (!selectedProvider.id) {
         await dispatch(
@@ -126,6 +128,8 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
         )
       }
      
+    } else {
+
     }
   }
   
@@ -267,7 +271,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             id='phone'
             defaultValue={selectedProvider ? selectedProvider.phone : ''}
             // placeholder='(397) 294-5153'
-            innerRef={register({ required: false })}
+            innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['phone'] })}
           />
         </FormGroup>
@@ -280,7 +284,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             id='fax'
             defaultValue={selectedProvider ? selectedProvider.fax : ''}
             // placeholder='(397) 294-5153'
-            innerRef={register({ required: false })}
+            innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['fax'] })}
           />
         </FormGroup>
@@ -308,7 +312,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             id='url'
             defaultValue={selectedProvider ? selectedProvider.url : ''}
             placeholder={intl.formatMessage({id: "url"})}
-            innerRef={register({ required: false })}
+            innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['url'] })}
           />
         </FormGroup>
@@ -323,7 +327,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             id='sortIndex'
             defaultValue={selectedProvider ? selectedProvider.sortIndex : 0}
             placeholder='0'
-            innerRef={register({ required: false })}
+            innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
         </FormGroup>
@@ -366,7 +370,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             <FormGroup>
             
               <Input 
-                value={false}
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -382,6 +386,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             <FormGroup>
              
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

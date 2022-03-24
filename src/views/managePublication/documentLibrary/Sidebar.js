@@ -380,6 +380,7 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
             <Col sm='3' className="mt-3" >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -393,6 +394,7 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
             <Col sm='3' className="mt-3">
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

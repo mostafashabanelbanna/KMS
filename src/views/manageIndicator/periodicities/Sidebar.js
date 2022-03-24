@@ -362,6 +362,7 @@ const addInterval = () => {
           <Col sm='4' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder={intl.formatMessage({id: "Default"})}
                 name="isDefault" 
@@ -375,6 +376,7 @@ const addInterval = () => {
           <Col sm='4' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -388,6 +390,7 @@ const addInterval = () => {
           <Col sm='4' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

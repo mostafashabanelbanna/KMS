@@ -174,6 +174,10 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
  
   // ** Function to handle form submit
   const onSubmit = async values => {
+
+    console.log(values.active)
+
+
     const classificationValues = []
     for (let i = 0; i < store.selectedClassificationValues.length; i++) {
       store.selectedClassificationValues[i].classificationValues.map(item => {
@@ -208,7 +212,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               calculation_A: values.calculationA,
               calculation_E: values.calculationE,
               url: values.url,
-              sortIndex: values.sortIndex,
+              sortIndex: parseInt(values.sortIndex),
               focus: values.focus,
               active: values.active,
               periodicities,
@@ -231,7 +235,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               calculation_A: values.calculationA,
               calculation_E: values.calculation_E,
               url: values.url,
-              sortIndex: values.sortIndex,
+              sortIndex: parseInt(values.sortIndex),
               focus: values.focus,
               active: values.active,
               periodicities,
@@ -560,6 +564,7 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               <br/>
               <br/>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -576,16 +581,16 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               <br/>
 
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
                 defaultChecked ={selectedIndicator ? selectedIndicator.active : false}
                 innerRef={register()}
                 />
-                 <Label for='active'>
+                <Label for='active'>
                   {intl.formatMessage({id: "Active"})}
-                  
-                  </Label>
+                </Label>
             </FormGroup>
           </Col>
      

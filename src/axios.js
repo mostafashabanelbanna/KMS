@@ -7,10 +7,10 @@ const axios = Axios.create({
   // baseURL: "https://localhost:7262/api",
   // baseURL: "https://localhost:44386/api",
   headers:  {
-        "Access-Control-Allow-Origin":  "*",
-        Authorization : `Bearer ${jwt.getToken()}`,
-        "Content-type": "application/json"
-    }
+      "Access-Control-Allow-Origin":  "*",
+      Authorization : `Bearer ${jwt.getToken()}`,
+      "Content-type": "application/json"
+  }
   
 })
 

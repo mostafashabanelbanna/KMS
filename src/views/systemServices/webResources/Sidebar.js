@@ -407,6 +407,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
             <FormGroup>
             
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -420,6 +421,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
             <Col sm='6' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

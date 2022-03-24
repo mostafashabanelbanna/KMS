@@ -506,6 +506,7 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
             <Col sm='3' className="mt-3" >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -519,6 +520,7 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
             <Col sm='3' className="mt-3">
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

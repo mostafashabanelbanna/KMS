@@ -197,6 +197,7 @@ const SidebarNewUnit = ({ open, toggleSidebar, selectedUnit }) => {
           <Col sm='6' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -210,6 +211,7 @@ const SidebarNewUnit = ({ open, toggleSidebar, selectedUnit }) => {
           <Col sm='6' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

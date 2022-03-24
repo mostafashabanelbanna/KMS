@@ -229,6 +229,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
         <Col sm='6' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder={intl.formatMessage({id: "National"})}
                 name="isNational" 
@@ -243,6 +244,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Col sm='6' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder={intl.formatMessage({id: "Default"})}
                 name="isDefault" 
@@ -256,6 +258,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Col sm='6' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -269,6 +272,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Col sm='6' >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

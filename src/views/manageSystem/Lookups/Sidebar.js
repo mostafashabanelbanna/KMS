@@ -201,7 +201,7 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
         <div className='row mx-0'>
             <div className='col-sm-6'>
                 <FormGroup>
-                    <Input type="checkbox" name="active" defaultChecked ={SelectedLookup ? SelectedLookup.active : false} innerRef={register()}  />
+                    <Input value="true" type="checkbox" name="active" defaultChecked ={SelectedLookup ? SelectedLookup.active : false} innerRef={register()}  />
                     <Label for='active'>
                     {intl.formatMessage({id: "Active"})}
                     </Label>
@@ -209,7 +209,7 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
             </div>
             <div className='col-sm-6'>
                 <FormGroup>
-                    <Input type="checkbox" name="focus" defaultChecked={SelectedLookup ? SelectedLookup.focus : false} innerRef={register()}  />
+                    <Input value="true" type="checkbox" name="focus" defaultChecked={SelectedLookup ? SelectedLookup.focus : false} innerRef={register()}  />
                     <Label for='focus'>
                          {intl.formatMessage({id: "Focus"})}
                     </Label>
@@ -225,7 +225,7 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
             </div>
             <div className='col-sm-6'>
                 <FormGroup>
-                    <Input type="checkbox" name="isDefault" defaultChecked={SelectedLookup ? SelectedLookup.isDefault : false} innerRef={register()}  />
+                    <Input value="true" type="checkbox" name="isDefault" defaultChecked={SelectedLookup ? SelectedLookup.isDefault : false} innerRef={register()}  />
                     <Label for='isDefault'>
                         {intl.formatMessage({id: "Default"})}
                     </Label>

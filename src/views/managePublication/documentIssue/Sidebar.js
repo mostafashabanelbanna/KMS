@@ -354,6 +354,7 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
             <Col sm='3' className="mt-3" >
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -367,6 +368,7 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
             <Col sm='3' className="mt-3">
             <FormGroup>
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

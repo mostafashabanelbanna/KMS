@@ -363,6 +363,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             <Col sm='6' >
               <FormGroup>
                 <Input 
+                  value="true"
                   type="checkbox" 
                   placeholder="admin" 
                   name="admin" 
@@ -379,6 +380,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             {selectedUser ? (<Col sm='6' >
               <FormGroup>
                 <Input 
+                  value="true"
                   type="checkbox"
                   placeholder="locked"
                   name="locked" 
@@ -394,6 +396,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             <FormGroup>
             
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -408,6 +411,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             <FormGroup>
              
               <Input 
+                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
