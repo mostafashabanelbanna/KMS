@@ -34,7 +34,7 @@ import Toastr from '../../../../containers/toastr/Toastr'
 
 
 // helper function
-import {isAuthorized, isNotLightSkin} from '../../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin} from '../../../../utility/Utils'
 
 const dimensionLevelList = ({dimensionId}) => {
   // ** Store Vars
@@ -261,7 +261,7 @@ const dimensionLevelList = ({dimensionId}) => {
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteDimensionLevel(row.id))}>
+            <DropdownItem className='w-100'  onClick={() => { confirmDelete(deleteDimensionLevel, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>

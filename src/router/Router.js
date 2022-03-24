@@ -1,5 +1,6 @@
 // ** React Imports
 import { Suspense, useContext, lazy, useEffect } from 'react'
+import jwt from "../auth/jwt/useJwt"
 
 // ** Utils
 import { isUserLoggedIn } from '@utils'
@@ -76,6 +77,12 @@ const dispatch = useDispatch()
   const FinalRoute = props => {
     const route = props.route
     let action, resource
+
+// useEffect(() => {
+//   document.cookie = `Authorization=Bearer ${jwt.getToken()}`
+// }, [jwt.getToken()])
+
+
     useEffect(() => {
       dispatch(authCheckState())
     }, [])

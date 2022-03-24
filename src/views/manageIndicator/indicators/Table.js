@@ -30,7 +30,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete} from '../../../utility/Utils'
 import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
 import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
@@ -390,7 +390,7 @@ const IndictorList = () => {
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteIndicator(row.id))}>
+            <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteIndicator, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>

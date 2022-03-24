@@ -33,7 +33,7 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import axios from '../../../axios'
 // helper function
-import {isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete} from '../../../utility/Utils'
 
 
 const UsersList = () => {
@@ -386,7 +386,7 @@ const UsersList = () => {
               <Settings size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="InquiryProcedure" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteInquiry(row.id))}>
+            <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteInquiry, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>

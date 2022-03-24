@@ -29,7 +29,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {isAuthorized} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized} from '../../../utility/Utils'
 
 const RolesList = () => {
     // ** Store Vars
@@ -218,7 +218,7 @@ const RolesList = () => {
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteRole(row.id))}>
+            <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteRole, row.id) }}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>

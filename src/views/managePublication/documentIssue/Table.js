@@ -33,7 +33,7 @@ import ExpandedRowDetails from '../../../containers/expanded-row-details/expande
 import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 // helper function
-import {isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete} from '../../../utility/Utils'
 
 
 const UsersList = () => {
@@ -361,7 +361,7 @@ const UsersList = () => {
               <File size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Attachments" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteDocumentIssue(row.id))}>
+            <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteDocumentIssue, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>

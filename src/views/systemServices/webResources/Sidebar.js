@@ -112,6 +112,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
   const onSubmit = async values => {
     if (isObjEmpty(errors)) {
       if (!selectedWebResource.id) {
+        console.log(values)
         await dispatch(
             add({
               name_A: values.name_A,
@@ -130,6 +131,8 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
             })
           )
       } else {
+        console.log(values)
+
         await dispatch(
           updateItem(
             {

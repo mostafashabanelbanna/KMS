@@ -33,7 +33,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
 
 const IndictorList = () => {
   // ** Store Vars
@@ -283,7 +283,7 @@ const IndictorList = () => {
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteSource(row.id))}>
+            <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteSource, row.id) }}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>

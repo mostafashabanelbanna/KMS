@@ -34,7 +34,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 import * as moment from "moment"
 import "moment/locale/ar"
 // helper function
-import {convertSelectArr, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {confirmDelete, convertSelectArr, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
 import axios from '../../../axios'
 
 const List = () => {
@@ -365,7 +365,7 @@ const List = () => {
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => dispatch(deleteItem(row.id))}>
+            <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteItem, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
             </DropdownItem>

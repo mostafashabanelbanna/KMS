@@ -266,7 +266,7 @@ const LookupsView = () => {
                     <Archive size={14} className='mr-50' />
                     <span className='align-middle'>{intl.formatMessage({id: "Edit"})}</span>
                   </DropdownItem>
-                  <DropdownItem className='w-100' onClick={() => dispatch(deleteLookupValue(currentLookupName, row.id))}>
+                  <DropdownItem className='w-100'  onClick={() => dispatch(deleteLookupValue(currentLookupName, row.id))}>
                     <Trash2 size={14} className='mr-50' />
                     <span className='align-middle'>{intl.formatMessage({id: "Delete"})}</span>
                   </DropdownItem>
