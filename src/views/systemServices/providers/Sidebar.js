@@ -31,6 +31,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
   // ** States
   const [providerCategory, setProviderCategory] = useState(null)
   const [allProviderCategories, setAllProviderCategories] = useState([])
+  const [selectMessage, setSelectMessage] = useState(null)
 
   // Import localization files
   const intl = useIntl()
@@ -70,6 +71,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
   const handleProviderCategoriesChange = (event) => {
    
     setProviderCategory(event)
+    setSelectMessage(null)
   }
 
   useEffect(() => {
@@ -78,59 +80,59 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
     }
   }, [selectedProvider])
   
-
   // ** Function to handle form submit
   const onSubmit = async values => {
-    // if (!providerCategory.id) {
-
-    // }
-    if (isObjEmpty(errors)) {
-      if (!selectedProvider.id) {
-        await dispatch(
-            add({
-              name_A: values.name_A,
-              name_E: values.name_E,
-              description_A: values.description_A,
-              description_E: values.description_E,
-              address_A: values.address_A,
-              address_E: values.address_E,
-              phone: values.phone,
-              fax: values.fax,
-              email: values.email,
-              url: values.url,
-              providerCategoryId: providerCategory.id,
-              sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active
-            })
-          )
-      } else {
-        await dispatch(
-          updateItem(
-            {
-              name_A: values.name_A,
-              name_E: values.name_E,
-              description_A: values.description_A,
-              description_E: values.description_E,
-              address_A: values.address_A,
-              address_E: values.address_E,
-              phone: values.phone,
-              fax: values.fax,
-              email: values.email,
-              url: values.url,
-              providerCategoryId: providerCategory.id,
-              sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active,
-              id: selectedProvider.id
-            }
-          )
-        )
-      }
-     
+    if (!providerCategory) {
+      setSelectMessage('field requird')
     } else {
-
+      if (isObjEmpty(errors)) {
+        if (!selectedProvider.id) {
+          await dispatch(
+              add({
+                name_A: values.name_A,
+                name_E: values.name_E,
+                description_A: values.description_A,
+                description_E: values.description_E,
+                address_A: values.address_A,
+                address_E: values.address_E,
+                phone: values.phone,
+                fax: values.fax,
+                email: values.email,
+                url: values.url,
+                providerCategoryId: providerCategory?.id,
+                sortIndex: values.sortIndex,
+                focus: JSON.parse(values.focus),
+                active: JSON.parse(values.active)
+              })
+            )
+        } else {
+          console.log(values)
+          await dispatch(
+            updateItem(
+              {
+                name_A: values.name_A,
+                name_E: values.name_E,
+                description_A: values.description_A,
+                description_E: values.description_E,
+                address_A: values.address_A,
+                address_E: values.address_E,
+                phone: values.phone,
+                fax: values.fax,
+                email: values.email,
+                url: values.url,
+                providerCategoryId: providerCategory?.id,
+                sortIndex: values.sortIndex,
+                focus: JSON.parse(values.focus),
+                active: JSON.parse(values.active),
+                id: selectedProvider.id
+              }
+            )
+          )
+        }
+       
+      }
     }
+    
   }
   
   useEffect(() => {
@@ -174,6 +176,16 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
      dispatch(resetUpdateResponse())
     }
   }, [store.updateResponse.statusCode])
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      '&': {
+        border: '1px solid #ff8b67'
+      }
+    })
+  }
+
   return (
     <Sidebar
       size='lg'
@@ -335,19 +347,23 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
         <FormGroup>
               <Label>{intl.formatMessage({id: "Provider Category"})}</Label>
               {  !selectedProvider.providerCategory &&
-                <Select
-                isClearable={false}
-                theme={selectThemeColors}
-                defaultValue={selectedProvider ?  selectedProvider.providerCategory : []}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.id}
-                name='providerCategory'
-                id='providerCategory'
-                options={allProviderCategories}
-                className='react-select'
-                classNamePrefix='select'
-                onChange={e => handleProviderCategoriesChange(e)}
-              />
+                <>
+                  <Select
+                    styles={selectMessage ? customStyles : ''}
+                    isClearable={false}
+                    theme={selectThemeColors}
+                    defaultValue={selectedProvider ?  selectedProvider.providerCategory : []}
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    name='providerCategory'
+                    id='providerCategory'
+                    options={allProviderCategories}
+                    className='react-select'
+                    classNamePrefix='select'
+                    onChange={e => handleProviderCategoriesChange(e)}
+                  />
+                 <span>{selectMessage}</span>
+                </>
               }
               {  selectedProvider.providerCategory &&
                 <Select
@@ -374,7 +390,6 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                onChange={(e) => console.log(e.target.value)}
                 defaultChecked ={selectedProvider ? selectedProvider.focus : false}
                 innerRef={register()} />
                   <Label for='focus'>
