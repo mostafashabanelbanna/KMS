@@ -198,7 +198,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name_A'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+           {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name_A'
@@ -211,7 +211,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
         </FormGroup>
         <FormGroup>
           <Label for='name_E'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name In English"})}
+           {intl.formatMessage({id: "Name In English"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name_E'
@@ -224,52 +224,54 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
         </FormGroup>
         <FormGroup>
           <Label for='description_A'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Description"})}
+           {intl.formatMessage({id: "Description"})}
           </Label>
           <Input
             name='description_A'
             id='description_A'
+            type="textarea"
             defaultValue={selectedProvider ? selectedProvider.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
-            innerRef={register({ required: true })}
+            innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['Description'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='description_E'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Description"})}
+           {intl.formatMessage({id: "Description"})}
           </Label>
           <Input
             name='description_E'
             id='description_E'
+            type="textarea"
             defaultValue={selectedProvider ? selectedProvider.description_E : ''}
             placeholder={intl.formatMessage({id: "Description"})}
-            innerRef={register({ required: true })}
+            innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['Description'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='address_A'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Address"})}
+            {intl.formatMessage({id: "TitleA"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='address_A'
             id='address_A'
             defaultValue={selectedProvider ? selectedProvider.address_A : ''}
-            placeholder={intl.formatMessage({id: "Address"})}
+            placeholder={intl.formatMessage({id: "TitleA"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Address'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='address_E'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Address In English"})}
+            {intl.formatMessage({id: "TitleE"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='address_E'
             id='address_E'
             defaultValue={selectedProvider ? selectedProvider.address_E : ''}
-            placeholder={intl.formatMessage({id: "Address In English"})}
+            placeholder={intl.formatMessage({id: "TitleE"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Address In English'] })}
           />
@@ -282,8 +284,8 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             name='phone'
             id='phone'
             defaultValue={selectedProvider ? selectedProvider.phone : ''}
-            // placeholder='(397) 294-5153'
-            innerRef={register({ required: true })}
+            placeholder='(397) 294-5153'
+            innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['phone'] })}
           />
         </FormGroup>
@@ -295,14 +297,14 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             name='fax'
             id='fax'
             defaultValue={selectedProvider ? selectedProvider.fax : ''}
-            // placeholder='(397) 294-5153'
-            innerRef={register({ required: true })}
+            placeholder='Fax'
+            innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['fax'] })}
           />
         </FormGroup>
         <FormGroup>
           <Label for='email'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Email"})}
+            {intl.formatMessage({id: "Email"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             // type='email'
@@ -324,26 +326,10 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             id='url'
             defaultValue={selectedProvider ? selectedProvider.url : ''}
             placeholder={intl.formatMessage({id: "url"})}
-            innerRef={register({ required: true })}
+            innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['url'] })}
           />
         </FormGroup>
-     
-        <FormGroup>
-          <Label for='sortIndex'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Sort Index"})}
-          </Label>
-          <Input
-            type="number"
-            name='sortIndex'
-            id='sortIndex'
-            defaultValue={selectedProvider ? selectedProvider.sortIndex : 0}
-            placeholder='0'
-            innerRef={register({ required: true })}
-            className={classnames({ 'is-invalid': errors['sortIndex'] })}
-          />
-        </FormGroup>
-        
         <FormGroup>
               <Label>{intl.formatMessage({id: "Provider Category"})}</Label>
               {  !selectedProvider.providerCategory &&
@@ -360,9 +346,10 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
                     options={allProviderCategories}
                     className='react-select'
                     classNamePrefix='select'
+                    placeholder="نحديد"
                     onChange={e => handleProviderCategoriesChange(e)}
                   />
-                 <span>{selectMessage}</span>
+                 <span className='text-danger'>{selectMessage}</span>
                 </>
               }
               {  selectedProvider.providerCategory &&
@@ -377,21 +364,62 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
                 options={allProviderCategories}
                 className='react-select'
                 classNamePrefix='select'
+                placeholder="تحديد"
                 onChange={e => handleProviderCategoriesChange(e)}
               />
               }
-          </FormGroup>
+        </FormGroup>
+
+        <FormGroup>
+          <Label for='sortIndex'>
+           {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
+          </Label>
+          {
+            selectedProvider.id && <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            defaultValue={selectedProvider.sortIndex}
+            placeholder='0'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+          }
+          {
+            !selectedProvider.id && <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            defaultValue={0}
+            placeholder='0'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+          }
+          
+        </FormGroup>
+        
+        
           <Row className="mx-0">
             <Col sm='6' >
             <FormGroup>
-            
-              <Input 
+              {selectedProvider.id && <Input 
                 value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedProvider ? selectedProvider.focus : false}
+                defaultChecked ={selectedProvider.focus}
                 innerRef={register()} />
+              }
+              {!selectedProvider.id && <Input 
+                value="true"
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
+              
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -399,15 +427,24 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             </Col>
             <Col sm='6' >
             <FormGroup>
-             
-              <Input 
+             {selectedProvider.id && <Input 
                 value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedProvider ? selectedProvider.active : false}
+                defaultChecked ={selectedProvider.active}
                 innerRef={register()}
                 />
+             }
+            {!selectedProvider.id && <Input 
+                value="true"
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                />
+            }
                  <Label for='active'>
                     {intl.formatMessage({id: "Active"})}
                   </Label>

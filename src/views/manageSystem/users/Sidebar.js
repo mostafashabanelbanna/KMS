@@ -93,11 +93,11 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
               userName: values.userName,
               email: values.email,
               phoneNumber: values.phoneNumber,
-              admin: values.admin,
+              admin:   JSON.parse(values.admin),
               sortIndex: values.sortIndex,
-              locked: values.locked,
-              focus: values.focus,
-              active: values.active,
+              locked: JSON.parse(values.locked),
+              focus: JSON.parse(values.focus),
+              active: JSON.parse(values.active),
               userRoles
             })
           )
@@ -113,11 +113,11 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
               userName: values.userName,
               email: values.email,
               phoneNumber: values.phoneNumber,
-              admin: values.admin,
               sortIndex: values.sortIndex,
-              locked: values.locked,
-              focus: values.focus,
-              active: values.active,
+              admin:  JSON.parse(values.admin),
+              locked: JSON.parse(values.locked),
+              focus: JSON.parse(values.focus),
+              active: JSON.parse(values.active),
               userRoles,
               id: selectedUser.id
             }
@@ -182,7 +182,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+           {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name'
@@ -195,7 +195,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
         </FormGroup>
         <FormGroup>
           <Label for='nameE'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name In English"})}
+           {intl.formatMessage({id: "Name In English"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='nameE'
@@ -208,7 +208,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
         </FormGroup>
         <FormGroup>
           <Label for='email'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Email"})}
+            {intl.formatMessage({id: "Email"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             // type='email'
@@ -222,7 +222,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
         </FormGroup>
         <FormGroup>
           <Label for='userName'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Username"})}
+            {intl.formatMessage({id: "Username"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='userName'
@@ -235,7 +235,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
         </FormGroup>
         <FormGroup>
           <Label for='password'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Password"})}
+            {intl.formatMessage({id: "Password"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             type='password'
@@ -250,7 +250,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
        
         <FormGroup>
           <Label for='jobTitle'>
-             <span className='text-danger'>*</span> {intl.formatMessage({id: "Job Title"})}
+             {intl.formatMessage({id: "Job Title"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='jobTitle'
@@ -273,34 +273,6 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['phoneNumber'] })}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label for='sortIndex'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Sort Index"})}
-          </Label>
-          {!selectedUser.sortIndex &&
-            <Input
-              type="number"
-              name='sortIndex'
-              id='sortIndex'
-              defaultValue={0}
-              placeholder='0'
-              innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors['sortIndex'] })}
-            />
-          }
-           {selectedUser.sortIndex &&
-            <Input
-              type="number"
-              name='sortIndex'
-              id='sortIndex'
-              defaultValue={selectedUser.sortIndex}
-              placeholder='0'
-              innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors['sortIndex'] })}
-            />
-          }
-          
         </FormGroup>
         <FormGroup>
           <Label for='photo'>{intl.formatMessage({id: "Photo"})}</Label>
@@ -359,6 +331,36 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                 />
              } 
           </FormGroup>
+        <FormGroup>
+          <Label for='sortIndex'>
+           {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
+          </Label>
+          {!selectedUser.sortIndex &&
+            <Input
+              type="number"
+              name='sortIndex'
+              id='sortIndex'
+              defaultValue={0}
+              placeholder='0'
+              innerRef={register({ required: true })}
+              className={classnames({ 'is-invalid': errors['sortIndex'] })}
+            />
+          }
+           {selectedUser.sortIndex &&
+            <Input
+              type="number"
+              name='sortIndex'
+              id='sortIndex'
+              defaultValue={selectedUser.sortIndex}
+              placeholder='0'
+              innerRef={register({ required: true })}
+              className={classnames({ 'is-invalid': errors['sortIndex'] })}
+            />
+          }
+          
+        </FormGroup>
+        
+       
           <Row className="mx-0">
             <Col sm='6' >
               <FormGroup>
@@ -367,7 +369,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                   type="checkbox" 
                   placeholder="admin" 
                   name="admin" 
-                  defaultChecked ={selectedUser ? selectedUser.admin : false}
+                  defaultChecked ={selectedUser.id ? selectedUser.admin : false}
                   innerRef={register()}  />
 
                   <Label for='admin'>
@@ -384,7 +386,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                   type="checkbox"
                   placeholder="locked"
                   name="locked" 
-                  defaultChecked ={selectedUser ? selectedUser.locked : false}
+                  defaultChecked ={selectedUser.id ? selectedUser.locked : false}
                   innerRef={register()} />
                   <Label for='locked'>
                   {intl.formatMessage({id: "Locked"})}
@@ -400,7 +402,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedUser ? selectedUser.focus : false}
+                defaultChecked ={selectedUser.id ? selectedUser.focus : false}
                 innerRef={register()} />
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
@@ -415,7 +417,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedUser ? selectedUser.active : false}
+                defaultChecked ={selectedUser.id ? selectedUser.active : true}
                 innerRef={register()}
                 />
                  <Label for='active'>

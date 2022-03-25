@@ -79,6 +79,7 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
 
   // ** Function to handle form submit
   const onSubmit = async values => {
+    console.log(values)
     if (isObjEmpty(errors)) {
       if (!selectedClassificationValue.id) {
         await dispatch(
@@ -90,10 +91,10 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
             description_E: values.descriptionE,
             icon: values.icon,
             color: values.color,
-            parentId: parent.id,
+            parentId: parent ? parent.id : null,
             sortIndex: values.sortIndex,
-            focus: values.focus,
-            active: values.active
+            focus: JSON.parse(values.focus),
+            active: JSON.parse(values.active)
             })
           )
       } else {
@@ -107,10 +108,10 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
             description_E: values.descriptionE,
             icon: values.icon,
             color: values.color,
-            parentId: parent.id,
+            parentId: parent ? parent.id : null,
             sortIndex: values.sortIndex,
-            focus: values.focus,
-            active: values.active
+            focus: JSON.parse(values.focus),
+            active: JSON.parse(values.active)
             }
           )
         )
@@ -170,12 +171,12 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
         <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name'>
-            <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+            {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name'
             id='name'
-            defaultValue={selectedClassificationValue ? selectedClassificationValue.name_A : ''}
+            defaultValue={selectedClassificationValue.id ? selectedClassificationValue.name_A : ''}
             placeholder={intl.formatMessage({id: "Name"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['name'] })}
@@ -188,7 +189,7 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
           <Input
             name='nameE'
             id='nameE'
-            defaultValue={selectedClassificationValue ? selectedClassificationValue.name_E : ''}
+            defaultValue={selectedClassificationValue.id ? selectedClassificationValue.name_E : ''}
             placeholder={intl.formatMessage({id: "Name In English"})}
             innerRef={register({ required:  false})}
             className={classnames({ 'is-invalid': errors['nameE'] })}
@@ -196,12 +197,13 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
         </FormGroup>
         <FormGroup>
           <Label for='descriptionA'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Description"})}
+            {intl.formatMessage({id: "Description"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='descriptionA'
             id='descriptionA'
-            defaultValue={selectedClassificationValue ? selectedClassificationValue.description_A : ''}
+            type="textarea"
+            defaultValue={selectedClassificationValue.id ? selectedClassificationValue.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Description'] })}
@@ -214,7 +216,8 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
           <Input
             name='descriptionE'
             id='descriptionE'
-            defaultValue={selectedClassificationValue ? selectedClassificationValue.description_E : ''}
+            type="textarea"
+            defaultValue={selectedClassificationValue.id ? selectedClassificationValue.description_E : ''}
             placeholder={intl.formatMessage({id: "descriptionE"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['descriptionE'] })}
@@ -227,7 +230,7 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
           <Input
             name='icon'
             id='icon'
-            defaultValue={selectedClassificationValue ? selectedClassificationValue.icon : ''}
+            defaultValue={selectedClassificationValue.id ? selectedClassificationValue.icon : ''}
             placeholder={intl.formatMessage({id: "Icon"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['icon'] })}
@@ -237,10 +240,12 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
           <Label for='color'>
             {intl.formatMessage({id: "Color"})}
           </Label>
+          <span>{ selectedClassificationValue.color}</span>
           <Input
             name='color'
             id='color'
-            defaultValue={selectedClassificationValue ? selectedClassificationValue.color : ''}
+            type="color"
+            defaultValue={selectedClassificationValue.id ? selectedClassificationValue.color : ''}
             placeholder={intl.formatMessage({id: "Color"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['color'] })}
@@ -265,13 +270,13 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
           </FormGroup>
         <FormGroup>
           <Label for='sortIndex'>
-            <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
+            {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedClassificationValue ? selectedClassificationValue.sortIndex : 0}
+            defaultValue={selectedClassificationValue.id ? selectedClassificationValue.sortIndex : 0}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
@@ -285,7 +290,7 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedClassificationValue ? selectedClassificationValue.focus : false}
+                defaultChecked ={selectedClassificationValue.id ? selectedClassificationValue.focus : false}
                 innerRef={register()} />
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
@@ -299,7 +304,7 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedClassificationValue ? selectedClassificationValue.active : false}
+                defaultChecked ={selectedClassificationValue.id ? selectedClassificationValue.active : true}
                 innerRef={register()}
                 />
                  <Label for='active'>

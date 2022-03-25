@@ -124,7 +124,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedRole }) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+           {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name'
@@ -144,13 +144,13 @@ const SidebarRole = ({ open, toggleSidebar, selectedRole }) => {
        
         <FormGroup>
           <Label for='sortIndex'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Sort Index"})}
+           {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedRole ? selectedRole.sortIndex : ''}
+            defaultValue={selectedRole.id ? selectedRole.sortIndex : 0}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
@@ -165,7 +165,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedRole }) => {
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedRole ? selectedRole.focus : false}
+                defaultChecked ={selectedRole.id ? selectedRole.focus : false}
                 innerRef={register()} />
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
@@ -179,7 +179,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedRole }) => {
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedRole ? selectedRole.active : false}
+                defaultChecked ={selectedRole.id ? selectedRole.active : true}
                 innerRef={register()}
                 />
                  <Label for='active'>

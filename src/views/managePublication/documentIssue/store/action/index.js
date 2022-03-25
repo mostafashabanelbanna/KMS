@@ -82,7 +82,6 @@ export const resetCreateResponse = () => {
 }
 
 export const updateDocumentIssue = documentIssue => {  
-  console.log(documentIssue)
   const documentIssueFormData = new FormData()
   documentIssueFormData.append('id', documentIssue.id)
   documentIssueFormData.append('name_A', documentIssue.nameA)

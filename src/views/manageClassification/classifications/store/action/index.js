@@ -29,7 +29,7 @@ export const getData = params => {
 
 // ** Add new role
 export const addClassification = classification => {   
-
+  console.log(classification)
    return (dispatch, getState) => {
     axios
       .post('/Classification/CreateClassification', classification)

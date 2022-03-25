@@ -1,5 +1,5 @@
 // ** React Import
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 
 // ** Custom Components
 import Sidebar from '@components/sidebar'
@@ -31,6 +31,8 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
   // ** States
   const [selectedPeriodicity, setSelectedPeriodicity] = useState({})
   const [selectedSource, setSelectedSource] = useState({})
+  const [periodicityValidationMsg, setPeriodicityValidationMsg] = useState('')
+  const [SourceValidationMsg, setSourceValidationMsg] = useState('')
 
 
   // Import localization files
@@ -44,6 +46,14 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
         hideProgressBar: true 
       })
     }
+    const customStyles = {
+      control: (provided) => ({
+        ...provided,
+        '&': {
+          border: '1px solid #ff8b67'
+        }
+      })
+    }
 
   // ** Store Vars
   const dispatch = useDispatch()
@@ -54,53 +64,65 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
 
   // ** Function to handle form submit
   const onSubmit = async values => {
+    let isValid = true
     const classificationValues = []
     for (let i = 0; i < store.selectedClassificationValues.length; i++) {
       store.selectedClassificationValues[i].classificationValues.map(item => {
         classificationValues.push(item.id)
       })
     }
-
-    if (isObjEmpty(errors)) {
-      if (!selectedDocumentIssue.id) {
-        await dispatch(
-            addDocumentIssue({
-              nameA: values.nameA,
-              nameE: values.nameE,
-              descriptionA: values.descriptionA,
-              descriptionE: values.descriptionE,
-              photoA: values.photoA,
-              photoE: values.photoE,
-              periodicityId: selectedPeriodicity ? selectedPeriodicity.id : "",
-              sourceId: selectedSource ? selectedSource.id : "",
-              sortIndex: values.sortIndex ? value.sortIndex : 0,
-              focus: values.focus,
-              active: values.active,
-              classificationValues
-            })
+    if (!selectedPeriodicity) {
+      setPeriodicityValidationMsg('يرجى أختيار الدورية')
+      isValid = false
+    } 
+    if (!selectedSource) {
+      setSourceValidationMsg('يرجى أختيار المصدر')
+      isValid = false
+    }
+    if (isValid) {
+      if (isObjEmpty(errors)) {
+        if (!selectedDocumentIssue.id) {
+          await dispatch(
+              addDocumentIssue({
+                nameA: values.nameA,
+                nameE: values.nameE,
+                descriptionA: values.descriptionA,
+                descriptionE: values.descriptionE,
+                photoA: values.photoA,
+                photoE: values.photoE,
+                periodicityId: selectedPeriodicity ? selectedPeriodicity.id : "",
+                sourceId: selectedSource ? selectedSource.id : "",
+                sortIndex: values.sortIndex ? values.sortIndex : 0,
+                focus: JSON.parse(values.focus),
+                active: JSON.parse(values.active),
+                classificationValues
+              })
+            )
+        } else {
+          console.log(values)
+          await dispatch(
+            updateDocumentIssue(
+              {
+                nameA: values.nameA,
+                nameE: values.nameE,
+                descriptionA: values.descriptionA,
+                descriptionE: values.descriptionE,
+                photoA: values.photoA,
+                photoE: values.photoE,
+                periodicityId: selectedPeriodicity ? selectedPeriodicity.id : "",
+                sourceId: selectedSource ? selectedSource.id : "",
+                sortIndex: values.sortIndex ? values.sortIndex : 0,
+                focus: JSON.parse(values.focus),
+                active: JSON.parse(values.active),
+                id: selectedDocumentIssue.id,
+                classificationValues
+              }
+            )
           )
-      } else {
-        await dispatch(
-          updateDocumentIssue(
-            {
-              nameA: values.nameA,
-              nameE: values.nameE,
-              descriptionA: values.descriptionA,
-              descriptionE: values.descriptionE,
-              photoA: values.photoA,
-              photoE: values.photoE,
-              periodicityId: selectedPeriodicity ? selectedPeriodicity.id : "",
-              sourceId: selectedSource ? selectedSource.id : "",
-              sortIndex: values.sortIndex ? value.sortIndex : 0,
-              focus: values.focus,
-              active: values.active,
-              id: selectedDocumentIssue.id,
-              classificationValues
-            }
-          )
-        )
+        }
       }
     }
+   
   }
   const getAllClassifications = async () => {
     const response = await axios
@@ -135,6 +157,8 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
      
        if (code === 200) {
             notify('success', intl.formatMessage({id: "AddSuccess"}))
+            setPeriodicityValidationMsg('')
+            setSourceValidationMsg('')
             toggleSidebar(1)
       } else if (code === 6) {
          notify('error', intl.formatMessage({id: store.createResponse.errors[0]}))
@@ -157,6 +181,8 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
     if (code !== 0) {
        if (code === 200) {
             notify('success', intl.formatMessage({id: "UpdateSuccess"}))
+            setPeriodicityValidationMsg('')
+            setSourceValidationMsg('')
             toggleSidebar(1)
       } else if (code === 6) {
         notify('error', intl.formatMessage({id: store.updateResponse.errors[0]}))
@@ -218,14 +244,14 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
           <Col md={6}>
             <FormGroup>
               <Label for='nameE'>
-              {intl.formatMessage({id: "NameE"})}
+              {intl.formatMessage({id: "NameE"})} <span className='text-danger'>*</span> 
               </Label>
               <Input
                 name='nameE'
                 id='nameE'
                 defaultValue={selectedDocumentIssue ? selectedDocumentIssue.name_E : ''}
                 placeholder={intl.formatMessage({id: "NameE"})}
-                innerRef={register({ required: false })}
+                innerRef={register({ required: true })}
                 className={classnames({ 'is-invalid': errors['nameE'] })}
               />
             </FormGroup>
@@ -260,8 +286,9 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
         <Row className="mx-0">
           <Col md={6}>
             <FormGroup>
-                <Label>{intl.formatMessage({id: "Periodicity"})}</Label>
+                <Label>{intl.formatMessage({id: "Periodicity"})}  <span className='text-danger'>*</span> </Label>
                 <Select
+                  styles={periodicityValidationMsg ? customStyles : ''}
                   isClearable={false}
                   placeholder="تحديد"
                   theme={selectThemeColors}
@@ -275,12 +302,14 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
                   classNamePrefix='select'
                   onChange={e => handlePeriodicityChange(e)}
                 />
+                <span className='text-danger'>{periodicityValidationMsg}</span>
             </FormGroup>
           </Col>
           <Col md={6}>
             <FormGroup>
-                <Label>{intl.formatMessage({id: "Source"})}</Label>
+                <Label>{intl.formatMessage({id: "Source"})} <span className='text-danger'>*</span> </Label>
                 <Select
+                  styles={SourceValidationMsg ? customStyles : ''}
                   isClearable={false}
                   theme={selectThemeColors}
                   placeholder="تحديد"
@@ -294,6 +323,7 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
                   classNamePrefix='select'
                   onChange={e => handleSourceChange(e)}
                 />
+                <span className='text-danger'>{SourceValidationMsg}</span>
             </FormGroup>
           </Col>
         </Row>
@@ -340,26 +370,47 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
                 <Label for='sortIndex'>
                 {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
                 </Label>
-                <Input
+                {selectedDocumentIssue.id && <Input
                   type="number"
                   name='sortIndex'
                   id='sortIndex'
-                  defaultValue={selectedDocumentIssue ? selectedDocumentIssue.sortIndex : 0}
+                  defaultValue={selectedDocumentIssue.sortIndex}
                   placeholder='0'
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['sortIndex'] })}
                 />
+                }
+                {!selectedDocumentIssue.id && <Input
+                  type="number"
+                  name='sortIndex'
+                  id='sortIndex'
+                  defaultValue={0}
+                  placeholder='0'
+                  innerRef={register({ required: true })}
+                  className={classnames({ 'is-invalid': errors['sortIndex'] })}
+                />
+                }
+                
               </FormGroup>
             </Col>
             <Col sm='3' className="mt-3" >
             <FormGroup>
-              <Input 
+              {selectedDocumentIssue.id && <Input 
                 value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedDocumentIssue ? selectedDocumentIssue.focus : false}
+                defaultChecked ={selectedDocumentIssue.focus}
                 innerRef={register()} />
+              }
+              {!selectedDocumentIssue.id && <Input 
+                value="true"
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -367,14 +418,24 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
             </Col>
             <Col sm='3' className="mt-3">
             <FormGroup>
-              <Input 
+              {selectedDocumentIssue.id && <Input 
                 value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedDocumentIssue ? selectedDocumentIssue.active : false}
+                defaultChecked ={selectedDocumentIssue.active}
                 innerRef={register()}
                 />
+              }
+               {!selectedDocumentIssue.id && <Input 
+                value="true"
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                />
+              }
                  <Label for='active'>
                     {intl.formatMessage({id: "Active"})}
                   </Label>

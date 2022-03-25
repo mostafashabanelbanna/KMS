@@ -201,5 +201,6 @@
 	"WebSources": "مصادر على الويب",
 	"Category": "التصنيف",
 	"Url": "الرابط",
-	"Favorites": "المفضلة"
+	"Favorites": "المفضلة",
+	"parentId": "كود الاب"
 }

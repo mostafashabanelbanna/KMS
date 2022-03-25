@@ -16,7 +16,7 @@ const DocumentLibraryList = (props) => {
   
   return (
     <div className='app-user-list'>
-      <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "ManageDocumentIssues"})} breadCrumbParent={intl.formatMessage({id: "Attachments"})} breadCrumbActive={intl.formatMessage({id: "ManageDocumentIssues"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
+      <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "ManageDocumentIssues"})}  breadCrumbParent={intl.formatMessage({id: "ManageDocumentIssues"})}  breadCrumbActive="ملحقات الأصدارة" breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
       <Table documentIssueId={props.location.state.id} />
     </div>
   )

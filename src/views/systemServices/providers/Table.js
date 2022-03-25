@@ -332,7 +332,7 @@ const List = () => {
     },
     {
       name: <FormattedMessage id="Provider Category" />,
-      selector: (row, idx) => { return (<> {row.providerCategory ? row.providerCategory.name : ""} </>) },
+      selector: "providerCategoryName",
       sortable: true,
       minWidth: '250px'
     },

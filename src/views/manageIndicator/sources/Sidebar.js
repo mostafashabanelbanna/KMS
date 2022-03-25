@@ -62,10 +62,10 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
               description_E: values.descriptionE,
               color: values.color,
               sortIndex: values.sortIndex,
-              isNational: values.isNational,
-              isDefault: values.isDefault,
-              focus: values.focus,
-              active: values.active
+              isNational: JSON.parse(values.isNational),
+              isDefault: JSON.parse(values.isDefault),
+              focus: JSON.parse(values.focus),
+              active: JSON.parse(values.active)
             })
           )
       } else {
@@ -78,10 +78,10 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
               description_E: values.descriptionE,
               color: values.color,
               sortIndex: values.sortIndex,
-              isNational: values.isNational,
-              isDefault: values.isDefault,
-              focus: values.focus,
-              active: values.active,
+              isNational: JSON.parse(values.isNational),
+              isDefault: JSON.parse(values.isDefault),
+              focus: JSON.parse(values.focus),
+              active: JSON.parse(values.active),
               id: selectedSource.id
             }
           )
@@ -145,12 +145,12 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name'>
-            <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+             {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name'
             id='name'
-            defaultValue={selectedSource ? selectedSource.name_A : ''}
+            defaultValue={selectedSource.id ? selectedSource.name_A : ''}
             placeholder={intl.formatMessage({id: "Name"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['name'] })}
@@ -163,7 +163,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='nameE'
             id='nameE'
-            defaultValue={selectedSource ? selectedSource.name_E : ''}
+            defaultValue={selectedSource.id ? selectedSource.name_E : ''}
             placeholder={intl.formatMessage({id: "Name In English"})}
             innerRef={register({ required:  false})}
             className={classnames({ 'is-invalid': errors['nameE'] })}
@@ -171,12 +171,13 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
         </FormGroup>
         <FormGroup>
           <Label for='descriptionA'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Description"})}
+            {intl.formatMessage({id: "Description"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='descriptionA'
             id='descriptionA'
-            defaultValue={selectedSource ? selectedSource.description_A : ''}
+            type="textarea"
+            defaultValue={selectedSource.id ? selectedSource.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Description'] })}
@@ -189,7 +190,8 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='descriptionE'
             id='descriptionE'
-            defaultValue={selectedSource ? selectedSource.description_E : ''}
+            type="textarea"
+            defaultValue={selectedSource.id ? selectedSource.description_E : ''}
             placeholder={intl.formatMessage({id: "descriptionE"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['descriptionE'] })}
@@ -204,7 +206,8 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Input
             name='color'
             id='color'
-            defaultValue={selectedSource ? selectedSource.color : ''}
+            defaultValue={selectedSource.id ? selectedSource.color : ''}
+            type="color"
             placeholder={intl.formatMessage({id: "Color"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['color'] })}
@@ -213,13 +216,13 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
       
         <FormGroup>
           <Label for='sortIndex'>
-            <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
+            {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedSource ? selectedSource.sortIndex : 0}
+            defaultValue={selectedSource.id ? selectedSource.sortIndex : 0}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
@@ -233,7 +236,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
                 type="checkbox" 
                 placeholder={intl.formatMessage({id: "National"})}
                 name="isNational" 
-                defaultChecked ={selectedSource ? selectedSource.isNational : false}
+                defaultChecked ={selectedSource.id ? selectedSource.isNational : false}
                 innerRef={register()} />
                   <Label for='isNational'>
                 {intl.formatMessage({id: "National"})}
@@ -248,7 +251,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
                 type="checkbox" 
                 placeholder={intl.formatMessage({id: "Default"})}
                 name="isDefault" 
-                defaultChecked ={selectedSource ? selectedSource.isDefault : false}
+                defaultChecked ={selectedSource.id ? selectedSource.isDefault : false}
                 innerRef={register()} />
                   <Label for='isDefault'>
                 {intl.formatMessage({id: "Default"})}
@@ -262,7 +265,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedSource ? selectedSource.focus : false}
+                defaultChecked ={selectedSource.id ? selectedSource.focus : false}
                 innerRef={register()} />
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
@@ -276,7 +279,7 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedSource ? selectedSource.active : false}
+                defaultChecked ={selectedSource.id ? selectedSource.active : true}
                 innerRef={register()}
                 />
                  <Label for='active'>

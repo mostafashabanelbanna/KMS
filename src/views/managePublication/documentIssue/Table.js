@@ -317,20 +317,20 @@ const UsersList = () => {
     },
     {
       name: <FormattedMessage id="Name" />,
-      selector: 'name',
+      selector: 'name_A',
       sortable: true,
       minWidth: '300px',
       maxWidth: '150px'
     },
     {
       name: <FormattedMessage id="Periodicity" />,
-      selector: (row, idx) => { return (<> {row.periodicity ? row.periodicity.name : ""} </>) },
+      selector: "periodicityName",
       sortable: true,
       minWidth: '150px'
     },
     {
       name: <FormattedMessage id="Source" />,
-      selector: (row, idx) => { return (<> {row.source ? row.source.name : ""} </>) },
+      selector: "sourceName",
       sortable: true,
       minWidth: '150px'
     },
@@ -359,7 +359,7 @@ const UsersList = () => {
             </DropdownItem>
             <DropdownItem className='w-100' tag={Link} to={{ pathname: `/documentLibrary/${row.id}`, state: { id : row.id, name: row.name_A}}} >
               <File size={14} className='mr-50' />
-              <span className='align-middle'><FormattedMessage id="Attachments" /></span>
+              <span className='align-middle'>ملحقات الأصدارة</span>
             </DropdownItem>
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteDocumentIssue, row.id) }} >
               <Trash2 size={14} className='mr-50' />

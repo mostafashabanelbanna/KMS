@@ -15,7 +15,6 @@ import { toast } from 'react-toastify'
 import Row from 'reactstrap/lib/Row'
 import Col from 'reactstrap/lib/Col'
 import Toastr from '../../../containers/toastr/Toastr'
-
 // ** Store & Actions
 import { addDimension, updateDimension } from './store/action'
 import { useDispatch, useSelector  } from 'react-redux'
@@ -57,8 +56,8 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
             description_E: values.descriptionE,
             icon: values.icon,
             sortIndex: values.sortIndex,
-            focus: values.focus,
-            active: values.active
+            focus: JSON.parse(values.focus),
+            active:  JSON.parse(values.active)
             })
           )
       } else {
@@ -71,8 +70,8 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
                 description_E: values.descriptionE,
                 icon: values.icon,
                 sortIndex: values.sortIndex,
-                focus: values.focus,
-                active: values.active
+                focus: JSON.parse(values.focus),
+                active:  JSON.parse(values.active)
             }
           )
         )
@@ -91,7 +90,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
          notify('error', intl.formatMessage({id: store.createResponse.errors[0]}))
 
       } else if (code === 1) {
-        notify('error', `${intl.formatMessage({id: "CreationFialed"})} ${intl.formatMessage({id: "Role"})}`)
+        notify('error', `${intl.formatMessage({id: "CreationFialed"})} ${intl.formatMessage({id: "Dimension"})}`)
 
       } else if (code === 500) {
         notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
@@ -132,12 +131,12 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
         <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name'>
-            <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+             {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name'
             id='name'
-            defaultValue={selectedDimension ? selectedDimension.name_A : ''}
+            defaultValue={selectedDimension.id ? selectedDimension.name_A : ''}
             placeholder={intl.formatMessage({id: "Name"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['name'] })}
@@ -150,7 +149,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
           <Input
             name='nameE'
             id='nameE'
-            defaultValue={selectedDimension ? selectedDimension.name_E : ''}
+            defaultValue={selectedDimension.id ? selectedDimension.name_E : ''}
             placeholder={intl.formatMessage({id: "Name In English"})}
             innerRef={register({ required:  false})}
             className={classnames({ 'is-invalid': errors['nameE'] })}
@@ -158,12 +157,13 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
         </FormGroup>
         <FormGroup>
           <Label for='descriptionA'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Description"})}
+            {intl.formatMessage({id: "Description"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='descriptionA'
             id='descriptionA'
-            defaultValue={selectedDimension ? selectedDimension.description_A : ''}
+            type="textarea"
+            defaultValue={selectedDimension.id ? selectedDimension.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Description'] })}
@@ -176,7 +176,8 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
           <Input
             name='descriptionE'
             id='descriptionE'
-            defaultValue={selectedDimension ? selectedDimension.description_E : ''}
+            type="textarea"
+            defaultValue={selectedDimension.id ? selectedDimension.description_E : ''}
             placeholder={intl.formatMessage({id: "descriptionE"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['descriptionE'] })}
@@ -189,7 +190,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
           <Input
             name='icon'
             id='icon'
-            defaultValue={selectedDimension ? selectedDimension.icon : ''}
+            defaultValue={selectedDimension.id ? selectedDimension.icon : ''}
             placeholder={intl.formatMessage({id: "Icon"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['icon'] })}
@@ -197,13 +198,13 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
         </FormGroup>
         <FormGroup>
           <Label for='sortIndex'>
-            <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
+            {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedDimension ? selectedDimension.sortIndex : 0}
+            defaultValue={selectedDimension.id ? selectedDimension.sortIndex : 0}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
@@ -217,7 +218,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedDimension ? selectedDimension.focus : false}
+                defaultChecked ={selectedDimension.id ? selectedDimension.focus : false}
                 innerRef={register()} />
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
@@ -231,7 +232,7 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedDimension ? selectedDimension.active : false}
+                defaultChecked ={selectedDimension.id ? selectedDimension.active : true}
                 innerRef={register()}
                 />
                  <Label for='active'>

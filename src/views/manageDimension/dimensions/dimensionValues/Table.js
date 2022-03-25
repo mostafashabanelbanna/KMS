@@ -236,8 +236,8 @@ const dimensionValueList = ({dimensionId}) => {
     name: <FormattedMessage id="Code" />,
     selector: 'id',
     sortable: true,
-    minWidth: '50px',
-    maxWidth: '60px'
+    minWidth: '90px',
+    maxWidth: '90px'
   },
     {
       name: <FormattedMessage id="Name" />,
@@ -246,16 +246,16 @@ const dimensionValueList = ({dimensionId}) => {
       minWidth: '225px'
     },
     {
-      name: <FormattedMessage id="Level Number" />,
+      name: "المستوى",
       selector: 'levelNumber',
       sortable: true,
-      minWidth: '250px'
+      minWidth: '200px'
     },
     {
-      name: <FormattedMessage id="Parent Name" />,
+      name: "أسم الاب",
       selector: 'parentName',
       sortable: true,
-      minWidth: '250px'
+      minWidth: '200px'
     },
     {
       name: <div className="justify-content-center"><FormattedMessage id="Actions" /></div>,

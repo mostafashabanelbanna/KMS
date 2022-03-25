@@ -372,7 +372,6 @@ const List = () => {
               subHeaderComponent={
                 <div className='w-100'>
                   <div className="rounded" style={{backgroundColor: isNotLightSkin() ? "#343d55" : "#f3f2f7"}}>
-
                     <SearchForm display='block'  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                   </div>
                   <div className="my-1 d-flex justify-content-end">

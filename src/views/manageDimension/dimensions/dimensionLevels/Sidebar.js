@@ -64,6 +64,18 @@ const SidebarNewDimensionLevel = ({dimensionId, open, toggleSidebar, selectedDim
           )
         )
       }
+
+      if (!selectedDimensionLevel.levelNumber)  {
+        await dispatch(
+          addDimensionLevel(
+            {
+              name_A: values.name,
+              name_E: values.nameE,
+              dimensionId
+            }
+          )
+        )
+      }
      
     }
   }
@@ -99,7 +111,7 @@ const SidebarNewDimensionLevel = ({dimensionId, open, toggleSidebar, selectedDim
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name'>
-            <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+            {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span> 
           </Label>
           <Input
             name='name'

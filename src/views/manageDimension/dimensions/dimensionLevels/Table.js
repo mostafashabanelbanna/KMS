@@ -217,15 +217,11 @@ const dimensionLevelList = ({dimensionId}) => {
       })
     )
   }
-  
+  const addDimensionLevel = () => {
+    dispatch({type: "GET_INNER_DIMENSION_VALUE", selectedDimensionLevel:{}})
+    toggleSidebar()
+  }
  const columns =  [
-  {
-    name: <FormattedMessage id="Code" />,
-    selector: 'id',
-    sortable: true,
-    minWidth: '50px',
-    maxWidth: '60px'
-  },
     {
       name: <FormattedMessage id="Name" />,
       selector: 'name_A',
@@ -233,14 +229,14 @@ const dimensionLevelList = ({dimensionId}) => {
       minWidth: '225px'
     },
     {
-      name: <FormattedMessage id="Level Number" />,
+      name: "رقم المستوى",
       selector: 'levelNumber',
       sortable: true,
       minWidth: '250px'
     },
     {
-      name: <FormattedMessage id="Parent Name" />,
-      selector: 'parentName',
+      name: "اسم الاب",
+      selector: (row, idx) => { return (<> {row.dimension ? row.dimension.name : ""} </>) },
       sortable: true,
       minWidth: '250px'
     },

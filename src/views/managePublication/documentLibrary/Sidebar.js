@@ -75,8 +75,8 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
               documentIssueId,
               publishDate,
               sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active
+              focus: JSON.parse(values.focus),
+              active: JSON.parse(values.active)
             })
           )
       } else {
@@ -96,8 +96,8 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
               documentIssueId,
               publishDate,
               sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active,
+              focus: JSON.parse(values.focus),
+              active: JSON.parse(values.active),
               id: selectedDocumentLibrary.id
             }
           )
@@ -189,7 +189,7 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
           <Col md={6}>
             <FormGroup>
               <Label for='titleA'>
-              <span className='text-danger'>*</span> {intl.formatMessage({id: "TitleA"})}
+               {intl.formatMessage({id: "TitleA"})} <span className='text-danger'>*</span>
               </Label>
               <Input
                 name='titleA'
@@ -204,14 +204,14 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
           <Col md={6}>
             <FormGroup>
               <Label for='titleE'>
-              {intl.formatMessage({id: "TitleE"})}
+              {intl.formatMessage({id: "TitleE"})} <span className='text-danger'>*</span>
               </Label>
               <Input
                 name='titleE'
                 id='titleE'
                 defaultValue={selectedDocumentLibrary ? selectedDocumentLibrary.title_E : ''}
                 placeholder={intl.formatMessage({id: "TitleE"})}
-                innerRef={register({ required: false })}
+                innerRef={register({ required: true })}
                 className={classnames({ 'is-invalid': errors['titleE'] })}
               />
             </FormGroup>
@@ -299,7 +299,7 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
         </Row>
         <Row className='mx-0'>
             <Col md={6} className=" mb-2" >
-                <Label for='hf-picker'>{intl.formatMessage({id: "PublishDate"})}</Label>
+                <Label for='hf-picker'>{intl.formatMessage({id: "PublishDate"})} <span className='text-danger'>*</span></Label>
                 <br/>
                 <MuiPickersUtilsProvider
                   libInstance={moment}
@@ -366,26 +366,47 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
                 <Label for='sortIndex'>
                 <span className='text-danger'>*</span> {intl.formatMessage({id: "Sort Index"})}
                 </Label>
-                <Input
+                {selectedDocumentLibrary.id && <Input
                   type="number"
                   name='sortIndex'
                   id='sortIndex'
-                  defaultValue={selectedDocumentLibrary ? selectedDocumentLibrary.sortIndex : 0}
+                  defaultValue={selectedDocumentLibrary.sortIndex}
                   placeholder='0'
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['sortIndex'] })}
                 />
+                }
+                {!selectedDocumentLibrary.id && <Input
+                  type="number"
+                  name='sortIndex'
+                  id='sortIndex'
+                  defaultValue={0}
+                  placeholder='0'
+                  innerRef={register({ required: true })}
+                  className={classnames({ 'is-invalid': errors['sortIndex'] })}
+                />
+                }
+                
               </FormGroup>
             </Col>
             <Col sm='3' className="mt-3" >
             <FormGroup>
-              <Input 
+              {selectedDocumentLibrary.id && <Input 
                 value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedDocumentLibrary ? selectedDocumentLibrary.focus : false}
+                defaultChecked ={selectedDocumentLibrary.focus}
                 innerRef={register()} />
+              }
+              {!selectedDocumentLibrary.id && <Input 
+                value="true"
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -393,14 +414,22 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
             </Col>
             <Col sm='3' className="mt-3">
             <FormGroup>
-              <Input 
+            {selectedDocumentLibrary.id && <Input 
                 value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedDocumentLibrary ? selectedDocumentLibrary.active : false}
-                innerRef={register()}
-                />
+                defaultChecked ={selectedDocumentLibrary.active}
+                innerRef={register()} />
+              }
+              {!selectedDocumentLibrary.id && <Input 
+                value="true"
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()} />
+              }
                  <Label for='active'>
                     {intl.formatMessage({id: "Active"})}
                   </Label>

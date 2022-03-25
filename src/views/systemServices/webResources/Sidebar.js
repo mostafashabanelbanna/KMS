@@ -112,7 +112,6 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
   const onSubmit = async values => {
     if (isObjEmpty(errors)) {
       if (!selectedWebResource.id) {
-        console.log(values)
         await dispatch(
             add({
               name_A: values.name_A,
@@ -392,42 +391,74 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
           <Label for='sortIndex'>
           <span className='text-danger'>*</span> {intl.formatMessage({id: "Sort Index"})}
           </Label>
-          <Input
+          {selectedWebResource.id && <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedWebResource ? selectedWebResource.sortIndex : 0}
+            defaultValue={selectedWebResource.sortIndex}
             placeholder='0'
-            innerRef={register({ required: false })}
+            innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
+          }
+          {!selectedWebResource.id && <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            defaultValue={0}
+            placeholder='0'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+          }
+          
         </FormGroup>
           <Row className="mx-0">
             <Col sm='6' >
             <FormGroup>
-            
-              <Input 
+              {selectedWebResource.id && <Input 
                 value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedWebResource ? selectedWebResource.focus : false}
+                defaultChecked ={selectedWebResource.focus}
                 innerRef={register()} />
-                  <Label for='focus'>
+              }
+              {!selectedWebResource.id && <Input 
+                value="true"
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
+              
+              <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
             </FormGroup>
             </Col>
             <Col sm='6' >
             <FormGroup>
-              <Input 
+              {selectedWebResource.id && <Input 
                 value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedWebResource ? selectedWebResource.active : false}
+                defaultChecked ={selectedWebResource.active}
                 innerRef={register()}
-                />
+                /> 
+              }
+              {!selectedWebResource.id && <Input 
+                value="true"
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                /> 
+              }
+              
                  <Label for='active'>
                     {intl.formatMessage({id: "Active"})}
                   </Label>

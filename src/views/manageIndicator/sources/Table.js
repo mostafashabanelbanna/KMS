@@ -30,10 +30,11 @@ import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import axios from '../../../axios'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
 
 const IndictorList = () => {
   // ** Store Vars
@@ -46,10 +47,14 @@ const IndictorList = () => {
   
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [owners, setOwners] = useState([])
   const [searchData, setSearchData] = useState({
     name: "",
     isNational: null,
-    active: null
+    active: null,
+    id: null,
+    ownerId: null
+
   })
 
   // useIntl
@@ -94,7 +99,15 @@ const IndictorList = () => {
   }
 
 }
-
+const getOwners = async () => {
+  await axios.get(`/User/GetAllUsers`)
+  .then(response => {
+      const result = response.data.data
+      setOwners(result)
+      })
+      .catch(error => {
+  })
+}
   // ** Get data on mount
   useEffect(() => {
     dispatch(
@@ -104,6 +117,7 @@ const IndictorList = () => {
         ...searchData
       })
     )
+    getOwners()
   }, [dispatch, store.data.length])
 
   useEffect(() => {
@@ -204,6 +218,15 @@ const IndictorList = () => {
   const formItems =  [
     {
       fieldType: 'text',
+      label: `${intl.formatMessage({id: "Code"})}`, 
+      colSizeLg: 4,
+      attr: "id",
+      dropdownArr: [], 
+      multiple: true, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'text',
       label: `${intl.formatMessage({id: "Name"})}`, 
       colSizeLg: 4,
       attr: "name",
@@ -216,8 +239,17 @@ const IndictorList = () => {
       label: `${intl.formatMessage({id: "Active"})}`, 
       colSizeLg: 4, 
       attr: "active", 
-      dropdownArr: [{label: 'all', value: null}, {label:'active', value: true}, {label:'notActive', value: false}], 
+      dropdownArr: [{label: intl.formatMessage({id: "All"}), value: null}, {label: intl.formatMessage({id: "Active"}), value: true}, {label: intl.formatMessage({id: "Inactive"}), value: false}], 
       multiple: true,
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `المالك`, 
+      colSizeLg: 4, 
+      attr: "ownerId", 
+      dropdownArr: convertSelectArr(owners),
+      multiple: false,
       radioArr: [] 
     },
     {
@@ -225,7 +257,7 @@ const IndictorList = () => {
       label: `${intl.formatMessage({id: "National"})}`, 
       colSizeLg: 4, 
       attr: "isNational", 
-      dropdownArr: [{label: 'all', value: null}, {label: 'national', value: true}, {label:' notNational', value: false}], 
+      dropdownArr: [{label: 'الكل', value: null}, {label: 'قومى', value: true}, {label:' غير قومى', value: false}], 
       multiple: true,
       radioArr: [] 
     }

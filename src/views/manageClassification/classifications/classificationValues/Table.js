@@ -21,7 +21,7 @@ import { toast } from 'react-toastify'
 import Toastr from '../../../../containers/toastr/Toastr'
 import ExpandedRowDetails from '../../../../containers/expanded-row-details/expandedRowDetails'
 import ComponentSpinner from '../../../../@core/components/spinner/Fallback-spinner'
-
+import axios from '../../../../axios'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -29,7 +29,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin} from '../../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr} from '../../../../utility/Utils'
 import SearchForm from '../../../../containers/search-form/SearchForm/SearchForm'
 
 const ClassificationValuesList = ({classificationId}) => {
@@ -44,7 +44,10 @@ const ClassificationValuesList = ({classificationId}) => {
   
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [owners, setOwners] = useState([])
   const [searchData, setSearchData] = useState({
+    id: null,
+    ownerId: null,
     classificationId,
     name: "",
     active: null
@@ -60,6 +63,16 @@ const ClassificationValuesList = ({classificationId}) => {
         { position: toast.POSITION.TOP_CENTER,
             hideProgressBar: true 
         })
+    }
+  
+    const getOwners = async () => {
+      await axios.get(`/User/GetAllUsers`)
+      .then(response => {
+          const result = response.data.data
+          setOwners(result)
+          })
+          .catch(error => {
+      })
     }
 
   const toggleSidebar = (Submit) => {
@@ -100,6 +113,7 @@ const ClassificationValuesList = ({classificationId}) => {
         ...searchData
       })
     )
+    getOwners()
   }, [dispatch, store.data.length])
 
   useEffect(() => {
@@ -194,11 +208,29 @@ const ClassificationValuesList = ({classificationId}) => {
   const formItems =  [
     {
       fieldType: 'text',
+      label: `${intl.formatMessage({id: "Code"})}`, 
+      colSizeLg: 4,
+      attr: "id",
+      dropdownArr: [], 
+      multiple: false, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'text',
       label: `${intl.formatMessage({id: "Name"})}`, 
       colSizeLg: 4,
       attr: "name",
       dropdownArr: [], 
-      multiple: true, 
+      multiple: false, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `المالك`, 
+      colSizeLg: 4, 
+      attr: "ownerId", 
+      dropdownArr: convertSelectArr(owners),
+      multiple: false,
       radioArr: [] 
     },
     {
@@ -213,7 +245,7 @@ const ClassificationValuesList = ({classificationId}) => {
   ]
 
   const handleSearch = (value, attrName) => {
-    setSearchData({...searchData, [attrName] : value })
+    setSearchData({...searchData, [attrName] : (value !== undefined && value !== '' ? value : null) })
   } 
 
   const handlSubmit = () => {

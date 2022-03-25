@@ -92,10 +92,10 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
               icon: values.icon,
               color: values.color,
               dimensionId,
-              parentId: parent.id,
+              parentId: parent ? parent.id : null,
               sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active
+              focus: JSON.parse(values.focus),
+              active: JSON.parse(values.active)
             })
           )
       } else {
@@ -109,10 +109,10 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
               icon: values.icon,
               color: values.color,
               dimensionId,
-              parentId: parent.id,
+              parentId: parent ?  parent.id : null,
               sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active,
+              focus: JSON.parse(values.focus),
+              active: JSON.parse(values.active),
               id: selectedDimensionValue.id
             }
           )
@@ -176,12 +176,12 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name'>
-            <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+             {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name'
             id='name'
-            defaultValue={selectedDimensionValue ? selectedDimensionValue.name_A : ''}
+            defaultValue={selectedDimensionValue.id ? selectedDimensionValue.name_A : ''}
             placeholder={intl.formatMessage({id: "Name"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['name'] })}
@@ -194,7 +194,7 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
           <Input
             name='nameE'
             id='nameE'
-            defaultValue={selectedDimensionValue ? selectedDimensionValue.name_E : ''}
+            defaultValue={selectedDimensionValue.id ? selectedDimensionValue.name_E : ''}
             placeholder={intl.formatMessage({id: "Name In English"})}
             innerRef={register({ required:  false})}
             className={classnames({ 'is-invalid': errors['nameE'] })}
@@ -202,12 +202,12 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
         </FormGroup>
         <FormGroup>
           <Label for='descriptionA'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Description"})}
+            {intl.formatMessage({id: "Description"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='descriptionA'
             id='descriptionA'
-            defaultValue={selectedDimensionValue ? selectedDimensionValue.description_A : ''}
+            defaultValue={selectedDimensionValue.id ? selectedDimensionValue.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['Description'] })}
@@ -220,7 +220,7 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
           <Input
             name='descriptionE'
             id='descriptionE'
-            defaultValue={selectedDimensionValue ? selectedDimensionValue.description_E : ''}
+            defaultValue={selectedDimensionValue.id ? selectedDimensionValue.description_E : ''}
             placeholder={intl.formatMessage({id: "descriptionE"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['descriptionE'] })}
@@ -233,7 +233,7 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
           <Input
             name='icon'
             id='icon'
-            defaultValue={selectedDimensionValue ? selectedDimensionValue.icon : ''}
+            defaultValue={selectedDimensionValue.id ? selectedDimensionValue.icon : ''}
             placeholder={intl.formatMessage({id: "Icon"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['icon'] })}
@@ -248,7 +248,8 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
           <Input
             name='color'
             id='color'
-            defaultValue={selectedDimensionValue ? selectedDimensionValue.color : ''}
+            type="color"
+            defaultValue={selectedDimensionValue.id ? selectedDimensionValue.color : ''}
             placeholder={intl.formatMessage({id: "Color"})}
             innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['color'] })}
@@ -259,13 +260,13 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
               <Select
                 isClearable={false}
                 theme={selectThemeColors}
-                // defaultValue={selectedDimensionValue ?  selectedDimensionValue.parent : null}
                 value={ parent }
                 name='parent'
                 id='parent'
                 options={allDimensionValues}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
+                placeholder="تحديد"
                 className='react-select'
                 classNamePrefix='select'
                 onChange={e => handleDimensionValuesChange(e) }
@@ -273,13 +274,13 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
           </FormGroup>
         <FormGroup>
           <Label for='sortIndex'>
-            <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
+            {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedDimensionValue ? selectedDimensionValue.sortIndex : 0}
+            defaultValue={selectedDimensionValue.id ? selectedDimensionValue.sortIndex : 0}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
@@ -293,7 +294,7 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedDimensionValue ? selectedDimensionValue.focus : false}
+                defaultChecked ={selectedDimensionValue.id ? selectedDimensionValue.focus : false}
                 innerRef={register()} />
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
@@ -307,7 +308,7 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedDimensionValue ? selectedDimensionValue.active : false}
+                defaultChecked ={selectedDimensionValue.id ? selectedDimensionValue.active : true}
                 innerRef={register()}
                 />
                  <Label for='active'>

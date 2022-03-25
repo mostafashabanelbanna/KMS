@@ -22,6 +22,7 @@ import Toastr from '../../../containers/toastr/Toastr'
 import { BsUiRadiosGrid } from "react-icons/bs"
 import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
 import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
+import axios from '../../../axios'
 
 
 // ** Styles
@@ -30,7 +31,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 const RolesList = () => {
@@ -44,7 +45,10 @@ const RolesList = () => {
   
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [owners, setOwners] = useState([])
   const [searchData, setSearchData] = useState({
+    id: null,
+    ownerId: null,
     name: "",
     active: null
   })
@@ -88,7 +92,17 @@ const RolesList = () => {
     }
   
   }
-  
+
+  const getOwners = async () => {
+    await axios.get(`/User/GetAllUsers`)
+    .then(response => {
+        const result = response.data.data
+        setOwners(result)
+        })
+        .catch(error => {
+    })
+  }
+
   // ** Get data on mount
   useEffect(() => {
     dispatch(
@@ -98,6 +112,7 @@ const RolesList = () => {
         ...searchData
       })
     )
+    getOwners()
   }, [dispatch, store.data.length])
 
   useEffect(() => {
@@ -190,11 +205,29 @@ const RolesList = () => {
   const formItems =  [
     {
       fieldType: 'text',
+      label: `${intl.formatMessage({id: "Code"})}`, 
+      colSizeLg: 4,
+      attr: "id",
+      dropdownArr: [], 
+      multiple: false, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'text',
       label: `${intl.formatMessage({id: "Name"})}`, 
       colSizeLg: 4,
       attr: "name",
       dropdownArr: [], 
       multiple: true, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `المالك`, 
+      colSizeLg: 4, 
+      attr: "ownerId", 
+      dropdownArr: convertSelectArr(owners),
+      multiple: false,
       radioArr: [] 
     },
     {
@@ -209,7 +242,7 @@ const RolesList = () => {
   ]
 
   const handleSearch = (value, attrName) => {
-    setSearchData({...searchData, [attrName] : value })
+    setSearchData({...searchData, [attrName] : (value !== undefined && value !== '' ? value : null) })
   } 
 
   const handlSubmit = () => {

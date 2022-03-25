@@ -6,6 +6,7 @@ import Sidebar from './Sidebar'
 // ** Store & Actions
 import {  getData, deleteRole, getDimension } from './store/action'
 import { useDispatch, useSelector } from 'react-redux'
+import axios from '../../../axios'
 
 // ** Third Party Components
 import swal from "sweetalert"
@@ -30,7 +31,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
 
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
@@ -47,7 +48,10 @@ const RolesList = () => {
   
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [owners, setOwners] = useState([])
   const [searchData, setSearchData] = useState({
+    id: null,
+    ownerId: null,
     name: "",
     active: null
   })
@@ -62,6 +66,16 @@ const RolesList = () => {
         { position: toast.POSITION.TOP_CENTER,
             hideProgressBar: true 
         })
+    }
+  
+    const getOwners = async () => {
+      await axios.get(`/User/GetAllUsers`)
+      .then(response => {
+          const result = response.data.data
+          setOwners(result)
+          })
+          .catch(error => {
+      })
     }
 
   const toggleSidebar = (Submit) => {
@@ -101,6 +115,7 @@ const RolesList = () => {
         ...searchData
       })
     )
+    getOwners()
   }, [dispatch, store.data.length])
 
   useEffect(() => {
@@ -133,12 +148,6 @@ const RolesList = () => {
     }
     dispatch({type:"RESET_DIMENSION_DELETE_RESPONSE"})
   }, [store.deleteResponse.statusCode])
-
-  useEffect(() => {
-    if (store.errorCode !== 0 && store.errorCode !== 200 && store.errorCode !== 401 && store.errorCode !== 403) {
-      notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
-    }
-  }, [store.errorCode])
 
   const addDimension = () => {
     dispatch({type: "GET_DIMENSION", selectedDimension:{}})
@@ -199,11 +208,29 @@ const RolesList = () => {
   const formItems =  [
     {
       fieldType: 'text',
+      label: `${intl.formatMessage({id: "Code"})}`, 
+      colSizeLg: 4,
+      attr: "id",
+      dropdownArr: [], 
+      multiple: true, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'text',
       label: `${intl.formatMessage({id: "Name"})}`, 
       colSizeLg: 4,
       attr: "name",
       dropdownArr: [], 
       multiple: true, 
+      radioArr: [] 
+    },
+    {
+      fieldType: 'select',
+      label: `المالك`, 
+      colSizeLg: 4, 
+      attr: "ownerId", 
+      dropdownArr: convertSelectArr(owners),
+      multiple: false,
       radioArr: [] 
     },
     {
