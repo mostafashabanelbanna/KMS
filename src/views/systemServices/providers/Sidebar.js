@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -101,8 +101,8 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
                 url: values.url,
                 providerCategoryId: providerCategory?.id,
                 sortIndex: values.sortIndex,
-                focus: JSON.parse(values.focus),
-                active: JSON.parse(values.active)
+                focus: convertToBoolean(values.focus),
+                active: convertToBoolean(values.active)
               })
             )
         } else {
@@ -122,8 +122,8 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
                 url: values.url,
                 providerCategoryId: providerCategory?.id,
                 sortIndex: values.sortIndex,
-                focus: JSON.parse(values.focus),
-                active: JSON.parse(values.active),
+                focus: convertToBoolean(values.focus),
+                active: convertToBoolean(values.active),
                 id: selectedProvider.id
               }
             )
@@ -404,7 +404,6 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             <Col sm='6' >
             <FormGroup>
               {selectedProvider.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -412,7 +411,6 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
                 innerRef={register()} />
               }
               {!selectedProvider.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -428,7 +426,6 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
             <Col sm='6' >
             <FormGroup>
              {selectedProvider.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
@@ -437,7 +434,6 @@ const SidebarNew = ({ open, toggleSidebar, selectedProvider }) => {
                 />
              }
             {!selectedProvider.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

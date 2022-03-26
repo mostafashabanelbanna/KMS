@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty } from '@utils'
+import { isObjEmpty, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -57,8 +57,8 @@ const SidebarRole = ({ open, toggleSidebar, selectedClassification }) => {
             description_E: values.descriptionE,
             icon: values.icon,
             sortIndex: values.sortIndex,
-            focus: JSON.parse(values.focus),
-            active: JSON.parse(values.active)
+            focus: convertToBoolean(values.focus),
+            active: convertToBoolean(values.active)
             })
           )
       } else {
@@ -71,8 +71,8 @@ const SidebarRole = ({ open, toggleSidebar, selectedClassification }) => {
             description_E: values.descriptionE,
             icon: values.icon,
             sortIndex: values.sortIndex,
-            focus: JSON.parse(values.focus),
-            active: JSON.parse(values.active)
+            focus: convertToBoolean(values.focus),
+            active: convertToBoolean(values.active)
             }
           )
         )
@@ -201,26 +201,46 @@ const SidebarRole = ({ open, toggleSidebar, selectedClassification }) => {
           <Label for='sortIndex'>
             {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
-          <Input
+          {selectedClassification.id && <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedClassification.id ? selectedClassification.sortIndex : 0}
+            defaultValue={selectedClassification.sortIndex}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
+        }
+        {!selectedClassification.id && <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            defaultValue={0}
+            placeholder='0'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+        }
+          
         </FormGroup>
         <Row className="mx-0">
           <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedClassification.id && <Input 
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedClassification.id ? selectedClassification.focus : false}
+                defaultChecked ={selectedClassification.focus}
                 innerRef={register()} />
+              }
+              {!selectedClassification.id && <Input 
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
+              
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -228,14 +248,23 @@ const SidebarRole = ({ open, toggleSidebar, selectedClassification }) => {
           </Col>
           <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedClassification.id && <Input 
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedClassification.id ? selectedClassification.active : true}
+                defaultChecked ={selectedClassification.active}
                 innerRef={register()}
                 />
+              }
+              {!selectedClassification.id && <Input 
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                />
+              }
+              
                  <Label for='active'>
                   {intl.formatMessage({id: "Active"})}
                   

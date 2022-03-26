@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -80,7 +80,7 @@ const SidebarNewInquiryProcedure = ({ open, toggleSidebar, selectedInquiryProced
               providerId: selectedProvider && selectedProvider.id ? selectedProvider.id : "",
               departmentId: selectedDepartment && selectedDepartment.id ? selectedDepartment.id : "",
               inquiryId,
-              active: values.active
+              active: convertToBoolean(values.active)
             })
           )
       } else {
@@ -93,7 +93,7 @@ const SidebarNewInquiryProcedure = ({ open, toggleSidebar, selectedInquiryProced
               providerId: selectedProvider && selectedProvider.id ? selectedProvider.id : "",
               departmentId: selectedDepartment && selectedDepartment.id ? selectedDepartment.id : "",
               inquiryId,
-              active: values.active,
+              active: convertToBoolean(values.active),
               id: selectedInquiryProcedure.id
             }
           )
@@ -258,14 +258,22 @@ const SidebarNewInquiryProcedure = ({ open, toggleSidebar, selectedInquiryProced
           <Row className="mx-0">
             <Col sm='3' className="mt-3">
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedInquiryProcedure.id && <Input 
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedInquiryProcedure ? selectedInquiryProcedure.active : false}
+                defaultChecked ={selectedInquiryProcedure.active}
                 innerRef={register()}
                 />
+              }
+              {!selectedInquiryProcedure.id && <Input 
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={false}
+                innerRef={register()}
+                />
+              }
                  <Label for='active'>
                     {intl.formatMessage({id: "Active"})}
                   </Label>

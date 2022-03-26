@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import Toastr from '../../containers/toastr/Toastr'
 import { Button } from 'reactstrap'
 
+
 // import state from "sweetalert/typings/modules/state"
 
 const IndicatorDimension = () => {
@@ -69,6 +70,10 @@ const IndicatorDimension = () => {
 
     const validateDimensionsBeforeExport = () => {
         const isValidted = true
+        if (new Date(store.insertionDate) > Date.now()) {
+            notify('error', 'تاريخ الادخال يجب ان يكون قبل تاريخ اليوم')
+            return false
+        }
         if (store.classificationValueId === 0 || store.indicatorId === 0 || store.sourceId === 0 || store.periodicityId === 0 || store.indicatorUnitId === 0 || store.insertionDate === '') {
             notify('error', 'يجب أختيار جميع البيانات من الصفحة السابقة')
             return false

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -87,8 +87,8 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
               providerId: selectedProvider ? selectedProvider.id : "",
               departmentId: selectedDepartment ? selectedDepartment.id : "",
               sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active,
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               classificationValues
             })
           )
@@ -107,8 +107,8 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
               providerId: selectedProvider ? selectedProvider.id : "",
               departmentId: selectedDepartment ? selectedDepartment.id : "",
               sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active,
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               classificationValues,
               id: selectedInquiry.id,
               classificationValues
@@ -486,32 +486,51 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
               </FormGroup>
           </Col> 
         </Row>
-          <Row className="mx-0">
+        <Row className="mx-0">
             <Col md={6}>
               <FormGroup>
                 <Label for='sortIndex'>
                 {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
                 </Label>
-                <Input
+                {selectedInquiry.id && <Input
                   type="number"
                   name='sortIndex'
                   id='sortIndex'
-                  defaultValue={selectedInquiry ? selectedInquiry.sortIndex : 0}
+                  defaultValue={selectedInquiry.sortIndex}
                   placeholder='0'
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['sortIndex'] })}
                 />
+                }
+                {!selectedInquiry.id && <Input
+                  type="number"
+                  name='sortIndex'
+                  id='sortIndex'
+                  defaultValue={0}
+                  placeholder='0'
+                  innerRef={register({ required: true })}
+                  className={classnames({ 'is-invalid': errors['sortIndex'] })}
+                />
+                }
+                
               </FormGroup>
             </Col>
             <Col sm='3' className="mt-3" >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedInquiry.id && <Input 
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedInquiry ? selectedInquiry.focus : false}
+                defaultChecked ={selectedInquiry.focus}
                 innerRef={register()} />
+              }
+              {!selectedInquiry.id && <Input 
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -519,20 +538,28 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
             </Col>
             <Col sm='3' className="mt-3">
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedInquiry.id && <Input 
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedInquiry ? selectedInquiry.active : false}
+                defaultChecked ={selectedInquiry.active}
                 innerRef={register()}
                 />
+              }
+               {!selectedInquiry.id && <Input 
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                />
+              }
                  <Label for='active'>
                     {intl.formatMessage({id: "Active"})}
                   </Label>
             </FormGroup>
               </Col>
-          </Row>
+        </Row>
           
           <div className='mx-auto mb-1' style={{borderBottom: '1px solid #d8d6de', width: '50%'}}></div>
           <div className='my-2' style={{textDecoration: 'underline', cursor: 'pointer'}} onClick={addClassificationValue}>+ إضافة قيم التصنيف </div>

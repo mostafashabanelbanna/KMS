@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -75,8 +75,8 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
               documentIssueId,
               publishDate,
               sortIndex: values.sortIndex,
-              focus: JSON.parse(values.focus),
-              active: JSON.parse(values.active)
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active)
             })
           )
       } else {
@@ -96,8 +96,8 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
               documentIssueId,
               publishDate,
               sortIndex: values.sortIndex,
-              focus: JSON.parse(values.focus),
-              active: JSON.parse(values.active),
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               id: selectedDocumentLibrary.id
             }
           )
@@ -392,7 +392,6 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
             <Col sm='3' className="mt-3" >
             <FormGroup>
               {selectedDocumentLibrary.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -400,7 +399,6 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
                 innerRef={register()} />
               }
               {!selectedDocumentLibrary.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -415,7 +413,6 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
             <Col sm='3' className="mt-3">
             <FormGroup>
             {selectedDocumentLibrary.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
@@ -423,7 +420,6 @@ const SidebarNewDocumentLibrary = ({ open, toggleSidebar, selectedDocumentLibrar
                 innerRef={register()} />
               }
               {!selectedDocumentLibrary.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

@@ -6,7 +6,7 @@ import Sidebar from '@components/sidebar'
 import Toastr from '../../../containers/toastr/Toastr'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors, convertSelectArr } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertSelectArr, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -60,8 +60,8 @@ const SidebarNewUnit = ({ open, toggleSidebar, selectedUnit }) => {
               name_E: values.nameE,
               value: values.value,
               sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active)
             })
           )
       } else {
@@ -72,8 +72,8 @@ const SidebarNewUnit = ({ open, toggleSidebar, selectedUnit }) => {
               name_E: values.nameE,
               value: values.value,
               sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active,
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               id: selectedUnit.id
             }
           )
@@ -138,7 +138,7 @@ const SidebarNewUnit = ({ open, toggleSidebar, selectedUnit }) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name'>
-            <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+             {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='name'
@@ -165,7 +165,7 @@ const SidebarNewUnit = ({ open, toggleSidebar, selectedUnit }) => {
        
         <FormGroup>
           <Label for='value'>
-             {intl.formatMessage({id: "Value"})}
+             {intl.formatMessage({id: "Value"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             type='number'
@@ -173,36 +173,55 @@ const SidebarNewUnit = ({ open, toggleSidebar, selectedUnit }) => {
             id='value'
             defaultValue={selectedUnit ? selectedUnit.value : ''}
             placeholder={intl.formatMessage({id: "Value"})}
-            innerRef={register({ required: false })}
+            innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['value'] })}
           />
         </FormGroup>
       
         <FormGroup>
           <Label for='sortIndex'>
-            <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
+            {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
-          <Input
+          {selectedUnit.id && <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedUnit ? selectedUnit.sortIndex : 0}
+            defaultValue={selectedUnit.sortIndex}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
+          }
+          {!selectedUnit.id && <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            defaultValue={0}
+            placeholder='0'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+          }
+          
         </FormGroup>
         <Row className="mx-0">
      
           <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedUnit.id && <Input 
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedUnit ? selectedUnit.focus : false}
+                defaultChecked ={selectedUnit.focus}
                 innerRef={register()} />
+              }
+              {!selectedUnit.id && <Input 
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -210,14 +229,22 @@ const SidebarNewUnit = ({ open, toggleSidebar, selectedUnit }) => {
           </Col>
           <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedUnit.id &&  <Input 
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedUnit ? selectedUnit.active : false}
+                defaultChecked ={selectedUnit.active}
                 innerRef={register()}
                 />
+              }
+              {!selectedUnit.id &&  <Input 
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                />
+              }
                  <Label for='active'>
                   {intl.formatMessage({id: "Active"})}
                   

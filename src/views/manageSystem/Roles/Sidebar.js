@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty } from '@utils'
+import { isObjEmpty, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -24,7 +24,6 @@ import { useIntl } from 'react-intl'
 
 
 const SidebarRole = ({ open, toggleSidebar, selectedRole }) => {
-
   // Import localization files
   const intl = useIntl()
 
@@ -53,8 +52,8 @@ const SidebarRole = ({ open, toggleSidebar, selectedRole }) => {
                 name: values.name,
                 description: document.getElementById("description").value,
                 sortIndex: values.sortIndex,
-                focus: values.focus,
-                active: values.active
+                focus: convertToBoolean(values.focus),
+                active: convertToBoolean(values.active)
             })
           )
       } else {
@@ -64,8 +63,8 @@ const SidebarRole = ({ open, toggleSidebar, selectedRole }) => {
                 name: values.name,
                 description: document.getElementById("description").value,
                 sortIndex: values.sortIndex,
-                focus: values.focus,
-                active: values.active
+                focus: convertToBoolean(values.focus),
+                active: convertToBoolean(values.active)
             }
           )
         )
@@ -159,14 +158,21 @@ const SidebarRole = ({ open, toggleSidebar, selectedRole }) => {
          <Row className="mx-0">
             <Col sm='6' >
             <FormGroup>
-            
-              <Input 
-                value="true"
+              {selectedRole.id && <Input 
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedRole.id ? selectedRole.focus : false}
+                defaultChecked ={selectedRole.focus}
                 innerRef={register()} />
+              }
+              {!selectedRole.id && <Input 
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
+             
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -174,14 +180,23 @@ const SidebarRole = ({ open, toggleSidebar, selectedRole }) => {
             </Col>
             <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedRole.id &&  <Input 
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedRole.id ? selectedRole.active : true}
+                defaultChecked ={selectedRole.active}
                 innerRef={register()}
                 />
+              }
+              {!selectedRole.id &&  <Input 
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                />
+              }
+             
                  <Label for='active'>
                   {intl.formatMessage({id: "Active"})}
                   

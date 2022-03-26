@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty } from '@utils'
+import { isObjEmpty, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -56,8 +56,8 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
             description_E: values.descriptionE,
             icon: values.icon,
             sortIndex: values.sortIndex,
-            focus: JSON.parse(values.focus),
-            active:  JSON.parse(values.active)
+            focus: convertToBoolean(values.focus),
+            active:  convertToBoolean(values.active)
             })
           )
       } else {
@@ -70,8 +70,8 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
                 description_E: values.descriptionE,
                 icon: values.icon,
                 sortIndex: values.sortIndex,
-                focus: JSON.parse(values.focus),
-                active:  JSON.parse(values.active)
+                focus: convertToBoolean(values.focus),
+                active:  convertToBoolean(values.active)
             }
           )
         )
@@ -200,41 +200,69 @@ const SidebarRole = ({ open, toggleSidebar, selectedDimension }) => {
           <Label for='sortIndex'>
             {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
-          <Input
+          {selectedDimension.id && <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedDimension.id ? selectedDimension.sortIndex : 0}
+            defaultValue={selectedDimension.sortIndex}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
+          }
+          {!selectedDimension.id && <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            defaultValue={0}
+            placeholder='0'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+          }
+          
         </FormGroup>
         <Row className="mx-0">
           <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedDimension.id && <Input 
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedDimension.id ? selectedDimension.focus : false}
+                defaultChecked ={selectedDimension.focus}
                 innerRef={register()} />
-                  <Label for='focus'>
+              }
+              {!selectedDimension.id && <Input 
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
+              
+                <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
             </FormGroup>
           </Col>
           <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedDimension.id &&  <Input 
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedDimension.id ? selectedDimension.active : true}
+                defaultChecked ={selectedDimension.active}
                 innerRef={register()}
                 />
+              }
+              {!selectedDimension.id &&  <Input 
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                />
+              }
                  <Label for='active'>
                   {intl.formatMessage({id: "Active"})}
                   

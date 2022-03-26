@@ -6,7 +6,7 @@ import Sidebar from '@components/sidebar'
 import Toastr from '../../../containers/toastr/Toastr'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors, convertSelectArr } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertSelectArr, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -105,9 +105,9 @@ const addInterval = () => {
               description_E: values.descriptionE,
               color: values.color,
               sortIndex: values.sortIndex,
-              isDefault: values.isDefault,
-              focus: values.focus,
-              active: values.active,
+              isDefault: convertToBoolean(values.isDefault),
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               isDaily : dailyValue,
               isMontly : monthlyValue,
               isWeekly : weeklyValue,
@@ -125,9 +125,9 @@ const addInterval = () => {
               description_E: values.descriptionE,
               color: values.color,
               sortIndex: values.sortIndex,
-              isDefault: values.isDefault,
-              focus: values.focus,
-              active: values.active,
+              isDefault: convertToBoolean(values.isDefault),
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               id: selectedPeriodicity.id,
               isDaily : dailyValue,
               isMontly :monthlyValue,
@@ -223,7 +223,7 @@ const addInterval = () => {
       
         <FormGroup>
           <Label for='name'>
-            <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+            {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span> 
           </Label>
           <Input
             name='name'
@@ -249,7 +249,7 @@ const addInterval = () => {
         </FormGroup>
         <FormGroup>
           <Label for='descriptionA'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Description"})}
+           {intl.formatMessage({id: "Description"})}  <span className='text-danger'>*</span>
           </Label>
           <Input
             name='descriptionA'
@@ -291,17 +291,28 @@ const addInterval = () => {
       
         <FormGroup>
           <Label for='sortIndex'>
-            <span className='text-danger'>*</span>{intl.formatMessage({id: "Sort Index"})}
+            {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
-          <Input
+          {selectedPeriodicity.id && <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedPeriodicity ? selectedPeriodicity.sortIndex : 0}
+            defaultValue={selectedPeriodicity.sortIndex}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
+          }
+          {!selectedPeriodicity.id && <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            defaultValue={0}
+            placeholder='0'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+          }
         </FormGroup>
 
         <Row className="mx-0">
@@ -361,13 +372,20 @@ const addInterval = () => {
 
           <Col sm='4' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedPeriodicity.id &&  <Input 
                 type="checkbox" 
                 placeholder={intl.formatMessage({id: "Default"})}
                 name="isDefault" 
-                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.isDefault : false}
+                defaultChecked ={selectedPeriodicity.isDefault}
                 innerRef={register()} />
+              }
+              {!selectedPeriodicity.id &&  <Input 
+                type="checkbox" 
+                placeholder={intl.formatMessage({id: "Default"})}
+                name="isDefault" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
                   <Label for='isDefault'>
                 {intl.formatMessage({id: "Default"})}
               </Label>
@@ -375,13 +393,20 @@ const addInterval = () => {
           </Col>
           <Col sm='4' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedPeriodicity.id &&  <Input 
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.focus : false}
+                defaultChecked ={selectedPeriodicity.focus}
                 innerRef={register()} />
+              }
+              {!selectedPeriodicity.id &&  <Input 
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -389,14 +414,24 @@ const addInterval = () => {
           </Col>
           <Col sm='4' >
             <FormGroup>
-              <Input 
+              {selectedPeriodicity.id && <Input 
                 value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedPeriodicity ? selectedPeriodicity.active : false}
+                defaultChecked ={selectedPeriodicity.active}
                 innerRef={register()}
                 />
+              }
+              {!selectedPeriodicity.id && <Input 
+                value="true"
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                />
+              }
                 <Label for='active'>
                   {intl.formatMessage({id: "Active"})}
                 </Label>

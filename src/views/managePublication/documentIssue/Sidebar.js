@@ -5,7 +5,7 @@ import { useState, useEffect, useLayoutEffect } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -93,8 +93,8 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
                 periodicityId: selectedPeriodicity ? selectedPeriodicity.id : "",
                 sourceId: selectedSource ? selectedSource.id : "",
                 sortIndex: values.sortIndex ? values.sortIndex : 0,
-                focus: JSON.parse(values.focus),
-                active: JSON.parse(values.active),
+                focus: convertToBoolean(values.focus),
+                active: convertToBoolean(values.active),
                 classificationValues
               })
             )
@@ -112,8 +112,8 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
                 periodicityId: selectedPeriodicity ? selectedPeriodicity.id : "",
                 sourceId: selectedSource ? selectedSource.id : "",
                 sortIndex: values.sortIndex ? values.sortIndex : 0,
-                focus: JSON.parse(values.focus),
-                active: JSON.parse(values.active),
+                focus: convertToBoolean(values.focus),
+                active: convertToBoolean(values.active),
                 id: selectedDocumentIssue.id,
                 classificationValues
               }
@@ -396,7 +396,6 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
             <Col sm='3' className="mt-3" >
             <FormGroup>
               {selectedDocumentIssue.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -404,7 +403,6 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
                 innerRef={register()} />
               }
               {!selectedDocumentIssue.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -419,7 +417,6 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
             <Col sm='3' className="mt-3">
             <FormGroup>
               {selectedDocumentIssue.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
@@ -428,7 +425,6 @@ const SidebarNewDocumentIssue = ({ open, toggleSidebar, selectedDocumentIssue, p
                 />
               }
                {!selectedDocumentIssue.id && <Input 
-                value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

@@ -6,7 +6,7 @@ import Sidebar from '@components/sidebar'
 import Toastr from '../../../containers/toastr/Toastr'
 
 // ** Utils
-import { isObjEmpty, getSelected } from '@utils'
+import { isObjEmpty, getSelected, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -55,10 +55,10 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
                Description_E: values.descriptionE ? values.descriptionE : '',
                Color: '',
                SortIndex: parseInt(values.sortIndex),
-               IsLocked: values.isLocked,
-               Focus: values.focus,
-               Active: values.active,
-               IsDefault: values.isDefault,
+               IsLocked: convertToBoolean(values.isLocked),
+               Focus: convertToBoolean(values.focus),
+               Active: convertToBoolean(values.active),
+               IsDefault: convertToBoolean(values.isDefault),
                Id: 0
            })
          )
@@ -72,10 +72,10 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
                Description_E: values.descriptionE ? values.descriptionE : '',
                Color: '',
                SortIndex: parseInt(values.sortIndex),
-               IsLocked: values.isLocked,
-               Focus: values.focus,
-               Active: values.active,
-               IsDefault: values.isDefault,
+               IsLocked: convertToBoolean(values.isLocked),
+               Focus: convertToBoolean(values.focus),
+               Active: convertToBoolean(values.active),
+               IsDefault: convertToBoolean(values.isDefault),
                Id: SelectedLookup.id
            })
          )
@@ -147,7 +147,7 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='name'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name"})}
+           {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='nameA'
@@ -160,7 +160,7 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
         </FormGroup>
         <FormGroup>
           <Label for='nameE'>
-          <span className='text-danger'>*</span> {intl.formatMessage({id: "Name In English"})}
+           {intl.formatMessage({id: "Name In English"})} <span className='text-danger'>*</span>
           </Label>
           <Input
             name='nameE'
@@ -185,23 +185,35 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
         </FormGroup>
         <FormGroup>
           <Label for='sortIndex'>
-           <span className='text-danger'>*</span> {intl.formatMessage({id: "Sort Index"})}
+            {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
-          <Input
+          {SelectedLookup.id &&  <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
             placeholder='0'
-            defaultValue={SelectedLookup ? SelectedLookup.sortIndex : 0}
+            defaultValue={SelectedLookup.sortIndex}
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
+          }
+          {!SelectedLookup.id &&  <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            placeholder='0'
+            defaultValue={0}
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+          }
         </FormGroup>
         
         <div className='row mx-0'>
             <div className='col-sm-6'>
                 <FormGroup>
-                    <Input value="true" type="checkbox" name="active" defaultChecked ={SelectedLookup ? SelectedLookup.active : false} innerRef={register()}  />
+                    {SelectedLookup.id &&  <Input type="checkbox" name="active" defaultChecked ={SelectedLookup.active} innerRef={register()}  /> }
+                    {!SelectedLookup.id &&  <Input type="checkbox" name="active" defaultChecked ={true} innerRef={register()}  /> }
                     <Label for='active'>
                     {intl.formatMessage({id: "Active"})}
                     </Label>
@@ -209,7 +221,8 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
             </div>
             <div className='col-sm-6'>
                 <FormGroup>
-                    <Input value="true" type="checkbox" name="focus" defaultChecked={SelectedLookup ? SelectedLookup.focus : false} innerRef={register()}  />
+                    {SelectedLookup.id &&  <Input type="checkbox" name="focus" defaultChecked ={SelectedLookup.focus} innerRef={register()}  /> }
+                    {!SelectedLookup.id &&  <Input type="checkbox" name="focus" defaultChecked ={false} innerRef={register()}  /> }
                     <Label for='focus'>
                          {intl.formatMessage({id: "Focus"})}
                     </Label>
@@ -217,7 +230,8 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
             </div>
             <div className='col-sm-6'>
                 <FormGroup>
-                    <Input type="checkbox" name="isLocked" defaultChecked={SelectedLookup ? SelectedLookup.isLocked : false} innerRef={register()}  />
+                    {SelectedLookup.id &&  <Input type="checkbox" name="isLocked" defaultChecked ={SelectedLookup.isLocked} innerRef={register()}  /> }
+                    {!SelectedLookup.id &&  <Input type="checkbox" name="isLocked" defaultChecked ={false} innerRef={register()}  /> }
                     <Label for='isLocked'>
                           {intl.formatMessage({id: "Locked"})}
                     </Label>
@@ -225,7 +239,9 @@ const SidebarLookup = ({ open, toggleSidebar, SelectedLookup}) => {
             </div>
             <div className='col-sm-6'>
                 <FormGroup>
-                    <Input value="true" type="checkbox" name="isDefault" defaultChecked={SelectedLookup ? SelectedLookup.isDefault : false} innerRef={register()}  />
+                    {SelectedLookup.id &&  <Input type="checkbox" name="isDefault" defaultChecked ={SelectedLookup.isDefault} innerRef={register()}  /> }
+                    {!SelectedLookup.id &&  <Input type="checkbox" name="isDefault" defaultChecked ={false} innerRef={register()}  /> }
+                  
                     <Label for='isDefault'>
                         {intl.formatMessage({id: "Default"})}
                     </Label>

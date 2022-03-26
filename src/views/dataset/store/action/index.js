@@ -107,7 +107,6 @@ export const exportFile = () => {
             vertical: datasetStore.vertical,
             horizontal: datasetStore.horizontal
         }
-        console.log(postObject)
         await axios.post(`/Dataset/ExportIndicatorDataSheet`, postObject, { responseType: 'arraybuffer' }).then(response => {
           console.log("Success")
           console.log(response.data)

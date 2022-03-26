@@ -224,4 +224,11 @@ export const confirmDelete = (deleteRow, rowId) => {
     }
   })
  }
+ export const convertToBoolean = (value) => {
+   if (value.length === undefined) {
+     return value
+   } else {
+     return value.length === 1
+   }
+ }
 

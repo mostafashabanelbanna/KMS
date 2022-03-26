@@ -6,7 +6,7 @@ import Sidebar from '@components/sidebar'
 import Toastr from '../../../../containers/toastr/Toastr'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors, convertSelectArr } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -94,8 +94,8 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
               dimensionId,
               parentId: parent ? parent.id : null,
               sortIndex: values.sortIndex,
-              focus: JSON.parse(values.focus),
-              active: JSON.parse(values.active)
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active)
             })
           )
       } else {
@@ -111,8 +111,8 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
               dimensionId,
               parentId: parent ?  parent.id : null,
               sortIndex: values.sortIndex,
-              focus: JSON.parse(values.focus),
-              active: JSON.parse(values.active),
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               id: selectedDimensionValue.id
             }
           )
@@ -276,26 +276,45 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
           <Label for='sortIndex'>
             {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
-          <Input
+          {selectedDimensionValue.id && <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedDimensionValue.id ? selectedDimensionValue.sortIndex : 0}
+            defaultValue={selectedDimensionValue.sortIndex}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
+          }
+          {!selectedDimensionValue.id && <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            defaultValue={0}
+            placeholder='0'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+          }
+          
         </FormGroup>
         <Row className="mx-0">
           <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedDimensionValue.id && <Input 
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedDimensionValue.id ? selectedDimensionValue.focus : false}
+                defaultChecked ={selectedDimensionValue.focus}
                 innerRef={register()} />
+              }
+              {!selectedDimensionValue.id && <Input 
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -303,14 +322,25 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
           </Col>
           <Col sm='6' >
             <FormGroup>
-              <Input 
+              {selectedDimensionValue.id && <Input 
                 value="true"
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedDimensionValue.id ? selectedDimensionValue.active : true}
+                defaultChecked ={selectedDimensionValue.active}
                 innerRef={register()}
                 />
+              }
+              {!selectedDimensionValue.id && <Input 
+                value="true"
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                />
+              }
+              
                  <Label for='active'>
                   {intl.formatMessage({id: "Active"})}
                   

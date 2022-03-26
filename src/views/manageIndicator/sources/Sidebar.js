@@ -6,7 +6,7 @@ import Sidebar from '@components/sidebar'
 import Toastr from '../../../containers/toastr/Toastr'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors, convertSelectArr } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -62,10 +62,10 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
               description_E: values.descriptionE,
               color: values.color,
               sortIndex: values.sortIndex,
-              isNational: JSON.parse(values.isNational),
-              isDefault: JSON.parse(values.isDefault),
-              focus: JSON.parse(values.focus),
-              active: JSON.parse(values.active)
+              isNational: convertToBoolean(values.isNational),
+              isDefault: convertToBoolean(values.isDefault),
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active)
             })
           )
       } else {
@@ -78,10 +78,10 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
               description_E: values.descriptionE,
               color: values.color,
               sortIndex: values.sortIndex,
-              isNational: JSON.parse(values.isNational),
-              isDefault: JSON.parse(values.isDefault),
-              focus: JSON.parse(values.focus),
-              active: JSON.parse(values.active),
+              isNational: convertToBoolean(values.isNational),
+              isDefault: convertToBoolean(values.isDefault),
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               id: selectedSource.id
             }
           )
@@ -218,26 +218,45 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Label for='sortIndex'>
             {intl.formatMessage({id: "Sort Index"})} <span className='text-danger'>*</span>
           </Label>
-          <Input
+          {selectedSource.id && <Input
             type="number"
             name='sortIndex'
             id='sortIndex'
-            defaultValue={selectedSource.id ? selectedSource.sortIndex : 0}
+            defaultValue={selectedSource.sortIndex}
             placeholder='0'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['sortIndex'] })}
           />
+        }
+        {!selectedSource.id && <Input
+            type="number"
+            name='sortIndex'
+            id='sortIndex'
+            defaultValue={0}
+            placeholder='0'
+            innerRef={register({ required: true })}
+            className={classnames({ 'is-invalid': errors['sortIndex'] })}
+          />
+        }
+          
         </FormGroup>
         <Row className="mx-0">
         <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedSource.id &&  <Input 
                 type="checkbox" 
                 placeholder={intl.formatMessage({id: "National"})}
                 name="isNational" 
-                defaultChecked ={selectedSource.id ? selectedSource.isNational : false}
+                defaultChecked ={selectedSource.isNational}
                 innerRef={register()} />
+              }
+              {!selectedSource.id &&  <Input 
+                type="checkbox" 
+                placeholder={intl.formatMessage({id: "National"})}
+                name="isNational" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
                   <Label for='isNational'>
                 {intl.formatMessage({id: "National"})}
               </Label>
@@ -246,13 +265,21 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
 
           <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+            {selectedSource.id &&  <Input 
                 type="checkbox" 
                 placeholder={intl.formatMessage({id: "Default"})}
                 name="isDefault" 
-                defaultChecked ={selectedSource.id ? selectedSource.isDefault : false}
+                defaultChecked ={selectedSource.isDefault}
                 innerRef={register()} />
+              }
+              {!selectedSource.id &&  <Input 
+                type="checkbox" 
+                placeholder={intl.formatMessage({id: "Default"})}
+                name="isDefault" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
+              
                   <Label for='isDefault'>
                 {intl.formatMessage({id: "Default"})}
               </Label>
@@ -260,13 +287,20 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           </Col>
           <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedSource.id && <Input 
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedSource.id ? selectedSource.focus : false}
+                defaultChecked ={selectedSource.focus}
                 innerRef={register()} />
+              }
+              {!selectedSource.id && <Input 
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -274,14 +308,22 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           </Col>
           <Col sm='6' >
             <FormGroup>
-              <Input 
-                value="true"
+              {selectedSource.id && <Input 
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedSource.id ? selectedSource.active : true}
+                defaultChecked ={selectedSource.active}
                 innerRef={register()}
                 />
+              }
+              {!selectedSource.id && <Input 
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                />
+              }
                  <Label for='active'>
                   {intl.formatMessage({id: "Active"})}
                   

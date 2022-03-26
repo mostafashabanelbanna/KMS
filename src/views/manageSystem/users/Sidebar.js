@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -93,11 +93,11 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
               userName: values.userName,
               email: values.email,
               phoneNumber: values.phoneNumber,
-              admin:   JSON.parse(values.admin),
+              admin:   convertToBoolean(values.admin),
               sortIndex: values.sortIndex,
-              locked: JSON.parse(values.locked),
-              focus: JSON.parse(values.focus),
-              active: JSON.parse(values.active),
+              locked: convertToBoolean(values.locked),
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               userRoles
             })
           )
@@ -114,10 +114,10 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
               email: values.email,
               phoneNumber: values.phoneNumber,
               sortIndex: values.sortIndex,
-              admin:  JSON.parse(values.admin),
-              locked: JSON.parse(values.locked),
-              focus: JSON.parse(values.focus),
-              active: JSON.parse(values.active),
+              admin:  convertToBoolean(values.admin),
+              locked: convertToBoolean(values.locked),
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               userRoles,
               id: selectedUser.id
             }
@@ -290,7 +290,7 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                 <>
                   <Controller
                     control={control} 
-                    rules={{ required: true }} 
+                    // rules={{ required: true }} 
                     name="rolesSelect"
                     render={({}) => (
                       <Select
@@ -364,13 +364,22 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
           <Row className="mx-0">
             <Col sm='6' >
               <FormGroup>
-                <Input 
+                {selectedUser.id &&  <Input 
                   value="true"
                   type="checkbox" 
                   placeholder="admin" 
                   name="admin" 
-                  defaultChecked ={selectedUser.id ? selectedUser.admin : false}
+                  defaultChecked ={selectedUser.admin}
                   innerRef={register()}  />
+                }
+                {!selectedUser.id &&  <Input 
+                  value="true"
+                  type="checkbox" 
+                  placeholder="admin" 
+                  name="admin" 
+                  defaultChecked ={false}
+                  innerRef={register()}  />
+                }
 
                   <Label for='admin'>
                     {intl.formatMessage({id: "Admin"})}
@@ -381,13 +390,23 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             
             {selectedUser ? (<Col sm='6' >
               <FormGroup>
-                <Input 
+                {selectedUser.id &&  <Input 
                   value="true"
                   type="checkbox"
                   placeholder="locked"
                   name="locked" 
-                  defaultChecked ={selectedUser.id ? selectedUser.locked : false}
+                  defaultChecked ={selectedUser.locked}
                   innerRef={register()} />
+                }
+                {!selectedUser.id &&  <Input 
+                  value="true"
+                  type="checkbox"
+                  placeholder="locked"
+                  name="locked" 
+                  defaultChecked ={false}
+                  innerRef={register()} />
+                }
+               
                   <Label for='locked'>
                   {intl.formatMessage({id: "Locked"})}
                 </Label>
@@ -396,14 +415,21 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             
             <Col sm='6' >
             <FormGroup>
-            
-              <Input 
-                value="true"
+              {selectedUser.id && <Input 
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
-                defaultChecked ={selectedUser.id ? selectedUser.focus : false}
+                defaultChecked ={selectedUser.focus}
                 innerRef={register()} />
+              }
+              {!selectedUser.id && <Input 
+                type="checkbox" 
+                placeholder="focus"  
+                name="focus" 
+                defaultChecked ={false}
+                innerRef={register()} />
+              }
+              
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -411,15 +437,23 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
             </Col>
             <Col sm='6' >
             <FormGroup>
-             
-              <Input 
-                value="true"
+             {selectedUser.id && <Input 
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedUser.id ? selectedUser.active : true}
+                defaultChecked ={selectedUser.active}
                 innerRef={register()}
                 />
+              }
+              {!selectedUser.id && <Input 
+                type="checkbox" 
+                placeholder="active"  
+                name="active" 
+                defaultChecked ={true}
+                innerRef={register()}
+                />
+              }
+              
                  <Label for='active'>
                     {intl.formatMessage({id: "Active"})}
                   </Label>

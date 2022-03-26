@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -124,14 +124,12 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
               password: values.password,
               webResourceCategoryId: webResourceCategory ? webResourceCategory.id : "",
               sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active,
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               indicators
             })
           )
       } else {
-        console.log(values)
-
         await dispatch(
           updateItem(
             {
@@ -145,8 +143,8 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
               password: values.password,
               webResourceCategoryId: webResourceCategory ? webResourceCategory.id : "",
               sortIndex: values.sortIndex,
-              focus: values.focus,
-              active: values.active,
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               indicators,
               id: selectedWebResource.id
             }
@@ -417,7 +415,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
             <Col sm='6' >
             <FormGroup>
               {selectedWebResource.id && <Input 
-                value="true"
+
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -425,7 +423,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
                 innerRef={register()} />
               }
               {!selectedWebResource.id && <Input 
-                value="true"
+
                 type="checkbox" 
                 placeholder="focus"  
                 name="focus" 
@@ -441,7 +439,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
             <Col sm='6' >
             <FormGroup>
               {selectedWebResource.id && <Input 
-                value="true"
+
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
@@ -450,7 +448,7 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
                 /> 
               }
               {!selectedWebResource.id && <Input 
-                value="true"
+
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 

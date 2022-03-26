@@ -271,10 +271,10 @@ const IndictorList = () => {
     },
     {
       fieldType: 'select',
-      label: `${intl.formatMessage({id: "Periodicity Type"})}`, 
+      label: `نوع الدورية`, 
       colSizeLg: 4, 
       attr: "periodicityType", 
-      dropdownArr: [{label: 'all', value: 'all'}, {label: 'isDaily', value: 'daily'}, {label:' isWeekly', value: 'weekly'}, {label: 'isMonthly', value:'monthly'}], 
+      dropdownArr: [{label: 'الكل', value: 'all'}, {label: 'يومى', value: 'daily'}, {label:'اسبوعى', value: 'weekly'}, {label: 'شهرى', value:'monthly'}], 
       multiple: true,
       radioArr: [] 
     }
