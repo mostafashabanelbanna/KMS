@@ -192,9 +192,9 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
     
     const tempDimensionLevels = []
     for (const dimensionLevel of dimensionLevels) {
-      tempDimensionLevels.push(dimensionLevel.split("::")[1])
+      tempDimensionLevels.push(dimensionLevel)
     }
-    console.log(convertToBoolean(values.active))
+    console.log(tempDimensionLevels)
     if (isObjEmpty(errors)) {
       console.log(values.active)
       if (!selectedIndicator.id) {

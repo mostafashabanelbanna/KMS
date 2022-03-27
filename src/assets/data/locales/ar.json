@@ -202,5 +202,10 @@
 	"Category": "التصنيف",
 	"Url": "الرابط",
 	"Favorites": "المفضلة",
-	"parentId": "كود الاب"
+	"parentId": "كود الاب",
+	"Back to login": "العودة لصفحة الدخول",
+	"You are not authorized":"غير مصرح ",
+	"Page Not Found": "الصفحة غير موجودة",
+	"Back to home": "العودة للصفحة الرئيسية"
+
 }
