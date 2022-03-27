@@ -241,15 +241,29 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
             {intl.formatMessage({id: "Color"})}
           </Label>
           <span>{ selectedClassificationValue.color}</span>
-          <Input
-            name='color'
-            id='color'
-            type="color"
-            defaultValue={selectedClassificationValue.id ? selectedClassificationValue.color : ''}
-            placeholder={intl.formatMessage({id: "Color"})}
-            innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['color'] })}
-          />
+          {selectedClassificationValue.id && 
+              <Input
+              name='color'
+              id='color'
+              type="color"
+              defaultValue={selectedClassificationValue.color}
+              placeholder={intl.formatMessage({id: "Color"})}
+              innerRef={register({ required: false })}
+              className={classnames({ 'is-invalid': errors['color'] })}
+            />
+          }
+           {!selectedClassificationValue.id && 
+              <Input
+              name='color'
+              id='color'
+              type="color"
+              defaultValue={''}
+              placeholder={intl.formatMessage({id: "Color"})}
+              innerRef={register({ required: false })}
+              className={classnames({ 'is-invalid': errors['color'] })}
+            />
+          }
+          
         </FormGroup>
         <FormGroup>
               <Label>{intl.formatMessage({id: "Classification Values"})}</Label>

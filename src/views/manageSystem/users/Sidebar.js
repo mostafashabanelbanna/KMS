@@ -453,10 +453,10 @@ const SidebarNewUsers = ({ open, toggleSidebar, selectedUser }) => {
                 innerRef={register()}
                 />
               }
-              
-                 <Label for='active'>
-                    {intl.formatMessage({id: "Active"})}
-                  </Label>
+
+              <Label for='active'>
+                {intl.formatMessage({id: "Active"})}
+              </Label>
             </FormGroup>
               </Col>
           </Row>

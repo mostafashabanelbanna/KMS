@@ -203,15 +203,29 @@ const SidebarNewSource = ({ open, toggleSidebar, selectedSource }) => {
           <Label for='color'>
              {intl.formatMessage({id: "Color"})}
           </Label>
-          <Input
-            name='color'
-            id='color'
-            defaultValue={selectedSource.id ? selectedSource.color : ''}
-            type="color"
-            placeholder={intl.formatMessage({id: "Color"})}
-            innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['color'] })}
-          />
+          {!selectedSource.id &&
+              <Input
+                name='color'
+                id='color'
+                defaultValue={''}
+                type="color"
+                placeholder={intl.formatMessage({id: "Color"})}
+                innerRef={register({ required: false })}
+                className={classnames({ 'is-invalid': errors['color'] })}
+              />
+          }
+          {selectedSource.id &&
+              <Input
+                name='color'
+                id='color'
+                defaultValue={selectedSource.color}
+                type="color"
+                placeholder={intl.formatMessage({id: "Color"})}
+                innerRef={register({ required: false })}
+                className={classnames({ 'is-invalid': errors['color'] })}
+              />
+          }
+          
         </FormGroup>
       
         <FormGroup>

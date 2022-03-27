@@ -245,15 +245,29 @@ const SidebarNewDimensionValue = ({dimensionId, open, toggleSidebar, selectedDim
           <Label for='color'>
              {intl.formatMessage({id: "Color"})}
           </Label>
-          <Input
-            name='color'
-            id='color'
-            type="color"
-            defaultValue={selectedDimensionValue.id ? selectedDimensionValue.color : ''}
-            placeholder={intl.formatMessage({id: "Color"})}
-            innerRef={register({ required: false })}
-            className={classnames({ 'is-invalid': errors['color'] })}
-          />
+          {selectedDimensionValue.id && 
+            <Input
+              name='color'
+              id='color'
+              type="color"
+              defaultValue={selectedDimensionValue.color}
+              placeholder={intl.formatMessage({id: "Color"})}
+              innerRef={register({ required: false })}
+              className={classnames({ 'is-invalid': errors['color'] })}
+            />
+          }
+          {!selectedDimensionValue.id && 
+            <Input
+              name='color'
+              id='color'
+              type="color"
+              defaultValue={''}
+              placeholder={intl.formatMessage({id: "Color"})}
+              innerRef={register({ required: false })}
+              className={classnames({ 'is-invalid': errors['color'] })}
+            />
+          }
+          
         </FormGroup>
         <FormGroup>
               <Label>{intl.formatMessage({id: "parentId"})}</Label>

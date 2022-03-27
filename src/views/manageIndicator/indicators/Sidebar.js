@@ -6,7 +6,7 @@ import Sidebar from '@components/sidebar'
 import Toastr from '../../../containers/toastr/Toastr'
 
 // ** Utils
-import { isObjEmpty, getSelected, selectThemeColors, convertSelectArr } from '@utils'
+import { isObjEmpty, getSelected, selectThemeColors, convertToBoolean } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -175,9 +175,6 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
   // ** Function to handle form submit
   const onSubmit = async values => {
 
-    console.log(values.active)
-
-
     const classificationValues = []
     for (let i = 0; i < store.selectedClassificationValues.length; i++) {
       store.selectedClassificationValues[i].classificationValues.map(item => {
@@ -197,10 +194,10 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
     for (const dimensionLevel of dimensionLevels) {
       tempDimensionLevels.push(dimensionLevel.split("::")[1])
     }
-
+    console.log(convertToBoolean(values.active))
     if (isObjEmpty(errors)) {
+      console.log(values.active)
       if (!selectedIndicator.id) {
-   
         await dispatch(
             addIndicator({
               name_A: values.name,
@@ -213,13 +210,13 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               calculation_E: values.calculationE,
               url: values.url,
               sortIndex: parseInt(values.sortIndex),
-              focus: values.focus,
-              active: values.active,
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               periodicities,
               sources,
               classificationValues,
               units,
-              indicatorDimensions:tempDimensionLevels
+              dimensions:tempDimensionLevels
             })
           )
       } else {
@@ -236,8 +233,8 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
               calculation_E: values.calculation_E,
               url: values.url,
               sortIndex: parseInt(values.sortIndex),
-              focus: values.focus,
-              active: values.active,
+              focus: convertToBoolean(values.focus),
+              active: convertToBoolean(values.active),
               periodicities,
               sources, 
               classificationValues,
@@ -563,13 +560,23 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             <FormGroup>
               <br/>
               <br/>
-              <Input 
-                value="true"
-                type="checkbox" 
-                placeholder="focus"  
-                name="focus" 
-                defaultChecked ={selectedIndicator ? selectedIndicator.focus : false}
-                innerRef={register()} />
+              {selectedIndicator.id && 
+                <Input 
+                  type="checkbox" 
+                  placeholder="focus"  
+                  name="focus" 
+                  defaultChecked ={selectedIndicator.focus}
+                  innerRef={register()} />
+              }
+              {!selectedIndicator.id && 
+                <Input 
+                  type="checkbox" 
+                  placeholder="focus"  
+                  name="focus" 
+                  defaultChecked ={false}
+                  innerRef={register()} />
+              }
+
                   <Label for='focus'>
                 {intl.formatMessage({id: "Focus"})}
               </Label>
@@ -579,15 +586,25 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             <FormGroup>
               <br/>
               <br/>
-
-              <Input 
-                value="true"
+              {selectedIndicator.id && 
+                  <Input 
+                  type="checkbox" 
+                  placeholder="active"  
+                  name="active" 
+                  defaultChecked ={selectedIndicator.active}
+                  innerRef={register()}
+                  />
+              }
+              {!selectedIndicator.id && 
+                <Input 
                 type="checkbox" 
                 placeholder="active"  
                 name="active" 
-                defaultChecked ={selectedIndicator ? selectedIndicator.active : false}
+                defaultChecked ={true}
                 innerRef={register()}
                 />
+              }
+              
                 <Label for='active'>
                   {intl.formatMessage({id: "Active"})}
                 </Label>
