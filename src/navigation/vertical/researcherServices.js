@@ -38,5 +38,11 @@ export default [
     title:"Favorites",
     icon: <FaHeart size={20} />,
     navLink: '/Researcher/Favorite'
+  },
+  {
+    id:"Document Library",
+    title:"Document Library",
+    icon: <FaHeart size={20} />,
+    navLink: '/Researcher/DocumentLibrary'
   }
 ]

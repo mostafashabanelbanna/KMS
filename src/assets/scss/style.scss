@@ -24,3 +24,12 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
   border-style: solid;
   border-width: 1px;
 }
+
+//
+
+.v-card:hover {
+  -webkit-transform: translateY(-5px);
+  transform: translateY(-5px);
+  -webkit-box-shadow: 0 4px 25px 0 rgba(34, 41, 47, 0.5);
+  box-shadow: 0 4px 25px 0 rgba(34, 41, 47, 0.5);
+}
