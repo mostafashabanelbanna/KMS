@@ -47,3 +47,14 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
     width: 300px;
   }
 }
+
+.app-collapse .card-header svg {
+  color: #ff9f43 !important;
+}
+
+.app-collapse.card .card-header svg {
+  transform: rotate(-180deg);
+}
+.app-collapse.card .card-header:not(.collapsed) svg {
+  transform: rotate(0deg);
+}

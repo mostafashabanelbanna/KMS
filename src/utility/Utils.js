@@ -231,4 +231,3 @@ export const confirmDelete = (deleteRow, rowId) => {
      return value.length === 1
    }
  }
-

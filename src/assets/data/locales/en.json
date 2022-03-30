@@ -169,5 +169,22 @@
 	"Back to login": "Back to login",
 	"Page Not Found": "Page Not Found",
 	"Back to home": "Back to home",
-	"Document Library": "Document Library"
+	"Document Library": "Document Library",
+	"isNational": "National",
+	"description_E": "Description in English",
+	"active": "active",
+	"createDate": "Create Date",
+	"ownerName": "Owner Name",
+	"isMontly": "Montly",
+	"sortIndex": "Sort Index",
+	"modifyDate": "Modify Date",
+	"description_A": "Description ",
+	"color": "Color",
+	"isLocked": "Locked",
+	"focus": "Focus",
+	"isDefault": "Default",
+	"attachmentName": "Attachment Name",
+	"attachmentUrl": "Attachment URL",
+	"providerName":"Provider Name",
+	"id": "Id"
 }

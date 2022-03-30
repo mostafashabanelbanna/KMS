@@ -207,5 +207,22 @@
 	"You are not authorized":"غير مصرح ",
 	"Page Not Found": "الصفحة غير موجودة",
 	"Back to home": "العودة للصفحة الرئيسية",
-	"Document Library": "الإصدارات"
+	"Document Library": "الإصدارات",
+	"isNational": "قومي",
+	"description_E": "الوصف بالإنجليزيه",
+	"active": "فعال",
+	"createDate": "تاريخ الإنشاء",
+	"ownerName": "اسم المالك",
+	"isMontly": "شهري",
+	"sortIndex": "الترتيب",
+	"modifyDate": "تاريخ التعديل",
+	"description_A": "الوصف",
+	"color": "اللون",
+	"isLocked": "مغلق",
+	"focus": "مميز",
+	"isDefault": "إفتراضي",
+	"attachmentName": "اسم الملف المرفق",
+	"attachmentUrl": "رابط الملف المرفق",
+	"providerName": "اسم مزود البيانات",
+	"id": "الكود"
 }

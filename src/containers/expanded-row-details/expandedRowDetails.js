@@ -4,6 +4,9 @@ import Col from 'reactstrap/lib/Col'
 import { useIntl, FormattedMessage } from 'react-intl'
 import * as moment from "moment"
 import "moment/locale/ar"
+// isNotLightSkin
+import { selectThemeColors } from '@utils'
+import { isNotLightSkin } from '../../utility/Utils'
 
 const ExpandedRowDetails = ({data, columns}) => {
     console.log(data)
@@ -68,18 +71,15 @@ const ExpandedRowDetails = ({data, columns}) => {
 
     return (
          data ? (
-        
-                <div className='p-2 border-bottom bg-' style={{ boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px'}}>
-                    <div className='p-1 ' style={{backgroundColor: '#f3f2f7'}}>
+                <div className='border-bottom ' >
+                    <div className='px-5' style={{backgroundColor: `${isNotLightSkin() ? "#283046" : "rgb(243, 242, 247)"}`}} theme={selectThemeColors} >
                         <Row>
                             {detailsData.map((item, index) => {
-                                // console.log(item)
                                 const keyName = Object.keys(item)[0]
                                 return ( 
                                     <Col key={index} className='my-1' md={6}>
                                         <span style={{color: '#7367f0'}}>{intl.formatMessage({id: keyName})} :</span>
                                         <span className='px-1'>{checkValue(item[keyName], keyName)}</span>
-                                    
                                     </Col>
                                 )
                                 })}
