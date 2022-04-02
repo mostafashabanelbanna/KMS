@@ -51,6 +51,7 @@ const UsersList = () => {
   const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [owners, setOwners] = useState([])
+  const [status, setStatus] = useState([])
   const [searchData, setSearchData] = useState({
     id: null,
     name: "",
@@ -59,7 +60,8 @@ const UsersList = () => {
     ownerId: null,
     classificationValueId: null,
     sourceId: null,
-    Active: true
+    Active: true,
+    isCurrentUser:false
   })
 
   // useIntl
@@ -87,6 +89,14 @@ const UsersList = () => {
       await axios.post(`/Lookups/GetLookupValues`, {lookupName: 'Department'})
       .then(response => {
           setDepartments(response.data.data)
+         })
+         .catch(error => {
+      })
+    }
+    const getStatus = async () => {
+      await axios.post(`/Lookups/GetLookupValues`, {lookupName: 'InquiryStatus'})
+      .then(response => {
+          setStatus(response.data.data)
          })
          .catch(error => {
       })
@@ -156,6 +166,7 @@ const UsersList = () => {
     getProviders()
     getClassifications()
     getOwners()
+    getStatus()
   }, [dispatch, store.data.length])
 
   useEffect(() => {
@@ -433,7 +444,7 @@ const UsersList = () => {
               }
             />
           </Card>
-          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedInquiry={store.selectedInquiry} departments={departments} providers={providers} classifications={classifications} />
+          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedInquiry={store.selectedInquiry} departments={departments} providers={providers} users={owners} status={status} classifications={classifications} />
         </>
       )}
     </Fragment>

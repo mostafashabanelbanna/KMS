@@ -1,7 +1,7 @@
 
 import { CgPerformance }  from "react-icons/cg"
 import {HiOutlineSearchCircle} from 'react-icons/hi'
-import { FaHeart } from "react-icons/fa"
+import { FaHeart, FaNewspaper, FaInfoCircle } from "react-icons/fa"
 
 export default [
   {
@@ -42,7 +42,13 @@ export default [
   {
     id:"Document Library",
     title:"Document Library",
-    icon: <FaHeart size={20} />,
+    icon: <FaNewspaper size={20} />,
     navLink: '/Researcher/DocumentLibrary'
+  },
+  {
+    id:"Inquiry",
+    title:"Inquiry",
+    icon: <FaInfoCircle size={20} />,
+    navLink: '/Researcher/Inquiry'
   }
 ]
