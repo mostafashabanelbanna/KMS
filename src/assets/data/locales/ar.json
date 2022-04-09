@@ -224,5 +224,7 @@
 	"attachmentName": "اسم الملف المرفق",
 	"attachmentUrl": "رابط الملف المرفق",
 	"providerName": "اسم مزود البيانات",
-	"id": "الكود"
+	"id": "الكود",
+	"FavoritesIndicators":"عناصر البيانات المفضلة",
+	"FavoritesDocuments": "الاصدارات المقضلة"
 }

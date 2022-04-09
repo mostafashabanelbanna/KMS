@@ -37,7 +37,20 @@ export default [
     id:"Favorites",
     title:"Favorites",
     icon: <FaHeart size={20} />,
-    navLink: '/Researcher/Favorite'
+    children: [
+      {
+        id: 'FavoritesIndicators',
+        title: 'FavoritesIndicators',
+        icon: <HiOutlineSearchCircle size={20} />,
+        navLink: '/Researcher/Favorite'
+      },
+      {
+        id: 'FavoritesDocuments',
+        title: 'FavoritesDocuments',
+        icon: <HiOutlineSearchCircle size={20} />,
+        navLink: '/Researcher/FavoritesDocuments'
+      }
+    ]
   },
   {
     id:"Document Library",

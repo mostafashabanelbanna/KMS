@@ -25,6 +25,7 @@ import webResources from '@src/views/systemServices/webResources/store/reducer/i
 import documentLibraries from '@src/views/managePublication/documentLibrary/store/reducer/index'
 import inquiries from  '@src/views/manageInquiry/Inquiry/store/reducer/index'
 import inquiryProcedures from '@src/views/manageInquiry/InquiryProcedures/store/reducer/index'
+import userNotifications from '@src/views/notification/store/reducer/index'
 const rootReducer = combineReducers({
     auth,
     users,
@@ -48,7 +49,8 @@ const rootReducer = combineReducers({
     webResources,
     documentLibraries,
     inquiries,
-    inquiryProcedures
+    inquiryProcedures,
+    userNotifications
 })
 
 export default rootReducer
