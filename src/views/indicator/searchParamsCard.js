@@ -5,7 +5,7 @@ const SearchParamsCard = ({setShowSearchParams, showSearchParams}) => {
     return (
     <div className="d-flex flex-column p-1 w-100" style={{backgroundColor: "#f0f1f5", height: "fit-content", borderRadius: 6}}>
         <div className="d-flex mb-1">
-            <p className="mb-0 col-11" style={{color: "#47cdbf", cursor: "pointer"}}>عناصر البحث</p>
+            <p className="mb-0 col-11 text_green" >عناصر البحث</p>
             <div className="col d-flex align-self-center justify-content-end">
                 <FontAwesomeIcon icon={faTimes} color="red" style={{cursor: "pointer"}} onClick={() => {
                 setShowSearchParams(!showSearchParams)

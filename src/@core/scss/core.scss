@@ -58,3 +58,13 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
 .app-collapse.card .card-header:not(.collapsed) svg {
   transform: rotate(0deg);
 }
+
+.text_green{
+  color: #47cdbf;
+}
+
+[dir] .btn-green {
+  border-color: #08A291!important;
+  background-color: #08A291 !important;
+  color: white !important;
+}

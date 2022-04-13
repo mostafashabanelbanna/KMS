@@ -33,8 +33,8 @@ const LandingPage = () => {
                 <div className="d-flex flex-column col-6">
                   <p className="mb-0">نتائج البحث : 2015 نتيجة</p>
                   <p
-                    className="mb-0"
-                    style={{ color: "#47cdbf", cursor: "pointer" }}
+                    className="mb-0 text_green"
+                    style={{ cursor: "pointer" }}
                     onClick={() => {
                       setShowSearchParams(!showSearchParams)
                     }}

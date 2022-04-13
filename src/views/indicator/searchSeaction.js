@@ -1,5 +1,6 @@
 import { faSearch, faSliders, faTimes } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Button } from "reactstrap"
 import DateSearchSection from "./dateSearchSection"
 import MultiselectionSection from "./multiselectionSeearchSection"
 const SearchSection = () => {
@@ -21,8 +22,8 @@ const SearchSection = () => {
           </div>
           <div className="d-flex col-6 justify-content-end px-0">
             <p
-              className="mb-0"
-              style={{ color: "#47cdbf", cursor: "pointer", fontSize: 13 }}
+              className="mb-0 text_green"
+              style={{ cursor: "pointer", fontSize: 13 }}
               onClick={() => {}}
             >
               تحميل إعدادات سابقة
@@ -62,7 +63,24 @@ const SearchSection = () => {
         <hr className="w-100 bg-gray mt-0 mb-2" />
         <MultiselectionSection title={"الدوريات"}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
+        <MultiselectionSection title={"المصادر"}/>
+        <hr className="w-100 bg-gray mt-0 mb-2" />
+        <MultiselectionSection title={"التصنيفات"}/>
+        <hr className="w-100 bg-gray mt-0 mb-2" />
+        <MultiselectionSection title={"القطاعات"}/>
+        <hr className="w-100 bg-gray mt-0 mb-2" />
 
+        {/*  */}
+        <div className="d-flex py-2 justify-content-center">
+        <Button type='submit' className='mr-1' color='green'>
+          بحث
+                {/* {intl.formatMessage({id: "Save"}) } */}
+              </Button>
+              <Button type='submit' color='secondary' outline >
+                حفظ إعدادات البحث
+                {/* {intl.formatMessage({id: "Cancel"}) } */}
+              </Button>
+        </div>
 
       </div>
     )

@@ -35,7 +35,7 @@ const NotificationDropdown = () => {
 
   const setSignalRConfig = () => {
     const connect = new HubConnectionBuilder()
-      .withUrl(`${process.env.REACT_APP_URL}/NotificationUserHub?userId=${JSON.parse(localStorage.getItem('userData')).id}`, {
+      .withUrl(`${window.location.hostname}/NotificationUserHub?userId=${JSON.parse(localStorage.getItem('userData')).id}`, {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })
@@ -64,7 +64,6 @@ const NotificationDropdown = () => {
           })
         })
         .catch((error) => console.log(error))
-        
     }
     
   }, [connection])
