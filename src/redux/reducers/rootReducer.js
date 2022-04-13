@@ -26,12 +26,9 @@ import webResources from '@src/views/systemServices/webResources/store/reducer/i
 import documentLibraries from '@src/views/managePublication/documentLibrary/store/reducer/index'
 import inquiries from  '@src/views/manageInquiry/Inquiry/store/reducer/index'
 import inquiryProcedures from '@src/views/manageInquiry/InquiryProcedures/store/reducer/index'
-<<<<<<< HEAD
 import documentLibrary from '../../views/documentLibrary/store/reducer'
 
-=======
 import userNotifications from '@src/views/notification/store/reducer/index'
->>>>>>> 2518cda8df12808a95ce814c4a7ee11e9bc63d1b
 const rootReducer = combineReducers({
     auth,
     users,
