@@ -56,19 +56,19 @@ const IndicatorCard = () => {
       </div>
       <hr className="w-100 bg-gray mt-0 mb-2" />
       <div className="d-flex flex-wrap justify-content-center px-2">
-        <div className="d-flex align-items-center col-lg-3 col-sm-6 col-12">
+        <div className="d-flex align-items-center col-lg-3 col-md-4 col-12">
           <SignalIcon />
           <p className="mb-0" style={{ paddingRight: "0.5rem" }}>
             3 دوريات متوفرة
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-3 col-sm-6 col-12">
+        <div className="d-flex align-items-center col-lg-3 col-md-3 col-12">
           <ArrowsIcon />
           <p className="mb-0" style={{ paddingRight: "0.5rem" }}>
             4 ابعاد
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6 col-sm-6 col-12">
+        <div className="d-flex align-items-center col-lg-6 col-md-5 col-12">
           <StatsIcon />
           <p className="mb-0" style={{ paddingRight: "0.5rem" }}>
           السلسلة المتوفرة من 2001 الي 2021
