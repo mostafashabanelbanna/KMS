@@ -74,7 +74,7 @@ const MultiselectionSection = ({title}) => {
               </FormGroup>
             </Col>
         </div>
-        <div className='mx-0 d-flex align-items-center px-5'>
+        <div className='mx-0 d-flex align-items-center pl-5'>
         <Col>
               <FormGroup>
                 <Input 
