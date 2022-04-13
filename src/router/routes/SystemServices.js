@@ -8,6 +8,10 @@ const SystemServicesRoutes = [
   {
     path: '/web-resources',
     component: lazy(() => import('../../views/systemServices/webResources'))
+  },
+  {
+    path: '/Definitions',
+    component: lazy(() => import('../../views/systemServices/Definitions'))
   }
 ]
 

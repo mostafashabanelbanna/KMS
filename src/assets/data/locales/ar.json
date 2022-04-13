@@ -213,6 +213,7 @@
 	"active": "فعال",
 	"createDate": "تاريخ الإنشاء",
 	"ownerName": "اسم المالك",
+	"Owner":"المالك",
 	"isMontly": "شهري",
 	"sortIndex": "الترتيب",
 	"modifyDate": "تاريخ التعديل",
@@ -226,5 +227,6 @@
 	"providerName": "اسم مزود البيانات",
 	"id": "الكود",
 	"FavoritesIndicators":"عناصر البيانات المفضلة",
-	"FavoritesDocuments": "الاصدارات المقضلة"
+	"FavoritesDocuments": "الاصدارات المقضلة",
+	"Definitions":"التعريفات"
 }

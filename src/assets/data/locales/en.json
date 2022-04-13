@@ -186,5 +186,6 @@
 	"attachmentName": "Attachment Name",
 	"attachmentUrl": "Attachment URL",
 	"providerName":"Provider Name",
-	"id": "Id"
+	"id": "Id",
+	"Definitions":"Definitions"
 }
