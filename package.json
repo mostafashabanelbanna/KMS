@@ -82,6 +82,7 @@
     "react-select": "4.0.2",
     "react-shepherd": "3.3.0",
     "react-signalr": "^0.2.10",
+    "react-slick": "^0.28.1",
     "react-slidedown": "2.4.5",
     "react-sortablejs": "6.0.0",
     "react-toastify": "7.0.3",
