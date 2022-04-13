@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTimes } from "@fortawesome/free-solid-svg-icons"
+import { faTimes, faCircleXmark } from "@fortawesome/free-solid-svg-icons"
 
 const SearchParamsCard = ({setShowSearchParams, showSearchParams}) => {
     return (
@@ -28,40 +28,45 @@ const SearchParamsCard = ({setShowSearchParams, showSearchParams}) => {
         <div className="dark-layout mb-2 d-flex align-items-center px-2">
             <div>الدوريات</div>
             <div
-            className="ml-2 px-2"
+            className="ml-2 px-2 d-flex align-items-center"
             style={{
                 backgroundColor: "white",
                 padding: "0.5rem",
                 borderRadius: 16
             }}
             >
-            ربع سنوية
+            <p className="mb-0 mx-1">ربع سنوية</p>
+            <FontAwesomeIcon icon={faCircleXmark} size="lg"/>
             </div>
         </div>
         <div className="dark-layout mb-2 d-flex align-items-center px-2">
         <div>المصادر</div>
         <div
-          className="ml-2"
+          className="ml-2 d-flex align-items-center"
           style={{
             backgroundColor: "#dcefeb",
             padding: "0.5rem",
             borderRadius: 4
           }}
         >
-          وزارة التربية والتعليم
+          
+          <p className="mb-0 mx-1">وزارة التربية والتعليم</p>
+            <FontAwesomeIcon icon={faCircleXmark} size="lg"/>
         </div>
         </div>
         <div className="dark-layout mb-2 d-flex align-items-center px-2">
         <div>القطاعات</div>
         <div
-          className="ml-2 px-2"
+          className="ml-2 px-2 d-flex align-items-center"
           style={{
             backgroundColor: "#cfd4e1",
             padding: "0.5rem",
             borderRadius: 16
           }}
         >
-          قطاع التعليم
+          
+          <p className="mb-0 mx-1">قطاع التعليم</p>
+            <FontAwesomeIcon icon={faCircleXmark} size="lg"/>
         </div>
         </div>
     </div>)

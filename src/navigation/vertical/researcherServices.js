@@ -1,16 +1,16 @@
-import { CgPerformance } from "react-icons/cg";
-import { HiOutlineSearchCircle } from "react-icons/hi";
-import { FaHeart, FaNewspaper, FaInfoCircle } from "react-icons/fa";
+import { CgPerformance } from "react-icons/cg"
+import { HiOutlineSearchCircle } from "react-icons/hi"
+import { FaHeart, FaNewspaper, FaInfoCircle } from "react-icons/fa"
 
 export default [
   {
-    header: "Researchers Services",
+    header: "Researchers Services"
   },
   {
     id: "indicators",
     title: "Indicators And Datasets",
     icon: <CgPerformance size={20} />,
-    navLink: "/indicator/landingPage",
+    navLink: "/indicator/landingPage"
     // children: [
     //   {
     //     id: '/classifications',
@@ -42,26 +42,26 @@ export default [
         id: "FavoritesIndicators",
         title: "FavoritesIndicators",
         icon: <HiOutlineSearchCircle size={20} />,
-        navLink: "/Researcher/Favorite",
+        navLink: "/Researcher/Favorite"
       },
       {
         id: "FavoritesDocuments",
         title: "FavoritesDocuments",
         icon: <HiOutlineSearchCircle size={20} />,
-        navLink: "/Researcher/FavoritesDocuments",
-      },
-    ],
+        navLink: "/Researcher/FavoritesDocuments"
+      }
+    ]
   },
   {
     id: "Document Library",
     title: "Document Library",
     icon: <FaNewspaper size={20} />,
-    navLink: "/Researcher/DocumentLibrary",
+    navLink: "/Researcher/DocumentLibrary"
   },
   {
     id: "Inquiry",
     title: "Inquiry",
     icon: <FaInfoCircle size={20} />,
-    navLink: "/Researcher/Inquiry",
-  },
-];
+    navLink: "/Researcher/Inquiry"
+  }
+]
