@@ -17,7 +17,7 @@ export const getData = params => {
       dispatch(isNotLoading())
 
     }).catch(error => {
-      const ErrorCode = 500
+      let ErrorCode = 500
       if (error.response) {
         ErrorCode = error.response.status
       }
