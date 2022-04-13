@@ -56,7 +56,11 @@ export default [
   {
     id:"Document Library",
     title:"Document Library",
+<<<<<<< HEAD
+    icon: <IoDocumentsSharp size={20} />,
+=======
     icon: <FaNewspaper size={20} />,
+>>>>>>> 2518cda8df12808a95ce814c4a7ee11e9bc63d1b
     navLink: '/Researcher/DocumentLibrary'
   },
   {

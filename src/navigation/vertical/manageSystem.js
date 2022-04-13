@@ -1,6 +1,7 @@
 import { User, Columns, Users } from 'react-feather'
+import { isAdmin } from '../../utility/Utils'
 
-export default [
+export default isAdmin() ? [
   {
     header: 'Manage System'
   },
@@ -17,4 +18,4 @@ export default [
     icon: <Users size={20} />,
     navLink: '/roles'
   }
-]
+] : []

@@ -231,3 +231,8 @@ export const confirmDelete = (deleteRow, rowId) => {
      return value.length === 1
    }
  }
+
+ export const isAdmin = () => {
+  const admin = localStorage?.getItem('userData')?.isAdmin
+  return admin
+ }

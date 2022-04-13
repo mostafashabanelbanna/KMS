@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, CardTitle, CardBody, CardSubtitle, CardText, Button, Badge, Col, Row, CardLink } from 'reactstrap'
 import testImg from '../../assets/images/pages/card-image-5.jpg'
 
-const ListingVertical = () => {
+const ListingVertical = ({item}) => {
 
   return (
     <Col sm={12} md={6}>
@@ -14,12 +14,10 @@ const ListingVertical = () => {
             </Col>
             <Col sm={9} className="d-flex flex-column justify-content-between">
               <div>
-                <CardTitle className="mt-1 mt-sm-0" tag='h4'>Card Title</CardTitle>
-                <CardSubtitle className='text-muted'>Support card subtitle</CardSubtitle>
+                <CardTitle className="mt-1 mt-sm-0" tag='h4'>{item.name}</CardTitle>
+                <CardSubtitle className='text-muted'>{item.lastDocumentDate}</CardSubtitle>
                 <CardText className='my-2'>
-                  Some quick example text to build on the card title and make up the bulk of the card's content.
-                  Some quick example text to build on the card title and make up the bulk of the card's content.
-                  Some quick example text to build on the card title and make up the bulk of the card's content.
+                  {item.description}
                 </CardText>
               </div>
               <div>
