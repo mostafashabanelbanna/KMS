@@ -1,8 +1,8 @@
 // ** React Imports
 import { useEffect, useState } from 'react'
-
+ 
 // ** Third Party Components
-import axios from 'axios'
+import axios from '../../../../axios'
 import classnames from 'classnames'
 import * as Icon from 'react-feather'
 import { NavItem, NavLink } from 'reactstrap'
@@ -24,7 +24,7 @@ const NavbarSearch = () => {
 
   // ** ComponentDidMount
   useEffect(() => {
-    axios.get('/api/main-search/data').then(({ data }) => {
+    axios.get('/main-search/data').then(({ data }) => {
       setSuggestions(data.searchArr)
     })
   }, [])

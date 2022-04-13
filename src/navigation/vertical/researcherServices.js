@@ -1,6 +1,7 @@
 
 import { CgPerformance }  from "react-icons/cg"
 import {HiOutlineSearchCircle} from 'react-icons/hi'
+import {IoDocumentsSharp} from 'react-icons/io5'
 import { FaHeart } from "react-icons/fa"
 
 export default [
@@ -42,7 +43,7 @@ export default [
   {
     id:"Document Library",
     title:"Document Library",
-    icon: <FaHeart size={20} />,
+    icon: <IoDocumentsSharp size={20} />,
     navLink: '/Researcher/DocumentLibrary'
   }
 ]
