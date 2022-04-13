@@ -16,7 +16,7 @@ const InquiryList = () => {
   
   return (
     <div className='app-user-list'>
-      <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "ManageInquiry"})} breadCrumbParent={intl.formatMessage({id: "Inquiry"})} breadCrumbActive={intl.formatMessage({id: "ManageInquiry"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
+      <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "ManageInquiry"})} breadCrumbParent="خدمات الباحثين" breadCrumbActive={intl.formatMessage({id: "ManageInquiry"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
       <Table />
     </div>
   )

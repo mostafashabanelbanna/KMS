@@ -20,13 +20,18 @@ import classifications from '@src/views/manageClassification/classifications/sto
 import classificationValues from '@src/views/manageClassification/classifications/classificationValues/store/reducer/index'
 import researcherIndicators from '@src/views/indicator/store/reducer/index'
 import documentIssues from '@src/views/managePublication/documentIssue/store/reducer/index'
+import definitions from '@src/views/systemServices/Definitions/store/reducer/index'
 import providers from '@src/views/systemServices/providers/store/reducer/index'
 import webResources from '@src/views/systemServices/webResources/store/reducer/index'
 import documentLibraries from '@src/views/managePublication/documentLibrary/store/reducer/index'
 import inquiries from  '@src/views/manageInquiry/Inquiry/store/reducer/index'
 import inquiryProcedures from '@src/views/manageInquiry/InquiryProcedures/store/reducer/index'
+<<<<<<< HEAD
 import documentLibrary from '../../views/documentLibrary/store/reducer'
 
+=======
+import userNotifications from '@src/views/notification/store/reducer/index'
+>>>>>>> 2518cda8df12808a95ce814c4a7ee11e9bc63d1b
 const rootReducer = combineReducers({
     auth,
     users,
@@ -46,12 +51,14 @@ const rootReducer = combineReducers({
     classificationValues,
     researcherIndicators,
     documentIssues,
+    definitions,
     providers,
     webResources,
     documentLibraries,
     inquiries,
     inquiryProcedures,
-    documentLibrary
+    documentLibrary,
+    userNotifications
 })
 
 export default rootReducer

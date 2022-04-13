@@ -12,6 +12,7 @@ import ManagePublications from './ManagePublications'
 import SystemServices from './SystemServices'
 import ManageInquiryRoutes from './ManageInquiry'
 import ResearcherRoutes from './Researcher'
+import FrontRoutes  from './FrontRouting'
 
 // ** Document title
 const TemplateTitle = '%s - Vuexy React Admin Template'
@@ -33,7 +34,8 @@ const Routes = [
   ...ManagePublications,
   ...SystemServices,
   ...ManageInquiryRoutes,
-  ...ResearcherRoutes
+  ...ResearcherRoutes,
+  ...FrontRoutes
 ]
 
 export { DefaultRoute, TemplateTitle, Routes }

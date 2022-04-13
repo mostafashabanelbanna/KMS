@@ -35,14 +35,15 @@ import moment from "moment"
 import "moment/locale/ar"
 import zIndex from '@material-ui/core/styles/zIndex'
 
-const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, providers, classifications }) => {
+const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, providers, classifications, users, status }) => {
   // ** States
   const [selectedDepartment, setSelectedDepartment] = useState({})
   const [selectedProvider, setSelectedProvider] = useState({})
+  const [selectedUser, setSelectedUser] = useState({})
+  const [selectedStatus, setSelectedStatus] = useState({})
   const [startDate, setStartDate] = useState(new Date())
   const [plannedEndDate, setPlannedEndDate] = useState(new Date())
   const [actualEndDate, setActualEndDate] = useState(new Date())
-
 
   // Import localization files
   const intl = useIntl()
@@ -86,6 +87,8 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
               actualEndDate,
               providerId: selectedProvider ? selectedProvider.id : "",
               departmentId: selectedDepartment ? selectedDepartment.id : "",
+              userId: selectedUser ? selectedUser.id : "",
+              statusId: selectedStatus ? selectedStatus.id : "",
               sortIndex: values.sortIndex,
               focus: convertToBoolean(values.focus),
               active: convertToBoolean(values.active),
@@ -106,6 +109,8 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
               actualEndDate,
               providerId: selectedProvider ? selectedProvider.id : "",
               departmentId: selectedDepartment ? selectedDepartment.id : "",
+              userId: selectedUser ? selectedUser.id : "",
+              statusId: selectedStatus ? selectedStatus.id : "",
               sortIndex: values.sortIndex,
               focus: convertToBoolean(values.focus),
               active: convertToBoolean(values.active),
@@ -135,6 +140,14 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
   useEffect(() => {
     setSelectedDepartment(selectedInquiry.department)
   }, [selectedInquiry.department])
+
+  useEffect(() => {
+    setSelectedStatus(selectedInquiry.status)
+  }, [selectedInquiry.status])
+
+  useEffect(() => {
+    setSelectedUser(selectedInquiry.user)
+  }, [selectedInquiry.user])
 
   useEffect(() => {
     if (selectedInquiry.id) {
@@ -268,6 +281,15 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
     setSelectedDepartment(e)
   }
 
+  const handleStatusChange = (e) => {
+    setSelectedStatus(e)
+  }
+
+  const handleUserChange = (e) => {
+    setSelectedUser(e)
+  }
+
+
   const addClassificationValue = () => {
     if (store.selectedClassificationValues.length < store.allClassifications.length) {
       const addedObj = {
@@ -347,15 +369,20 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
                 <Label for='expectedPeriod'>
                   {intl.formatMessage({id: "expectedPeriod"})}
                 </Label>
-                <Input
-                  type="number"
-                  name='expectedPeriod'
-                  id='expectedPeriod'
-                  defaultValue={selectedInquiry ? selectedInquiry.expectedPeriod : 0}
-                  placeholder='0'
-                  innerRef={register({ required: false })}
-                  className={classnames({ 'is-invalid': errors['expectedPeriod'] })}
-                />
+                <div className="d-flex">
+                  <Input
+                    type="number"
+                    name='expectedPeriod'
+                    id='expectedPeriod'
+                    defaultValue={selectedInquiry ? selectedInquiry.expectedPeriod : 0}
+                    placeholder='0'
+                    innerRef={register({ required: false })}
+                    className={classnames({ 'is-invalid': errors['expectedPeriod'] })}
+                  />
+                  <span>&nbsp;</span>
+                  <span>يوم</span>
+                </div>
+                
               </FormGroup>
           </Col>
         </Row>
@@ -485,6 +512,46 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments, 
                   />
               </FormGroup>
           </Col> 
+        </Row>
+        <Row className="mx-0">
+            <Col md={6}>
+              <FormGroup>
+                  <Label>المستخدم</Label>
+                  <Select style={{zIndex: 1000}}
+                    isClearable={false}
+                    placeholder="تحديد"
+                    theme={selectThemeColors}
+                    value={selectedUser}
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    name='userId'
+                    id='userId'
+                    options={users}
+                    className='react-select'
+                    classNamePrefix='select'
+                    onChange={e => handleUserChange(e)}
+                  />
+              </FormGroup>
+            </Col> 
+            <Col md={6}>
+              <FormGroup>
+                  <Label>الحالة</Label>
+                  <Select style={{zIndex: 1000}}
+                    isClearable={false}
+                    placeholder="تحديد"
+                    theme={selectThemeColors}
+                    value={selectedStatus}
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    name='statusId'
+                    id='statusId'
+                    options={status}
+                    className='react-select'
+                    classNamePrefix='select'
+                    onChange={e => handleStatusChange(e)}
+                  />
+              </FormGroup>
+            </Col> 
         </Row>
         <Row className="mx-0">
             <Col md={6}>

@@ -13,6 +13,10 @@ const ManageIndicatorRoutes = [
   {
     path: '/documentLibrary',
     component: lazy(() => import('../../views/managePublication/documentLibrary/index'))
+  },
+  {
+    path: '/notifications',
+    component: lazy(() => import('../../views/notification/index'))
   }
 ]
 

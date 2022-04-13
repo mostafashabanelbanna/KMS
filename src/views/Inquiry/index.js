@@ -10,16 +10,16 @@ import Table from './Table'
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 
-const DocumentLibraryList = (props) => {
+const InquiryList = () => {
 
   const intl = useIntl()
   
   return (
     <div className='app-user-list'>
-      <Breadcrumbs breadCrumbTitle="ملحقات الأصدارة"  breadCrumbParent="الاصدارات"  breadCrumbActive="ملحقات الأصدارة" breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
-      <Table documentIssueId={props.location.state.id} />
+        <Breadcrumbs breadCrumbTitle="طلبات البيانات" breadCrumbParent="خدمات الباحثين" breadCrumbActive="طلبات البيانات" breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
+      <Table />
     </div>
   )
 }
 
-export default DocumentLibraryList
+export default InquiryList

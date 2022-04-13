@@ -277,7 +277,7 @@ const List = () => {
       label: `${intl.formatMessage({id: "Provider Category"})}`, 
       colSizeLg: 4, 
       attr: "providerCategoryId", 
-      dropdownArr: convertSelectArr(allProviderCategories), 
+      dropdownArr: convertSelectArr(allSources), 
       multiple: true,
       radioArr: [] 
     },

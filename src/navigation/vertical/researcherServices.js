@@ -1,8 +1,7 @@
 
 import { CgPerformance }  from "react-icons/cg"
 import {HiOutlineSearchCircle} from 'react-icons/hi'
-import {IoDocumentsSharp} from 'react-icons/io5'
-import { FaHeart } from "react-icons/fa"
+import { FaHeart, FaNewspaper, FaInfoCircle } from "react-icons/fa"
 
 export default [
   {
@@ -12,38 +11,62 @@ export default [
     id: 'indicators',
     title: 'Indicators And Datasets',
     icon: <CgPerformance size={20} />,
-    children: [
-      {
-        id: '/classifications',
-        title: 'Search by classifications',
-        icon: <HiOutlineSearchCircle size={20} />,
-        navLink: '/indicator/classification'
-      },
-      {
-        id: '/periodicities',
-        title: 'Search by periodicities',
-        icon: <HiOutlineSearchCircle size={20} />,
-        navLink: '/indicator/periodicity'
-      },
-      {
-        id: '/generalSearch',
-        title: 'General search',
-        icon: <HiOutlineSearchCircle size={20} />,
-        navLink: '/indicator/search'
-      }
+    navLink: '/indicator/landingPage'
+    // children: [
+    //   {
+    //     id: '/classifications',
+    //     title: 'Search by classifications',
+    //     icon: <HiOutlineSearchCircle size={20} />,
+    //     navLink: '/indicator/classification'
+    //   },
+    //   {
+    //     id: '/periodicities',
+    //     title: 'Search by periodicities',
+    //     icon: <HiOutlineSearchCircle size={20} />,
+    //     navLink: '/indicator/periodicity'
+    //   },
+    //   {
+    //     id: '/generalSearch',
+    //     title: 'General search',
+    //     icon: <HiOutlineSearchCircle size={20} />,
+    //     navLink: '/indicator/search'
+    //   }
      
-    ]
+    // ]
   },
   {
     id:"Favorites",
     title:"Favorites",
     icon: <FaHeart size={20} />,
-    navLink: '/Researcher/Favorite'
+    children: [
+      {
+        id: 'FavoritesIndicators',
+        title: 'FavoritesIndicators',
+        icon: <HiOutlineSearchCircle size={20} />,
+        navLink: '/Researcher/Favorite'
+      },
+      {
+        id: 'FavoritesDocuments',
+        title: 'FavoritesDocuments',
+        icon: <HiOutlineSearchCircle size={20} />,
+        navLink: '/Researcher/FavoritesDocuments'
+      }
+    ]
   },
   {
     id:"Document Library",
     title:"Document Library",
+<<<<<<< HEAD
     icon: <IoDocumentsSharp size={20} />,
+=======
+    icon: <FaNewspaper size={20} />,
+>>>>>>> 2518cda8df12808a95ce814c4a7ee11e9bc63d1b
     navLink: '/Researcher/DocumentLibrary'
+  },
+  {
+    id:"Inquiry",
+    title:"Inquiry",
+    icon: <FaInfoCircle size={20} />,
+    navLink: '/Researcher/Inquiry'
   }
 ]

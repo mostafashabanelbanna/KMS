@@ -1,4 +1,4 @@
-import { User } from 'react-feather'
+import { User, BookOpen } from 'react-feather'
 
 export default [
   {
@@ -15,5 +15,11 @@ export default [
     title: 'WebResources',
     icon: <User size={20} />,
     navLink: '/web-resources'
+  },
+  {
+    id: 'Definitions',
+    title: 'Definitions',
+    icon: <BookOpen size={20} />,
+    navLink: '/Definitions'
   }
 ]
