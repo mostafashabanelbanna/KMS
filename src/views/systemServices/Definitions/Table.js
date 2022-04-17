@@ -131,7 +131,7 @@ const DefinitionList = () => {
     if (store.getResponse.statusCode !== 200 && store.getResponse.statusCode !== 0) {
       notify('error', `${intl.formatMessage({id: "InternalServerError"})} `)
     }
-    dispatch({type:"RESET_Definition_GET_RESPONSE"})
+    dispatch({type:"RESET_DEFINITION_GET_RESPONSE"})
   }, [store.getResponse.statusCode])
 
   useEffect(() => {
@@ -158,12 +158,12 @@ const DefinitionList = () => {
   }, [store.deleteResponse.statusCode])
 
   const addDefinition = () => {
-    dispatch({type: "GET_Definition", selectedDefinition:{}})
+    dispatch({type: "GET_DEFINITION", selectedDefinition:{}})
     toggleSidebar()
   }
   const updateDefinition = id => {
-    dispatch({type: "GET_Definition", selectedDefinition:{}})
-    dispatch({type:"RESET_Definition_UPDATE_RESPONSE"})
+    dispatch({type: "GET_DEFINITION", selectedDefinition:{}})
+    dispatch({type:"RESET_DEFINITION_UPDATE_RESPONSE"})
     dispatch(getDefinition(id))
     toggleSidebar()
   }
@@ -359,7 +359,7 @@ const DefinitionList = () => {
                       }
                     />
                 </Card>
-                <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedDefinition={store.selectedDefinition} />
+                <Sidebar sources={source} open={sidebarOpen} toggleSidebar={toggleSidebar} selectedDefinition={store.selectedDefinition} />
               </>
           )}
       </Fragment>

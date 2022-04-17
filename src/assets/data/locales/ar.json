@@ -116,7 +116,6 @@
 	"Comments": "التعليقات",
 	"Manage Notifications": "إدارة التنويهات",
 	"Notifications": "التنويهات",
-	"parentId" : "parentId",
 	"Level Number": "Level Number",
 	"Parent Name": "Parent Name",
 	"Classifications": "التصنيفات",
@@ -179,7 +178,9 @@
 	"TitleA": "العنوان (عربى)",
 	"TitleE": "العنوان (أنجليزى)",
 	"contentA": "المحتوى (عربى)",
-	"contentE": "المحتوى (عربى)",
+	"contentE": "المحتوى (إنجليزى)",
+	"DescriptionA": "الوصف (عربى)",
+	"DescriptionE": "الوصف (إنجليزى)",
 	"PublishDate": "تاريخ الأصدار",
 	"WebResources": "مصادر على الويب",
 	"ManageInquiry": "أدارة طلبات البيانات",
@@ -194,7 +195,7 @@
 	"plannedEndDate": "تاريخ الأنتهاء المخطط",
 	"actualEndDate": "تاريخ الأنتهاء الفعلى",
 	"referenceNo": "رقم الطلب",
-	"attachment": "ملف",
+	"attachment": "ملف مرفق",
 	"InquiryProcedure": "إجراءات طلب البيانات",
 	"Advanced Search": "بحث متقدم",
 	"name_E" :"الأسم بالإنجليزية",
@@ -228,5 +229,6 @@
 	"id": "الكود",
 	"FavoritesIndicators":"عناصر البيانات المفضلة",
 	"FavoritesDocuments": "الاصدارات المقضلة",
-	"Definitions":"التعريفات"
+	"Definitions":"التعريفات",
+	"source": "المصدر"
 }
