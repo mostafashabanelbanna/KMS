@@ -1,0 +1,10 @@
+.swiper-slide{
+    border-radius: 20px !important;
+    width: 100px !important;
+    height: 200px !important;
+}
+
+.dashboardSlider{
+    width: 250px !important;
+    height: 400px !important;
+}

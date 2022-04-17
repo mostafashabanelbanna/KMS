@@ -64,7 +64,23 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
 }
 
 [dir] .btn-green {
-  border-color: #08A291!important;
+  border-color: #08A291 !important;
   background-color: #08A291 !important;
   color: white !important;
+}
+
+.bg_green{
+  background-color: #08A291 !important;
+}
+
+[dir] .swiper-centered-slides .swiper-button-next:after, [dir] .swiper-centered-slides .swiper-button-prev:after {
+  background-color: #08A291 !important;
+}
+
+[dir] .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active {
+  border: 2px solid #08A291 !important;
+}
+
+.swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active i, .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active svg {
+  color: #08A291 !important;
 }
