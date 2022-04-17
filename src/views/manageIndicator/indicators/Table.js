@@ -18,6 +18,7 @@ import axios from '../../../axios'
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
 import { ChevronDown, MoreVertical,  Trash2, Archive } from 'react-feather'
+import { CgPerformance }  from "react-icons/cg"
 import DataTable from 'react-data-table-component'
 import { selectThemeColors } from '@utils'
 import { Card,  Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
@@ -389,6 +390,10 @@ const IndictorList = () => {
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
+            </DropdownItem>
+            <DropdownItem className='w-100' tag={Link} to={{ pathname: `/oldIndicators/${row.id}`, state: { indicatorId : row.id}}} >
+              <CgPerformance size={14} className='mr-50' />
+              <span className='align-middle'>{intl.formatMessage({id: "OldIndicators"})}</span>
             </DropdownItem>
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteIndicator, row.id) }} >
               <Trash2 size={14} className='mr-50' />
