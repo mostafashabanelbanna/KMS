@@ -375,6 +375,12 @@ const IndictorList = () => {
       minWidth: '250px'
     },
     {
+      name: <FormattedMessage id="Source" />,
+      selector: 'sources',
+      sortable: true,
+      minWidth: '250px'
+    },
+    {
       name: <div className="justify-content-center"><FormattedMessage id="Actions" /></div>,
       width: '100px',
       center: true,

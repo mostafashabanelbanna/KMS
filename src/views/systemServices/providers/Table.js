@@ -47,7 +47,7 @@ const List = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const [allProviderCategories, setAllProviderCategories] = useState([])
-  const [providerCategory, setProviderCategory] = useState(null)
+  //const [providerCategory, setProviderCategory] = useState(null)
   const [owners, setOwners] = useState([])
   
   const [pageNumber, setPageNumber] = useState(1)
@@ -58,7 +58,7 @@ const List = () => {
     email: "",
     url: "",
     username:"",
-    providerCategoryId: providerCategory,
+    providerCategoryId: null,
     ownerId: null,
     active : true
   })
@@ -277,7 +277,7 @@ const List = () => {
       label: `${intl.formatMessage({id: "Provider Category"})}`, 
       colSizeLg: 4, 
       attr: "providerCategoryId", 
-      dropdownArr: convertSelectArr(allSources), 
+      dropdownArr: convertSelectArr(allProviderCategories), 
       multiple: true,
       radioArr: [] 
     },
@@ -338,7 +338,7 @@ const List = () => {
     },
     {
       name: 'المستخدم',
-      selector: 'username',
+      selector: 'ownerName',
       sortable: true,
       minWidth: '150px'
     },
