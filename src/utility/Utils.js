@@ -236,3 +236,25 @@ export const confirmDelete = (deleteRow, rowId) => {
   const admin = localStorage?.getItem('userData')?.isAdmin
   return admin
  }
+
+ export const isPermitted = (objectName, Function) => {
+  const perms = JSON.parse(localStorage?.getItem('userData'))?.userPermissions
+  //console.log(perms.filter(x => x.objectname === objectName))
+  const arr = perms.filter((x) => {
+    return x.objectName === objectName
+  })
+  
+  const funcs = arr[0].functions
+
+  const func = funcs.filter((x) => {
+    return x.functionName === Function
+  })
+  
+  const perm = func.filter((x) => {
+    return x.permissionValue === 0
+  })
+  
+  const ret = (perm.length === 0)
+  
+  return ret 
+ }
