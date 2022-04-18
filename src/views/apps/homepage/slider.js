@@ -35,8 +35,9 @@ const Slider = ({title, dashboard, containerClassName, containerStyle, className
             </div>
         </CardHeader>
         <CardBody>
-        <Swiper {...params}>
-            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : ""}`}>
+        <Swiper className='' {...params}>
+            {/* </Swiper>style={{width: dashboard ? 400 : "auto"}}> */}
+            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : ""}`}> 
             <Play size={28} className="mb-3"/>
             <p className='d-flex text-center swiper-text align-middle pt-md-1 pt-sm-50 mb-0'>Getting Started</p>
             </SwiperSlide>

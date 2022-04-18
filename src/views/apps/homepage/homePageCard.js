@@ -8,7 +8,7 @@ const HomeCard = ({title, addedLatelyComp}) => {
             <CardTitle tag='h4' className="mb-0">{title}</CardTitle>
             <hr className="col bg-gray my-0 ml-2" />
         </div>
-        <div className="d-flex flex-column bg-white p-2 mt-2" style={{borderRadius: 20}}>
+        <div className="d-flex flex-column card p-2 mt-2" style={{borderRadius: 20}}>
             <div className="d-flex">
                 <div className="d-flex justify-content-center align-items-center" style={{width: 35, height: 35, borderRadius: "50%", backgroundColor: "#f4f4f5"}}>
                     <div style={{width: 22, height: 22, borderRadius: "50%", backgroundColor: "#dca627"}}></div>
