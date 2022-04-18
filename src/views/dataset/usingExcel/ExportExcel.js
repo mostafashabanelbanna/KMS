@@ -35,6 +35,7 @@ const ExportExcel = () => {
 
     useEffect(() => {
         dispatch(getAllClassifications()) 
+        dispatch(getIndicators(0))
         setClassification(store.classification)
         setClassificationValue(store.classificationValueId)
         setIndicator(store.indicatorId)
@@ -109,9 +110,8 @@ const ExportExcel = () => {
     //require all fields
     const isEmptyValue = () => {
         (
-          classification 
-          && classificationValue  
-          && indicator 
+         
+          indicator 
           && periodicity 
           && indicatorUnit
           && source
@@ -173,7 +173,7 @@ const ExportExcel = () => {
             </Col>
             </Row>
             <Row className="mx-0">
-            { classification ? <Col sm='6' className=" mb-2">
+            {<Col sm='6' className=" mb-2">
                 <FormGroup>
                   <Label>{intl.formatMessage({id: "Classification Values"})}</Label>
                   <Select
@@ -191,8 +191,8 @@ const ExportExcel = () => {
                     onChange={e => handleClassificationValuesChange(e) }
                   />
                 </FormGroup>
-               </Col> : null}
-            { classificationValue ?  <Col sm='6'  className=" mb-2">
+               </Col>}
+            { <Col sm='6'  className=" mb-2">
            <FormGroup>
               <Label>{intl.formatMessage({id: "Indicators"})}</Label>
               <Select
@@ -210,7 +210,7 @@ const ExportExcel = () => {
                 onChange={e => handleIndicatorsChange(e) }
               />
             </FormGroup>
-            </Col> : null}
+            </Col>}
             </Row>
             { indicator ? <Row className="mx-0">
             <Col sm='3' className=" mb-2" >
