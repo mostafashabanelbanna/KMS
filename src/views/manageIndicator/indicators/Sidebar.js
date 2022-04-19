@@ -619,7 +619,8 @@ const SidebarNewIndicator = ({ open, toggleSidebar, selectedIndicator }) => {
             <Label for='name'>
                 {intl.formatMessage({id: "Dimensions"})}
             </Label>
-            {selectedIndicator.indicatorDimensionsDtos &&  <Select
+            {selectedIndicator.indicatorDimensionsDtos &&  
+            <Select
                     defaultValue={selectedIndicator ? selectedIndicator.indicatorDimensionsDtos : []}
                     isMulti
                     placeholder="تحديد"

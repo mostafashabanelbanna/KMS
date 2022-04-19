@@ -240,13 +240,13 @@ export const confirmDelete = (deleteRow, rowId) => {
  export const isPermitted = (objectName, Function) => {
   const perms = JSON.parse(localStorage?.getItem('userData'))?.userPermissions
   //console.log(perms.filter(x => x.objectname === objectName))
-  const arr = perms.filter((x) => {
+  const arr = perms?.filter((x) => {
     return x.objectName === objectName
   })
   
-  const funcs = arr[0].functions
+  const funcs = arr?.length ? arr[0]?.functions : []
 
-  const func = funcs.filter((x) => {
+  const func = funcs?.filter((x) => {
     return x.functionName === Function
   })
   

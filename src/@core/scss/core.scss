@@ -132,3 +132,7 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
 .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active i, .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active svg {
   color: #08A291 !important;
 }
+
+.MuiOutlinedInput-adornedEnd{
+  padding: 0 !important;
+}
