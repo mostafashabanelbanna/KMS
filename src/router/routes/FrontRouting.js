@@ -7,6 +7,10 @@ const FrontRoutes = [
         component: lazy(() => import('../../views/indicator/indicatorList/landingPage'))
     },
     {
+        path: '/indicator/indicatorDetails',
+        component: lazy(() => import('../../views/indicator/indicatorDetails/index'))
+    },
+    {
         path: '/indicator/classification/:classificationId/:parentId',
         component: lazy(() => import('../../views/indicator/classification'))
     },

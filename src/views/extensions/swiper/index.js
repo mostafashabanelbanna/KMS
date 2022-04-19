@@ -10,22 +10,10 @@ import SwiperCore, {
   Lazy,
   Virtual
 } from 'swiper'
-import SwiperDefault from './SwiperDefault'
-import SwiperNavigation from './SwiperNavigation'
-import SwiperPagination from './SwiperPagination'
-import SwiperProgress from './SwiperProgress'
-import SwiperMultiSlides from './SwiperMultiSlides'
-import SwiperRows from './SwiperRows'
+
 import CenterSlidesStyle1 from './CenteredSlidesStyle1'
 import CenterSlidesStyle2 from './CenteredSlidesStyle2'
-import SwiperFade from './SwiperFade'
-import SwiperCube from './3DEffect'
-import SwiperCoverflow from './SwiperCoverflow'
-import SwiperAutoplay from './SwiperAutoplay'
-import SwiperGallery from './SwiperGallery'
-import SwiperLazy from './SwiperLazyload'
-import SwiperResponsive from './SwiperResponsive'
-import SwiperVirtual from './SwiperVirtual'
+
 import ExtensionsHeader from '@components/extensions-header'
 import { Row, Col } from 'reactstrap'
 
@@ -44,7 +32,7 @@ const Slider = () => {
         link='https://swiperjs.com/'
       />
       <Row>
-        <Col sm='12'>
+        {/* <Col sm='12'>
           <SwiperDefault isRtl={isRtl} />
         </Col>
         <Col sm='12'>
@@ -61,14 +49,14 @@ const Slider = () => {
         </Col>
         <Col sm='12'>
           <SwiperRows isRtl={isRtl} />
-        </Col>
+        </Col> */}
         <Col sm='12'>
           <CenterSlidesStyle1 isRtl={isRtl} />
         </Col>
         <Col sm='12'>
           <CenterSlidesStyle2 isRtl={isRtl} />
         </Col>
-        <Col sm='12'>
+        {/* <Col sm='12'>
           <SwiperFade isRtl={isRtl} />
         </Col>
         <Col sm='12'>
@@ -91,7 +79,7 @@ const Slider = () => {
         </Col>
         <Col sm='12'>
           <SwiperVirtual isRtl={isRtl} />
-        </Col>
+        </Col> */}
       </Row>
     </Fragment>
   )
