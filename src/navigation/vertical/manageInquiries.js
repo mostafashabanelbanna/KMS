@@ -11,11 +11,11 @@ export default [
     title: 'Inquiries',
     icon: <FaInfoCircle size={20} />,
     navLink: '/inquiry'
-  },
-  {
-    id: '/comments',
-    title: 'Comments',
-    icon: <FaCommentDots size={20} />,
-    navLink: '/comments'
   }
+  // {
+  //   id: '/comments',
+  //   title: 'Comments',
+  //   icon: <FaCommentDots size={20} />,
+  //   navLink: '/comments'
+  // }
 ]
