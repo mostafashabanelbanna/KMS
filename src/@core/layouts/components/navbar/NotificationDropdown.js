@@ -34,8 +34,9 @@ const NotificationDropdown = () => {
 
 
   const setSignalRConfig = () => {
+    const user = JSON.parse(localStorage.getItem('userData'))
     const connect = new HubConnectionBuilder()
-      .withUrl(`${window.location.hostname}/NotificationUserHub?userId=${JSON.parse(localStorage.getItem('userData')).id}`, {
+      .withUrl(`${window.location.hostname}/NotificationUserHub?userId=${user ?  user.id : ""}`, {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })

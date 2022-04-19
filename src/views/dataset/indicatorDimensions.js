@@ -74,7 +74,7 @@ const IndicatorDimension = () => {
             notify('error', 'تاريخ الادخال يجب ان يكون قبل تاريخ اليوم')
             return false
         }
-        if (store.classificationValueId === 0 || store.indicatorId === 0 || store.sourceId === 0 || store.periodicityId === 0 || store.indicatorUnitId === 0 || store.insertionDate === '') {
+        if (store.indicatorId === 0 || store.sourceId === 0 || store.periodicityId === 0 || store.indicatorUnitId === 0 || store.insertionDate === '') {
             notify('error', 'يجب أختيار جميع البيانات من الصفحة السابقة')
             return false
         }

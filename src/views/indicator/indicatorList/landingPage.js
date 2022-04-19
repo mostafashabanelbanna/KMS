@@ -1,21 +1,15 @@
 import { useIntl } from "react-intl"
-import { useState, useEffect, useLayoutEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { AlignJustify, Rss, Info, Image, Users, Edit } from "react-feather"
-import { RiDatabase2Fill } from "react-icons/ri"
-import { Link } from "react-router-dom"
-import IndicatorHeader from "../header"
-import axios from "../../../axios"
-import { tabEnum } from "../tabEnum"
-import IndicatorList from "../IindicatorList"
-import Badge from "reactstrap/lib/Badge"
+import { useState } from "react"
 import Breadcrumbs from "@components/breadcrumbs"
 import IndicatorCard from "./indicatorListCard"
 import SearchParamsCard from "./searchParamsCard"
 import SearchSection from "./searchSeaction"
+import { faSliders } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const LandingPage = () => {
   const [showSearchParams, setShowSearchParams] = useState(false)
+  const [showSearchSection, setShowSearchSection] = useState(false)
   const intl = useIntl()
   return (
     <>
@@ -26,8 +20,8 @@ const LandingPage = () => {
         breadCrumbRoot={intl.formatMessage({ id: "Homepage" })}
       />
       <div className="d-flex">
-        <div className="d-flex flex-column col-lg-7 col-12 ">
-          <div className="d-flex mb-2">
+        <div className="d-flex flex-column col-lg-7 col-12">
+          <div className="d-flex mb-2 align-items-center">
             {!showSearchParams ? (
               <>
                 <div className="d-flex flex-column col-6">
@@ -61,6 +55,11 @@ const LandingPage = () => {
               pageLinkClassName={'page-link'}
               containerClassName={'pagination react-paginate no-navigation'}
               /> */}
+              <div className="d-flex d-lg-none">
+              <FontAwesomeIcon icon={faSliders} color={"#496193"} style={{cursor: "pointer"}} fontSize={17} onClick={() => {
+                setShowSearchSection(!showSearchSection)
+              }}/>
+            </div>
                 </div>
               </>
             ) : (
@@ -70,12 +69,15 @@ const LandingPage = () => {
               />
             )}
           </div>
-          <div className="d-flex flex-lg-row flex-column-reverse">
+
+          {showSearchSection === false ? <div className="d-flex flex-lg-row flex-column-reverse">
             <div className="col-12 px-0">
               {/* map here on this card ==> */}
               <IndicatorCard />
             </div>
-          </div>
+          </div> : <div className="d-block d-lg-none col-lg-5 col-12">
+          <SearchSection showSearchSection={showSearchSection} setShowSearchSection={setShowSearchSection}/>
+        </div>}
           {showSearchParams && (
             <div className="d-flex mb-2">
               <div className="d-flex justify-content-start col-6">
@@ -105,7 +107,7 @@ const LandingPage = () => {
           )}
         </div>
 
-        <div className="col-lg-5 col-12">
+        <div className="d-none d-lg-block col-lg-5 col-12">
           <SearchSection />
         </div>
       </div>

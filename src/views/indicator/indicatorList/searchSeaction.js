@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button } from "reactstrap"
 import DateSearchSection from "./dateSearchSection"
 import MultiselectionSection from "./multiselectionSeearchSection"
-const SearchSection = () => {
+const SearchSection = ({showSearchSection, setShowSearchSection}) => {
     return (
       <div
         className="bg-white d-flex flex-column mb-2"
@@ -72,7 +72,9 @@ const SearchSection = () => {
 
         {/*  */}
         <div className="d-flex py-2 justify-content-center">
-        <Button type='submit' className='mr-1' color='green'>
+        <Button type='submit' className='mr-1' color='green' onClick={() => {
+          setShowSearchSection(!showSearchSection)
+        }}>
           بحث
                 {/* {intl.formatMessage({id: "Save"}) } */}
               </Button>

@@ -93,7 +93,6 @@ export const getIndicatorBasedLists = indicatorId => {
       })
     }
 }
-
 export const exportFile = () => {
     return async (dispatch, getState) => {
         const datasetStore = getState().datasets
@@ -128,16 +127,21 @@ export const exportFile = () => {
               type: 'SET_DATASET_EXPORT_RESPONSE',
               exportResponse: { errorCode : 500}
             })
-          }
-         
+          }        
         })
     }
 }
-
-export const importFile = (file) => {
-  console.log(file)
+export const importFile = (data) => {
     const importFormData = new FormData()
-    importFormData.append('file', file[0])
+    importFormData.append('file', data.file[0])
+    importFormData.append('Description_A', data.description_A)
+    importFormData.append('Description_E', data.description_A)
+    importFormData.append('DataQualityId', data.dataQualityId)
+    if (data.datasetAttachments) {
+      for (let i = 0; i < data.datasetAttachments.length; i++) {
+        importFormData.append('datasetAttachments', data.datasetAttachments[i])
+      }
+    }
     return async dispatch => {
         await axios.post(`/Dataset/ImportIndicatorDataSheet`, importFormData).then(response => {
           console.log(response)

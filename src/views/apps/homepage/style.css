@@ -1,0 +1,14 @@
+/* .swiper-centered-slides.swiper-container .swiper-slide{
+    width: 400px !important;
+} */
+
+.swiper-slide{
+    border-radius: 20px !important;
+    width: 100px !important;
+    height: 200px !important;
+}
+
+.swiper-centered-slides.swiper-container .swiper-slide.dashboardSlider{
+    width: 400px !important;
+    height: 400px !important;
+}
