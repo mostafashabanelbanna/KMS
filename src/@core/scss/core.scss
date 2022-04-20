@@ -84,7 +84,7 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
 }
 
 // version tabs
-[dir] .indicator_version_tabs.nav-tabs .nav-link{
+[dir] .indicator_version_tabs.nav-tabs .nav-link {
   padding: 1rem 2.5rem;
   background: linear-gradient(-30deg, #e2e9ee, rgba(226 , 233, 238, .9)) !important;
   color: #9da1a3 !important;
@@ -97,16 +97,26 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
   background: linear-gradient(-30deg, #7367f0, rgba(115, 103, 240, 0.5)) !important;
 }
 
+<<<<<<< HEAD
 [dir] .indicator_version_tabs.nav-tabs .nav-link.active h4{
   color: #fff !important;
 }
 
 [dir] .indicator_version_tabs.nav-tabs .nav-link h4{
+=======
+[dir] .indicator_version_tabs.nav-tabs .nav-link.active h4 {
+  color: #fff !important;
+}
+
+[dir] .indicator_version_tabs.nav-tabs .nav-link h4 {
+>>>>>>> ed2d0876117f414d4cb62ed09b676d0c9b6d87a1
   color: #9da1a3 !important;
 }
+
 // Indicator Tabs
 
-[dir] .indicator_Details_tabs.nav-tabs .nav-link.active, [dir] .indicator_Details_tabs.nav-tabs .nav-item.show .nav-link {
+[dir] .indicator_Details_tabs.nav-tabs .nav-link.active, 
+[dir] .indicator_Details_tabs.nav-tabs .nav-item.show .nav-link {
   border-radius: 4px;
   background-color: #edeff6;
   box-shadow: -2px 8px 10px 0 rgba(25, 42, 70, .13) ;
@@ -116,7 +126,10 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
 .short_date_picker{
   min-width: 200px;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> ed2d0876117f414d4cb62ed09b676d0c9b6d87a1
 .bg_green{
   background-color: #08A291 !important;
 }
