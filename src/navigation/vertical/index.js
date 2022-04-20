@@ -18,7 +18,7 @@ import systemServices from './systemServices'
 export default [
     ...apps,
     ...manageIndicators,
-    // ...researcherServices,
+    ...researcherServices,
     ...systemServices,
     // ...dashboard,
     // ...manageDataset,

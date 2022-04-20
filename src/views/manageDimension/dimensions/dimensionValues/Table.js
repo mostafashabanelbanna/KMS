@@ -34,7 +34,7 @@ import Toastr from '../../../../containers/toastr/Toastr'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin} from '../../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, isPermitted} from '../../../../utility/Utils'
 
 const dimensionValueList = ({dimensionId}) => {
   // ** Store Vars
@@ -267,17 +267,19 @@ const dimensionValueList = ({dimensionId}) => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("DimensionValue", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateDimensionValue(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("DimensionValue", "Delete") && row.delete &&
             <DropdownItem className='w-100'  onClick={() => { confirmDelete(deleteDimensionValue, row.id) } }>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -311,9 +313,10 @@ const dimensionValueList = ({dimensionId}) => {
 
                   </div>
                   <div className="my-1 d-flex justify-content-end">
+                  {isPermitted("DimensionValue", "Create") &&
                     <Button.Ripple color='primary' onClick={addDimensionValue} >
                       <FormattedMessage id="Add" />
-                    </Button.Ripple>
+                    </Button.Ripple>}
                   </div>
                 </div>
               }

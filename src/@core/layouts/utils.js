@@ -151,6 +151,10 @@ export const canViewMenuGroup = item => {
   // if (!(item.action && item.resource)) {
   //   return hasAnyVisibleChild
   // }
+  if (item.admin === true) {
+    return isPermitted(item.id, "List")
+  }
+  
   return true //ability.can(item.action, item.resource) && hasAnyVisibleChild
 }
 

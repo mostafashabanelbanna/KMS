@@ -34,7 +34,7 @@ import axios from '../../../axios'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr, isPermitted} from '../../../utility/Utils'
 
 const IndictorList = () => {
   // ** Store Vars
@@ -308,17 +308,19 @@ const getOwners = async () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("Source", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateSource(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("Source", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteSource, row.id) }}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -354,9 +356,10 @@ const getOwners = async () => {
 
                   </div>
                   <div className="my-1 d-flex justify-content-end">
+                  {isPermitted("Source", "Create") &&
                     <Button.Ripple color='primary' onClick={addSource} >
                       <FormattedMessage id="Add" />
-                    </Button.Ripple>
+                    </Button.Ripple>}
                   </div>
                 </div>
               }

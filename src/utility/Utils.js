@@ -248,11 +248,18 @@ export const confirmDelete = (deleteRow, rowId) => {
     return x.objectName === objectName
   })
   
-  const funcs = arr?.length ? arr[0]?.functions : []
+  if (arr.length === 0) {
+    return false
+  }
+  const funcs = arr[0].functions
 
   const func = funcs?.filter((x) => {
     return x.functionName === Function
   })
+
+  if (func.length === 0) {
+    return false
+  }
   
   const perm = func.filter((x) => {
     return x.permissionValue === 0

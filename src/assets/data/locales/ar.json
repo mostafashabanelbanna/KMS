@@ -231,6 +231,9 @@
 	"FavoritesIndicators":"عناصر البيانات المفضلة",
 	"FavoritesDocuments": "الاصدارات المقضلة",
 	"Definitions":"التعريفات",
+	"Dataset": "إدخال عناصر البيانات",
+	"DocumentAttachments": "ملحقات الاصدارة",
+	"Preview": "استعراض التفاصيل",
 	"Indicartor Details": "تفاصيل البيان",
 	"source": "المصدر"
 }

@@ -31,7 +31,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, isPermitted} from '../../../utility/Utils'
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 const InquiryProcedureList = ({inquiryId}) => {
@@ -252,17 +252,19 @@ const InquiryProcedureList = ({inquiryId}) => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("InquiryProcedure", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateInquiryProcedure(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("InquiryProcedure", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteInquiryProcedure, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -296,9 +298,10 @@ const InquiryProcedureList = ({inquiryId}) => {
                           <SearchForm  display='inline' searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                           </div>
                           <div className="my-1 d-flex justify-content-end">
+                          {isPermitted("InquiryProcedure", "Create") &&
                             <Button.Ripple color='primary' onClick={addInquiryProcedure} >
                               <FormattedMessage id="Add" />
-                            </Button.Ripple>
+                            </Button.Ripple>}
                           </div>
                         </div>
                       }

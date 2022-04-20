@@ -15,9 +15,10 @@ export default [
   
   // },
   {
-    id: '/publication',
+    id: 'DocumentIssue',
     title: 'Publication',
     icon: <FaNewspaper size={20} />,
+    admin: true,
     navLink: '/publication'
   }
   // {

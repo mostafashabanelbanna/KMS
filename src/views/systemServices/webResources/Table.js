@@ -32,7 +32,7 @@ import "moment/locale/ar"
 
 
 // helper function
-import {confirmDelete, convertSelectArr, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {confirmDelete, convertSelectArr, isAuthorized, isNotLightSkin, isPermitted} from '../../../utility/Utils'
 import axios from '../../../axios'
 
 const List = () => {
@@ -329,17 +329,19 @@ const List = () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("WebResource", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => update(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("WebResource", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteItem, row.id) }}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -375,9 +377,10 @@ const List = () => {
                     <SearchForm display='block'  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                   </div>
                   <div className="my-1 d-flex justify-content-end">
+                  {isPermitted("WebResource", "Create") &&
                     <Button.Ripple color='primary' onClick={add} >
                       <FormattedMessage id="Add" />
-                    </Button.Ripple>
+                    </Button.Ripple>}
                   </div>
                 </div>
               }

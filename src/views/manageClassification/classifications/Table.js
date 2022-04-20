@@ -31,7 +31,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr, isPermitted} from '../../../utility/Utils'
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 const RolesList = () => {
@@ -286,21 +286,24 @@ const RolesList = () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("ClassificationValue", "List") &&
             <DropdownItem className='w-100' tag={Link} to={{ pathname: `/classification-values/${row.id}`, state: { id : row.id, name: row.name_A}}} >
               <BsUiRadiosGrid size={14} className='mr-50'/>
               <span className='align-middle'>{intl.formatMessage({id: "Classification Values"})}</span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("Classification", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateClassification(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("Classification", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteClassification, row.id) }}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -335,9 +338,10 @@ const RolesList = () => {
         
                           </div>
                           <div className="my-1 d-flex justify-content-end">
+                          {isPermitted("Classification", "Create") &&
                             <Button.Ripple color='primary' onClick={addClassification} >
                               <FormattedMessage id="Add" />
-                            </Button.Ripple>
+                            </Button.Ripple>}
                           </div>
                         </div>
                       }

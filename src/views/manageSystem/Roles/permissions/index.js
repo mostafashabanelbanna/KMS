@@ -78,7 +78,7 @@ import obj from './obj.json'
                                     }}
                                 >
                                     {/* {obj.ObjectName} */}
-                                  <FormattedMessage id={obj.ObjectName} />
+                                  <FormattedMessage id={obj.DisplayName} />
                                 </Card>
                             )
                     }
@@ -108,6 +108,7 @@ import obj from './obj.json'
                         <AppCollapse  data={RenderAccordions()} type='margin' accordion />
                     </div>
                     <div ref={myRef} className='col-md-8 mt-1'>
+                        {console.log(currentObject.Functions)}
                        {store && store.length !== 0 ? <PermissionsForm roleId={props.location.state.id} storePerm={store} currentObjectFunctions={currentObject.Functions} currentObject={currentObject} /> : null} 
                     </div>
                 </div>

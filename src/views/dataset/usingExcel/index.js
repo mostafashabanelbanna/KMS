@@ -6,6 +6,8 @@ import { FaFileDownload, FaFileUpload } from "react-icons/fa"
 import Breadcrumbs from '@components/breadcrumbs'
 import { Link, Redirect} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux"
+// helper function
+import {isPermitted} from '../../../utility/Utils'
 
 const datasetUsingExcel = () => {
     const intl = useIntl()
@@ -30,6 +32,7 @@ const datasetUsingExcel = () => {
         <Breadcrumbs breadCrumbTitle={intl.formatMessage({id: "By Excel"})} breadCrumbParent={intl.formatMessage({id: "Manage Dataset"})} breadCrumbActive={intl.formatMessage({id: "By Excel"})} breadCrumbRoot={intl.formatMessage({id: "Homepage"})} />
         <Container fluid className="py-5">
             <Row className="py-5 justify-content-center">
+            {isPermitted("Dataset", "Export") &&
                 <Col md={4}>
                     <Card className='card-congratulations py-3' exact tag={Link} to={{ pathname: `/dataset/using-excel/export`}} onClick={ResetData}>
                         <CardBody className='text-center'>
@@ -42,7 +45,8 @@ const datasetUsingExcel = () => {
                             </div>
                         </CardBody>
                     </Card>
-                </Col>
+                </Col>}
+                {isPermitted("Dataset", "Import") &&
                 <Col md={4}>
                     <Card className='card-congratulations py-3' exact tag={Link} to={{ pathname: `/dataset/using-excel/import`}}>
                         <CardBody className='text-center'>
@@ -55,7 +59,7 @@ const datasetUsingExcel = () => {
                             </div>
                         </CardBody>
                     </Card>
-                </Col>
+                </Col>}
             </Row>
         </Container>
         </div>

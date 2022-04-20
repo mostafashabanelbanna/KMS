@@ -33,7 +33,7 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import axios from '../../../axios'
 // helper function
-import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete, isPermitted} from '../../../utility/Utils'
 
 
 const UsersList = () => {
@@ -386,21 +386,24 @@ const UsersList = () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("Inquiry", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateInquiry(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("InquiryProcedure", "List") &&
             <DropdownItem className='w-100' tag={Link} to={{ pathname: `/inquiryProcedure/${row.id}`, state: { id : row.id, name: row.name_A}}} >
               <Settings size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="InquiryProcedure" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("Inquiry", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteInquiry, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -436,9 +439,10 @@ const UsersList = () => {
                     <SearchForm display='inline'  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                   </div>
                   <div className="my-1 d-flex justify-content-end">
+                  {isPermitted("Inquiry", "Create") &&
                     <Button.Ripple color='primary' onClick={addInquiry} >
                       <FormattedMessage id="Add" />
-                    </Button.Ripple>
+                    </Button.Ripple>}
                   </div>
                 </div>
               }

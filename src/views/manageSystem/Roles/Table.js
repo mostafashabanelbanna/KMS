@@ -29,7 +29,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {confirmDelete, isAuthorized} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isPermitted} from '../../../utility/Utils'
 
 const RolesList = () => {
     // ** Store Vars
@@ -200,21 +200,24 @@ const RolesList = () => {
           </DropdownToggle>
           <DropdownMenu right>
             {/* <DropdownItem className='w-100' onClick={() => dispatch(getRolePermission(row.id))} tag={Link} to='/permissions' > */}
+            {isPermitted("RoleClaims", "List") &&
             <DropdownItem className='w-100' tag={Link} to={{ pathname: `/permissions/${row.name}`, state: { id : row.id, name: row.name}}} >
               <FaUserLock size={14} className='mr-50'/>
               <span className='align-middle'>{intl.formatMessage({id: "SpecifyPermissions"})}</span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("Role", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateRole(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("Role", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteRole, row.id) }}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -226,9 +229,10 @@ const RolesList = () => {
           {isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
               <>
                 <div className="my-1">
+                {isPermitted("Role", "Create") &&
                     <Button.Ripple color='primary' onClick={addRole} >
                         <FormattedMessage id="Add" />
-                    </Button.Ripple>
+                    </Button.Ripple>}
                 </div>
                 <Card>
                     <DataTable

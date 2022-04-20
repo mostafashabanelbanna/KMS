@@ -33,7 +33,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, isPermitted} from '../../../utility/Utils'
 
 const UnitList = () => {
   // ** Store Vars
@@ -265,17 +265,19 @@ const UnitList = () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("UnitMeasure", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateUnit(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("UnitMeasure", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteUnit, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -310,9 +312,10 @@ const UnitList = () => {
 
                   </div>
                   <div className="my-1 d-flex justify-content-end">
+                  {isPermitted("UnitMeasure", "Create") &&
                     <Button.Ripple color='primary' onClick={addUnit} >
                       <FormattedMessage id="Add" />
-                    </Button.Ripple>
+                    </Button.Ripple>}
                   </div>
                 </div>
               }

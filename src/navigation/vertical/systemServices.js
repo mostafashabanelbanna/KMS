@@ -5,21 +5,24 @@ export default [
     header: 'System Services'
   },
   {
-    id: 'providers',
+    id: 'Provider',
     title: 'Providers',
     icon: <User size={20} />,
+    admin: true,
     navLink: '/providers'
   },
   {
-    id: 'webResources',
+    id: 'WebResource',
     title: 'WebResources',
     icon: <User size={20} />,
+    admin: true,
     navLink: '/web-resources'
   },
   {
-    id: 'Definitions',
+    id: 'Definition',
     title: 'Definitions',
     icon: <BookOpen size={20} />,
+    admin: true,
     navLink: '/Definitions'
   }
 ]
