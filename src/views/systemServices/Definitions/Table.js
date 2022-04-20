@@ -30,7 +30,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr, isPermitted} from '../../../utility/Utils'
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 import axios from '../../../axios'
 
@@ -309,17 +309,19 @@ const DefinitionList = () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("Definition", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateDefinition(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("Definition", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteDefinition, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -351,9 +353,10 @@ const DefinitionList = () => {
                           <SearchForm  display='inline' searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                           </div>
                           <div className="my-1 d-flex justify-content-end">
+                          {isPermitted("Definition", "Create") &&
                             <Button.Ripple color='primary' onClick={addDefinition} >
                               <FormattedMessage id="Add" />
-                            </Button.Ripple>
+                            </Button.Ripple>}
                           </div>
                         </div>
                       }

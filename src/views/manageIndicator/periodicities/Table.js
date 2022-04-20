@@ -33,7 +33,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, isPermitted} from '../../../utility/Utils'
 const IndictorList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
@@ -323,17 +323,19 @@ const IndictorList = () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("Periodicity", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updatePeriodicity(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("Periodicity", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deletePeriodicitey, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -368,9 +370,10 @@ const IndictorList = () => {
 
                   </div>
                   <div className="my-1 d-flex justify-content-end">
+                  {isPermitted("Periodicity", "Create") &&
                     <Button.Ripple color='primary' onClick={addPeriodicity} >
                       <FormattedMessage id="Add" />
-                    </Button.Ripple>
+                    </Button.Ripple>}
                   </div>
                 </div>
               }

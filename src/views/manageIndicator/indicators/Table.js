@@ -31,7 +31,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete, isPermitted} from '../../../utility/Utils'
 import ExpandedRowDetails from '../../../containers/expanded-row-details/expandedRowDetails'
 import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
@@ -390,6 +390,7 @@ const IndictorList = () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+            {isPermitted("Indicator", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateIndicator(row.id)}
@@ -397,14 +398,16 @@ const IndictorList = () => {
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
             </DropdownItem>
+            }
             <DropdownItem className='w-100' tag={Link} to={{ pathname: `/oldIndicators/${row.id}`, state: { indicatorId : row.id}}} >
               <CgPerformance size={14} className='mr-50' />
               <span className='align-middle'>{intl.formatMessage({id: "OldIndicators"})}</span>
             </DropdownItem>
+            {isPermitted("Indicator", "Delete") && row.delte &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteIndicator, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -439,9 +442,10 @@ const IndictorList = () => {
 
                   </div>
                   <div className="my-1 d-flex justify-content-end">
+                  {isPermitted("Indicator", "Create") &&
                     <Button.Ripple color='primary' onClick={addIndicator} >
                       <FormattedMessage id="Add" />
-                    </Button.Ripple>
+                    </Button.Ripple>}
                   </div>
                 </div>
               }

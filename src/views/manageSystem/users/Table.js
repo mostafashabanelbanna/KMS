@@ -33,7 +33,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 import axios from '../../../axios'
 
 // helper function
-import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete, isPermitted} from '../../../utility/Utils'
 
 
 const UsersList = () => {
@@ -324,17 +324,19 @@ const getOwners = async () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("User", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateUser(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("User", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteUser, row.id) }}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -370,9 +372,10 @@ const getOwners = async () => {
                     <SearchForm display='inline'  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                   </div>
                   <div className="my-1 d-flex justify-content-end">
+                  {isPermitted("User", "Create") &&
                     <Button.Ripple color='primary' onClick={addUser} >
                       <FormattedMessage id="Add" />
-                    </Button.Ripple>
+                    </Button.Ripple>}
                   </div>
                 </div>
               }

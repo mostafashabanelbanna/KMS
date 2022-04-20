@@ -10,15 +10,17 @@ export default [
     header: 'Manage Indicators'
   },
   {
-    id: '/indicators',
+    id: 'Indicator',
     title: 'Indicators And Datasets',
     icon: <CgPerformance size={20} />,
+    admin: true,
     navLink: '/indicators'
   },
   {
-    id: 'dataset',
+    id: 'Dataset',
     title: 'إدخال عناصر البيانات',
     icon: <FileText size={20} />,
+    admin: true,
     children: [
       // {
       //   id: 'usingSystem',
@@ -35,40 +37,46 @@ export default [
     ]
   },
   {
-    id: '/classifications',
+    id: 'Classification',
     title: 'Classifications',
     icon: <AiOutlineApartment size={20} />,
+    admin: true,
     navLink: '/classifications'
   },
   
   {
-    id: '/dimensions',
+    id: 'Dimension',
     title: 'Dimensions',
     icon: <FaBuromobelexperte size={20} />,
+    admin: true,
     navLink: '/dimensions'
   },
   {
-    id: '/sources',
+    id: 'Source',
     title: 'Sources',
     icon: <VscTypeHierarchy size={20} />,
+    admin: true,
     navLink: '/sources'
   },
   {
-    id: '/units',
+    id: 'UnitMeasure',
     title: 'Units',
     icon: <CgPathUnite size={20} />,
+    admin: true,
     navLink: '/units'
   },
   {
-    id: '/periodicities',
+    id: 'Periodicity',
     title: 'Periodicities',
     icon: <CgPathUnite size={20} />,
+    admin: true,
     navLink: '/periodicities'
   },
   {
-    id: 'lookups',
+    id: 'Lookups',
     title: 'Lookups',
     icon: <Columns size={20} />,
+    admin: true,
     navLink: '/lookups'
   }
 ]

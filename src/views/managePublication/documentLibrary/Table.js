@@ -30,7 +30,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, isPermitted} from '../../../utility/Utils'
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
 const DocumentLibraryList = ({documentIssueId}) => {
@@ -256,17 +256,19 @@ const DocumentLibraryList = ({documentIssueId}) => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("DocumentLibrary", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateDocumentLibrary(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("DocumentLibrary", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteDocumentLibrary, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -298,9 +300,10 @@ const DocumentLibraryList = ({documentIssueId}) => {
                           <SearchForm  display='inline' searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                           </div>
                           <div className="my-1 d-flex justify-content-end">
+                          {isPermitted("DocumentLibrary", "Create") &&
                             <Button.Ripple color='primary' onClick={addDocumentLibrary} >
                               <FormattedMessage id="Add" />
-                            </Button.Ripple>
+                            </Button.Ripple>}
                           </div>
                         </div>
                       }

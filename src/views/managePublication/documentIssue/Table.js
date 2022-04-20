@@ -33,7 +33,7 @@ import ExpandedRowDetails from '../../../containers/expanded-row-details/expande
 import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 
 // helper function
-import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete} from '../../../utility/Utils'
+import {isAuthorized, isNotLightSkin, convertSelectArr, confirmDelete, isPermitted} from '../../../utility/Utils'
 
 
 const UsersList = () => {
@@ -350,21 +350,24 @@ const UsersList = () => {
             <MoreVertical size={14} className='cursor-pointer'/>
           </DropdownToggle>
           <DropdownMenu right>
+          {isPermitted("DocumentIssue", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateDocumentIssue(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("DocumentLibrary", "List") &&
             <DropdownItem className='w-100' tag={Link} to={{ pathname: `/documentLibrary/${row.id}`, state: { id : row.id, name: row.name_A}}} >
               <File size={14} className='mr-50' />
               <span className='align-middle'>ملحقات الأصدارة</span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("DocumentIssue", "Delete") && row.delete &&
             <DropdownItem className='w-100' onClick={() => { confirmDelete(deleteDocumentIssue, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -401,9 +404,10 @@ const UsersList = () => {
                     <SearchForm display='inline'  searchHandler={handleSearch} submitHandler={handlSubmit} formConfig={formItems} btnText={intl.formatMessage({id: "Search"})}/>
                   </div>
                   <div className="my-1 d-flex justify-content-end">
+                  {isPermitted("DocumentIssue", "Create") &&
                     <Button.Ripple color='primary' onClick={addDocumentIssue} >
                       <FormattedMessage id="Add" />
-                    </Button.Ripple>
+                    </Button.Ripple>}
                   </div>
                 </div>
               }

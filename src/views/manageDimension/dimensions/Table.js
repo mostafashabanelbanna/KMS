@@ -31,7 +31,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // helper function
-import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr} from '../../../utility/Utils'
+import {confirmDelete, isAuthorized, isNotLightSkin, convertSelectArr, isPermitted} from '../../../utility/Utils'
 
 import SearchForm from '../../../containers/search-form/SearchForm/SearchForm'
 
@@ -292,21 +292,24 @@ const RolesList = () => {
               <FaLevelUpAlt size={14} className='mr-50'/>
               <span className='align-middle'>{intl.formatMessage({id: "DimensionLevels"})}</span>
             </DropdownItem>
+            {isPermitted("DimensionValue", "List") &&
             <DropdownItem className='w-100' tag={Link} to={{ pathname: `/dimension-values/${row.id}`, state: { id : row.id, name: row.name_A}}} >
               <BsUiRadiosGrid size={14} className='mr-50'/>
               <span className='align-middle'>{intl.formatMessage({id: "DimensionValues"})}</span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("Dimension", "Update") && row.update &&
             <DropdownItem
               className='w-100'
               onClick={() => updateDimension(row.id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Edit" /></span>
-            </DropdownItem>
+            </DropdownItem>}
+            {isPermitted("Dimension", "Delete") && row.delte &&
             <DropdownItem className='w-100'  onClick={() => { confirmDelete(deleteRole, row.id) }} >
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id="Delete" /></span>
-            </DropdownItem>
+            </DropdownItem>}
           </DropdownMenu>
         </UncontrolledDropdown>
       )
@@ -341,9 +344,10 @@ const RolesList = () => {
           
                             </div>
                             <div className="my-1 d-flex justify-content-end">
+                            {isPermitted("Dimension", "Create") &&
                               <Button.Ripple color='primary' onClick={addDimension} >
                                 <FormattedMessage id="Add" />
-                              </Button.Ripple>
+                              </Button.Ripple>}
                             </div>
                           </div>
                         }

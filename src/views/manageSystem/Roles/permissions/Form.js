@@ -38,6 +38,8 @@ const PermissionsForm = ({roleId, storePerm, currentObjectFunctions, currentObje
   // }   
 
   const removDeuplicates = (arr1, arr2) => {
+    console.table(arr1)
+    console.table(arr2)
       
     const isSameFunction = (arr1, arr2) => arr1.functionName === arr2.functionName
 
@@ -92,7 +94,7 @@ const PermissionsForm = ({roleId, storePerm, currentObjectFunctions, currentObje
             <div className='permissions border mt-1'>
               <h6 className='py-1 mx-1 mb-0 font-medium-2'>
                 <Lock size={18} className='mr-25' />
-                <span className='align-middle'><FormattedMessage id={currentObject.ObjectName} /></span>
+                <span className='align-middle'><FormattedMessage id={currentObject.DisplayName} /></span>
               </h6>
               <Table borderless striped responsive>
                 <thead className='thead-light'>
