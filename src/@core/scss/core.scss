@@ -78,6 +78,7 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
   text-align: unset;
   padding: unset;
 }
+
 [dir] .available .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active {
   border: unset;
 }
@@ -89,14 +90,17 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
   color: #9da1a3 !important;
 
 }
+
 [dir] .indicator_version_tabs.nav-tabs .nav-link.active {
   border-radius: 4px;
   color: #fff !important;
   background: linear-gradient(-30deg, #7367f0, rgba(115, 103, 240, 0.5)) !important;
 }
+
 [dir] .indicator_version_tabs.nav-tabs .nav-link.active h4{
   color: #fff !important;
 }
+
 [dir] .indicator_version_tabs.nav-tabs .nav-link h4{
   color: #9da1a3 !important;
 }
@@ -111,6 +115,8 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
 
 .short_date_picker{
   min-width: 200px;
+}
+
 .bg_green{
   background-color: #08A291 !important;
 }

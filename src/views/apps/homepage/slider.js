@@ -37,31 +37,31 @@ const Slider = ({title, dashboard, containerClassName, containerStyle, className
         <CardBody>
         <Swiper className='' {...params}>
             {/* </Swiper>style={{width: dashboard ? 400 : "auto"}}> */}
-            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : ""}`}> 
+            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : "resourcesSlider"}`}> 
             <Play size={28} className="mb-3"/>
             <p className='d-flex text-center swiper-text align-middle pt-md-1 pt-sm-50 mb-0'>Getting Started</p>
             </SwiperSlide>
-            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : ""}`}>
+            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : "resourcesSlider"}`}>
             <DollarSign size={28} className="mb-3" />
             <p className='swiper-text align-middle pt-md-1 pt-sm-50 mb-0'>Pricing & Plans</p>
             </SwiperSlide>
-            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : ""}`}>
+            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : "resourcesSlider"}`}>
             <HelpCircle size={28} className="mb-3" />
             <p className='swiper-text align-middle pt-md-1 pt-sm-50 mb-0'>Sales Questions</p>
             </SwiperSlide>
-            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : ""}`}>
+            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : "resourcesSlider"}`}>
             <FileText size={28} className="mb-3" />
             <p className='swiper-text align-middle pt-md-1 pt-sm-50 mb-0'>User Guides</p>
             </SwiperSlide>
-            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : ""}`}>
+            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : "resourcesSlider"}`}>
             <Archive size={28} className="mb-3" />
             <p className='swiper-text align-middle pt-md-1 pt-sm-50 mb-0'>General Guides</p>
             </SwiperSlide>
-            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : ""}`}>
+            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : "resourcesSlider"}`}>
             <Archive size={28} className="mb-3" />
             <p className='swiper-text align-middle pt-md-1 pt-sm-50 mb-0'>General Guides</p>
             </SwiperSlide>
-            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : ""}`}>
+            <SwiperSlide className={`rounded swiper-shadow ${dashboard ? "dashboardSlider" : "resourcesSlider"}`}>
             <Archive size={28} className="mb-3" />
             <p className='swiper-text align-middle pt-md-1 pt-sm-50 mb-0'>General Guides</p>
             </SwiperSlide>
