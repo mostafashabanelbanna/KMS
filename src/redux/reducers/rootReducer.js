@@ -28,8 +28,10 @@ import documentLibraries from '@src/views/managePublication/documentLibrary/stor
 import inquiries from  '@src/views/manageInquiry/Inquiry/store/reducer/index'
 import inquiryProcedures from '@src/views/manageInquiry/InquiryProcedures/store/reducer/index'
 import documentLibrary from '../../views/documentLibrary/store/reducer'
-
 import userNotifications from '@src/views/notification/store/reducer/index'
+import indicatorDetails from '@src/views/indicator/indicatorDetails/store/reducer/index'
+
+
 const rootReducer = combineReducers({
     auth,
     users,
@@ -57,7 +59,8 @@ const rootReducer = combineReducers({
     inquiries,
     inquiryProcedures,
     documentLibrary,
-    userNotifications
+    userNotifications,
+    indicatorDetails
 })
 
 export default rootReducer
