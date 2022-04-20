@@ -17,12 +17,12 @@ import systemServices from './systemServices'
 // ** Merge & Export
 export default [
     ...apps,
+    ...manageIndicators,
     ...researcherServices,
     ...systemServices,
     // ...dashboard,
     // ...manageDataset,
     // ...manageClassifications,
-    ...manageIndicators,
     // ...manageDimensions,
     ...managePublications,
     ...manageInquiries,

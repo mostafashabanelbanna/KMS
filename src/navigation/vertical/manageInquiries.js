@@ -19,4 +19,10 @@ export default [
     icon: <FaCommentDots size={20} />,
     navLink: '/comments'
   }
+    // {
+  //   id: '/comments',
+  //   title: 'Comments',
+  //   icon: <FaCommentDots size={20} />,
+  //   navLink: '/comments'
+  // }
 ]

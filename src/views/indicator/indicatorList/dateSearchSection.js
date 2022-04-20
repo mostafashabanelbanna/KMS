@@ -12,8 +12,8 @@ const DateSearchSection = () => {
     const intl = useIntl()
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date())
-    const [openDate, setOpenDate] = useState(false)
-    const [plusIcon, setPlusIcon] = useState(faPlus)
+    // const [openDate, setOpenDate] = useState(false)
+    // const [plusIcon, setPlusIcon] = useState(faPlus)
 
     const handleStartDate = (event) => {
         setStartDate(moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY")
@@ -30,13 +30,14 @@ const DateSearchSection = () => {
     return <div className="d-flex flex-column px-2 pb-2">
         <div className="d-flex">
             <p className="col-11 mb-0">التاريخ</p>
-            <FontAwesomeIcon icon={plusIcon} color={"#47cdbf"} style={{cursor:"pointer"}} className={"col d-flex flex-column align-self-center"} onClick={() => {
+            {/* <FontAwesomeIcon icon={plusIcon} color={"#47cdbf"} style={{cursor:"pointer"}} className={"col d-flex flex-column align-self-center"} onClick={() => {
                 setOpenDate(!openDate)
                 setPlusIcon(plusIcon === faPlus ? faMinus : faPlus)
-            }}/>
+            }}/> */}
         </div>
-        {openDate && <div className="d-flex flex-column mt-1">
-        <div className='mx-0 d-flex align-items-center'>
+        {/* {openDate &&  */}
+        <div className="d-flex flex-xl-row flex-column w-100 mt-1">
+        <div className='mx-0 d-flex align-items-center col-xl-6 col-12'>
             <Label for='hf-picker' className="mx-2">{intl.formatMessage({id: "من"})}</Label>
             <br/>
             <MuiPickersUtilsProvider
@@ -60,7 +61,7 @@ const DateSearchSection = () => {
                 />
             </MuiPickersUtilsProvider>
         </div>
-        <div className='mx-0 d-flex align-items-center mt-1'>
+        <div className='mx-0 d-flex align-items-center col-xl-6 col-12 mt-2 mt-xl-0'>
             <Label for='hf-picker' className="mx-2">{intl.formatMessage({id: "إلى"})}</Label>
             <br/>
             <MuiPickersUtilsProvider
@@ -84,7 +85,8 @@ const DateSearchSection = () => {
                 />
             </MuiPickersUtilsProvider>
         </div>
-        </div>}
+        </div>
+        {/* } */}
     </div>
 }
 

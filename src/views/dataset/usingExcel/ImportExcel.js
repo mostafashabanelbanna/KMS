@@ -94,6 +94,18 @@ const ImportExcel = () => {
              <CardTitle tag='h4'> إستيراد ملف </CardTitle>
             </CardHeader>
             <CardBody>
+            <FormGroup>
+                <Label>
+                  ملف البيانات
+                </Label>
+               <CustomInput onChange={(e) => handleFinleInput(e)}  type='file' id='exampleCustomFileBrowser' name='customFile' />
+             </FormGroup>
+            <FormGroup>
+                <Label>
+                   الملفات المرفقة
+                </Label>
+               <CustomInput onChange={(e) => handleDatasetAttachments(e)}  type='file' id='datasetAttachments' name='datasetAttachments' />
+             </FormGroup>
               <FormGroup>
                 <Label for='descriptionA'>
                 {intl.formatMessage({id: "Description"})}
@@ -138,19 +150,6 @@ const ImportExcel = () => {
                   onChange={e => handleDataQualityChange(e) }
                 />
               </FormGroup>
-              <FormGroup>
-                <Label>
-                   الملفات المرفقة
-                </Label>
-               <CustomInput onChange={(e) => handleDatasetAttachments(e)}  type='file' id='datasetAttachments' name='datasetAttachments' />
-             </FormGroup>
-              <FormGroup>
-                <Label>
-                  ملف البيانات
-                </Label>
-               <CustomInput onChange={(e) => handleFinleInput(e)}  type='file' id='exampleCustomFileBrowser' name='customFile' />
-             </FormGroup>
-
             </CardBody>
         </Card>
         <Col className="text-left d-flex justify-content-end" md={12} >

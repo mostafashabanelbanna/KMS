@@ -6,7 +6,7 @@ import MultiselectionSection from "./multiselectionSeearchSection"
 const SearchSection = ({showSearchSection, setShowSearchSection}) => {
     return (
       <div
-        className="bg-white d-flex flex-column mb-2"
+        className="card d-flex flex-column mb-2"
         style={{
           borderRadius: 6,
           height: "max-content",
