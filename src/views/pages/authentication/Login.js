@@ -40,11 +40,12 @@ const ToastContent = ({ name, role }) => (
     <div className='toastify-header'>
       <div className='title-wrapper'>
         <Avatar size='sm' color='success' icon={<Coffee size={12} />} />
-        <h6 className='toast-title font-weight-bold'>Welcome, {name}</h6>
+        {/* <h6 className='toast-title font-weight-bold'>Welcome, {name}</h6> */}
+        <h6 className='toast-title font-weight-bold'>مرحبا {name}</h6>
       </div>
     </div>
     <div className='toastify-body'>
-      <span>You have successfully logged in as an {role} user to Vuexy. Now you can start to explore. Enjoy!</span>
+      <span>تم تسجيل دخولك بنجاح</span>
     </div>
   </Fragment>
 )

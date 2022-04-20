@@ -43,7 +43,6 @@ export default [
     admin: true,
     navLink: '/classifications'
   },
-  
   {
     id: 'Dimension',
     title: 'Dimensions',

@@ -12,13 +12,13 @@ export default [
     icon: <FaInfoCircle size={20} />,
     admin: true,
     navLink: '/inquiry'
-  },
-  {
-    id: 'Comment',
-    title: 'Comments',
-    icon: <FaCommentDots size={20} />,
-    navLink: '/comments'
   }
+  // {
+  //   id: 'Comment',
+  //   title: 'Comments',
+  //   icon: <FaCommentDots size={20} />,
+  //   navLink: '/comments'
+  // }
     // {
   //   id: '/comments',
   //   title: 'Comments',
