@@ -9,6 +9,10 @@ import Toastr from './../containers/toastr/Toastr'
 
 import { IntlProvider, addLocaleData } from 'react-intl'
 
+import { Arabic } from 'flatpickr/dist/l10n/ar.js'
+// import { English } from 'flatpickr/dist/l10n/en.js'
+
+
 const locale = 'en'
 const intlProvider = new IntlProvider({ locale })
 const { intl } = intlProvider // this is how you get access to the formatMessage function to use i18n for your messages
@@ -258,3 +262,48 @@ export const confirmDelete = (deleteRow, rowId) => {
   
   return ret 
  }
+
+export const setPickerLanguage = (lang, intl) => {
+  const months = [
+    intl.formatMessage({id: "January"}),
+    intl.formatMessage({id: "February"}), 
+    intl.formatMessage({id: "March"}),
+    intl.formatMessage({id: "April"}),
+    intl.formatMessage({id: "May"}),
+    intl.formatMessage({id: "June"}),
+    intl.formatMessage({id: "July"}), 
+    intl.formatMessage({id: "August"}), 
+    intl.formatMessage({id: "September"}),
+    intl.formatMessage({id: "October"}),
+    intl.formatMessage({id: "November"}),
+    intl.formatMessage({id: "December"})
+  ]
+  const arabicOptions = {
+    locale: {
+      ...Arabic,
+      months: {
+        ...Arabic.months,
+        longhand: months
+      }
+    },
+    dateFormat: 'd-m-Y',
+    monthSelectorType: 'static',
+    altFormat: "j F, Y",
+    altInput: true
+  }
+  // const englishOptions = {
+  //   locale: {
+  //     ...English,
+  //     months: {
+  //       ...English.months,
+  //       longhand: months
+  //     }
+  //   },
+  //   dateFormat: 'd-m-Y',
+  //   monthSelectorType: 'static',
+  //   altFormat: "j F, Y",
+  //   altInput: true
+  // }
+
+  return lang.locale === 'ar' ? arabicOptions :  "default"
+}

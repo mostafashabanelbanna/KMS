@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { useRTL } from '@hooks/useRTL'
 import Breadcrumbs from '@components/breadcrumbs'
 import { Row, Col } from 'reactstrap'
@@ -21,12 +21,22 @@ import SwiperCore, {
 import '@styles/react/libs/swiper/swiper.scss'
 import '@styles/react/apps/app-users.scss'
 import Tabs from './seriesAndExcel/Tabs'
+import { useDispatch, useSelector } from 'react-redux'
+import { getIndicatorDetails } from './store/action'
 
 SwiperCore.use([Navigation, Pagination, EffectFade, EffectCube, EffectCoverflow, Autoplay, Lazy, Virtual])
 
 const indicatorDetails = () => {
+  const dispatch = useDispatch()
+  const store = useSelector(state => state.indicatorDetails)
+
   const [isRtl, setIsRtl] = useRTL()
   const intl = useIntl()
+
+  useEffect(() => {
+    getIndicatorDetails(1)
+  }, [dispatch])
+
 
   return (
     <>
