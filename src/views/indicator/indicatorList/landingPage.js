@@ -1,16 +1,81 @@
 import { useIntl } from "react-intl"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Breadcrumbs from "@components/breadcrumbs"
 import IndicatorCard from "./indicatorListCard"
 import SearchParamsCard from "./searchParamsCard"
 import SearchSection from "./searchSeaction"
 import { faSliders } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useDispatch, useSelector } from 'react-redux'
+import { getData } from './../store/action/index'
+import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
+import ReactPaginate from 'react-paginate'
+
 
 const LandingPage = () => {
+   // redux states
+   const dispatch = useDispatch()
+   const store = useSelector(state => state.frontIndicators)
+   const layoutStore = useSelector(state => state.layout)
+
   const [showSearchParams, setShowSearchParams] = useState(false)
-  const [showSearchSection, setShowSearchSection] = useState(false)
+  const [showSearchSection, setShowSearchSection] = useState(true)
+  const [pageNumber, setPageNumber] = useState(1)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+
   const intl = useIntl()
+
+  const getIndicators = (pNumber, rPerPage) => {
+    const periods = []
+    const srcs = []
+    const _classificationValues = []
+
+    store.periodicities.forEach(element => {
+      periods.push(element.id)
+    })
+
+    store.sources.forEach(element => {
+      srcs.push(element.id)
+    })
+
+    store.sectors.forEach(element => {
+      _classificationValues.push(element.id)
+    })
+
+    store.categories.forEach(element => {
+      _classificationValues.push(element.id)
+    })
+
+    const submitedData = {
+      pageNumber: pNumber,
+      rowsPerPage: rPerPage,
+      name: store.name,
+      periodicities: periods,
+      sources: srcs,
+      classificationValues: _classificationValues,
+      startDate: store.dateFrom,
+      endDate: store.dateTo
+    }
+    dispatch(getData(submitedData))
+  }
+
+  const handleSearchSubmit = () => {
+    setPageNumber(1)
+    getIndicators(1, rowsPerPage) 
+  }
+
+  useEffect(() => {
+    getIndicators(1, rowsPerPage)
+  }, [])
+
+  const handlePagination = page => {
+    setPageNumber(page.selected + 1)
+  }
+
+  useEffect(() => {
+    getIndicators(pageNumber, rowsPerPage)
+  }, [pageNumber])
+
   return (
     <>
       <Breadcrumbs
@@ -25,7 +90,7 @@ const LandingPage = () => {
             {!showSearchParams ? (
               <>
                 <div className="d-flex flex-column col-6">
-                  <p className="mb-0">نتائج البحث : 2015 نتيجة</p>
+                  <p className="mb-0">نتائج البحث :  {store.totalCount}  نتيجة</p>
                   <p
                     className="mb-0 text_green"
                     style={{ cursor: "pointer" }}
@@ -37,24 +102,24 @@ const LandingPage = () => {
                   </p>
                 </div>
                 <div className="d-flex justify-content-end col-6">
-                  {/* <ReactPaginate
-              pageCount={10}
-              nextLabel={''}
-              breakLabel={'...'}
-              pageRangeDisplayed={5}
-              marginPagesDisplayed={2}
-              activeClassName={'active'}
-              pageClassName={'page-item'}
-              previousLabel={''}
-              breakClassName='page-item'
-              breakLinkClassName='page-link'
-              nextLinkClassName={'page-link'}
-              nextClassName={'page-item next-item'}
-              previousClassName={'page-item prev-item'}
-              previousLinkClassName={'page-link'}
-              pageLinkClassName={'page-link'}
-              containerClassName={'pagination react-paginate no-navigation'}
-              /> */}
+                  {store.data.length > 0 &&
+                      <ReactPaginate
+                      previousLabel={''}
+                      nextLabel={''}
+                      pageCount={store.totalPages || 1}
+                      activeClassName='active'
+                      forcePage={pageNumber !== 0 ? pageNumber - 1 : 0}
+                      onPageChange={page => handlePagination(page)}
+                      pageClassName={'page-item'}
+                      nextLinkClassName={'page-link'}
+                      nextClassName={'page-item next'}
+                      previousClassName={'page-item prev'}
+                      previousLinkClassName={'page-link'}
+                      pageLinkClassName={'page-link'}
+                      containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
+                  />
+                  }
+                
               <div className="d-flex d-lg-none">
               <FontAwesomeIcon icon={faSliders} color={"#496193"} style={{cursor: "pointer"}} fontSize={17} onClick={() => {
                 setShowSearchSection(!showSearchSection)
@@ -70,13 +135,16 @@ const LandingPage = () => {
             )}
           </div>
 
-          {showSearchSection === false ? <div className="d-flex flex-lg-row flex-column-reverse">
+          {showSearchSection === true ? <div className="d-flex flex-lg-row flex-column-reverse">
             <div className="col-12 px-0">
-              {/* map here on this card ==> */}
-              <IndicatorCard />
+              {layoutStore.loading === true && <ComponentSpinner/>}
+              {layoutStore.loading === false && store.data.map((item, idx) => (
+                 <IndicatorCard key={idx} item={item}/>
+              ))}
+             
             </div>
           </div> : <div className="d-block d-lg-none col-lg-5 col-12">
-          <SearchSection showSearchSection={showSearchSection} setShowSearchSection={setShowSearchSection}/>
+          <SearchSection showSearchSection={showSearchSection} setShowSearchSection={setShowSearchSection} handleSearch={handleSearchSubmit}/>
         </div>}
           {showSearchParams && (
             <div className="d-flex mb-2">
@@ -85,30 +153,30 @@ const LandingPage = () => {
               </div>
               <div className="d-flex justify-content-end col-6">
                 {/* <ReactPaginate
-              pageCount={10}
-              nextLabel={''}
-              breakLabel={'...'}
-              pageRangeDisplayed={5}
-              marginPagesDisplayed={2}
-              activeClassName={'active'}
-              pageClassName={'page-item'}
-              previousLabel={''}
-              breakClassName='page-item'
-              breakLinkClassName='page-link'
-              nextLinkClassName={'page-link'}
-              nextClassName={'page-item next-item'}
-              previousClassName={'page-item prev-item'}
-              previousLinkClassName={'page-link'}
-              pageLinkClassName={'page-link'}
-              containerClassName={'pagination react-paginate no-navigation'}
-              /> */}
+                    pageCount={10}
+                    nextLabel={''}
+                    breakLabel={'...'}
+                    pageRangeDisplayed={5}
+                    marginPagesDisplayed={2}
+                    activeClassName={'active'}
+                    pageClassName={'page-item'}
+                    previousLabel={''}
+                    breakClassName='page-item'
+                    breakLinkClassName='page-link'
+                    nextLinkClassName={'page-link'}
+                    nextClassName={'page-item next-item'}
+                    previousClassName={'page-item prev-item'}
+                    previousLinkClassName={'page-link'}
+                    pageLinkClassName={'page-link'}
+                    containerClassName={'pagination react-paginate no-navigation'}
+                    /> */}
               </div>
             </div>
           )}
         </div>
 
         <div className="d-none d-lg-block col-lg-5 col-12">
-          <SearchSection />
+          <SearchSection handleSearch={handleSearchSubmit}/>
         </div>
       </div>
     </>

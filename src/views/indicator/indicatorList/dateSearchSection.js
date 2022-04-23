@@ -7,24 +7,26 @@ import MomentUtils from "@date-io/moment"
 import { useIntl } from 'react-intl'
 import moment from "moment"
 import "moment/locale/ar"
+import { useDispatch, useSelector } from 'react-redux'
 
 const DateSearchSection = () => {
     const intl = useIntl()
-    const [startDate, setStartDate] = useState(new Date())
-    const [endDate, setEndDate] = useState(new Date())
-    // const [openDate, setOpenDate] = useState(false)
-    // const [plusIcon, setPlusIcon] = useState(faPlus)
+    const dispatch = useDispatch()
+    const store = useSelector(state => state.frontIndicators)
 
     const handleStartDate = (event) => {
-        setStartDate(moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY")
+        const date = moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY")
         .format("YYYY-MM-DD")
-        .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)))
+        .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+        dispatch({type: "SET_FRONT_INDICATOR_DATE_FROM", dateFrom: date })
       }
 
       const handleEndDate = (event) => {
-        setEndDate(moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY")
+        const date = moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY")
         .format("YYYY-MM-DD")
-        .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)))
+        .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+
+        dispatch({type: "SET_FRONT_INDICATOR_DATE_TO", dateTo: date })
       }
 
     return <div className="d-flex flex-column px-2 pb-2">
@@ -36,21 +38,22 @@ const DateSearchSection = () => {
             }}/> */}
         </div>
         {/* {openDate &&  */}
-        <div className="d-flex flex-xl-row flex-column w-100 mt-1">
-        <div className='mx-0 d-flex align-items-center col-xl-6 col-12'>
+        <div className="flex-xl-row flex-column w-100 mt-1">
+        <div className='mx-0 d-flex align-items-center col-xl-12 col-12 mb-1'>
             <Label for='hf-picker' className="mx-2">{intl.formatMessage({id: "من"})}</Label>
             <br/>
             <MuiPickersUtilsProvider
                 libInstance={moment}
                 utils={MomentUtils}
                 locale={"sw"}
-                className="bg-danger"
+                className="bg-danger w-100"
             >
                 <KeyboardDatePicker
+                className="w-100"
                 okLabel="تحديد"
                 cancelLabel="الغاء"
                 format="L"
-                value={startDate}
+                value={store.dateFrom}
                 inputVariant="outlined"
                 variant="dialog"
                 maxDateMessage=""
@@ -61,7 +64,7 @@ const DateSearchSection = () => {
                 />
             </MuiPickersUtilsProvider>
         </div>
-        <div className='mx-0 d-flex align-items-center col-xl-6 col-12 mt-2 mt-xl-0'>
+        <div className='mx-0 d-flex align-items-center col-xl-12 col-12 mt-2 mt-xl-0'>
             <Label for='hf-picker' className="mx-2">{intl.formatMessage({id: "إلى"})}</Label>
             <br/>
             <MuiPickersUtilsProvider
@@ -71,10 +74,11 @@ const DateSearchSection = () => {
                 className="bg-danger"
             >
                 <KeyboardDatePicker
+                className="w-100"
                 okLabel="تحديد"
                 cancelLabel="الغاء"
                 format="L"
-                value={endDate}
+                value={store.dateTo}
                 inputVariant="outlined"
                 variant="dialog"
                 maxDateMessage=""

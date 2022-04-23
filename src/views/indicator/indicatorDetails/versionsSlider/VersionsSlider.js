@@ -4,14 +4,18 @@ import { Play, DollarSign, HelpCircle, FileText, Archive } from 'react-feather'
 import { TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap/lib'
 import { useState } from "react"
 import Tabs from '../seriesAndExcel/Tabs'
+import { useDispatch, useSelector } from 'react-redux'
+import {getSeriesData} from '../store/action/index'
 
-const SwiperCenterSlidesStyle = ({ isRtl }) => {
-  const [active, setActive] = useState('1')
+const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies }) => {
+  const dispatch = useDispatch()
+  const store = useSelector(state => state.indicatorDetails)
 
-  const toggle = tab => {
-    if (active !== tab) {
-      setActive(tab)
-    }
+
+  const toggle = (periodicityId, sourceId) => {
+    dispatch({type: "SET_INDICATOR_DETAILS_PERIODICITY", periodicity: periodicityId })
+    dispatch({type: "SET_INDICATOR_DETAILS_SOURCE", source: sourceId })
+    dispatch(getSeriesData(1, 10))
   }
   const params = {
     className: 'swiper-centered-slides p-1',
@@ -30,77 +34,38 @@ const SwiperCenterSlidesStyle = ({ isRtl }) => {
       <CardBody>
       <>
         <Nav tabs className="indicator_version_tabs">
-          <Swiper dir={isRtl ? 'rtl' : 'ltr'} {...params}>
-            <SwiperSlide className='rounded swiper-shadow'>
-              <NavItem>
-                <NavLink
-                  active={active === '1'}
-                  onClick={() => {
-                    toggle('1')
-                  }}
-                  className="flex-column align-items-start"
-                >
-                  <Play size={28} />
-                  <h4>دورية سنوية</h4>
-                  <p>الجهاز المركزى للتعبئة والإحصاء</p>
-                </NavLink>
-              </NavItem>
-            </SwiperSlide>
-            <SwiperSlide className='rounded swiper-shadow'>
-              <NavItem>
-                <NavLink
-                  active={active === '2'}
-                  onClick={() => {
-                    toggle('2')
-                  }}
-                  className="flex-column align-items-start"
-                >
-                  <Play size={28} />
-                  <h4>دورية سنوية</h4>
-                  <p>الجهاز المركزى للتعبئة والإحصاء</p>
-                </NavLink>
-              </NavItem>
-            </SwiperSlide>
-            <SwiperSlide className='rounded swiper-shadow'>
-              <NavItem>
-                <NavLink
-                  active={active === '3'}
-                  onClick={() => {
-                    toggle('3')
-                  }}
-                  className="flex-column align-items-start"
-                >
-                  <Play size={28} />
-                  <h4>دورية سنوية</h4>
-                  <p>الجهاز المركزى للتعبئة والإحصاء</p>
-                </NavLink>
-              </NavItem>
-            </SwiperSlide>
-            <SwiperSlide className='rounded swiper-shadow'>
-              <NavItem>
-                <NavLink
-                  active={active === '4'}
-                  onClick={() => {
-                    toggle('4')
-                  }}
-                  className="flex-column align-items-start"
-                >
-                  <Play size={28} />
-                  <h4>دورية سنوية</h4>
-                  <p>الجهاز المركزى للتعبئة والإحصاء</p>
-                </NavLink>
-              </NavItem>
-            </SwiperSlide>
-          </Swiper>
+          {avilableCopies && avilableCopies.length > 0 && 
+            <Swiper dir={isRtl ? 'rtl' : 'ltr'} {...params}>
+                {avilableCopies.map((item, idx) => (
+                  <SwiperSlide key={idx} className='rounded swiper-shadow'>
+                      <NavItem>
+                        <NavLink
+                          active={item.sourceId === store.selectedSource && item.periodicityId === store.selectedPeriodicity}
+                          onClick={() => {
+                            toggle(item.periodicityId, item.sourceId)
+                          }}
+                          className="flex-column align-items-start"
+                        >
+                          <Play size={28} />
+                          <h4>دورية {item.periodicityName}</h4>
+                          <p>{item.sourceName}</p>
+                        </NavLink>
+                      </NavItem>
+                  </SwiperSlide>
+                ))}
+            </Swiper>
+          }
+          
         </Nav>
-        <TabContent className='py-50' activeTab={active}>
+        <Tabs/>
+        {/* <TabContent className='py-50' activeTab='1'>
           <TabPane tabId='1'>
-          <Tabs/>
+          
           </TabPane>
           <TabPane tabId='2'>
-          إنشاء توزيع احصائي
+            إنشاء توزيع احصائي
           </TabPane>
-        </TabContent>
+        </TabContent> */}
       </>
       
       </CardBody>

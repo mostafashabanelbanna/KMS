@@ -3,7 +3,52 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button } from "reactstrap"
 import DateSearchSection from "./dateSearchSection"
 import MultiselectionSection from "./multiselectionSeearchSection"
-const SearchSection = ({showSearchSection, setShowSearchSection}) => {
+import axios from '../../../axios'
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from 'react-redux'
+
+const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) => {
+  // redux states
+  const dispatch = useDispatch()
+  const store = useSelector(state => state.frontIndicators)
+  const layoutStore = useSelector(state => state.layout)
+
+  // States
+  const [sources, setSources] = useState([])
+  const [periodicities, setPeriodicities] = useState([])
+  const [sectors, setSectors] = useState([])
+  const [categories, setCategories] = useState([])
+
+  const getAllDropDowns = async () => {
+    await axios.get(`/Indicator/GetSearchDropdownListsForIndicator`)
+    .then(response => {
+        const result = response.data.data
+        setSources(result.sources)
+        setPeriodicities(result.periodicities)
+        setSectors(result.sectors)
+        setCategories(result.categories)
+       })
+       .catch(error => {
+    })
+  }
+  const handlePeriodicityChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: e })
+  }
+  const handleSourceChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_SOURCE", sources: e })
+  }
+  const handleCategoryChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: e })
+  }
+  const handleSectorChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: e })
+  }
+  const handleNameChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_NAME", name: e.target.value })
+  }
+  useEffect(() => {
+    getAllDropDowns()
+  }, [])
     return (
       <div
         className="card d-flex flex-column mb-2"
@@ -55,26 +100,25 @@ const SearchSection = ({showSearchSection, setShowSearchSection}) => {
               class="form-control"
               placeholder="بحث بإسم العنصر"
               name="search"
+              onChange={(e) => handleNameChange(e)}
             />
           </div>
         </form>
 
         <DateSearchSection/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"الدوريات"}/>
+        <MultiselectionSection title={"الدوريات"} options={periodicities} handleValueChange={handlePeriodicityChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"المصادر"}/>
+        <MultiselectionSection title={"المصادر"} options={sources} handleValueChange={handleSourceChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"التصنيفات"}/>
+        <MultiselectionSection title={"التصنيفات"} options={categories} handleValueChange={handleCategoryChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"القطاعات"}/>
+        <MultiselectionSection title={"القطاعات"} options={sectors} handleValueChange={handleSectorChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
 
         {/*  */}
         <div className="d-flex py-2 justify-content-center">
-        <Button type='submit' className='mr-1' color='green' onClick={() => {
-          setShowSearchSection(!showSearchSection)
-        }}>
+        <Button type='submit' className='mr-1' color='green' onClick={handleSearch}>
           بحث
                 {/* {intl.formatMessage({id: "Save"}) } */}
               </Button>

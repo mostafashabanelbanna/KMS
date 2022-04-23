@@ -1,26 +1,96 @@
 import axios from '../../../../../axios'
+import { isLoading, isNotLoading } from '../../../../../redux/actions/layout'
 
 export const getIndicatorDetails = (id) => {
-  console.log('id')
-
   return async dispatch => {
     await axios.get(`/Indicator/GetIndicator/${id}`)
     .then(response => {
-      console.log('then')
-
         console.log(response)
         dispatch({
           type: 'GET_INDICATOR_DETAILS',
           indicatorDetails: response.data.data
         })
+        if (response.data.data.indicatorAvilableCopies.length > 0) {
+          const firstElement = response.data.data.indicatorAvilableCopies[0]
+          dispatch({type: "SET_INDICATOR_DETAILS_PERIODICITY", periodicity: firstElement.periodicityId })
+          dispatch({type: "SET_INDICATOR_DETAILS_SOURCE", source: firstElement.sourceId })
+        }
+
       })
       .catch(error => {
-        console.log('catch')
-        console.log(error)
         dispatch({
           type: 'GET_INDICATOR_DETAILS',
           indicatorDetails: {}
         })
       })
+  }
+}
+
+export const getSeriesData = (pageNumber, rowsPerPage) => {
+  return async (dispatch, getState) => {
+    dispatch(isLoading())
+    const store = getState().indicatorDetails
+    const dimValues = []
+    store.seriesDimensionValues.forEach(element => {
+      element.forEach(ele => {
+        dimValues.push(ele.id)
+      })
+    })
+    const payLoad = {
+      indicatorId: store.indicatorDetails.id,
+      sourceId: store.selectedSource,
+      periodicityId: store.selectedPeriodicity,
+      dimensionsValues: dimValues,
+      pageNumber,
+      rowsPerPage,
+      fromDate: store.seriesDateFrom.length ? store.seriesDateFrom[0] : store.seriesDateFrom,
+      toDate: store.seriesDateTo.length ? store.seriesDateTo[0] : store.seriesDateTo
+    }
+    await axios.post(`/Dataset/GetAllDatasetValuesWithPagination/`, payLoad)
+    .then(response => {
+        dispatch(isNotLoading())
+        dispatch({
+          type: 'GET_INDICATOR_DETAILS_SERIES_DATA',
+          data: response.data.data.items,
+          totalPages: response.data.data.totalPages,
+          totalCount: response.data.data.totalCount
+        })
+      })
+      .catch(error => {
+        dispatch(isNotLoading())
+        dispatch({
+          type: 'GET_INDICATOR_DETAILS_SERIES_DATA',
+          data: [],
+          totalPages: 0,
+          totalCount: 0
+        })
+      })
+
+  }
+ 
+}
+
+export const ExportSeriesData = () => {
+  return async (dispatch, getState) => {
+    const store = getState().indicatorDetails
+    const dimValues = []
+    store.seriesDimensionValues.forEach(element => {
+      element.forEach(ele => {
+        dimValues.push(ele.id)
+      })
+    })
+    const payLoad = {
+      indicatorId: store.indicatorDetails.id,
+      sourceId: store.selectedSource,
+      periodicityId: store.selectedPeriodicity,
+      dimensionsValues: dimValues,
+      fromDate: store.seriesDateFrom.length ? store.seriesDateFrom[0] : store.seriesDateFrom,
+      toDate: store.seriesDateTo.length ? store.seriesDateTo[0] : store.seriesDateTo
+    }
+    await axios.post(`/Dataset/ExportIndicatorSeriesDataSheet`, payLoad, { responseType: 'arraybuffer' }).then(response => {
+      const fileDownload = require('js-file-download')
+      fileDownload(response.data, `${store.indicatorDetails.name_A}.xlsx`)
+    }).catch(error => {       
+    })
   }
 }

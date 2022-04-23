@@ -19,7 +19,6 @@ import dimensionLevels from '@src/views/manageDimension/dimensions/dimensionLeve
 import datasets from '@src/views/dataset/store/reducer/index'
 import classifications from '@src/views/manageClassification/classifications/store/reducer/index'
 import classificationValues from '@src/views/manageClassification/classifications/classificationValues/store/reducer/index'
-import researcherIndicators from '@src/views/indicator/store/reducer/index'
 import documentIssues from '@src/views/managePublication/documentIssue/store/reducer/index'
 import definitions from '@src/views/systemServices/Definitions/store/reducer/index'
 import providers from '@src/views/systemServices/providers/store/reducer/index'
@@ -30,7 +29,7 @@ import inquiryProcedures from '@src/views/manageInquiry/InquiryProcedures/store/
 import documentLibrary from '../../views/documentLibrary/store/reducer'
 import userNotifications from '@src/views/notification/store/reducer/index'
 import indicatorDetails from '@src/views/indicator/indicatorDetails/store/reducer/index'
-
+import frontIndicators from '@src/views/indicator/store/reducer/index'
 
 const rootReducer = combineReducers({
     auth,
@@ -50,7 +49,6 @@ const rootReducer = combineReducers({
     datasets,
     classifications,
     classificationValues,
-    researcherIndicators,
     documentIssues,
     definitions,
     providers,
@@ -60,7 +58,8 @@ const rootReducer = combineReducers({
     inquiryProcedures,
     documentLibrary,
     userNotifications,
-    indicatorDetails
+    indicatorDetails,
+    frontIndicators
 })
 
 export default rootReducer
