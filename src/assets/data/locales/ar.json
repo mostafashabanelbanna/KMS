@@ -235,5 +235,6 @@
 	"DocumentAttachments": "ملحقات الاصدارة",
 	"Preview": "استعراض التفاصيل",
 	"Indicartor Details": "تفاصيل البيان",
-	"source": "المصدر"
+	"source": "المصدر",
+	"WebResourceCategory": "تصنيف مصدر الويب"
 }

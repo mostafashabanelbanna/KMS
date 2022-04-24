@@ -48,7 +48,7 @@ const isToday = date => {
  */
 export const formatDate = (value, formatting = { month: 'short', day: 'numeric', year: 'numeric' }) => {
   if (!value) return value
-  return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
+  return new Intl.DateTimeFormat('ar-EG', formatting).format(new Date(value))
 }
 
 // ** Returns short month of passed date
@@ -243,7 +243,10 @@ export const confirmDelete = (deleteRow, rowId) => {
 
  export const isPermitted = (objectName, Function) => {
   const perms = JSON.parse(localStorage?.getItem('userData'))?.userPermissions
-  //console.log(perms.filter(x => x.objectname === objectName))
+
+  if (perms === undefined) {
+    return false
+  }
   const arr = perms?.filter((x) => {
     return x.objectName === objectName
   })

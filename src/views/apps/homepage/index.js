@@ -15,7 +15,7 @@ const Homepage = () => {
       <CategoryCard />
       <HomeCard title={"إضيف حديثا"} addedLatelyComp={true}/>
       <DashboardSlider/>
-      <HomeCard title={"المفضلة"}/>
+      <HomeCard title={"المفضلة"} favorite={true}/>
       <ResourcesSlider/>
     </div>
   )

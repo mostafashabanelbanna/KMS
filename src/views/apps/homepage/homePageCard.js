@@ -1,10 +1,58 @@
 import { CardTitle } from "reactstrap"
+import { useEffect, useState } from 'react'
 import { faEye } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import download from '@src/assets/images/icons/download.png'
+import axios from '../../../axios'
+import {formatDate} from '../../../utility/Utils'
 
-const HomeCard = ({title, addedLatelyComp}) => {
-    return <div className="d-flex flex-column pb-2 px-2">
+const HomeCard = ({title, addedLatelyComp, favorite}) => {
+    const [indicators, setIndicators] = useState([])
+    const [docuements, setDocuments] = useState([])
+    const [favorites, setFavorites] = useState({})
+
+    const getIndicators = async () => {
+        await axios.get(`/Home/GetLatestIndicators`)
+        .then(response => {
+                const result = response.data.data
+                setIndicators(result)
+            })
+            .catch(error => {
+        })
+      }
+
+      const getDocuments = async () => {
+        await axios.get(`/Home/GetLatestDocumentIssues`)
+        .then(response => {
+                const result = response.data.data
+                setDocuments(result)
+            })
+            .catch(error => {
+        })
+      }
+
+      const getFavorites = async () => {
+        await axios.get(`/Home/GetHomeFavorites`)
+        .then(response => {
+                const result = response.data.data
+                setFavorites(result)
+                console.log(favorites)
+            })
+            .catch(error => {
+        })
+      }
+
+            useEffect(() => {
+            if (!favorite) {
+                getIndicators()
+                getDocuments()
+            } else {
+                getFavorites()
+            }
+        }, [])
+      
+    return ( 
+        <div className="d-flex flex-column pb-2 px-2">
         <div className='d-flex w-100 align-items-center'>
             <CardTitle tag='h4' className="mb-0">{title}</CardTitle>
             <hr className="col bg-gray my-0 ml-2" />
@@ -17,44 +65,43 @@ const HomeCard = ({title, addedLatelyComp}) => {
                 <div className="col-11 px-2">
                     <div className="d-flex flex-column">
                         <h2 className="mb-1">عناصر البيانات</h2>
-                        <div className="d-flex flex-wrap align-items-start col-12">
-                            <div className="col-xl-5 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0" style={{fontSize: 18, fontWeight: "bold"}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            <div className="col-xl-5 col-md-8 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0 text-muted" style={{fontSize: 17}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            {addedLatelyComp && <div className="col-xl-2 col-md-4 col-12 d-flex align-items-center justify-content-end">
-                                <p className="px-1 mb-0">منذ 30 دقيقة</p>
-                                <FontAwesomeIcon icon={faEye} color={"#08a291"} size={"lg"}/>
-                            </div>}
-                        </div>
-                        <hr className="col-12 bg-gray"/>
-                        <div className="d-flex flex-wrap align-items-start col-12">
-                            <div className="col-xl-5 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0" style={{fontSize: 18, fontWeight: "bold"}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            <div className="col-xl-5 col-md-8 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0 text-muted" style={{fontSize: 17}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            {addedLatelyComp && <div className="col-xl-2 col-md-4 col-12 d-flex align-items-center justify-content-end">
-                                <p className="px-1 mb-0">منذ 30 دقيقة</p>
-                                <FontAwesomeIcon icon={faEye} color={"#08a291"} size={"lg"}/>
-                            </div>}
-                        </div>
-                        <hr className="col-12 bg-gray"/>
-                        <div className="d-flex flex-wrap align-items-start col-12">
-                            <div className="col-xl-5 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0" style={{fontSize: 18, fontWeight: "bold"}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            <div className="col-xl-5 col-md-8 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0 text-muted" style={{fontSize: 17}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            {addedLatelyComp && <div className="col-xl-2 col-md-4 col-12 d-flex align-items-center justify-content-end">
-                                <p className="px-1 mb-0">منذ 30 دقيقة</p>
-                                <FontAwesomeIcon icon={faEye} color={"#08a291"} size={"lg"}/>
-                            </div>}
-                        </div>
+                        {!favorite && indicators.map((item, index) => {
+                            return (
+                                <><div className="d-flex flex-wrap align-items-start col-12">
+                                    <div className="col-xl-5 col-12 p-0 mb-xl-0 mb-1">
+                                        <p className="mb-0" style={{ fontSize: 18, fontWeight: "bold" }}>{item.name_A}</p>
+                                    </div>
+                                    <div className="col-xl-5 col-md-8 col-12 p-0 mb-xl-0 mb-1">
+                                        <p className="mb-0 text-muted" style={{ fontSize: 17 }}>{item.description_A}</p>
+                                    </div>
+                                    {addedLatelyComp && <div className="col-xl-2 col-md-4 col-12 d-flex align-items-center justify-content-end">
+                                        <p className="px-1 mb-0">{formatDate(item.createDate)}</p>
+                                        <FontAwesomeIcon icon={faEye} color={"#08a291"} size={"lg"} />
+                                    </div>}
+                                    {index < indicators.length - 1 && <hr className="col-12 bg-gray" />}
+                                </div>
+                                </>
+                            )
+                        })}
+
+                        {favorite && favorites?.indicators?.map((item, index) => {
+                            return (
+                                <><div className="d-flex flex-wrap align-items-start col-12">
+                                    <div className="col-xl-5 col-12 p-0 mb-xl-0 mb-1">
+                                        <p className="mb-0" style={{ fontSize: 18, fontWeight: "bold" }}>{item.name_A}</p>
+                                    </div>
+                                    <div className="col-xl-5 col-md-8 col-12 p-0 mb-xl-0 mb-1">
+                                        <p className="mb-0 text-muted" style={{ fontSize: 17 }}>{item.description_A}</p>
+                                    </div>
+                                    {addedLatelyComp && <div className="col-xl-2 col-md-4 col-12 d-flex align-items-center justify-content-end">
+                                        <p className="px-1 mb-0">{formatDate(item.createDate)}</p>
+                                        <FontAwesomeIcon icon={faEye} color={"#08a291"} size={"lg"} />
+                                    </div>}
+                                    {index < favorites?.indicators?.length - 1 && <hr className="col-12 bg-gray" />}
+                                </div>
+                                </>
+                            )
+                        })}
                     </div>
                 </div>    
             </div>
@@ -66,49 +113,84 @@ const HomeCard = ({title, addedLatelyComp}) => {
                 <div className="col-11 px-2">
                     <div className="d-flex flex-column">
                         <h3 className="mb-1">إصدارات</h3>
-                        <div className="d-flex flex-wrap align-items-start col-12">
-                            <div className="col-xl-5 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0" style={{fontSize: 18, fontWeight: "bold"}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            <div className="col-xl-5 col-md-8 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0 text-muted" style={{fontSize: 17}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            {addedLatelyComp && <div className="col-xl-2 col-md-4 col-12 d-flex align-items-center justify-content-end">
-                                <p className="px-1 mb-0">منذ 30 دقيقة</p>
-                                <a download={"#"}><img src={download} /></a>
-                            </div>}
-                        </div>
-                        <hr className="col-12 bg-gray"/>
-                        <div className="d-flex flex-wrap align-items-start col-12">
-                            <div className="col-xl-5 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0" style={{fontSize: 18, fontWeight: "bold"}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            <div className="col-xl-5 col-md-8 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0 text-muted" style={{fontSize: 17}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            {addedLatelyComp && <div className="col-xl-2 col-md-4 col-12 d-flex align-items-center justify-content-end">
-                                <p className="px-1 mb-0">منذ 30 دقيقة</p>
-                                <a download={"#"}><img src={download} /></a>
-                            </div>}
-                        </div>
-                        <hr className="col-12 bg-gray"/>
-                        <div className="d-flex flex-wrap align-items-start col-12">
-                            <div className="col-xl-5 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0" style={{fontSize: 18, fontWeight: "bold"}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            <div className="col-xl-5 col-md-8 col-12 p-0 mb-xl-0 mb-1">
-                                <p className="mb-0 text-muted" style={{fontSize: 17}}>إجمالي عدد المدارس اليابانيةبالفصول المصرية</p>
-                            </div>
-                            {addedLatelyComp && <div className="col-xl-2 col-md-4 col-12 d-flex align-items-center justify-content-end">
-                                <p className="px-1 mb-0">منذ 30 دقيقة</p>
-                                <a download={"#"}><img src={download} /></a>
-                            </div>}
-                        </div>
+                        {!favorite && docuements.map((item, index) => {
+                            return (
+                              <>
+                                <div className="d-flex flex-wrap align-items-start col-12">
+                                  <div className="col-xl-5 col-12 p-0 mb-xl-0 mb-1">
+                                    <p
+                                      className="mb-0"
+                                      style={{
+                                        fontSize: 18,
+                                        fontWeight: "bold"
+                                      }}
+                                    >
+                                        {item.name_A}
+                                    </p>
+                                  </div>
+                                  <div className="col-xl-5 col-md-8 col-12 p-0 mb-xl-0 mb-1">
+                                    <p
+                                      className="mb-0 text-muted"
+                                      style={{ fontSize: 17 }}
+                                    >
+                                        {item.description_A}
+                                    </p>
+                                  </div>
+                                  {addedLatelyComp && (
+                                    <div className="col-xl-2 col-md-4 col-12 d-flex align-items-center justify-content-end">
+                                      <p className="px-1 mb-0">{formatDate(item.lastDate)}</p>
+                                      <a download={"#"}>
+                                        <img src={download} />
+                                      </a>
+                                    </div>
+                                  )}
+                                </div>
+                                {index < docuements.length - 1 && <hr className="col-12 bg-gray" />}
+                              </>
+                            )
+                        })}
+
+                        {favorite && favorites?.documents?.map((item, index) => {
+                            return (
+                              <>
+                                <div className="d-flex flex-wrap align-items-start col-12">
+                                  <div className="col-xl-5 col-12 p-0 mb-xl-0 mb-1">
+                                    <p
+                                      className="mb-0"
+                                      style={{
+                                        fontSize: 18,
+                                        fontWeight: "bold"
+                                      }}
+                                    >
+                                        {item.name_A}
+                                    </p>
+                                  </div>
+                                  <div className="col-xl-5 col-md-8 col-12 p-0 mb-xl-0 mb-1">
+                                    <p
+                                      className="mb-0 text-muted"
+                                      style={{ fontSize: 17 }}
+                                    >
+                                        {item.description_A}
+                                    </p>
+                                  </div>
+                                  {addedLatelyComp && (
+                                    <div className="col-xl-2 col-md-4 col-12 d-flex align-items-center justify-content-end">
+                                      <p className="px-1 mb-0">{formatDate(item.lastDate)}</p>
+                                      <a download={"#"}>
+                                        <img src={download} />
+                                      </a>
+                                    </div>
+                                  )}
+                                </div>
+                                {index < favorites?.docuements?.length - 1 && <hr className="col-12 bg-gray" />}
+                              </>
+                            )
+                        })}
                     </div>
                 </div>    
             </div>
         </div>
-    </div>
+    </div>)
 }
 
 export default HomeCard

@@ -197,7 +197,7 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
         </FormGroup>
         <FormGroup>
           <Label for='descriptionA'>
-            {intl.formatMessage({id: "Description"})} <span className='text-danger'>*</span>
+            {intl.formatMessage({id: "Description"})}
           </Label>
           <Input
             name='descriptionA'
@@ -205,7 +205,7 @@ const SidebarClassificationValue = ({ open, toggleSidebar, selectedClassificatio
             type="textarea"
             defaultValue={selectedClassificationValue.id ? selectedClassificationValue.description_A : ''}
             placeholder={intl.formatMessage({id: "Description"})}
-            innerRef={register({ required: true })}
+            innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['Description'] })}
           />
         </FormGroup>

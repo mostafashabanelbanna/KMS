@@ -221,14 +221,14 @@ const SidebarNew = ({ open, toggleSidebar, selectedWebResource }) => {
         </FormGroup>
         <FormGroup>
           <Label for='name_E'>
-           {intl.formatMessage({id: "Name In English"})} <span className='text-danger'>*</span>
+           {intl.formatMessage({id: "Name In English"})}
           </Label>
           <Input
             name='name_E'
             id='name_E'
             defaultValue={selectedWebResource ? selectedWebResource.name_E : ''}
             placeholder={intl.formatMessage({id: "Name In English"})}
-            innerRef={register({ required: true })}
+            innerRef={register({ required: false })}
             className={classnames({ 'is-invalid': errors['nameE'] })}
           />
         </FormGroup>
