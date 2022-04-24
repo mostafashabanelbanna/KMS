@@ -7,7 +7,7 @@ const FrontRoutes = [
         component: lazy(() => import('../../views/indicator/indicatorList/landingPage'))
     },
     {
-        path: '/indicator/indicatorDetails',
+        path: '/indicator/indicatorDetails/:Id',
         component: lazy(() => import('../../views/indicator/indicatorDetails/index'))
     },
     {
