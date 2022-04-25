@@ -6,6 +6,7 @@ import Select from 'react-select'
 import { selectThemeColors, notify } from '@utils'
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
 import { Plus, ArrowUpLeft } from 'react-feather'
+import { ArrowsIcon, SignalIcon, StatsIcon } from "../../indicatorList/icons"
 
 import { Arabic } from 'flatpickr/dist/l10n/ar.js'
 // ** Internationalization Context
@@ -198,7 +199,7 @@ const SeriesTab = () => {
               {store.seriesDimensions.map((item, idx) => (
                 <div key={idx} className='dark-layout mb-2 d-flex align-items-center px-2'
                 >
-                  <div> <ArrowUpLeft/> {item.name} </div>
+                  <div> <ArrowsIcon className='mr-1'/> {item.name} </div>
                   {
                   store.seriesDimensionValues[idx].map((innerItem, idx) => (
                     <div

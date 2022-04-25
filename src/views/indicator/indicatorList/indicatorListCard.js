@@ -91,9 +91,10 @@ const IndicatorCard = (item) => {
               </div>
             </div>
             <div className="d-flex align-items-center col-md-4 col-12">
-              <p className="mb-0 w-100 text-center" style={{ padding: "0.5rem", backgroundColor: "#edeff6", borderRadius: 8 }}>
-                من {item.fromYear} الي {item.toYear}
+              {item.item.fromYear && <p className="mb-0 w-100 text-center" style={{ padding: "0.5rem", backgroundColor: "#edeff6", borderRadius: 8 }}>
+                من {item.item.fromYear} الي {item.item.toYear}
               </p>
+              }
             </div>
           </div>
         </div>

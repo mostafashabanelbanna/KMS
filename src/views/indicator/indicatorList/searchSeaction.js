@@ -6,6 +6,7 @@ import MultiselectionSection from "./multiselectionSeearchSection"
 import axios from '../../../axios'
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
+import { getData } from '../store/action/index'
 
 const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) => {
   // redux states
@@ -46,6 +47,24 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
   const handleNameChange = (e) => {
     dispatch({type: "SET_FRONT_INDICATOR_NAME", name: e.target.value })
   }
+  const removeSearch = () => {
+    dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: []})
+    dispatch({type: "SET_FRONT_INDICATOR_SOURCE", sources: []})
+    dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: []})
+    dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: []})
+    dispatch({type: "SET_FRONT_INDICATOR_NAME", name: ''})
+    const submitedData = {
+      pageNumber: 1,
+      rowsPerPage: 10,
+      name: '',
+      periodicities: [],
+      sources: [],
+      classificationValues: [],
+      startDate: store.dateFrom,
+      endDate: store.dateTo
+    }
+    dispatch(getData(submitedData))
+  }
   useEffect(() => {
     getAllDropDowns()
   }, [])
@@ -65,7 +84,7 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
               بحث متقدم
             </p>
           </div>
-          <div className="d-flex col-6 justify-content-end px-0">
+          {/* <div className="d-flex col-6 justify-content-end px-0">
             <p
               className="mb-0 text_green"
               style={{ cursor: "pointer", fontSize: 13 }}
@@ -73,7 +92,7 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
             >
               تحميل إعدادات سابقة
             </p>
-          </div>
+          </div> */}
         </div>
 
         <div className="d-flex p-1" style={{ backgroundColor: "#f5f6fa" }}>
@@ -82,7 +101,7 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
               icon={faTimes}
               color="red"
               style={{ cursor: "pointer" }}
-              onClick={() => {}}
+              onClick={removeSearch}
             />
           </div>
           <p className="mb-0 px-1">إزالة البحث</p>
@@ -99,13 +118,14 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
               type="text"
               class="form-control"
               placeholder="بحث بإسم العنصر"
+              value={store.name}
               name="search"
               onChange={(e) => handleNameChange(e)}
             />
           </div>
         </form>
 
-        <DateSearchSection/>
+        {/* <DateSearchSection/> */}
         <hr className="w-100 bg-gray mt-0 mb-2" />
         <MultiselectionSection title={"الدوريات"} values={store.periodicities} options={periodicities} handleValueChange={handlePeriodicityChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
@@ -118,14 +138,14 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
 
         {/*  */}
         <div className="d-flex py-2 justify-content-center">
-        <Button type='submit' className='mr-1' color='green' onClick={handleSearch}>
+        <Button type='submit' className='mr-1' style={{width: "150px"}} color='green' onClick={handleSearch}>
           بحث
                 {/* {intl.formatMessage({id: "Save"}) } */}
               </Button>
-              <Button type='submit' color='secondary' outline >
+              {/* <Button type='submit' color='secondary' outline >
                 حفظ إعدادات البحث
-                {/* {intl.formatMessage({id: "Cancel"}) } */}
-              </Button>
+                
+              </Button> */}
         </div>
 
       </div>

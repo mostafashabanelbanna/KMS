@@ -20,6 +20,7 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import * as moment from "moment"
 import "moment/locale/ar"
 import ComponentSpinner from '../../../../@core/components/spinner/Fallback-spinner'
+import { ArrowsIcon, SignalIcon, StatsIcon } from "../../indicatorList/icons"
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -108,7 +109,7 @@ const SeriesTable = ({toggleTable}) => {
                 <div className='d-flex '>
                     {row.dimensionValueNames.map((item, index) => (
                         <div key={index} className="d-flex align-items-center">
-                            <ArrowLeftCircle className='mx-1'/>
+                            <ArrowsIcon className='mx-1'/>
                             <span className='mr-2'>{item.dimensionName}</span>
                             <span style={{
                                         backgroundColor: "lightGray",
@@ -138,7 +139,7 @@ const SeriesTable = ({toggleTable}) => {
                     <span className='mx-2'>إلى </span> <spna>{moment(store.seriesDateTo).locale("ar").format("LL")}</spna>
                   </div>
                   <div className='ml-5 d-flex'>
-                      <ArrowLeftCircle className='mx-1'/>
+                      <ArrowsIcon className='mx-1'/>
                       {store.seriesDimensions.map((item, idx) => (
                           <div key={idx}>
                             <span className='mx-1' >{item.name}</span>

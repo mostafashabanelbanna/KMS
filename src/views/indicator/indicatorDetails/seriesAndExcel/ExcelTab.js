@@ -18,6 +18,7 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/picker
 import MomentUtils from "@date-io/moment"
 import moment from "moment"
 import "moment/locale/ar"
+import { ArrowsIcon, SignalIcon, StatsIcon } from "../../indicatorList/icons"
 
 const ExcelTab = () => {
   const dispatch = useDispatch()
@@ -27,6 +28,7 @@ const ExcelTab = () => {
   const [selectedDimensionValues, setSelectedDimensionValues] = useState([])
   const [indicatorUnits, setIndicatorUnits] = useState([])
   const intl = useIntl()
+  
 
   const intlContext = useContext(IntlContext)
 
@@ -215,7 +217,7 @@ const ExcelTab = () => {
                 {store.excelDimensions.map((item, idx) => (
                 <div key={idx} className='dark-layout mb-2 d-flex align-items-center px-2'
                 >
-                    <div> <ArrowUpLeft/> 
+                    <div> <ArrowsIcon className='mr-1'/> 
                         {store.indicatorDetails.indicatorDimensionsDtos.find(e => parseInt(e.id.split("::")[1]) === item.levelNumber).name} 
                     </div>
                     {

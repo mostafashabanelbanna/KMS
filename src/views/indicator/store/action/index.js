@@ -29,6 +29,7 @@ export const getData = params => {
         totalPages: response.data.data.totalPages,
         totalCount: response.data.data.totalCount
       })
+      console.log(response.data.data.items)
       dispatch(isNotLoading())
 
     }).catch(error => {
