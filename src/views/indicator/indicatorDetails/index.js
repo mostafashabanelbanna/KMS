@@ -95,13 +95,13 @@ const indicatorDetails = (props) => {
                   <CardBody>
                     {store.indicatorDetails && store.indicatorDetails.description_A && <div>
                       <h5 style={{color: '#5853B2'}}>الوصف</h5>
-                      <p className='text-white'>
+                      <p>
                         {store.indicatorDetails.description_A}
                       </p>
                     </div>}
                     {store.indicatorDetails && store.indicatorDetails.acquisition_A && <div>
                       <h5 style={{color: '#5853B2'}}>طريقة التجميع</h5>
-                      <p className='text-white'>
+                      <p>
                         {store.indicatorDetails.acquisition_A}
                       </p>
                     </div>}
