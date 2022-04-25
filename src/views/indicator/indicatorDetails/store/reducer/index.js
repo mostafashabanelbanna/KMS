@@ -2,13 +2,18 @@ const initialState = {
     indicatorDetails:{},
     selectedPeriodicity: 0,
     selectedSource: 0,
+    selectedUnit: {},
     seriesDimensions: [],
     seriesDimensionValues: [],
     seriesDateFrom: new Date(),
     seriesDateTo: new Date(),
     seriesData: [],
     seriesDataTotalCount: 0,
-    seriesDataTotalPages: 0
+    seriesDataTotalPages: 0,
+    //Excel Data
+    excelDate: new Date(),
+    excelDimensions:[],
+    exportExcelErrorCode: 200
 
 }
 
@@ -20,6 +25,8 @@ const indicatorDetails = (state = initialState, action) => {
             return {...state, selectedPeriodicity: action.periodicity}
         case 'SET_INDICATOR_DETAILS_SOURCE':
             return {...state, selectedSource: action.source}
+        case 'SET_INDICATOR_DETAILS_UNIT':
+            return {...state, selectedUnit: action.unit}
         case 'SET_INDICATOR_DETAILS_SERIES_DIMENSIONS':
             return {...state, seriesDimensions: action.dimensions}
         case 'SET_INDICATOR_DETAILS_SERIES_DIMENSION_VALUES':
@@ -30,6 +37,12 @@ const indicatorDetails = (state = initialState, action) => {
             return {...state, seriesDateTo: action.dateTo}
         case 'GET_INDICATOR_DETAILS_SERIES_DATA':
             return {...state, seriesData: action.data, seriesDataTotalCount: action.totalCount, seriesDataTotalPages: action.totalPages}
+        case 'SET_INDICATOR_DETAILS_EXCEL_DATE':
+            return {...state, excelDate: action.date}
+        case 'SET_INDICATOR_DETAILS_EXCEL_DIMENSIONS':
+            return {...state, excelDimensions: action.excelDimensions}
+        case 'SET_INDICATOR_DETAILS_EXCEL_EXPORT_RESPONSE':
+            return {...state, exportExcelErrorCode: action.errorCode}
         
         default:
             return {...state}

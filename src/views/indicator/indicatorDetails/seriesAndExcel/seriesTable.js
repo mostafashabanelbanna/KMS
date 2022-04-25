@@ -134,8 +134,8 @@ const SeriesTable = ({toggleTable}) => {
           <Card className='p-2'>
               <div className='d-flex align-items-center'>
                   <div>
-                    <span className='mx-2'>من </span> <spna className='mr-4'>{moment(store.seriesDateFrom.length ? store.seriesDateFrom[0] : store.seriesDateFrom).locale("ar").format("LL")}</spna>
-                    <span className='mx-2'>إلى </span> <spna>{moment(store.seriesDateTo.length ? store.seriesDateTo[0] : store.seriesDateTo).locale("ar").format("LL")}</spna>
+                    <span className='mx-2'>من </span> <spna className='mr-4'>{moment(store.seriesDateFrom).locale("ar").format("LL")}</spna>
+                    <span className='mx-2'>إلى </span> <spna>{moment(store.seriesDateTo).locale("ar").format("LL")}</spna>
                   </div>
                   <div className='ml-5 d-flex'>
                       <ArrowLeftCircle className='mx-1'/>

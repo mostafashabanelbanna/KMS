@@ -1,5 +1,6 @@
 import axios from '../../../../../axios'
 import { isLoading, isNotLoading } from '../../../../../redux/actions/layout'
+import { store } from '../../../../../redux/storeConfig/store'
 
 export const getIndicatorDetails = (id) => {
   return async dispatch => {
@@ -43,8 +44,8 @@ export const getSeriesData = (pageNumber, rowsPerPage) => {
       dimensionsValues: dimValues,
       pageNumber,
       rowsPerPage,
-      fromDate: store.seriesDateFrom.length ? store.seriesDateFrom[0] : store.seriesDateFrom,
-      toDate: store.seriesDateTo.length ? store.seriesDateTo[0] : store.seriesDateTo
+      fromDate: store.seriesDateFrom,
+      toDate: store.seriesDateTo
     }
     await axios.post(`/Dataset/GetAllDatasetValuesWithPagination/`, payLoad)
     .then(response => {
@@ -84,13 +85,49 @@ export const ExportSeriesData = () => {
       sourceId: store.selectedSource,
       periodicityId: store.selectedPeriodicity,
       dimensionsValues: dimValues,
-      fromDate: store.seriesDateFrom.length ? store.seriesDateFrom[0] : store.seriesDateFrom,
-      toDate: store.seriesDateTo.length ? store.seriesDateTo[0] : store.seriesDateTo
+      fromDate: store.seriesDateFrom,
+      toDate: store.seriesDateTo
     }
     await axios.post(`/Dataset/ExportIndicatorSeriesDataSheet`, payLoad, { responseType: 'arraybuffer' }).then(response => {
       const fileDownload = require('js-file-download')
       fileDownload(response.data, `${store.indicatorDetails.name_A}.xlsx`)
     }).catch(error => {       
     })
+  }
+}
+
+export const exportFile = () => {
+  return async (dispatch, getState) => {
+      const Store = getState().indicatorDetails
+      const postObject = {
+          indicatorId: Store.indicatorDetails.id,
+          sourceId: Store.selectedSource,
+          periodicityId: Store.selectedPeriodicity,
+          unitId: Store.selectedUnit.id,
+          classificationValueId: null,
+          insertionDate: Store.excelDate,
+          vertical: Store.excelDimensions,
+          horizontal: []
+      }
+      await axios.post(`/Dataset/ExportIndicatorDataSheet`, postObject, { responseType: 'arraybuffer' }).then(response => {
+        const fileDownload = require('js-file-download')
+        fileDownload(response.data, 'DataSheet.xlsx')
+        dispatch({
+          type: 'SET_INDICATOR_DETAILS_EXCEL_EXPORT_RESPONSE',
+          errorCode: 200
+        })
+      }).catch(error => {
+        if (error && error.response) {
+          dispatch({
+            type: 'SET_INDICATOR_DETAILS_EXCEL_EXPORT_RESPONSE',
+            errorCode: error.response.status
+          })
+        } else {
+          dispatch({
+            type: 'SET_INDICATOR_DETAILS_EXCEL_EXPORT_RESPONSE',
+            errorCode: 500
+          })
+        }        
+      })
   }
 }

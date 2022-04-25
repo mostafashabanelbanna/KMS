@@ -5,6 +5,7 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 
 import PickerDefault from "../PickerDefault"
 import SeriesTab from "./SeriesTab"
+import ExcelTab from "./ExcelTab"
 
 
 const Tabs = () => {
@@ -47,7 +48,7 @@ const Tabs = () => {
         <SeriesTab/>
       </TabPane>
       <TabPane tabId='2'>
-        إنشاء توزيع احصائي
+        <ExcelTab/>
       </TabPane>
     </TabContent>
     </>

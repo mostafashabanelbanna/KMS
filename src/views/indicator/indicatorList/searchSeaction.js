@@ -107,13 +107,13 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
 
         <DateSearchSection/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"الدوريات"} options={periodicities} handleValueChange={handlePeriodicityChange}/>
+        <MultiselectionSection title={"الدوريات"} values={store.periodicities} options={periodicities} handleValueChange={handlePeriodicityChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"المصادر"} options={sources} handleValueChange={handleSourceChange}/>
+        <MultiselectionSection title={"المصادر"} values={store.sources} options={sources} handleValueChange={handleSourceChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"التصنيفات"} options={categories} handleValueChange={handleCategoryChange}/>
+        <MultiselectionSection title={"التصنيفات"} values={store.sectors} options={categories} handleValueChange={handleCategoryChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"القطاعات"} options={sectors} handleValueChange={handleSectorChange}/>
+        <MultiselectionSection title={"القطاعات"} values={store.categories} options={sectors} handleValueChange={handleSectorChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
 
         {/*  */}

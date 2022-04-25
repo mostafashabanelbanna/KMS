@@ -1,10 +1,9 @@
-import {  useState, useContext } from 'react'
+import {  useState, useContext, useEffect } from 'react'
 import {Row, Col, Label, Button, FormGroup, FormText, Form, Input } from 'reactstrap'
 import Flatpickr from 'react-flatpickr'
 import { useIntl } from 'react-intl'
 import Select from 'react-select'
 import { selectThemeColors, notify } from '@utils'
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
 import { Plus, ArrowUpLeft } from 'react-feather'
 
 import { Arabic } from 'flatpickr/dist/l10n/ar.js'
@@ -13,19 +12,20 @@ import { IntlContext } from '@src/utility/context/Internationalization'
 import { setPickerLanguage } from '../../../../utility/Utils'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from '../../../../axios'
-import {getSeriesData} from '../store/action/index'
+import {exportFile} from '../store/action/index'
 import SeriesTable from './seriesTable'
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
 import MomentUtils from "@date-io/moment"
 import moment from "moment"
 import "moment/locale/ar"
 
-const SeriesTab = () => {
+const ExcelTab = () => {
   const dispatch = useDispatch()
   const store = useSelector(state => state.indicatorDetails)
   const [dimensionValues, setDimensionValues] = useState([])
   const [selectedDimension, setSelectedDimension] = useState({})
   const [selectedDimensionValues, setSelectedDimensionValues] = useState([])
-  const [formContentActive, setFormContentAvtive] = useState(1)
+  const [indicatorUnits, setIndicatorUnits] = useState([])
   const intl = useIntl()
 
   const intlContext = useContext(IntlContext)
@@ -42,6 +42,11 @@ const SeriesTab = () => {
     })
   }
 
+  const GetIndicatorUnits = async () => {
+    await axios.get(`/Indicator/GetIndicatorForDataset/${store.indicatorDetails.id}`).then(response => {
+       setIndicatorUnits(response.data.data.indicatorUnits)
+      })
+  }
   const handleDimensionChange = (e) => {
     getDimensionValues(e.id.split('::')[0], e.id.split('::')[1])
     setSelectedDimension(e)
@@ -49,7 +54,12 @@ const SeriesTab = () => {
   const handleDimensionValueChange = (e) => {
     setSelectedDimensionValues(e)
   }
+  const handleUnitChange = (e) => {
+      dispatch({type: "SET_INDICATOR_DETAILS_UNIT", unit: e})
+  }
+
   const addToSelectedDimensions = () => {
+
     if (!selectedDimension.id) {
       notify("error", "يُرجى أختيار البعد اولا")
       return
@@ -58,39 +68,53 @@ const SeriesTab = () => {
       notify("error", "يُرجى أختيار قيم البعد اولا")
       return
     }
+    const dimId = parseInt(selectedDimension.id.split('::')[0])
+    const levelNumber = parseInt(selectedDimension.id.split('::')[1])
 
-    if (store.seriesDimensions.findIndex(e => e.id === selectedDimension.id) !== -1) {
+    if (store.excelDimensions.findIndex(e => e.dimensionId === dimId && e.levelNumber === levelNumber) !== -1) {
       notify("error", "لقد تم اختيار هذ البعد")
       return
     }
-    dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSIONS", dimensions: [...store.seriesDimensions, selectedDimension]})
-    dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSION_VALUES", dimensionValues: [...store.seriesDimensionValues, selectedDimensionValues]})
+    if (store.excelDimensions.length > 0) {
+        const lastEle = store.excelDimensions[store.excelDimensions.length - 1]
+        if (lastEle.dimensionId === dimId && lastEle.levelNumber > levelNumber) {
+            notify("error", "يُرجى أختيار الابعاد تعبا بترتيب المستوى")
+            return   
+        }
+    }
+    const list = dimensionValues.map(obj => ({ ...obj, orderLevel: store.excelDimensions.length + 1}))
+    const newElement = {
+        dimensionId : dimId,
+        levelNumber,
+        dimensionValues: list
+    }
+    dispatch({type: "SET_INDICATOR_DETAILS_EXCEL_DIMENSIONS", excelDimensions: [...store.excelDimensions, newElement]})
     setSelectedDimension({})
     setSelectedDimensionValues([])
   }
-  const getSeriesDataList = () => {
-    dispatch(getSeriesData(1, 10))
+  const ExportFile = () => {
+      dispatch(exportFile())
   }
-  const toggleTable = (val) => {
-    setFormContentAvtive(val)
-    if (val === 0) {
-      getSeriesDataList()
-    }
+  const handleExcelDateChange = (event) => {
+    dispatch({type: "SET_INDICATOR_DETAILS_EXCEL_DATE", date: moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY").format("YYYY-MM-DD").replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)) })
   }
-  const handleFromDateChange = (event) => {
-    dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DATE_FROM", dateFrom: moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY").format("YYYY-MM-DD").replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)) })
-  }
-  const handleToDateChange = (event) => {
-    dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DATE_TO", dateTo: moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY").format("YYYY-MM-DD").replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)) })
-  }
+  useEffect(() => {
+      if (store.exportExcelErrorCode !== 200) {
+          notify("error", "حدث خطأ ما او التاريخ الذى تم أختياره لا يتلائم مع دورية عنصر البيان")
+      }
+  }, [store.exportExcelErrorCode])
+
+  useEffect(() => {
+    GetIndicatorUnits()
+  }, [store.indicatorDetails])
   return (
     <>
-      {formContentActive === 1 && <div>
+      <div>
         <Row className="mx-0">
           <Col sm='3' >
             <FormGroup>
               <Label for='name'>
-                من
+                التاريخ
               </Label>
               <MuiPickersUtilsProvider
                 libInstance={moment}
@@ -103,13 +127,13 @@ const SeriesTab = () => {
                 okLabel="تحديد"
                 cancelLabel="الغاء"
                 format="L"
-                value={store.seriesDateFrom}
+                value={store.excelDate} 
                 inputVariant="outlined"
                 variant="dialog"
                 maxDateMessage=""
                 mask="__-__-____"
                 placeholder="يوم/شهر/سنة"
-                onChange={(date) => handleFromDateChange(date)} 
+                onChange={date => handleExcelDateChange(date)} 
                 views={["year", "month", "date"]}
               />
             </MuiPickersUtilsProvider>
@@ -118,29 +142,22 @@ const SeriesTab = () => {
           <Col sm='3' >
             <FormGroup>
               <Label for='name'>
-                إلى
+                الوحدة
               </Label>
-              <MuiPickersUtilsProvider
-                libInstance={moment}
-                utils={MomentUtils}
-                locale={"sw"}
-                className="bg-danger"
-              >
-                <KeyboardDatePicker
-                className="w-100"
-                okLabel="تحديد"
-                cancelLabel="الغاء"
-                format="L"
-                value={store.seriesDateTo} 
-                inputVariant="outlined"
-                variant="dialog"
-                maxDateMessage=""
-                mask="__-__-____"
-                placeholder="يوم/شهر/سنة"
-                onChange={(date) => handleToDateChange(date)} 
-                views={["year", "month", "date"]}
-              />
-            </MuiPickersUtilsProvider>
+              <Select
+                placeholder="تحديد"
+                isClearable={false}
+                theme={selectThemeColors}
+                options={indicatorUnits}
+                value={store.selectedUnit.id ? store.selectedUnit : []}
+                getOptionLabel={(option) => option.unitMeasureName}
+                getOptionValue={(option) => option.id}
+                name='unit'
+                id='unit'
+                className='react-select'
+                classNamePrefix='select'
+                onChange={e => handleUnitChange(e) }
+            />
             </FormGroup>
           </Col>
         </Row>
@@ -191,53 +208,50 @@ const SeriesTab = () => {
           </Col>
         </Row>
         
-        {store.seriesDimensions.length > 0 &&
+        {store.excelDimensions.length > 0 &&
           <>
             <Row className='mx-0'>
             <Col md={12} className='card mt-2 p-1'>
-              {store.seriesDimensions.map((item, idx) => (
+                {store.excelDimensions.map((item, idx) => (
                 <div key={idx} className='dark-layout mb-2 d-flex align-items-center px-2'
                 >
-                  <div> <ArrowUpLeft/> {item.name} </div>
-                  {
-                  store.seriesDimensionValues[idx].map((innerItem, idx) => (
+                    <div> <ArrowUpLeft/> 
+                        {store.indicatorDetails.indicatorDimensionsDtos.find(e => parseInt(e.id.split("::")[1]) === item.levelNumber).name} 
+                    </div>
+                    {
+                    item.dimensionValues.map((innerItem, idx) => (
                     <div
-                      key={idx}
-                      className="ml-2 px-2 d-flex align-items-center"
-                      style={{
-                          backgroundColor: "lightGray",
-                          padding: "0.5rem",
-                          borderRadius: 16
-                      }}>
+                        key={idx}
+                        className="ml-2 px-2 d-flex align-items-center"
+                        style={{
+                            backgroundColor: "lightGray",
+                            padding: "0.5rem",
+                            borderRadius: 16
+                        }}>
                     <p className="mb-0 mx-1 text-white">{innerItem.name_A}</p>
-                  </div>
-                  ))
+                    </div>
+                    ))
                 }
                 <hr/>
                 </div>
-              ))}
+                ))}
             </Col>
             </Row>
             <Row className='mx-0'>
-              <Col md={12} className='text-right'>
-                  <Button.Ripple color='primary' size='sm' onClick={() => toggleTable(0)}>
-                      أنشاء جدول
-                  </Button.Ripple>
-              </Col>
-            </Row>
+            <Col md={12} className='text-right'>
+                <Button.Ripple color='primary' size='sm' onClick={ExportFile}>
+                    أنشاء ملف أكسيل
+                </Button.Ripple>
+            </Col>
+          </Row>
           </>
+          
         }
-      </div>}
-      {formContentActive === 0 && <div>
-        <Row className="mx-0" style={{minWidth: '1000px'}}>
-          <Col md={12}>
-            <SeriesTable toggleTable={toggleTable}/>
-          </Col>
-        </Row>
-      </div>}
+        
+      </div>
     </>
    
   )
 }
 
-export default SeriesTab
+export default ExcelTab

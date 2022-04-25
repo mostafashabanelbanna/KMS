@@ -5,7 +5,7 @@ import { Col, FormGroup, Input, Label, Row } from "reactstrap"
 import Select from 'react-select'
 import { isObjEmpty, getSelected, selectThemeColors, convertToBoolean } from '@utils'
 
-const MultiselectionSection = ({title, options, handleValueChange}) => {
+const MultiselectionSection = ({title, options, handleValueChange, values}) => {
     // const [openSection, setOpenSection] = useState(false)
     // const [plusIcon, setPlusIcon] = useState(faPlus)
 
@@ -38,6 +38,7 @@ const MultiselectionSection = ({title, options, handleValueChange}) => {
                     theme={selectThemeColors}
                     name='dimensions'
                     id='dimensions'
+                    value={values}
                     options={options}
                     getOptionLabel={(option) => option.name}
                     getOptionValue={(option) => option.id}
