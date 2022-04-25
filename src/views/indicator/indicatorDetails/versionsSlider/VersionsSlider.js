@@ -6,6 +6,8 @@ import { useState } from "react"
 import Tabs from '../seriesAndExcel/Tabs'
 import { useDispatch, useSelector } from 'react-redux'
 import {getSeriesData} from '../store/action/index'
+import * as moment from "moment"
+import "moment/locale/ar"
 
 const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies }) => {
   const dispatch = useDispatch()
@@ -49,6 +51,7 @@ const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies }) => {
                           <Play size={28} />
                           <h4>دورية {item.periodicityName}</h4>
                           <p>{item.sourceName}</p>
+                          <p>{`${moment(item.from).locale("ar").format("L")} - ${moment(item.to).locale("ar").format("L")}`}</p>
                         </NavLink>
                       </NavItem>
                   </SwiperSlide>
