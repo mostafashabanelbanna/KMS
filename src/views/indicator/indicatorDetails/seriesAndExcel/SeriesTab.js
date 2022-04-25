@@ -230,7 +230,7 @@ const SeriesTab = () => {
         }
       </div>}
       {formContentActive === 0 && <div>
-        <Row className="mx-0" style={{minWidth: '1000px'}}>
+        <Row className="mx-0">
           <Col md={12}>
             <SeriesTable toggleTable={toggleTable}/>
           </Col>

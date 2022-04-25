@@ -86,7 +86,7 @@ const SeriesTable = ({toggleTable}) => {
  const columns =  [
     {
         name: "التاريخ",
-        selector: (row, idx) => { return (<> { row.insertionDate ? moment(row.insertionDate).locale("ar").format("LL") : ""} </>) },
+        selector: (row, idx) => { return (<> { row.insertionDate ? moment(row.insertionDate).locale("ar").format("L") : ""} </>) },
         sortable: true,
         maxWidth: '150px'
     },
@@ -133,12 +133,12 @@ const SeriesTable = ({toggleTable}) => {
       {(
         <>
           <Card className='p-2'>
-              <div className='d-flex align-items-center'>
+              <div className='d-flex align-items-center justify-content-around'>
                   <div>
-                    <span className='mx-2'>من </span> <spna className='mr-4'>{moment(store.seriesDateFrom).locale("ar").format("LL")}</spna>
-                    <span className='mx-2'>إلى </span> <spna>{moment(store.seriesDateTo).locale("ar").format("LL")}</spna>
+                    <span className='mx-1'>من </span> <spna className='mr-2'>{moment(store.seriesDateFrom).locale("ar").format("L")}</spna>
+                    <span className='mx-1'>إلى </span> <spna>{moment(store.seriesDateTo).locale("ar").format("L")}</spna>
                   </div>
-                  <div className='ml-5 d-flex align-items-center'>
+                  <div className='ml-2 d-flex align-items-center'>
                       <ArrowsIcon className='mx-1'/>
                       {store.seriesDimensions.map((item, idx) => (
                           <div key={idx}>
@@ -148,7 +148,7 @@ const SeriesTable = ({toggleTable}) => {
                           
                       ))}
                   </div>
-                  <div className='mr-5 ml-3'>
+                  <div className='mr-3 ml-2'>
                     <Button.Ripple color='primary' size="sm" style={{height: '40px'}} onClick={() => toggleTable(1)}>
                        الأبعاد المتاحة   <Plus className="mx-1" /> 
                     </Button.Ripple>
