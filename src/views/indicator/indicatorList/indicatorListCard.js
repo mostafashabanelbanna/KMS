@@ -33,7 +33,6 @@ const IndicatorCard = (item) => {
   }
 
   return (
-    <Link to={{ pathname: `/indicator/indicatorDetails/${item.item.id}`, state: { Id : item.item.id}}}>
       <div
         className="card d-flex flex-column py-2 mb-2"
         style={{
@@ -43,7 +42,12 @@ const IndicatorCard = (item) => {
         }}
       >
         <div className="d-flex">
-          <div className="dark-layout mb-2 px-2 col-8" style={{fontSize: 20}}> {item.item.name}</div>
+         
+          <div className="dark-layout mb-2 px-2 col-8" style={{fontSize: 20}}>
+          <Link className="d-block" to={{ pathname: `/indicator/indicatorDetails/${item.item.id}`, state: { Id : item.item.id}}}>
+            {item.item.name}
+          </Link>
+          </div>
           <div className="d-flex col-4">
             <div className="col-9 d-flex justify-content-end">كود {item.item.id}</div>
 
@@ -99,8 +103,6 @@ const IndicatorCard = (item) => {
           </div>
         </div>
       </div>
-    </Link>
-    
   )
 }
 

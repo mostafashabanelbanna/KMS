@@ -138,7 +138,7 @@ const SeriesTable = ({toggleTable}) => {
                     <span className='mx-2'>من </span> <spna className='mr-4'>{moment(store.seriesDateFrom).locale("ar").format("LL")}</spna>
                     <span className='mx-2'>إلى </span> <spna>{moment(store.seriesDateTo).locale("ar").format("LL")}</spna>
                   </div>
-                  <div className='ml-5 d-flex'>
+                  <div className='ml-5 d-flex align-items-center'>
                       <ArrowsIcon className='mx-1'/>
                       {store.seriesDimensions.map((item, idx) => (
                           <div key={idx}>
