@@ -1,30 +1,43 @@
-import axios from "../../../../axios"
+import axios from '../../../../axios'
 import { isLoading, isNotLoading } from '../../../../redux/actions/layout'
 
-export const getData = (params) => {
-    return async dispatch => {
-        dispatch(isLoading())
-        await axios.post('DocumentIssue/GetDocumentIssuesFront', {
-            name: "",
-            pageNumber: 1,
-            pageSize: 10
-          })
-        .then(response => {
-                dispatch({
-                    type: 'GET_DATA',
-                    data: response.data.data.items,
-                    totalPages: response.data.data.totalPages,
-                    params
-                })
-              dispatch(isNotLoading())
-        }).catch(error => {
-                console.log('error')
-                dispatch({
-                    type: 'GET_DATA',
-                    data : []
-                    // errorCode : error.response.status
-                })
-                dispatch(isNotLoading())
-            })
-    }
+export const getAllClassifications = () => {
+  return async dispatch => {
+    await axios.post('/Classification/GetClassifications', {focus: true})
+      .then(response => {
+        dispatch({
+          type: 'GET_CLASSIFICATIONS',
+          classifications: response.data.data
+        })
+      })
+      .catch(error => {
+        dispatch({
+          type: 'GET_CLASSIFICATIONS',
+          classifications : []
+        })
+      })
+  }
+}
+
+export const getData = params => {
+  return async dispatch => {
+    dispatch(isLoading())
+    await axios.post('/DocumentIssue/GetDocumentIssuesFront', params).then(response => {
+      dispatch({
+        type: 'GET_FRONT_DOCUMENTISSUE_DATA',
+        data: response.data.data.items,
+        totalPages: response.data.data.totalPages,
+        totalCount: response.data.data.totalCount
+      })
+      console.log(response.data.data.items)
+      dispatch(isNotLoading())
+
+    }).catch(error => {
+      dispatch({
+        type: 'GET_FRONT_DOCUMENTISSUE_DATA',
+        data : []
+      })
+      dispatch(isNotLoading())
+    })
+  }
 }

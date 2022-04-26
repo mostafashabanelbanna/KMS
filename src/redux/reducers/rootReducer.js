@@ -26,10 +26,10 @@ import webResources from '@src/views/systemServices/webResources/store/reducer/i
 import documentLibraries from '@src/views/managePublication/documentLibrary/store/reducer/index'
 import inquiries from  '@src/views/manageInquiry/Inquiry/store/reducer/index'
 import inquiryProcedures from '@src/views/manageInquiry/InquiryProcedures/store/reducer/index'
-import documentLibrary from '../../views/documentLibrary/store/reducer'
 import userNotifications from '@src/views/notification/store/reducer/index'
 import indicatorDetails from '@src/views/indicator/indicatorDetails/store/reducer/index'
 import frontIndicators from '@src/views/indicator/store/reducer/index'
+import FrontDocumentIssues from '@src/views/documentLibrary/store/reducer/index'
 
 const rootReducer = combineReducers({
     auth,
@@ -56,10 +56,10 @@ const rootReducer = combineReducers({
     documentLibraries,
     inquiries,
     inquiryProcedures,
-    documentLibrary,
     userNotifications,
     indicatorDetails,
-    frontIndicators
+    frontIndicators,
+    FrontDocumentIssues
 })
 
 export default rootReducer
