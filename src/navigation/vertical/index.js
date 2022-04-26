@@ -17,8 +17,8 @@ import systemServices from './systemServices'
 // ** Merge & Export
 export default [
     ...apps,
+    ...researcherServices,
     ...manageIndicators,
-    //...researcherServices,
     ...systemServices,
     // ...dashboard,
     // ...manageDataset,

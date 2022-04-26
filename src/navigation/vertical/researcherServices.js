@@ -33,35 +33,35 @@ export default [
 
     // ]
   },
-  {
-    id: "Favorites",
-    title: "Favorites",
-    icon: <FaHeart size={20} />,
-    children: [
-      {
-        id: "FavoritesIndicators",
-        title: "FavoritesIndicators",
-        icon: <HiOutlineSearchCircle size={20} />,
-        navLink: "/Researcher/Favorite"
-      },
-      {
-        id: "FavoritesDocuments",
-        title: "FavoritesDocuments",
-        icon: <HiOutlineSearchCircle size={20} />,
-        navLink: "/Researcher/FavoritesDocuments"
-      }
-    ]
-  },
+  // {
+  //   id: "Favorites",
+  //   title: "Favorites",
+  //   icon: <FaHeart size={20} />,
+  //   children: [
+  //     {
+  //       id: "FavoritesIndicators",
+  //       title: "FavoritesIndicators",
+  //       icon: <HiOutlineSearchCircle size={20} />,
+  //       navLink: "/Researcher/Favorite"
+  //     },
+  //     {
+  //       id: "FavoritesDocuments",
+  //       title: "FavoritesDocuments",
+  //       icon: <HiOutlineSearchCircle size={20} />,
+  //       navLink: "/Researcher/FavoritesDocuments"
+  //     }
+  //   ]
+  // },
   {
     id: "Document Library",
     title: "Document Library",
     icon: <FaNewspaper size={20} />,
-    navLink: "/Researcher/DocumentLibrary"
-  },
-  {
-    id: "Inquiry",
-    title: "Inquiry",
-    icon: <FaInfoCircle size={20} />,
-    navLink: "/Researcher/Inquiry"
+    navLink: "/document/landingPage"
   }
+  // {
+  //   id: "Inquiry",
+  //   title: "Inquiry",
+  //   icon: <FaInfoCircle size={20} />,
+  //   navLink: "/Researcher/Inquiry"
+  // }
 ]

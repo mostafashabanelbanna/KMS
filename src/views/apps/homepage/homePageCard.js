@@ -182,7 +182,8 @@ const HomeCard = ({title, addedLatelyComp, favorite}) => {
                                     </div>
                                   )}
                                 </div>
-                                {index < favorites?.docuements?.length - 1 && <hr className="col-12 bg-gray" />}
+                                
+                                {index < favorites?.documents?.length - 1 && <hr className="col-12 bg-gray" />}
                               </>
                             )
                         })}
