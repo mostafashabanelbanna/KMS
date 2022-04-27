@@ -69,7 +69,7 @@ const ResourcesSlider = () => {
           {webResources.map((item, index) => (
                             <SwiperSlide key={index} className="rounded swiper-shadow p-1 resourcesSlider">
                             <img src={SliderB1} width="40%" height="50%" className="mb-2" />
-                            <a href={item.url} target="_blank" className="d-flex text-center text-white swiper-text align-middle pt-md-1 pt-sm-50 mb-0">
+                            <a href={item.url} target="_blank" className="d-flex text-center text-muted swiper-text align-middle pt-md-1 pt-sm-50 mb-0">
                               {item.name_A}
                             </a>
                           </SwiperSlide>

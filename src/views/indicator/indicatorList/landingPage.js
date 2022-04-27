@@ -85,7 +85,7 @@ const LandingPage = () => {
         breadCrumbRoot={intl.formatMessage({ id: "Homepage" })}
       />
       <div className="d-flex">
-        <div className="d-flex flex-column col-lg-7 col-12">
+        <div className="d-flex flex-column col-lg-8 col-xl-9 col-12">
           <div className="d-flex mb-2 align-items-center">
             {!showSearchParams ? (
               <>
@@ -143,39 +143,38 @@ const LandingPage = () => {
               ))}
              
             </div>
-          </div> : <div className="d-block d-lg-none col-lg-5 col-12">
+          </div> : <div className="d-block d-lg-none col-12">
           <SearchSection showSearchSection={showSearchSection} setShowSearchSection={setShowSearchSection} handleSearch={handleSearchSubmit}/>
         </div>}
           {showSearchParams && (
             <div className="d-flex mb-2">
               <div className="d-flex justify-content-start col-6">
-                <p className="mb-0">نتائج البحث : 2015 نتيجة</p>
+                <p className="mb-0">نتائج البحث :  {store.totalCount}  نتيجة</p>
               </div>
               <div className="d-flex justify-content-end col-6">
-                {/* <ReactPaginate
-                    pageCount={10}
-                    nextLabel={''}
-                    breakLabel={'...'}
-                    pageRangeDisplayed={5}
-                    marginPagesDisplayed={2}
-                    activeClassName={'active'}
-                    pageClassName={'page-item'}
-                    previousLabel={''}
-                    breakClassName='page-item'
-                    breakLinkClassName='page-link'
-                    nextLinkClassName={'page-link'}
-                    nextClassName={'page-item next-item'}
-                    previousClassName={'page-item prev-item'}
-                    previousLinkClassName={'page-link'}
-                    pageLinkClassName={'page-link'}
-                    containerClassName={'pagination react-paginate no-navigation'}
-                    /> */}
+              {store.data.length > 0 &&
+                      <ReactPaginate
+                      previousLabel={''}
+                      nextLabel={''}
+                      pageCount={store.totalPages || 1}
+                      activeClassName='active'
+                      forcePage={pageNumber !== 0 ? pageNumber - 1 : 0}
+                      onPageChange={page => handlePagination(page)}
+                      pageClassName={'page-item'}
+                      nextLinkClassName={'page-link'}
+                      nextClassName={'page-item next'}
+                      previousClassName={'page-item prev'}
+                      previousLinkClassName={'page-link'}
+                      pageLinkClassName={'page-link'}
+                      containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
+                  />
+                  }
               </div>
             </div>
           )}
         </div>
 
-        <div className="d-none d-lg-block col-lg-5 col-12">
+        <div className="d-none d-lg-block col-lg-4 col-xl-3 col-12">
           <SearchSection handleSearch={handleSearchSubmit}/>
         </div>
       </div>

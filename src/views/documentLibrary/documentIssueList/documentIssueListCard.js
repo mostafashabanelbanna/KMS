@@ -35,18 +35,18 @@ const DocumentIssueCard = (item) => {
 
   return (
     <div
-      className="card d-flex flex-column py-2 mb-2"
+      className="card d-flex flex-column py-1 mb-2"
       style={{
         borderRadius: 6,
-        height: "max-content",
-        boxShadow: "2px 1px 6px gray"
+        height: "max-content"
       }}
     >
       <div className="d-flex">
-        <div className="dark-layout mb-2 px-2 col-8" style={{ fontSize: 20 }}>
+        <div className="dark-layout mb-1 px-2 col-8" style={{ fontSize: 20 }}>
         {item.item.name}
           {/* <Link
             className="d-block"
+             style={{width: "fit-content"}}
             to={{
               pathname: `/indicator/indicatorDetails/${item.item.id}`,
               state: { Id: item.item.id }
@@ -83,16 +83,14 @@ const DocumentIssueCard = (item) => {
         </div>
       </div>
       <div className="d-flex flex-column align-items-center flex-md-row">
-        <div className="d-flex flex-wrap justify-content-start col-md-4 px-5">
-          <div className="text-center">
-            <p style={{ fontSize: 15, color: "gray" }}>اخر وثيقة</p>
-            <div className="d-flex">
-            <p className="mx-1">{item.item.lastDocument.title_A}</p>
-              <Download
-                style={{ cursor: "pointer" }}
-                className="text-success"
-              />
-            </div>
+        <div className="d-flex flex-row col-md-4 px-5">
+          <p className="mb-0" style={{ fontSize: 15, color: "gray" }}>اخر وثيقة : </p>
+          <div className="d-flex">
+          <p className="mx-1 mb-0">{item.item.lastDocument.title_A}</p>
+            <Download
+              style={{ cursor: "pointer"}}
+              className="text-success"
+            />
           </div>
         </div>
         <div className="d-flex flex-wrap justify-content-end col-md-8 px-2">

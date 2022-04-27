@@ -34,19 +34,17 @@ const IndicatorCard = (item) => {
 
   return (
       <div
-        className="card d-flex flex-column py-2 mb-2"
+        className="card d-flex flex-column py-1 mb-2"
         style={{
           borderRadius: 6,
-          height: "max-content",
-          boxShadow: "2px 1px 6px gray"
+          height: "max-content"
         }}
       >
         <div className="d-flex">
-         
-          <div className="dark-layout mb-2 px-2 col-8" style={{fontSize: 20}}>
-          <Link className="d-block" to={{ pathname: `/indicator/indicatorDetails/${item.item.id}`, state: { Id : item.item.id}}}>
-            {item.item.name}
-          </Link>
+          <div className="dark-layout px-2 col-8 mb-1" style={{fontSize: 20}}>
+            <Link className="d-block" style={{width: "fit-content"}} to={{ pathname: `/indicator/indicatorDetails/${item.item.id}`, state: { Id : item.item.id}}}>
+              {item.item.name}
+            </Link>
           </div>
           <div className="d-flex col-4">
             <div className="col-9 d-flex justify-content-end">كود {item.item.id}</div>
@@ -72,11 +70,9 @@ const IndicatorCard = (item) => {
           </div>
         </div>
         <div className="d-flex flex-column align-items-center flex-md-row">
-          <div className="d-flex flex-wrap justify-content-start col-md-4 px-5">
-            <div className="text-center">
-              <p style={{fontSize: 24, fontWeight: "bold"}}>{item.item.lastValueInRepublic}</p>
-              <p>مليون نسمة</p>
-            </div>
+          <div className="d-flex flex-wrap col-md-4 px-5 mb-0">
+              <p style={{fontWeight: "bold"}} className="mb-0">{item.item.lastValueInRepublic}</p>
+              <p style={{fontWeight: "bold"}} className="px-1 mb-0">مليون نسمة</p>
           </div>
           <div className="d-flex flex-wrap justify-content-end col-md-8 px-2">
             {item.item.periodicities && 
