@@ -68,7 +68,7 @@ const CategoryCard = () => {
                     {/* "#161d31" */}
                     {sectors.map((item, index) => {
                         return (
-                            <div className='col-xl-3 col-lg-6 col-12 px-2 py-xl-0 py-2'>
+                            <div className='col-xl-3 col-lg-6 col-12 px-2 py-xl-0 py-2 my-1'>
                             <div className="d-flex justify-content-center align-items-center flex-column py-1" style={{backgroundColor: "#eaeaeb", borderRadius: 20}}>
                                 <div className='d-flex flex-wrap col-12 pb-1'>
                                     <div className='text-center col-xl-2 col-lg-12 col-2'><img src={fiBrChartPieAlt} width="22px"/></div>
