@@ -17,6 +17,7 @@ import Row from 'reactstrap/lib/Row'
 import Col from 'reactstrap/lib/Col'
 import { toast } from 'react-toastify'
 import { useIntl } from 'react-intl'
+import axios from '../../axios'
 
 // ** Store & Actions
 import { addInquiry, resetCreateResponse, updateInquiry, resetUpdateResponse } from '../manageInquiry/Inquiry/store/action'
@@ -34,6 +35,8 @@ import zIndex from '@material-ui/core/styles/zIndex'
 const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments }) => {
   // ** States
   const [selectedDepartment, setSelectedDepartment] = useState({})
+  const [selectedInquiryUsage, setSelectedInquiryUsage] = useState({})
+  const [inquiryUsage, setInquiryUsage] = useState([])
 
   // Import localization files
   const intl = useIntl()
@@ -62,6 +65,8 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments }
             addInquiry({
               name: values.name,
               description: values.description,
+              milestoneName: values.milestoneName,
+              purpose: values.purpose,
               attachment: "",
               expectedPeriod: values.expectedPeriod ? values.expectedPeriod : "",
               referenceNo: "",
@@ -70,6 +75,7 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments }
               actualEndDate: "",
               providerId:"",
               departmentId: selectedDepartment ? selectedDepartment.id : "",
+              usageId: selectedInquiryUsage ? selectedInquiryUsage.id : "",
               userId: "",
               statusId: "",
               sortIndex: 0,
@@ -80,6 +86,15 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments }
           )
       }
     }
+  }
+
+  const getInquiryUsage = async () => {
+    await axios.post(`/Lookups/GetLookupValues`, {lookupName: 'InquiryUsage'})
+    .then(response => {
+        setInquiryUsage(response.data.data)
+       })
+       .catch(error => {
+    })
   }
   
 
@@ -110,8 +125,14 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments }
     }
   }, [store.createResponse.statusCode])
   
+  useEffect(() => {
+    getInquiryUsage()
+  }, [])
   const handleDepartmentChange = (e) => {
     setSelectedDepartment(e)
+  }
+  const handleUsageChange = (e) => {
+    setSelectedInquiryUsage(e)
   }
 
   return (
@@ -129,7 +150,7 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments }
           <Col md={12}>
             <FormGroup>
               <Label for='name'>
-              {intl.formatMessage({id: "Name"})} <span className='text-danger'>*</span> 
+              {intl.formatMessage({id: "Name"})}  <span className='text-danger'>*</span> 
               </Label>
               <Input
                 name='name'
@@ -139,6 +160,55 @@ const SidebarNewInquiry = ({ open, toggleSidebar, selectedInquiry, departments }
                 innerRef={register({ required: true })}
                 className={classnames({ 'is-invalid': errors['name'] })}
               />
+            </FormGroup>
+          </Col>
+          <Col md={12}>
+            <FormGroup>
+              <Label for='milestoneName'>
+               اسم المستخرج الذى سيستخدم به البيانات المطلوبة <span className='text-danger'>*</span> 
+              </Label>
+              <Input
+                name='milestoneName'
+                id='milestoneName'
+                defaultValue={selectedInquiry ? selectedInquiry.milestoneName : ''}
+                placeholder='اسم المستخرج الذى سيستخدم به البيانات المطلوبة'
+                innerRef={register({ required: true })}
+                className={classnames({ 'is-invalid': errors['milestoneName'] })}
+              />
+            </FormGroup>
+          </Col>
+          <Col md={12}>
+            <FormGroup>
+              <Label for='purpose'>
+               الغرض من البيانات المطلوبة <span className='text-danger'>*</span> 
+              </Label>
+              <Input
+                name='purpose'
+                id='purpose'
+                defaultValue={selectedInquiry ? selectedInquiry.purpose : ''}
+                placeholder='الغرض من البيانات المطلوبة'
+                innerRef={register({ required: true })}
+                className={classnames({ 'is-invalid': errors['purpose'] })}
+              />
+            </FormGroup>
+          </Col>
+          <Col md={12}>
+            <FormGroup>
+                <Label>استخدام البيانات</Label>
+                <Select
+                  isClearable={false}
+                  placeholder="تحديد"
+                  theme={selectThemeColors}
+                  value={selectedInquiryUsage.id ? selectedInquiryUsage : []}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  name='usageId'
+                  id='usageId'
+                  options={inquiryUsage}
+                  className='react-select'
+                  classNamePrefix='select'
+                  onChange={e => handleUsageChange(e)}
+                />
             </FormGroup>
           </Col>
           <Col md={12}>

@@ -33,10 +33,12 @@ export const getData = params => {
 }
 
 export const addInquiry = inquiry => {
-console.log(inquiry)
    const inquiryFormData = new FormData()
    inquiryFormData.append('name', inquiry.name)
    inquiryFormData.append('description', inquiry.description)
+   inquiryFormData.append('milestoneName', inquiry.milestoneName)
+   inquiryFormData.append('purpose', inquiry.purpose)
+   inquiryFormData.append('usageId', inquiry.usageId)
    inquiryFormData.append('attachment', inquiry.attachment[0])
    inquiryFormData.append('expectedPeriod', inquiry.expectedPeriod ? parseInt(inquiry.expectedPeriod) : 0)
    inquiryFormData.append('referenceNo', inquiry.referenceNo)

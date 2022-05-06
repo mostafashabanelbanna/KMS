@@ -35,13 +35,17 @@ const FrontRoutes = [
         component: lazy(() => import('../../views/indicator/indicatorDetails'))
     },
     {
+        path: '/Researcher/Inquiry/InquiryDetails/:inquiryId',
+        component: lazy(() => import('../../views/Inquiry/InquiryDetails'))
+    },
+    {
       path: '/Researcher/Inquiry',
       component: lazy(() => import('../../views/Inquiry/index'))
     },
     {
         path: '/document/landingPage',
         component: lazy(() => import('../../views/documentLibrary/documentIssueList/landingPage'))
-}
+    }
   ]
   
   export default FrontRoutes

@@ -25,6 +25,7 @@ import * as moment from "moment"
 import "moment/locale/ar"
 import ExpandedRowDetails from '../../containers/expanded-row-details/expandedRowDetails'
 import ComponentSpinner from '../../@core/components/spinner/Fallback-spinner'
+import InquiryCard from './InquiryListCard'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -220,35 +221,45 @@ const InquiryList = () => {
     <Fragment>
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
         <>
-          <Card>
-            <DataTable
-              noDataComponent={<FormattedMessage id="NoData" />}
-              progressPending={layoutStore.loading}
-              progressComponent={<ComponentSpinner/>}
-              expandableRows
-              expandableRowsComponent={<ExpandedRowDetails  columns={columns} />}
-              noHeader
-              pagination
-              subHeader
-              responsive
-              paginationServer
-              columns={columns}
-              sortIcon={<ChevronDown />}
-              className='react-dataTable'
-              paginationComponent={CustomPagination}
-              data={dataToRender()}
-              subHeaderWrap={false}
-              subHeaderComponent={
-                <div className='w-100'>
-                  <div className="my-1 d-flex justify-content-end">
+          <div className='row mx-0'>
+            <div className='col-md-12'>
+              <div className="mb-2 d-flex justify-content-between">
+                <div className="my-1">
                     <Button.Ripple color='primary' onClick={addInquiry} >
                       <FormattedMessage id="Add" />
                     </Button.Ripple>
-                  </div>
                 </div>
-              }
-            />
-          </Card>
+                <div>
+                  {store.data.length > 0 &&
+                    <ReactPaginate
+                      previousLabel={''}
+                      nextLabel={''}
+                      pageCount={store.totalPages || 1}
+                      activeClassName='active'
+                      forcePage={pageNumber !== 0 ? pageNumber - 1 : 0}
+                      onPageChange={page => handlePagination(page)}
+                      pageClassName={'page-item'}
+                      nextLinkClassName={'page-link'}
+                      nextClassName={'page-item next'}
+                      previousClassName={'page-item prev'}
+                      previousLinkClassName={'page-link'}
+                      pageLinkClassName={'page-link'}
+                      containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
+                  />
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className='row'>
+              <div className='col-md-12'>
+                {layoutStore.loading === true && <ComponentSpinner/>}
+                {layoutStore.loading === false && store.data.map((item, idx) => (
+                  <InquiryCard key={idx} item={item}/>
+                ))}
+              </div>
+          </div>
           <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedInquiry={store.selectedInquiry} departments={departments} />
         </>
       )}
