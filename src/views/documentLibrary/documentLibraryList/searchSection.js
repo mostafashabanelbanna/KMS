@@ -9,41 +9,53 @@ import moment from "moment"
 import "moment/locale/ar"
 import { useDispatch, useSelector } from 'react-redux'
 
-const SearchSection = () => {
+const SearchSection = ({searchData, setSearchData}) => {
     const intl = useIntl()
     const dispatch = useDispatch()
     const store = useSelector(state => state.frontIndicators)
+
+    const [dateFrom, setDateFrom] = useState(null)
+    const [dateTo, setDateTo] = useState(null)
+    const [title, setTitle] = useState("")
 
     const handleStartDate = (event) => {
         const date = moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY")
             .format("YYYY-MM-DD")
             .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
-        dispatch({ type: "SET_FRONT_INDICATOR_DATE_FROM", dateFrom: date })
+        // dispatch({ type: "SET_FRONT_INDICATOR_DATE_FROM", dateFrom: date })
+        setDateFrom(date)
+        // setSearchData({...searchData, fromDate: date})
     }
 
     const handleEndDate = (event) => {
         const date = moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY")
             .format("YYYY-MM-DD")
             .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+        setDateTo(date)
+        // setSearchData({...searchData, toDate: date})
+        // dispatch({ type: "SET_FRONT_INDICATOR_DATE_TO", dateTo: date })
+    }
 
-        dispatch({ type: "SET_FRONT_INDICATOR_DATE_TO", dateTo: date })
+    const handleNameChange = (event) => {
+        setTitle(event.target.value)
+        // setSearchData({...searchData, title: event.target.value})
     }
     return (
         <div className="d-flex align-items-center">
             <form action="#" className="p-1 col-5">
                 <div class="input-group">
                     <div class="input-group-btn">
-                        <button class="btn btn-default" type="submit">
+                        <div class="btn btn-default" style={{cursor: "unset"}}>
                             <FontAwesomeIcon icon={faSearch} />
-                        </button>
+                        </div>
                     </div>
                     <input
                         type="text"
                         class="form-control"
                         placeholder="بحث بإسم العنصر"
-                        // value={store.name}
+                        value={title}
                         name="search"
-                    // onChange={(e) => handleNameChange(e)}
+                        onChange={(e) => handleNameChange(e)}
                     />
                 </div>
             </form>
@@ -63,7 +75,7 @@ const SearchSection = () => {
                             okLabel="تحديد"
                             cancelLabel="الغاء"
                             format="L"
-                            value={store.dateFrom}
+                            value={dateFrom}
                             inputVariant="outlined"
                             variant="dialog"
                             maxDateMessage=""
@@ -88,7 +100,7 @@ const SearchSection = () => {
                             okLabel="تحديد"
                             cancelLabel="الغاء"
                             format="L"
-                            value={store.dateTo}
+                            value={dateTo}
                             inputVariant="outlined"
                             variant="dialog"
                             maxDateMessage=""
@@ -101,8 +113,10 @@ const SearchSection = () => {
                 </div>
             </div>
 
-            <button class="btn btn-default btn-green d-flex justify-content-center" type="submit" style={{width: 40, height: 40}}>
-                <FontAwesomeIcon icon={faSearch} size={"lg"}/>
+            <button class="btn btn-default btn-green d-flex justify-content-center" type="submit" style={{width: 40, height: 40}} onClick={() => {
+                setSearchData({title, toDate: dateTo, fromDate: dateFrom})
+            }}>
+                <FontAwesomeIcon icon={faSearch} size={"lg"} />
             </button>
             
         </div>
