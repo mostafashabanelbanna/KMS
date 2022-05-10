@@ -24,7 +24,7 @@ const InquiryCard = (item) => {
       }}
     >
       <div className="d-flex">
-        <div className="dark-layout mb-1 px-2 col-8" style={{ fontSize: 20 }}>
+        <div className="dark-layout mb-1 px-2 col-8 font-18">
           <Link className="d-block" style={{width: "fit-content"}} to={{ pathname: `/Researcher/Inquiry/InquiryDetails/${item.item.id}`, state: { id : item.item.id}}}>
             {item.item.name}
           </Link>

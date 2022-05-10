@@ -42,18 +42,17 @@ const DocumentIssueCard = (item) => {
       }}
     >
       <div className="d-flex">
-        <div className="dark-layout mb-1 px-2 col-8" style={{ fontSize: 20 }}>
-        {item.item.name}
-          {/* <Link
+        <div className="dark-layout mb-1 px-2 col-8 font-18">
+          <Link
             className="d-block"
-             style={{width: "fit-content"}}
+            style={{width: "fit-content"}}
             to={{
-              pathname: `/indicator/indicatorDetails/${item.item.id}`,
+              pathname: `/document/details/${item.item.id}`,
               state: { Id: item.item.id }
             }}
-          >
-            
-          </Link> */}
+            >
+            {item.item.name}
+          </Link>
         </div>
         <div className="d-flex col-4">
           <div className="col-9 d-flex justify-content-end">

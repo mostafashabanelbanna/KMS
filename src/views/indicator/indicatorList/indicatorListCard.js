@@ -41,7 +41,7 @@ const IndicatorCard = (item) => {
         }}
       >
         <div className="d-flex">
-          <div className="dark-layout px-2 col-8 mb-1" style={{fontSize: 20}}>
+          <div className="dark-layout px-2 col-8 mb-1 font-18">
             <Link className="d-block" style={{width: "fit-content"}} to={{ pathname: `/indicator/indicatorDetails/${item.item.id}`, state: { Id : item.item.id}}}>
               {item.item.name}
             </Link>

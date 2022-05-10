@@ -108,9 +108,9 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
         <form action="#" className="p-1">
           <div class="input-group">
             <div class="input-group-btn">
-              <button class="btn btn-default" type="submit">
+              <div class="btn btn-default" style={{cursor: "unset"}}>
                 <FontAwesomeIcon icon={faSearch} />
-              </button>
+              </div>
             </div>
             <input
               type="text"

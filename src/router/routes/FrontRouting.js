@@ -47,7 +47,7 @@ const FrontRoutes = [
         component: lazy(() => import('../../views/documentLibrary/documentIssueList/landingPage'))
     },
     {
-        path: '/document/attachments',
+        path: '/document/details/:id',
         component: lazy(() => import('../../views/documentLibrary/documentLibraryList/documentLibraryList'))
     }
   ]

@@ -101,7 +101,7 @@ const LandingPage = () => {
                 </div>
                 <div className="d-flex justify-content-end col-6">
                   {store.data.length > 0 &&
-                      <ReactPaginate
+                    <ReactPaginate
                       previousLabel={''}
                       nextLabel={''}
                       pageCount={store.totalPages || 1}
@@ -115,14 +115,14 @@ const LandingPage = () => {
                       previousLinkClassName={'page-link'}
                       pageLinkClassName={'page-link'}
                       containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
-                  />
+                    />
                   }
-                
-              <div className="d-flex d-lg-none">
-              <FontAwesomeIcon icon={faSliders} color={"#496193"} style={{cursor: "pointer"}} fontSize={17} onClick={() => {
-                setShowSearchSection(!showSearchSection)
-              }}/>
-            </div>
+
+                  <div className="d-flex d-lg-none">
+                    <FontAwesomeIcon icon={faSliders} color={"#496193"} style={{ cursor: "pointer" }} fontSize={17} onClick={() => {
+                      setShowSearchSection(!showSearchSection)
+                    }} />
+                  </div>
                 </div>
               </>
             ) : (

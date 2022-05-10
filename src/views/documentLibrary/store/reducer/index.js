@@ -15,6 +15,10 @@ const FrontDocumentIssues = (state = initialState, action) => {
     switch (action.type) {
         case 'GET_FRONT_DOCUMENTISSUE_DATA':
             return {...state, data: action.data, totalPages: action.totalPages, totalCount: action.totalCount}
+        case 'GET_FRONT_DOCUMENTISSUE_DETAILS':
+            return {...state, details: action.data}
+        case 'GET_FRONT_DOCUMENTLIBRARIES_DETAILS':
+            return {...state, tableData: action.data, totalPages: action.totalPages, totalCount: action.totalCount}
         case 'SET_FRONT_DOCUMENTISSUE_PERIODICITY':
             return {...state, periodicities: action.periodicities}
         case 'SET_FRONT_DOCUMENTISSUE_SOURCE':
