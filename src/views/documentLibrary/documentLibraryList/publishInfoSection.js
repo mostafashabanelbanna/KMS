@@ -18,12 +18,16 @@ const PublishInformation = ({ details }) => {
                     <img src={SliderB1} width="150" height="150" /> 
                     {/* dont forget photo path */}
                 </div>
+                {details.description && 
+                <>
                 <div>
                     <p style={{ fontSize: 18, color: "#3d5484" }}>الوصف</p>
                 </div>
                 <div>
                     <p style={{ fontSize: 17, lineHeight: 1.5, textAlign: "justify" }}>{details.description}</p>
                 </div>
+                </>}
+                {details.periodicityName && <>
                 <div>
                     <p style={{ fontSize: 18, color: "#3d5484" }}>الدوريات</p>
                 </div>
@@ -39,7 +43,8 @@ const PublishInformation = ({ details }) => {
                         <p className="mb-0 mx-1">{details.periodicityName}</p>
                     </div>
                 </div>
-                <div>
+                </>}
+                {details.sourceName && <><div>
                     <p style={{ fontSize: 18, color: "#3d5484" }}>المصادر</p>
                 </div>
                 <div className="d-flex flex-wrap">
@@ -54,9 +59,8 @@ const PublishInformation = ({ details }) => {
                         }}>
                         <p className="mb-0 mx-1">{details.sourceName}</p>
                     </div>
-                </div>
+                </div></>}
                 {details.documentIssuesClassifications.length && details.documentIssuesClassifications.map((item, index) => {
-                    console.log(item)
                     return (
                         <div key={item.id}>
                             <div>
