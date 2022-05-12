@@ -38,7 +38,9 @@ const DashboardSlider = () => {
     spaceBetween: 30,
     centeredSlides: true,
     navigation: true,
-    slideToClickedSlide: true
+    slideToClickedSlide: true,
+    centeredSlides: false,
+    autoplay: true
   }
 
   const getWebResources = async () => {

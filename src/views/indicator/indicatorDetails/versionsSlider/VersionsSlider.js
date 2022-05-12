@@ -20,9 +20,9 @@ const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies }) => {
     dispatch(getSeriesData(1, 10))
   }
   const params = {
-    className: 'swiper-centered-slides p-1',
+    className: 'swiper-centered-slides px-1 mb-4 d-flex justify-content-end m-0',
     slidesPerView: 'auto',
-    spaceBetween: 30,
+    // spaceBetween: 30,
     centeredSlides: false,
     navigation: true,
     slideToClickedSlide: true
@@ -37,16 +37,17 @@ const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies }) => {
       <>
         <Nav tabs className="indicator_version_tabs">
           {avilableCopies && avilableCopies.length > 0 && 
-            <Swiper dir={isRtl ? 'rtl' : 'ltr'} {...params}>
+            // <Swiper dir={isRtl ? 'rtl' : 'ltr'} {...params}>
+            <>
                 {avilableCopies.map((item, idx) => (
-                  <SwiperSlide key={idx} className='rounded swiper-shadow'>
-                      <NavItem>
+                  // <SwiperSlide key={idx} className='rounded swiper-shadow mx-3'>
+                      <NavItem className="mb-4">
                         <NavLink
                           active={item.sourceId === store.selectedSource && item.periodicityId === store.selectedPeriodicity}
                           onClick={() => {
                             toggle(item.periodicityId, item.sourceId)
                           }}
-                          className="flex-column align-items-start"
+                          className="flex-column" //align-items-start"
                         >
                           <Play size={28} />
                           <h4>دورية {item.periodicityName}</h4>
@@ -54,9 +55,10 @@ const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies }) => {
                           <p>{`${moment(item.from).locale("ar").format("L")} - ${moment(item.to).locale("ar").format("L")}`}</p>
                         </NavLink>
                       </NavItem>
-                  </SwiperSlide>
+                  // </SwiperSlide>
                 ))}
-            </Swiper>
+                </>
+            // </Swiper>
           }
           
         </Nav>

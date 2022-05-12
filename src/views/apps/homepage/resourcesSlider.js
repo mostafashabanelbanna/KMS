@@ -38,22 +38,25 @@ const ResourcesSlider = () => {
     spaceBetween: 30,
     centeredSlides: true,
     navigation: true,
-    slideToClickedSlide: true
+    slideToClickedSlide: true,
+    centeredSlides: false,
+    autoplay: true
+
   }
 
   const getWebResources = async () => {
-        await axios.post(`/Home/GetHomeWebResources`, {webResourceCategoryId: null})
-        .then(response => {
-                const result = response.data.data
-                setWebResources(result)
-            })
-            .catch(error => {
-        })
-      }
+    await axios.post(`/Home/GetHomeWebResources`, { webResourceCategoryId: null })
+      .then(response => {
+        const result = response.data.data
+        setWebResources(result)
+      })
+      .catch(error => {
+      })
+  }
 
-      useEffect(() => {
-              getWebResources()
-      }, [])
+  useEffect(() => {
+    getWebResources()
+  }, [])
 
   return (
     <Card className="bg-transparent shadow-none">
@@ -67,15 +70,14 @@ const ResourcesSlider = () => {
         <Swiper className="" {...params}>
           {/* </Swiper>style={{width: dashboard ? 400 : "auto"}}> */}
           {webResources.map((item, index) => (
-                            <SwiperSlide key={index} className="rounded swiper-shadow p-1 resourcesSlider">
-                            <img src={SliderB1} width="40%" height="50%" className="mb-2" />
-                            <a href={item.url} target="_blank" className="d-flex text-center text-muted swiper-text align-middle pt-md-1 pt-sm-50 mb-0">
-                              {item.name_A}
-                            </a>
-                          </SwiperSlide>
-                )
+            <SwiperSlide key={index} className="rounded swiper-shadow p-1 resourcesSlider">
+              <img src={SliderB1} width="40%" height="50%" className="mb-2" />
+              <a href={item.url} target="_blank" className="d-flex text-center text-muted swiper-text align-middle pt-md-1 pt-sm-50 mb-0">
+                {item.name_A}
+              </a>
+            </SwiperSlide>
+          )
           )}
-
         </Swiper>
       </CardBody>
     </Card>

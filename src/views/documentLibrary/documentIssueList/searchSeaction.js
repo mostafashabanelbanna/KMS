@@ -115,7 +115,7 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
             <input
               type="text"
               class="form-control"
-              placeholder="بحث بإسم العنصر"
+              placeholder="بحث بإسم الإصدارة"
               value={store.name}
               name="search"
               onChange={(e) => handleNameChange(e)}

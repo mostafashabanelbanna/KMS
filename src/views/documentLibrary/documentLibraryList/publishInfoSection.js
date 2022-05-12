@@ -10,24 +10,23 @@ const PublishInformation = ({ details }) => {
                     <p className="mb-0 col-12 p-0" style={{ fontSize: 18, color: "#3d5484" }}>بيانات الإصدارة</p>
                 </div>
                 <hr className="w-100" />
-                <div>
-                    <p style={{ fontSize: 18 }}>{details.date ? `تم اخر تحديث في ${details.date}` : "تم اخر تحديث في مايو 2022"}</p> 
-                    {/* change prop name when it is added */}
+                {/* <div>
+                    <p style={{ fontSize: 18 }}>{details?.date ? `تم اخر تحديث في ${details?.date}` : "تم اخر تحديث في مايو 2022"}</p> 
+                    
                 </div>
                 <div className="my-1 d-flex justify-content-center">
                     <img src={SliderB1} width="150" height="150" /> 
-                    {/* dont forget photo path */}
-                </div>
-                {details.description && 
+                </div> */}
+                {details?.description && 
                 <>
                 <div>
                     <p style={{ fontSize: 18, color: "#3d5484" }}>الوصف</p>
                 </div>
                 <div>
-                    <p style={{ fontSize: 17, lineHeight: 1.5, textAlign: "justify" }}>{details.description}</p>
+                    <p style={{ fontSize: 17, lineHeight: 1.5, textAlign: "justify" }}>{details?.description}</p>
                 </div>
                 </>}
-                {details.periodicityName && <>
+                {details?.periodicityName && <>
                 <div>
                     <p style={{ fontSize: 18, color: "#3d5484" }}>الدوريات</p>
                 </div>
@@ -40,11 +39,11 @@ const PublishInformation = ({ details }) => {
                             border: "1px solid gray",
                             width: "fit-content"
                         }}>
-                        <p className="mb-0 mx-1">{details.periodicityName}</p>
+                        <p className="mb-0 mx-1">{details?.periodicityName}</p>
                     </div>
                 </div>
                 </>}
-                {details.sourceName && <><div>
+                {details?.sourceName && <><div>
                     <p style={{ fontSize: 18, color: "#3d5484" }}>المصادر</p>
                 </div>
                 <div className="d-flex flex-wrap">
@@ -57,10 +56,10 @@ const PublishInformation = ({ details }) => {
                             width: "fit-content",
                             backgroundColor: "#F8F8F8"
                         }}>
-                        <p className="mb-0 mx-1">{details.sourceName}</p>
+                        <p className="mb-0 mx-1">{details?.sourceName}</p>
                     </div>
                 </div></>}
-                {details.documentIssuesClassifications.length && details.documentIssuesClassifications.map((item, index) => {
+                {details?.documentIssuesClassifications?.length && details?.documentIssuesClassifications?.map((item, index) => {
                     return (
                         <div key={item.id}>
                             <div>

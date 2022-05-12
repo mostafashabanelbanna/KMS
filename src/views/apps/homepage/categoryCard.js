@@ -6,7 +6,7 @@ import {isNotLightSkin} from '../../../utility/Utils'
 import axios from '../../../axios'
 
 const CategoryCard = () => {
-    const [activeCard, setActiveCard] = useState("A2")
+    const [activeCard, setActiveCard] = useState("A1")
     const [categories, setCategories] = useState([])
     const [sectors, setSectors] = useState([])
     const [periodicites, setPeriodicites] = useState([])
@@ -72,8 +72,8 @@ const CategoryCard = () => {
                             <div className="d-flex justify-content-center align-items-center flex-column py-1" style={{backgroundColor: "#eaeaeb", borderRadius: 20}}>
                                 <div className='d-flex flex-wrap col-12 pb-1'>
                                     <div className='text-center col-xl-2 col-lg-12 col-2'><img src={fiBrChartPieAlt} width="22px"/></div>
-                                    <div className='text-center col-xl-7 col-lg-12 col-7' style={{fontSize: 22, fontWeight: "bold"}}>{item.name_A}</div>
-                                    <div className='text-center col-xl-3 col-lg-12 col-3' style={{color: "#3D5484", fontSize: 22}}>{item.indicatorCount}</div>
+                                    <div className='text-center col-xl-7 col-lg-12 col-7' style={{fontSize: 18, fontWeight: "bold"}}>{item.name_A}</div>
+                                    <div className='text-center col-xl-3 col-lg-12 col-3' style={{color: "#3D5484", fontSize: 18}}>{item.indicatorCount}</div>
                                 </div>
                                 <div className='d-flex flex-column col-12'>
                                     {item.childNames.map((child,  childIndex) => {

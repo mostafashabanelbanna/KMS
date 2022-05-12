@@ -128,7 +128,7 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
 }
 
 [dir] .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active {
-  border: 2px solid #08A291 !important;
+  border: unset !important;
 }
 
 .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active i, .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active svg {
@@ -141,4 +141,12 @@ html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
 
 .font-18{
   font-size: 18px;
+}
+
+a{
+  text-decoration: none;
+}
+
+a:hover {
+  color: #7367f0 !important;
 }

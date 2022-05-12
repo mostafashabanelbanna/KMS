@@ -52,7 +52,7 @@ const SearchSection = ({searchData, setSearchData}) => {
                     <input
                         type="text"
                         class="form-control"
-                        placeholder="بحث بإسم العنصر"
+                        placeholder="بحث بالإسم"
                         value={title}
                         name="search"
                         onChange={(e) => handleNameChange(e)}

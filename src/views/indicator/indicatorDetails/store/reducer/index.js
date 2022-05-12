@@ -5,6 +5,7 @@ const initialState = {
     selectedUnit: {},
     seriesDimensions: [],
     seriesDimensionValues: [],
+    seriesExcelDimensions: [],
     seriesDateFrom: new Date(),
     seriesDateTo: new Date(),
     seriesData: [],
@@ -31,6 +32,8 @@ const indicatorDetails = (state = initialState, action) => {
             return {...state, seriesDimensions: action.dimensions}
         case 'SET_INDICATOR_DETAILS_SERIES_DIMENSION_VALUES':
             return {...state, seriesDimensionValues: action.dimensionValues}
+        case 'SET_INDICATOR_DETAILS_SERIES_EXCEL_DIMENSION':
+            return {...state, seriesExcelDimensions: action.seriesExcelDimensions} 
         case 'SET_INDICATOR_DETAILS_SERIES_DATE_FROM':
             return {...state, seriesDateFrom: action.dateFrom}
         case 'SET_INDICATOR_DETAILS_SERIES_DATE_TO':

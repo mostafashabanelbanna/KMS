@@ -53,14 +53,14 @@ const InquiryCard = (item) => {
           {item.item.startDate !== null && (
             <div className="d-flex align-items-center col-md-4 col-12">
               <p
-                className="mb-0 w-100 text-center"
+                className="mb-0 w-100 text-center d-flex justify-content-center"
                 style={{
                   padding: "0.5rem",
                   backgroundColor: "#edeff6",
                   borderRadius: 8
                 }}
               >
-                <h5>تاريخ البدء</h5>
+                <h5>تاريخ البدء : &nbsp;&nbsp;</h5>
                 <span>{moment(item.item.startDate).locale("ar").format("L")}</span>
               </p>
             </div>

@@ -84,7 +84,7 @@ const ExcelTab = () => {
             return   
         }
     }
-    const list = dimensionValues.map(obj => ({ ...obj, orderLevel: store.excelDimensions.length + 1}))
+    const list = selectedDimensionValues.map(obj => ({ ...obj, orderLevel: store.excelDimensions.length + 1}))
     const newElement = {
         dimensionId : dimId,
         levelNumber,
@@ -218,7 +218,7 @@ const ExcelTab = () => {
                 <div key={idx} className='dark-layout mb-2 d-flex align-items-center px-2'
                 >
                     <div> <ArrowsIcon className='mr-1'/> 
-                        {store.indicatorDetails.indicatorDimensionsDtos.find(e => parseInt(e.id.split("::")[1]) === item.levelNumber).name} 
+                    {store.indicatorDetails.indicatorDimensionsDtos.find(e => parseInt(e.id.split("::")[0]) === item.dimensionId && parseInt(e.id.split("::")[1]) === item.levelNumber).name} 
                     </div>
                     {
                     item.dimensionValues.map((innerItem, idx) => (

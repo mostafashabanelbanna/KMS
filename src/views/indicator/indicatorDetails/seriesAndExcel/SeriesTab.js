@@ -35,7 +35,6 @@ const SeriesTab = () => {
     console.log(dimensionId, levelNumber)
     await axios.get(`/DimensionValue/GetDimensionValuesForDataset/${dimensionId}/${levelNumber}`).then(response => {
         if (response) {
-            console.log(response.data.data)
             setDimensionValues(response.data.data)
         }
     }).catch(error => {
@@ -50,7 +49,28 @@ const SeriesTab = () => {
   const handleDimensionValueChange = (e) => {
     setSelectedDimensionValues(e)
   }
+  // const addToSelectedDimensions = () => {
+  //   if (!selectedDimension.id) {
+  //     notify("error", "يُرجى أختيار البعد اولا")
+  //     return
+  //   }
+  //   if (selectedDimensionValues.length < 1) {
+  //     notify("error", "يُرجى أختيار قيم البعد اولا")
+  //     return
+  //   }
+
+  //   if (store.seriesDimensions.findIndex(e => e.id === selectedDimension.id) !== -1) {
+  //     notify("error", "لقد تم اختيار هذ البعد")
+  //     return
+  //   }
+  //   dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSIONS", dimensions: [...store.seriesDimensions, selectedDimension]})
+  //   dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSION_VALUES", dimensionValues: [...store.seriesDimensionValues, selectedDimensionValues]})
+  //   setSelectedDimension({})
+  //   setSelectedDimensionValues([])
+  // }
+
   const addToSelectedDimensions = () => {
+
     if (!selectedDimension.id) {
       notify("error", "يُرجى أختيار البعد اولا")
       return
@@ -59,13 +79,32 @@ const SeriesTab = () => {
       notify("error", "يُرجى أختيار قيم البعد اولا")
       return
     }
+    const dimId = parseInt(selectedDimension.id.split('::')[0])
+    const levelNumber = parseInt(selectedDimension.id.split('::')[1])
 
-    if (store.seriesDimensions.findIndex(e => e.id === selectedDimension.id) !== -1) {
+    if (store.seriesExcelDimensions.findIndex(e => e.dimensionId === dimId && e.levelNumber === levelNumber) !== -1) {
       notify("error", "لقد تم اختيار هذ البعد")
       return
     }
+    if (store.seriesExcelDimensions.length > 0) {
+        const lastEle = store.seriesExcelDimensions[store.seriesExcelDimensions.length - 1]
+        if (lastEle.dimensionId === dimId && lastEle.levelNumber > levelNumber) {
+            notify("error", "يُرجى أختيار الابعاد تعبا بترتيب المستوى")
+            return   
+        }
+    }
+    const list = selectedDimensionValues.map(obj => ({ ...obj, orderLevel: store.seriesExcelDimensions.length + 1}))
+    const newElement = {
+        dimensionId : dimId,
+        levelNumber,
+        dimensionValues: list
+    }
+    console.log(store.seriesExcelDimensions)
+    console.log(newElement)
+
     dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSIONS", dimensions: [...store.seriesDimensions, selectedDimension]})
     dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSION_VALUES", dimensionValues: [...store.seriesDimensionValues, selectedDimensionValues]})
+    dispatch({type: "SET_INDICATOR_DETAILS_SERIES_EXCEL_DIMENSION", seriesExcelDimensions: [...store.seriesExcelDimensions, newElement]})
     setSelectedDimension({})
     setSelectedDimensionValues([])
   }
@@ -196,27 +235,29 @@ const SeriesTab = () => {
           <>
             <Row className='mx-0'>
             <Col md={12} className='card mt-2 p-1'>
-              {store.seriesDimensions.map((item, idx) => (
+            {store.seriesExcelDimensions.map((item, idx) => (
                 <div key={idx} className='dark-layout mb-2 d-flex align-items-center px-2'
                 >
-                  <div> <ArrowsIcon className='mr-1'/> {item.name} </div>
-                  {
-                  store.seriesDimensionValues[idx].map((innerItem, idx) => (
+                    <div> <ArrowsIcon className='mr-1'/> 
+                        {store.indicatorDetails.indicatorDimensionsDtos.find(e => parseInt(e.id.split("::")[0]) === item.dimensionId && parseInt(e.id.split("::")[1]) === item.levelNumber).name} 
+                    </div>
+                    {
+                    item.dimensionValues.map((innerItem, idx) => (
                     <div
-                      key={idx}
-                      className="ml-2 px-2 d-flex align-items-center"
-                      style={{
-                          backgroundColor: "lightGray",
-                          padding: "0.5rem",
-                          borderRadius: 16
-                      }}>
+                        key={idx}
+                        className="ml-2 px-2 d-flex align-items-center"
+                        style={{
+                            backgroundColor: "lightGray",
+                            padding: "0.5rem",
+                            borderRadius: 16
+                        }}>
                     <p className="mb-0 mx-1 text-white">{innerItem.name_A}</p>
-                  </div>
-                  ))
+                    </div>
+                    ))
                 }
                 <hr/>
                 </div>
-              ))}
+                ))}
             </Col>
             </Row>
             <Row className='mx-0'>

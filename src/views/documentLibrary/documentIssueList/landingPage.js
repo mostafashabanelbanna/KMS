@@ -79,7 +79,7 @@ const LandingPage = () => {
       <Breadcrumbs
         breadCrumbTitle={intl.formatMessage({ id: "Document Library" })}
         breadCrumbActive={intl.formatMessage({ id: "Document Library" })}
-        breadCrumbParent="مركز المعرفة"
+        breadCrumbParent="خدمات الباحثين"
         breadCrumbRoot={intl.formatMessage({ id: "Homepage" })}
       />
       <div className="d-flex">
@@ -100,7 +100,7 @@ const LandingPage = () => {
                   </p>
                 </div>
                 <div className="d-flex justify-content-end col-6">
-                  {store.data.length > 0 &&
+                  {/* {store.data.length > 0 &&
                     <ReactPaginate
                       previousLabel={''}
                       nextLabel={''}
@@ -116,7 +116,7 @@ const LandingPage = () => {
                       pageLinkClassName={'page-link'}
                       containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
                     />
-                  }
+                  } */}
 
                   <div className="d-flex d-lg-none">
                     <FontAwesomeIcon icon={faSliders} color={"#496193"} style={{ cursor: "pointer" }} fontSize={17} onClick={() => {
@@ -144,32 +144,32 @@ const LandingPage = () => {
           </div> : <div className="d-block d-lg-none col-lg-5 col-12">
           <SearchSection showSearchSection={showSearchSection} setShowSearchSection={setShowSearchSection} handleSearch={handleSearchSubmit}/>
         </div>}
-          {showSearchParams && (
-            <div className="d-flex mb-2">
+        <div className="d-flex mb-2">
+              {showSearchParams && (
               <div className="d-flex justify-content-start col-6">
                 <p className="mb-0">نتائج البحث :  {store.totalCount}  نتيجة</p>
               </div>
-              <div className="d-flex justify-content-end col-6">
-              {store.data.length > 0 &&
-                      <ReactPaginate
-                      previousLabel={''}
-                      nextLabel={''}
-                      pageCount={store.totalPages || 1}
-                      activeClassName='active'
-                      forcePage={pageNumber !== 0 ? pageNumber - 1 : 0}
-                      onPageChange={page => handlePagination(page)}
-                      pageClassName={'page-item'}
-                      nextLinkClassName={'page-link'}
-                      nextClassName={'page-item next'}
-                      previousClassName={'page-item prev'}
-                      previousLinkClassName={'page-link'}
-                      pageLinkClassName={'page-link'}
-                      containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
+              )}
+              <div className={`d-flex justify-content-end ${showSearchParams ? "col-6" : "col-12"}`}>
+                {store.data.length > 0 &&
+                  <ReactPaginate
+                    previousLabel={''}
+                    nextLabel={''}
+                    pageCount={store.totalPages || 1}
+                    activeClassName='active'
+                    forcePage={pageNumber !== 0 ? pageNumber - 1 : 0}
+                    onPageChange={page => handlePagination(page)}
+                    pageClassName={'page-item'}
+                    nextLinkClassName={'page-link'}
+                    nextClassName={'page-item next'}
+                    previousClassName={'page-item prev'}
+                    previousLinkClassName={'page-link'}
+                    pageLinkClassName={'page-link'}
+                    containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
                   />
-                  }
+                }
               </div>
             </div>
-          )}
         </div>
 
         <div className="d-none d-lg-block col-lg-4 col-xl-3 col-12">

@@ -5,6 +5,8 @@ import PublishInformation from "./publishInfoSection"
 import SearchSection from "./searchSection"
 import TableSection from "./tableSection"
 import { useParams } from "react-router-dom"
+import Breadcrumbs from '@components/breadcrumbs'
+import { useIntl } from 'react-intl'
 
 const DocumentLibraryList = () => {
     const params = useParams()
@@ -21,14 +23,27 @@ const DocumentLibraryList = () => {
         toDate: null
     })
 
+  const intl = useIntl()
+
     return (
-        <div className="d-flex">
-            <div className="d-flex flex-column col-xl-10 col-lg-9 col-12 px-1">
-                <SearchSection Id={Id} searchData={searchData} setSearchData={setSearchData}/>
-                <TableSection Id={Id} searchData={searchData} setSearchData={setSearchData}/>
-            </div>      
-            <PublishInformation details={store?.details}/>
-        </div>
+        <>
+            <Breadcrumbs
+            breadCrumbTitle={intl.formatMessage({ id: "Document Library" })}
+            breadCrumbRoot={intl.formatMessage({ id: "Homepage" })}
+            breadCrumbParent={intl.formatMessage({ id: "Document Library" })}
+            breadCrumbActive={intl.formatMessage({ id: "تفاصيل الإصدارة" })}
+            />
+            <div>
+                <p className="fa-2x mb-3 mt-1">{store?.details?.name}</p>
+            </div>
+            <div className="d-flex">
+                <div className="d-flex flex-column col-xl-10 col-lg-9 col-12 px-1">
+                    <SearchSection Id={Id} searchData={searchData} setSearchData={setSearchData} />
+                    <TableSection Id={Id} searchData={searchData} setSearchData={setSearchData} />
+                </div>
+                <PublishInformation details={store?.details} />
+            </div>
+        </>
     )
 }
 

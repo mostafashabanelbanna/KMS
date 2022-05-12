@@ -13,9 +13,11 @@ const Homepage = () => {
     <div style={{overflowY: "auto"}}>
       <h4>الصفحة الرئيسية</h4>
       <CategoryCard />
-      <HomeCard title={"إضيف حديثا"} addedLatelyComp={true}/>
+      <div className='d-flex flex-lg-row flex-column w-100'>
+        <HomeCard title={"إضيف حديثا"} addedLatelyComp={true}/>
+        <HomeCard title={"المفضلة"} favorite={true}/>
+      </div>
       <DashboardSlider/>
-      <HomeCard title={"المفضلة"} favorite={true}/>
       <ResourcesSlider/>
     </div>
   )

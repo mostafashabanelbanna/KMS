@@ -74,20 +74,22 @@ export const getSeriesData = (pageNumber, rowsPerPage) => {
 export const ExportSeriesData = () => {
   return async (dispatch, getState) => {
     const store = getState().indicatorDetails
-    const dimValues = []
-    store.seriesDimensionValues.forEach(element => {
-      element.forEach(ele => {
-        dimValues.push(ele.id)
-      })
-    })
+    // const dimValues = []
+    // store.seriesDimensionValues.forEach(element => {
+    //   element.forEach(ele => {
+    //     dimValues.push(ele.id)
+    //   })
+    // })
+   
     const payLoad = {
-      indicatorId: store.indicatorDetails.id,
-      sourceId: store.selectedSource,
-      periodicityId: store.selectedPeriodicity,
-      dimensionsValues: dimValues,
-      fromDate: store.seriesDateFrom,
-      toDate: store.seriesDateTo
+      IndicatorId: store.indicatorDetails.id,
+      SourceId: store.selectedSource,
+      PeriodicityId: store.selectedPeriodicity,
+      Vertical: store.seriesExcelDimensions,
+      FromDate: store.seriesDateFrom,
+      ToDate: store.seriesDateTo
     }
+    console.log(payLoad)
     await axios.post(`/Dataset/ExportIndicatorSeriesDataSheet`, payLoad, { responseType: 'arraybuffer' }).then(response => {
       const fileDownload = require('js-file-download')
       fileDownload(response.data, `${store.indicatorDetails.name_A}.xlsx`)

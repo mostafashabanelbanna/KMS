@@ -82,10 +82,10 @@ const DocumentIssueCard = (item) => {
         </div>
       </div>
       <div className="d-flex flex-column align-items-center flex-md-row">
-        <div className="d-flex flex-row col-md-4 px-5">
-          <p className="mb-0" style={{ fontSize: 15, color: "gray" }}>اخر وثيقة : </p>
+        <div className="d-flex flex-row p-0 pl-2 col">
+          <p className="mb-0" style={{ fontSize: 13, color: "gray" }}>اخر وثيقة : </p>
           <div className="d-flex">
-          <p className="mx-1 mb-0">{item.item.lastDocument.title_A}</p>
+          <p className="mx-1 mb-0" style={{ fontSize: 13, color: "gray" }}>{item.item.lastDocument.title_A}</p>
             <Download
               style={{ cursor: "pointer"}}
               className="text-success"
@@ -108,7 +108,7 @@ const DocumentIssueCard = (item) => {
             </div>
           )}
           {item.item.sourceName !== null && (
-            <div className="d-flex align-items-center col-md-4 col-12">
+            <div className="d-flex align-items-center col-md col-12">
               <p
                 className="mb-0 w-100 text-center"
                 style={{

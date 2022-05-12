@@ -57,11 +57,11 @@ export default [
     title: "Document Library",
     icon: <FaNewspaper size={20} />,
     navLink: "/document/landingPage"
+  },
+  {
+    id: "Inquiry",
+    title: "Inquiry",
+    icon: <FaInfoCircle size={20} />,
+    navLink: "/Researcher/Inquiry"
   }
-  // {
-  //   id: "Inquiry",
-  //   title: "Inquiry",
-  //   icon: <FaInfoCircle size={20} />,
-  //   navLink: "/Researcher/Inquiry"
-  // }
 ]

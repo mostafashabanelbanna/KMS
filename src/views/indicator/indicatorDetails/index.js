@@ -56,7 +56,7 @@ const indicatorDetails = (props) => {
       {!store.indicatorDetails && <ComponentSpinner/>}
       {store.indicatorDetails && 
         <>
-          <Row>
+          <Row className>
             <Col sm='9'>
               <h2 className='px-3'>{store.indicatorDetails.name_A}</h2>
             </Col>
@@ -75,7 +75,7 @@ const indicatorDetails = (props) => {
               </div>
             </Col> }
           </Row>
-          <Row>
+          <Row className="pt-2">
             <Col sm={descriptionCardIsOpen ? '9' : '12'}>
                 <SwiperCenterSlidesStyle  isRtl={isRtl} avilableCopies={store.indicatorDetails.indicatorAvilableCopies} />
                 {/* <Tabs/> */}
