@@ -1,4 +1,4 @@
-import {  useState, useContext } from 'react'
+import {  useState, useContext, useEffect } from 'react'
 import {Row, Col, Label, Button, FormGroup, FormText, Form, Input } from 'reactstrap'
 import Flatpickr from 'react-flatpickr'
 import { useIntl } from 'react-intl'
@@ -26,7 +26,7 @@ const SeriesTab = () => {
   const [dimensionValues, setDimensionValues] = useState([])
   const [selectedDimension, setSelectedDimension] = useState({})
   const [selectedDimensionValues, setSelectedDimensionValues] = useState([])
-  const [formContentActive, setFormContentAvtive] = useState(1)
+  const [formContentActive, setFormContentAvtive] = useState(0)
   const intl = useIntl()
 
   const intlContext = useContext(IntlContext)
@@ -49,26 +49,7 @@ const SeriesTab = () => {
   const handleDimensionValueChange = (e) => {
     setSelectedDimensionValues(e)
   }
-  // const addToSelectedDimensions = () => {
-  //   if (!selectedDimension.id) {
-  //     notify("error", "يُرجى أختيار البعد اولا")
-  //     return
-  //   }
-  //   if (selectedDimensionValues.length < 1) {
-  //     notify("error", "يُرجى أختيار قيم البعد اولا")
-  //     return
-  //   }
-
-  //   if (store.seriesDimensions.findIndex(e => e.id === selectedDimension.id) !== -1) {
-  //     notify("error", "لقد تم اختيار هذ البعد")
-  //     return
-  //   }
-  //   dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSIONS", dimensions: [...store.seriesDimensions, selectedDimension]})
-  //   dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSION_VALUES", dimensionValues: [...store.seriesDimensionValues, selectedDimensionValues]})
-  //   setSelectedDimension({})
-  //   setSelectedDimensionValues([])
-  // }
-
+  
   const addToSelectedDimensions = () => {
 
     if (!selectedDimension.id) {
@@ -123,6 +104,18 @@ const SeriesTab = () => {
   const handleToDateChange = (event) => {
     dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DATE_TO", dateTo: moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY").format("YYYY-MM-DD").replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)) })
   }
+  useEffect(() => {
+    console.log(store.indicatorDetails)
+    if (store.indicatorDetails.indicatorDimensionsDtos) {
+      const isCountryExist = store.indicatorDetails.indicatorDimensionsDtos.find(x => x.id === "1::1")
+      if (!isCountryExist) {
+        setFormContentAvtive(1)
+      }
+    }
+  }, [store.indicatorDetails])
+  useEffect(() => {
+    getSeriesDataList()
+  }, [store.seriesDimensionValues])
   return (
     <>
       {formContentActive === 1 && <div>

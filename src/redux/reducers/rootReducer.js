@@ -30,6 +30,7 @@ import userNotifications from '@src/views/notification/store/reducer/index'
 import indicatorDetails from '@src/views/indicator/indicatorDetails/store/reducer/index'
 import frontIndicators from '@src/views/indicator/store/reducer/index'
 import FrontDocumentIssues from '@src/views/documentLibrary/store/reducer/index'
+import FrontWebResources from '../../views/webResources/store/reducer'
 
 const rootReducer = combineReducers({
     auth,
@@ -59,7 +60,8 @@ const rootReducer = combineReducers({
     userNotifications,
     indicatorDetails,
     frontIndicators,
-    FrontDocumentIssues
+    FrontDocumentIssues,
+    FrontWebResources
 })
 
 export default rootReducer

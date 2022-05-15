@@ -158,7 +158,8 @@ const SeriesTable = ({toggleTable}) => {
                   </div>
               </div>
           </Card>
-          {store.seriesData.length > 0 && <Card>
+          {layoutStore.loading && <ComponentSpinner/>}
+          {!layoutStore.loading && store.seriesData.length > 0 && <Card>
             <DataTable
               noDataComponent={<FormattedMessage id="NoData" />}
               progressPending={layoutStore.loading}
@@ -176,7 +177,7 @@ const SeriesTable = ({toggleTable}) => {
               
             />
           </Card> }
-          {store.seriesData.length === 0 && 
+          {store.seriesData.length === 0 && !layoutStore.loading &&
             <Card className='p-2 text-center'>
                 <h2>لا يوجد بيانات فى هذه الفترة</h2>
             </Card>

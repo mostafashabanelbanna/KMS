@@ -7,6 +7,7 @@ import TableSection from "./tableSection"
 import { useParams } from "react-router-dom"
 import Breadcrumbs from '@components/breadcrumbs'
 import { useIntl } from 'react-intl'
+import Feedback  from "../../Feedback"
 
 const DocumentLibraryList = () => {
     const params = useParams()
@@ -42,6 +43,11 @@ const DocumentLibraryList = () => {
                     <TableSection Id={Id} searchData={searchData} setSearchData={setSearchData} />
                 </div>
                 <PublishInformation details={store?.details} />
+            </div>
+            <div className="row">
+                <div className="col-md-9">
+                    {store.details && store.details.id &&  <Feedback objectId={store.details.id} objectName="DocumentIssue" />}
+                </div>
             </div>
         </>
     )

@@ -17,18 +17,22 @@ const IndicatorCard = (item) => {
   const AddIndicatorToFavorite = async (id) => {  
     const result = await addToFavorit("Indicator", id)
     if (result) {
-      const ele = store.data.find(x => x.id === id)
-      ele.isFavorit = true
-      dispatch({type: "GET_FRONT_INDICATOR_DATA", data: [...store.data], totalPages: store.totalPages, totalCount: store.totalCount })
+      if (store.data && store.data.length > 0) {
+        const ele = store.data.find(x => x.id === id)
+        ele.isFavorit = true
+        dispatch({type: "GET_FRONT_INDICATOR_DATA", data: [...store.data], totalPages: store.totalPages, totalCount: store.totalCount })
+      }
     }
   }
 
   const RemoveIndicatorFromFavorite = async (id) => {  
     const result = await removeFromFavorit("Indicator", id)
     if (result) {
-      const ele = store.data.find(x => x.id === id)
-      ele.isFavorit = false
-      dispatch({type: "GET_FRONT_INDICATOR_DATA", data: [...store.data], totalPages: store.totalPages, totalCount: store.totalCount })
+      if (store.data && store.data.length > 0) {
+        const ele = store.data.find(x => x.id === id)
+        ele.isFavorit = false
+        dispatch({type: "GET_FRONT_INDICATOR_DATA", data: [...store.data], totalPages: store.totalPages, totalCount: store.totalCount })
+      }
     }
   }
 

@@ -220,7 +220,7 @@ const InquiryList = () => {
   return (
     <Fragment>
       { isAuthorized(store.errorCode) ? <Redirect to='/misc/not-authorized' /> : (
-        <>
+        <div className='w-100'>
           <div className='row mx-0'>
             <div className='col-md-12'>
               <div className="mb-2 d-flex justify-content-between">
@@ -261,7 +261,7 @@ const InquiryList = () => {
               </div>
           </div>
           <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedInquiry={store.selectedInquiry} departments={departments} />
-        </>
+        </div>
       )}
     </Fragment>
   )

@@ -18,18 +18,22 @@ const DocumentIssueCard = (item) => {
   const AddToFavorite = async (id) => {  
     const result = await addToFavorit("DocumentIssue", id)
     if (result) {
-      const ele = store.data.find(x => x.id === id)
-      ele.isFavorite = true
-      dispatch({type: "GET_FRONT_DOCUMENTISSUE_DATA", data: [...store.data], totalPages: store.totalPages, totalCount: store.totalCount })
+      if (store.data && store.data.length > 0) {
+        const ele = store.data.find(x => x.id === id)
+        ele.isFavorite = true
+        dispatch({type: "GET_FRONT_DOCUMENTISSUE_DATA", data: [...store.data], totalPages: store.totalPages, totalCount: store.totalCount })
+      }
     }
   }
 
   const RemoveFromFavorite = async (id) => {  
     const result = await removeFromFavorit("DocumentIssue", id)
     if (result) {
-      const ele = store.data.find(x => x.id === id)
-      ele.isFavorite = false
-      dispatch({type: "GET_FRONT_DOCUMENTISSUE_DATA", data: [...store.data], totalPages: store.totalPages, totalCount: store.totalCount })
+      if (store.data && store.data.length) {
+        const ele = store.data.find(x => x.id === id)
+        ele.isFavorite = false
+        dispatch({type: "GET_FRONT_DOCUMENTISSUE_DATA", data: [...store.data], totalPages: store.totalPages, totalCount: store.totalCount })
+      }
     }
   }
 

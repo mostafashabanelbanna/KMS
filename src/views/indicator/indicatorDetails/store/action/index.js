@@ -2,11 +2,47 @@ import axios from '../../../../../axios'
 import { isLoading, isNotLoading } from '../../../../../redux/actions/layout'
 import { store } from '../../../../../redux/storeConfig/store'
 
+const IntializeDefaultDimensions = (dispatch) => {
+  const dimensionsValues =  [
+    [
+      {
+        id:1,
+        name_A:"مصر",
+        dimensionId:1,
+        parentId:null,
+        levelNumber:1
+      }
+    ]
+  ]
+  const seriesExcelDimValues = [
+    {
+        dimensionId:1, 
+        levelNumber:1, 
+        dimensionValues: [
+            { 
+                id:1,
+                name_A:"مصر",
+                dimensionId:1,
+                parentId:null,
+                levelNumber:1,
+                OrderLevel: 1
+            }
+        ]
+    }
+  ]
+  const d = new Date()
+  d.setDate(d.getDate() - 1460) // get four years ago
+  dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DATE_FROM", dateFrom: d })
+
+  dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSIONS", dimensions: [{id:"1::1", name:"البلد"}]})
+  dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSION_VALUES", dimensionValues: dimensionsValues})
+  dispatch({type: "SET_INDICATOR_DETAILS_SERIES_EXCEL_DIMENSION", seriesExcelDimensions: seriesExcelDimValues})
+}
+
 export const getIndicatorDetails = (id) => {
   return async dispatch => {
     await axios.get(`/Indicator/GetIndicator/${id}`)
     .then(response => {
-        console.log(response)
         dispatch({
           type: 'GET_INDICATOR_DETAILS',
           indicatorDetails: response.data.data
@@ -15,8 +51,9 @@ export const getIndicatorDetails = (id) => {
           const firstElement = response.data.data.indicatorAvilableCopies[0]
           dispatch({type: "SET_INDICATOR_DETAILS_PERIODICITY", periodicity: firstElement.periodicityId })
           dispatch({type: "SET_INDICATOR_DETAILS_SOURCE", source: firstElement.sourceId })
+          IntializeDefaultDimensions(dispatch)
         }
-
+        
       })
       .catch(error => {
         dispatch({
@@ -133,3 +170,4 @@ export const exportFile = () => {
       })
   }
 }
+

@@ -116,7 +116,7 @@ const InquiryProcedureList = ({Id, searchData}) => {
         name: <FormattedMessage id="date of registration" />,
         selector: (row, idx) => { return (<> {row.publishDate ? moment(row.publishDate).locale("ar").format("LL") : ""} </>) },
         sortable: true,
-        minWidth: '200px'
+        minWidth: '100px'
     },
     {
       name: <FormattedMessage id="Name" />,
@@ -133,7 +133,7 @@ const InquiryProcedureList = ({Id, searchData}) => {
     {
         selector: () => <Download style={{ cursor: "pointer"}} className="text-success"/>,
         sortable: true,
-        minWidth: '200px'
+        minWidth: '50px'
     }
   ]
   return (

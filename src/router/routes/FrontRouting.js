@@ -49,6 +49,14 @@ const FrontRoutes = [
     {
         path: '/document/details/:id',
         component: lazy(() => import('../../views/documentLibrary/documentLibraryList/documentLibraryList'))
+    },
+    {
+        path: '/webResources/index',
+        component: lazy(() => import('../../views/webResources/index'))
+    },
+    {
+        path: '/Favorite',
+        component: lazy(() => import('../../views/Favorite'))
     }
   ]
   

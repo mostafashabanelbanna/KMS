@@ -1,22 +1,23 @@
 import { useIntl } from "react-intl"
 import { useEffect, useState } from "react"
 import Breadcrumbs from "@components/breadcrumbs"
-import IndicatorCard from "./indicatorListCard"
-import SearchParamsCard from "./searchParamsCard"
 import SearchSection from "./searchSeaction"
 import { faSliders } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useDispatch, useSelector } from 'react-redux'
-import { getData } from './../store/action/index'
-import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
+import { getData } from './store/action/index'
+import ComponentSpinner from '../../@core/components/spinner/Fallback-spinner'
 import ReactPaginate from 'react-paginate'
+import WebResourcesCard from "./webResourcesListCard"
 
 
 const LandingPage = () => {
   // redux states
   const dispatch = useDispatch()
-  const store = useSelector(state => state.frontIndicators)
+  const store = useSelector(state => state.FrontWebResources)
   const layoutStore = useSelector(state => state.layout)
+
+  console.log(store)
 
   const [showSearchParams, setShowSearchParams] = useState(false)
   const [showSearchSection, setShowSearchSection] = useState(true)
@@ -26,35 +27,17 @@ const LandingPage = () => {
   const intl = useIntl()
 
   const getIndicators = (pNumber, rPerPage) => {
-    const periods = []
-    const srcs = []
-    const _classificationValues = []
+    const resources = []
 
-    store.periodicities.forEach(element => {
-      periods.push(element.id)
-    })
-
-    store.sources.forEach(element => {
-      srcs.push(element.id)
-    })
-
-    store.sectors.forEach(element => {
-      _classificationValues.push(element.id)
-    })
-
-    store.categories.forEach(element => {
-      _classificationValues.push(element.id)
-    })
+    // store.Ids.forEach(element => {
+    //   resources.push(element.id)
+    // })
 
     const submitedData = {
       pageNumber: pNumber,
-      rowsPerPage: rPerPage,
-      name: store.name,
-      periodicities: periods,
-      sources: srcs,
-      classificationValues: _classificationValues,
-      startDate: store.dateFrom,
-      endDate: store.dateTo
+      pageSize: rPerPage,
+      name: "", //store.name,
+      webResourceCategoryIds: []//store.Ids
     }
     dispatch(getData(submitedData))
   }
@@ -79,10 +62,9 @@ const LandingPage = () => {
   return (
     <>
       <Breadcrumbs
-        breadCrumbTitle={intl.formatMessage({ id: "Indicators And Datasets" })}
-        breadCrumbActive={intl.formatMessage({ id: "Indicators And Datasets" })}
+        breadCrumbTitle={intl.formatMessage({ id: "WebResources" })}
+        breadCrumbActive={intl.formatMessage({ id: "WebResources" })}
         breadCrumbParent={intl.formatMessage({ id: "Researchers Services" })}
-        breadCrumbRoot={intl.formatMessage({ id: "Homepage" })}
       />
       <div className="d-flex">
         <div className="d-flex flex-column col-lg-8 col-xl-9 col-12">
@@ -138,8 +120,8 @@ const LandingPage = () => {
           {showSearchSection === true ? <div className="d-flex flex-lg-row flex-column-reverse">
             <div className="col-12 px-0">
               {layoutStore.loading === true && <ComponentSpinner />}
-              {layoutStore.loading === false && store.data.map((item, idx) => (
-                <IndicatorCard key={idx} item={item} />
+              {layoutStore.loading === false && store?.webResources?.map((item, idx) => (
+                <WebResourcesCard key={idx} item={item} />
               ))}
 
             </div>

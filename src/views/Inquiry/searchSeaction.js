@@ -1,14 +1,14 @@
 import { faSearch, faSliders, faTimes } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button } from "reactstrap"
-import DateSearchSection from "./dateSearchSection"
 import MultiselectionSection from "./multiselectionSeearchSection"
-import axios from '../../../axios'
+import axios from '../../axios'
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
-import { getData } from '../store/action/index'
+import DateSearchSection from "./dateSearchSection"
+// import { getData } from '../store/action/index'
 
-const SearchSection = ({handleSearch}) => {
+const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) => {
   // redux states
   const dispatch = useDispatch()
   const store = useSelector(state => state.frontIndicators)
@@ -63,7 +63,7 @@ const SearchSection = ({handleSearch}) => {
       startDate: store.dateFrom,
       endDate: store.dateTo
     }
-    dispatch(getData(submitedData))
+    // dispatch(getData(submitedData))
   }
   useEffect(() => {
     getAllDropDowns()
@@ -117,7 +117,7 @@ const SearchSection = ({handleSearch}) => {
             <input
               type="text"
               class="form-control"
-              placeholder="بحث بإسم العنصر"
+              placeholder="بحث بالاسم"
               value={store.name}
               name="search"
               onChange={(e) => handleNameChange(e)}
@@ -125,15 +125,13 @@ const SearchSection = ({handleSearch}) => {
           </div>
         </form>
 
-        {/* <DateSearchSection/> */}
+        <DateSearchSection/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"الدوريات"} values={store.periodicities} options={periodicities} handleValueChange={handlePeriodicityChange}/>
+        <MultiselectionSection title={"الإدارة"} values={store.periodicities} options={periodicities} handleValueChange={handlePeriodicityChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"المصادر"} values={store.sources} options={sources} handleValueChange={handleSourceChange}/>
+        <MultiselectionSection title={"الحالة"} values={store.sources} options={sources} handleValueChange={handleSourceChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"التصنيفات"} values={store.categories} options={categories} handleValueChange={handleCategoryChange}/>
-        <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"القطاعات"} values={store.sectors} options={sectors} handleValueChange={handleSectorChange}/>
+        <MultiselectionSection title={"مزود البيانات"} values={store.categories} options={categories} handleValueChange={handleCategoryChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
 
         {/*  */}

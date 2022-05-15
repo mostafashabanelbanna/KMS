@@ -41,7 +41,7 @@ const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies }) => {
             <>
                 {avilableCopies.map((item, idx) => (
                   // <SwiperSlide key={idx} className='rounded swiper-shadow mx-3'>
-                      <NavItem className="mb-4">
+                      <NavItem className="mb-2 mr-1">
                         <NavLink
                           active={item.sourceId === store.selectedSource && item.periodicityId === store.selectedPeriodicity}
                           onClick={() => {

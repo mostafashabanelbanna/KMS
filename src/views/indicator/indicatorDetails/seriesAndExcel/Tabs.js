@@ -7,7 +7,6 @@ import PickerDefault from "../PickerDefault"
 import SeriesTab from "./SeriesTab"
 import ExcelTab from "./ExcelTab"
 
-
 const Tabs = () => {
     const [active, setActive] = useState('1')
 
@@ -37,8 +36,19 @@ const Tabs = () => {
             toggle('2')
           }}
         >
-            <h4 className='mb-0'>إنشاء توزيع إحصائي</h4>
+            <h4 className='mb-0'>Charts</h4>
             
+        </NavLink>
+      </NavItem>
+
+      <NavItem>
+        <NavLink
+          active={active === '3'}
+          onClick={() => {
+            toggle('3')
+          }}
+        >
+            <h4 className='mb-0'> لوحات معلوماتية</h4>
         </NavLink>
       </NavItem>
       
@@ -48,11 +58,15 @@ const Tabs = () => {
         <SeriesTab/>
       </TabPane>
       <TabPane tabId='2'>
-        <ExcelTab/>
+        <div>charts</div>
+      </TabPane>
+      <TabPane tabId='3'>
+       <div>
+          لوحات معلوماتية
+       </div>
       </TabPane>
     </TabContent>
     </>
   )
 }
-
 export default Tabs

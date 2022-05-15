@@ -9,6 +9,7 @@ import { Card, CardBody, CardText, Row, Col, UncontrolledTooltip, Input, Label, 
 import axios from './../../axios'
 import * as moment from "moment"
 import "moment/locale/ar"
+import {notify} from '../../utility/Utils'
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
@@ -34,12 +35,17 @@ const Feedback = ({objectId, objectName}) => {
     const AddComment = async () => {
         const comment = document.getElementById("addComment").value
         document.getElementById("addComment").value = ""
-        await axios.post(`/Feedback/CreateFeedback`, {objectId, objectName, description: comment})
-        .then(response => {
-            console.log(response)
-            getFeedbacks()
-        }).catch(error => {
-        })
+        if (!comment) {
+            notify("error", "برجاء اضافة تعليق")
+        } else {
+            await axios.post(`/Feedback/CreateFeedback`, {objectId, objectName, description: comment})
+            .then(response => {
+                console.log(response)
+                getFeedbacks()
+            }).catch(error => {
+            })
+        }
+        
     }
 
     return (

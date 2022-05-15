@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getIndicatorDetails } from './store/action'
 import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 import { X, ArrowDown } from 'react-feather'
+import Feedback from '../../Feedback'
 
 SwiperCore.use([Navigation, Pagination, EffectFade, EffectCube, EffectCoverflow, Autoplay, Lazy, Virtual])
 
@@ -164,6 +165,11 @@ const indicatorDetails = (props) => {
                 </Card>
               </div>
             </Col>}
+          </Row>
+          <Row>
+            <Col md={9}>
+              {store.indicatorDetails && store.indicatorDetails.id &&  <Feedback objectId={store.indicatorDetails.id} objectName="Indicator" />}
+            </Col>
           </Row>
         </>
       }
