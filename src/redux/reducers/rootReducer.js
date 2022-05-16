@@ -31,6 +31,7 @@ import indicatorDetails from '@src/views/indicator/indicatorDetails/store/reduce
 import frontIndicators from '@src/views/indicator/store/reducer/index'
 import FrontDocumentIssues from '@src/views/documentLibrary/store/reducer/index'
 import FrontWebResources from '../../views/webResources/store/reducer'
+import FrontDefinitions from '../../views/definitions/store/reducer'
 
 const rootReducer = combineReducers({
     auth,
@@ -61,7 +62,8 @@ const rootReducer = combineReducers({
     indicatorDetails,
     frontIndicators,
     FrontDocumentIssues,
-    FrontWebResources
+    FrontWebResources,
+    FrontDefinitions
 })
 
 export default rootReducer

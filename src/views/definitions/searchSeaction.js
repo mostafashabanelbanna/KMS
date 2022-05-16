@@ -10,37 +10,36 @@ import { getData } from './store/action/index'
 const SearchSection = ({handleSearch}) => {
   // redux states
   const dispatch = useDispatch()
-  const store = useSelector(state => state.FrontWebResources)
+  const store = useSelector(state => state.FrontDefinitions)
 
   // States
-  const [categories, setCategories] = useState([])
+  const [sources, setSources] = useState([])
 
   const getAllDropDowns = async () => {
-    await axios.get(`/WebResource/GetWebResourceCategoriesFront`)//change
+    await axios.get(`/Definition/GetDefinitionSourcesFront`)
     .then(response => {
         const result = response.data.data
-        setCategories(result)
-        console.log(result)
+        setSources(result)
        })
        .catch(error => {})
   }
 
-  const handleCategoryChange = (e) => {
-    dispatch({type: "SET_FRONT_WEB_RESOURCES_CATEGORY", categories: e })
+  const handleSourceChange = (e) => {
+    dispatch({type: "SET_FRONT_DEFINITIONS_SOURCE", sources: e })
   }
 
   const handleNameChange = (e) => {
-    dispatch({type: "SET_FRONT_WEB_RESOURCES_NAME", name: e.target.value })
+    dispatch({type: "SET_FRONT_DEFINITIONS_NAME", name: e.target.value })
   }
 
   const removeSearch = () => {
-    dispatch({type: "SET_FRONT_WEB_RESOURCES_CATEGORY", categories: []})
-    dispatch({type: "SET_FRONT_WEB_RESOURCES_NAME", name: ''})
+    dispatch({type: "SET_FRONT_DEFINITIONS_SOURCE", sources: []})
+    dispatch({type: "SET_FRONT_DEFINITIONS_NAME", name: ''})
     const submitedData = {
       pageNumber: 1,
       rowsPerPage: 10,
       name: '',
-      webResourceCategoryIds: []
+      sourceIds: []
     }
     dispatch(getData(submitedData))
   }
@@ -96,7 +95,7 @@ const SearchSection = ({handleSearch}) => {
         </form>
 
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"التصنيف"} values={store.categories} options={categories} handleValueChange={handleCategoryChange}/>
+        <MultiselectionSection title={"المصادر"} values={store.sources} options={sources} handleValueChange={handleSourceChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
        
         <div className="d-flex py-2 justify-content-center">

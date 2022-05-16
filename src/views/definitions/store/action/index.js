@@ -4,9 +4,9 @@ import { isLoading, isNotLoading } from '../../../../redux/actions/layout'
 export const getData = params => {
   return async dispatch => {
     dispatch(isLoading())
-    await axios.post('/WebResource/GetWebResourcesFront', params).then(response => {
+    await axios.post('/Definition/GetDefinitionsFront', params).then(response => {
       dispatch({
-        type: 'GET_FRONT_WEB_RESOURCES_DATA',
+        type: 'GET_FRONT_DEFINITIONS_DATA',
         data: response.data.data.items,
         totalPages: response.data.data.totalPages,
         totalCount: response.data.data.totalCount
@@ -16,7 +16,7 @@ export const getData = params => {
 
     }).catch(error => {
       dispatch({
-        type: 'GET_FRONT_WEB_RESOURCES_DATA',
+        type: 'GET_FRONT_DEFINITIONS_DATA',
         data : []
       })
       dispatch(isNotLoading())

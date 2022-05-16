@@ -57,6 +57,10 @@ const FrontRoutes = [
     {
         path: '/Favorite',
         component: lazy(() => import('../../views/Favorite'))
+    },
+    {
+        path: '/Definitionss/landingPage',
+        component: lazy(() => import('../../views/definitions/index'))
     }
   ]
   

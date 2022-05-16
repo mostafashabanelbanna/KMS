@@ -8,13 +8,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getData } from './store/action/index'
 import ComponentSpinner from '../../@core/components/spinner/Fallback-spinner'
 import ReactPaginate from 'react-paginate'
-import WebResourcesCard from "./webResourcesListCard"
+import DefinitionsCard from "./definitionsCard"
 
 
 const LandingPage = () => {
   // redux states
   const dispatch = useDispatch()
-  const store = useSelector(state => state.FrontWebResources)
+  const store = useSelector(state => state.FrontDefinitions)
   const layoutStore = useSelector(state => state.layout)
 
   const [showSearchParams, setShowSearchParams] = useState(false)
@@ -25,17 +25,17 @@ const LandingPage = () => {
   const intl = useIntl()
 
   const getIndicators = (pNumber, rPerPage) => {
-    const resources = []
+    const sources = []
 
-    store.categories.forEach(element => {
-      resources.push(element.id)
+    store.sources.forEach(element => {
+      sources.push(element.id)
     })
 
     const submitedData = {
       pageNumber: pNumber,
       pageSize: rPerPage,
       name: store.name,
-      webResourceCategoryIds: resources
+      sourceIds: sources
     }
     dispatch(getData(submitedData))
   }
@@ -60,8 +60,8 @@ const LandingPage = () => {
   return (
     <>
       <Breadcrumbs
-        breadCrumbTitle={intl.formatMessage({ id: "WebResources" })}
-        breadCrumbActive={intl.formatMessage({ id: "WebResources" })}
+        breadCrumbTitle={intl.formatMessage({ id: "Definitions" })}
+        breadCrumbActive={intl.formatMessage({ id: "Definitions" })}
         breadCrumbParent={intl.formatMessage({ id: "Researchers Services" })}
       />
       <div className="d-flex">
@@ -118,8 +118,8 @@ const LandingPage = () => {
           {showSearchSection === true ? <div className="d-flex flex-lg-row flex-column-reverse">
             <div className="col-12 px-0">
               {layoutStore.loading === true && <ComponentSpinner />}
-              {layoutStore.loading === false && store?.webResources?.map((item, idx) => (
-                <WebResourcesCard key={idx} item={item} />
+              {layoutStore.loading === false && store?.definitions?.map((item, idx) => (
+                <DefinitionsCard key={idx} item={item} />
               ))}
 
             </div>
@@ -134,7 +134,7 @@ const LandingPage = () => {
               </div>
             )}
             <div className={`d-flex justify-content-end ${showSearchParams ? "col-6" : "col-12"}`}>
-              {store?.webResources?.length > 0 &&
+              {store?.definitions?.length > 0 &&
                 <ReactPaginate
                   previousLabel={''}
                   nextLabel={''}
