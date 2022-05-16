@@ -1,9 +1,18 @@
 import fiBrChartPieAlt from '@src/assets/images/icons/fiBrChartPieAlt.png'
 import subTitles from '@src/assets/images/icons/subTitles.png'
 import { useEffect, useState } from 'react'
-import { Button } from 'reactstrap'
-import {isNotLightSkin} from '../../../utility/Utils'
+import { 
+  Card,
+  CardTitle,
+  Row,
+  Col,
+  Button,
+  UncontrolledButtonDropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle } from 'reactstrap'
 import axios from '../../../axios'
+import Chart from 'react-apexcharts'
 
 const CategoryCard = () => {
     const [activeCard, setActiveCard] = useState("A1")
@@ -41,15 +50,93 @@ const CategoryCard = () => {
         })
       }
 
+      const [categoriesNames, setCategoriesNames] = useState(null)
+      const [categoriesValues, setCategoriesValues] = useState(null)
+
       useEffect(() => {
         getSectors()
         getCategories()
         getPeriodicites()
+        
       }, [])
 
+      useEffect(() => {
+        if (periodicites) {
+          setCategoriesNames(periodicites.map(item => item.name_A))
+          setCategoriesValues(periodicites.map(item => item.indicatorCount))
+        }
+      }, [periodicites])
+
+      console.log(periodicites)
+
+
+      //chart options
+      const revenueOptions = {
+        chart: {
+          stacked: true,
+          type: 'bar',
+          toolbar: { show: true }
+        },
+        grid: {
+          padding: {
+            bottom: -10
+          },
+          yaxis: {
+            lines: { show: true }
+          },
+          xaxis: {
+            lines: { show: true }
+          }
+        },
+        xaxis: {
+          categories: categoriesNames,
+          labels: {
+            style: {
+              colors: '#6e6b7b',
+              fontSize: '1rem'
+            }
+          },
+          axisTicks: {
+            show: true
+          },
+          axisBorder: {
+            show: true
+          }
+        },
+        legend: {
+          show: false
+        },
+        dataLabels: {
+          enabled: false
+        },
+        colors: ["#7367f0"],
+        plotOptions: {
+          bar: {
+            columnWidth: '17%',
+            endingShape: 'rounded'
+          },
+          distributed: true
+        },
+        yaxis: {
+          labels: {
+            style: {
+              colors: '#6e6b7b',
+              fontSize: '0.86rem'
+            }
+          }
+        }
+      },
+      revenueSeries = [
+        {
+          name: "indicator count",
+          data: categoriesValues
+        }
+      ]
+
+
     return (
-    <div className="pb-2 px-2">
-        <div className="d-flex flex-column card p-2 mt-2" style={{borderRadius: 20}}>
+      <div className="d-flex flex-xl-row flex-column pb-2 px-2">
+        <div className="d-flex flex-column col-xl-8 col-12 card h-100 p-2 mt-2 mb-0" style={{borderRadius: 20}}>
             
             <div className='d-flex justify-content-center align-items-center mb-2' style={{height: 30}}>
                 <div className={`${activeCard !== "A1" ? "" : "align-self-start"}`}><p className={`mb-0 ${activeCard !== "A1" ? "text-muted" : ""}`} style={{fontSize: 18, borderBottom: activeCard === "A1" ? "1px solid" : "unset", cursor:"pointer"}} onClick={() => {
@@ -58,9 +145,9 @@ const CategoryCard = () => {
                 <div className={`${activeCard !== "A2" ? "" : "align-self-start"}`}><p className={`mb-0 mx-2 ${activeCard !== "A2" ? "text-muted" : ""}`} style={{fontSize: 18, borderBottom: activeCard === "A2" ? "1px solid" : "unset", cursor:"pointer"}} onClick={() => {
                     setActiveCard("A2")
                 }}>التصنيفات</p></div>
-                <div className={`${activeCard !== "A3" ? "" : "align-self-start"}`}><p className={`mb-0 ${activeCard !== "A3" ? "text-muted" : ""}`} style={{fontSize: 18, borderBottom: activeCard === "A3" ? "1px solid" : "unset", cursor:"pointer"}} onClick={() => {
+                {/* <div className={`${activeCard !== "A3" ? "" : "align-self-start"}`}><p className={`mb-0 ${activeCard !== "A3" ? "text-muted" : ""}`} style={{fontSize: 18, borderBottom: activeCard === "A3" ? "1px solid" : "unset", cursor:"pointer"}} onClick={() => {
                     setActiveCard("A3")
-                }}>الدوريات</p></div>
+                }}>الدوريات</p></div> */}
             </div>
 
             {activeCard === "A1" && <>
@@ -68,19 +155,19 @@ const CategoryCard = () => {
                     {/* "#161d31" */}
                     {sectors.map((item, index) => {
                         return (
-                            <div className='col-xl-3 col-lg-6 col-12 px-2 py-xl-0 py-2 my-1'>
+                            <div className='col-lg-6 col-12 px-2 py-xl-0 py-2 my-1'>
                             <div className="d-flex justify-content-center align-items-center flex-column py-1" style={{backgroundColor: "#eaeaeb", borderRadius: 20}}>
                                 <div className='d-flex flex-wrap col-12 pb-1'>
-                                    <div className='text-center col-xl-2 col-lg-12 col-2'><img src={fiBrChartPieAlt} width="22px"/></div>
-                                    <div className='text-center col-xl-7 col-lg-12 col-7' style={{fontSize: 18, fontWeight: "bold"}}>{item.name_A}</div>
-                                    <div className='text-center col-xl-3 col-lg-12 col-3' style={{color: "#3D5484", fontSize: 18}}>{item.indicatorCount}</div>
+                                    <div className='text-center col-xl-2 col-lg-12 col-2'><img src={fiBrChartPieAlt} width="20px"/></div>
+                                    <div className='text-center col-xl-7 col-lg-12 col-7' style={{fontSize: 16, fontWeight: "bold"}}>{item.name_A}</div>
+                                    <div className='text-center col-xl-3 col-lg-12 col-3' style={{color: "#3D5484", fontSize: 16}}>{item.indicatorCount}</div>
                                 </div>
                                 <div className='d-flex flex-column col-12'>
                                     {item.childNames.map((child,  childIndex) => {
                                         return (
                                             <div className='d-flex col-12 pb-1 px-2'>
                                                 <div><img src={subTitles} width="15px"/></div>
-                                                <div className='col-11' style={{fontSize: 18}}>{child}</div>
+                                                <div className='col-11' style={{fontSize: 14}}>{child}</div>
                                             </div>
                                         )
                                     })}
@@ -125,7 +212,7 @@ const CategoryCard = () => {
                     </div> */}
                 </div>
                 <div className='mt-2 mb-1 d-flex justify-content-end col-12 px-0'>
-                    <div  className="col-xl-3 col-sm-4 col-6 px-2">
+                    <div  className="px-2" style={{width: 300}}>
                         <Button type='submit' className="w-100" color='green' style={{fontSize: 18}} onClick={() => {}}>عرض الكل</Button>
                     </div>
                 </div>
@@ -140,7 +227,7 @@ const CategoryCard = () => {
                     {/* "#161d31" */}
                     {categories.map((item, index) => {
                         return (
-                          <div className="col-xl-2 col-md-4 col-6 px-2 py-xl-0 py-2">
+                          <div className="col-md-4 col-sm-6 col-12 px-2 py-xl-0 py-2">
                             <div
                               className="d-flex justify-content-center align-items-center flex-column py-1"
                               style={{
@@ -153,11 +240,11 @@ const CategoryCard = () => {
                               </div>
                               <div
                                 className="py-1 text-center"
-                                style={{ fontSize: 18 }}
+                                style={{ fontSize: 16 }}
                               >
                                 {item.name_A}
                               </div>
-                              <div style={{ color: "#3D5484", fontSize: 18 }}>
+                              <div style={{ color: "#3D5484", fontSize: 16 }}>
                                 {item.indicatorCount}
                               </div>
                             </div>
@@ -166,14 +253,15 @@ const CategoryCard = () => {
                     })}
                 </div>
                 <div className='mt-2 mb-1 d-flex justify-content-end col-12 px-0'>
-                    <div  className="col-xl-2 col-sm-4 col-6 px-2">
+                    <div  className="px-2" style={{width: 300}}>
                         <Button type='submit' className="w-100" color='green' style={{fontSize: 18}} onClick={() => {}}>عرض الكل</Button>
                     </div>
                 </div>
             </>}
-            {activeCard === "A3" && <>
+            
+            {/* "#161d31" */}
+            {/* {activeCard === "A3" && <>
                 <div className="d-flex flex-wrap">
-                    {/* "#161d31" */}
                     {periodicites.map((item, index) => {
                         return (
                           <div className="col-xl-2 col-md-4 col-6 px-2 py-xl-0 py-2">
@@ -206,8 +294,31 @@ const CategoryCard = () => {
                         <Button type='submit' className="w-100" color='green' style={{fontSize: 18}} onClick={() => {}}>عرض الكل</Button>
                     </div>
                 </div>
-            </>}
+            </>} */}
         
+        </div>
+
+        <div className='col-xl-4 col-12'>
+          <div className="d-flex flex-column w-100 card p-2 mt-2" style={{ borderRadius: 20, height: 400 }}>
+            <div className='d-sm-flex justify-content-between align-items-center mb-3'>
+              <CardTitle className='mb-50 mb-sm-0'>الدوريات</CardTitle>
+              <div className='d-flex align-items-center'>
+                {/* <div className='d-flex align-items-center mr-2'>
+                  <span className='bullet bullet-primary mr-50 cursor-pointer'></span>
+                  <span>Earning</span>
+                </div>
+                <div className='d-flex align-items-center'>
+                  <span className='bullet bullet-warning mr-50 cursor-pointer'></span>
+                  <span>Expense</span>
+                </div> */}
+              </div>
+            </div>
+            <Chart id='revenue-report-chart' width={"100%"} type='bar' height='240' options={revenueOptions} series={revenueSeries} />
+            {/* 
+            "line" | "area" | "bar" | "histogram" | "pie" | "donut" | "rangeBar" |
+            "radialBar" | "scatter" | "bubble" | "heatmap" | "candlestick" | "radar",
+            */}
+          </div>
         </div>
     </div>)
 }

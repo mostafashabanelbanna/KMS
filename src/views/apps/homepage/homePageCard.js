@@ -65,13 +65,13 @@ const HomeCard = ({ title, addedLatelyComp, favorite }) => {
           </div>
           <div className="col-11 px-2">
             <div className="d-flex flex-column">
-              <h2 className="mb-1">عناصر البيانات</h2>
+              <h2 className="mb-1" style={{fontSize: 20}}>عناصر البيانات</h2>
               {!favorite && indicators.map((item, index) => {
                 return (
                   <><div className="d-flex flex-wrap align-items-start col-12">
                     <div className="col-lg-8 col-12 p-0 mb-xl-0 mb-1">
                     <Link to={{ pathname: `/indicator/indicatorDetails/${item.id}`, state: { Id : item.id}}}  className="mb-0" style={{ fontSize: 16 }}>{item.name_A}</Link>
-                      <p className="mb-0 text-muted" style={{ fontSize: 17 }}>{item.description_A}</p>
+                      <p className="mb-0 text-muted" style={{ fontSize: 16 }}>{item.description_A}</p>
                     </div>
                     {addedLatelyComp && <div className="col-lg-4 col-12 d-flex align-items-center justify-content-end">
                       <p className="px-1 mb-0">{formatDate(item.createDate)}</p>
@@ -89,7 +89,7 @@ const HomeCard = ({ title, addedLatelyComp, favorite }) => {
                   <><div className="d-flex flex-wrap align-items-start col-12">
                     <div className="col-lg-8 col-12 p-0 mb-xl-0 mb-1">
                       <Link to={{ pathname: `/indicator/indicatorDetails/${item.id}`, state: { Id : item.id}}} className="mb-0" style={{ fontSize: 16 }}>{item.name_A}</Link>
-                      <p className="mb-0 text-muted" style={{ fontSize: 17 }}>{item.description_A}</p>
+                      <p className="mb-0 text-muted" style={{ fontSize: 16 }}>{item.description_A}</p>
                     </div>
 
                     {addedLatelyComp && <div className="col-lg-4 col-12 d-flex align-items-center justify-content-end">
@@ -111,7 +111,7 @@ const HomeCard = ({ title, addedLatelyComp, favorite }) => {
           </div>
           <div className="col-11 px-2">
             <div className="d-flex flex-column">
-              <h3 className="mb-1">إصدارات</h3>
+              <h3 className="mb-1" style={{fontSize: 20}}>إصدارات</h3>
               {!favorite && docuements.map((item, index) => {
                 return (
                   <>
