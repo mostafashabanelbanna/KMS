@@ -1,6 +1,31 @@
 import axios from '../../../../../axios'
 import { isLoading, isNotLoading } from '../../../../../redux/actions/layout'
 
+export const getParams = params => {
+  const departments = []
+  const providers = []
+  const status = []
+  params.departments.forEach(element => {
+    departments.push(element.id)
+  })
+
+  params.providers.forEach(element => {
+    providers.push(element.id)
+  })
+
+  params.status.forEach(element => {
+    status.push(element.id)
+  })
+  const data = {
+    ...params,
+    departments,
+    providers,
+    status
+  }
+  console.log(data)
+  return data
+}
+
 // ** Get users data 
 export const getData = params => {
   return async dispatch => {
@@ -31,6 +56,35 @@ export const getData = params => {
     })
   }
 }
+
+
+export const getInquiriesFront = params => {
+  return async dispatch => {
+    dispatch(isLoading())
+    await axios.post('/Inquiry/GetInquiriesWithPaginationFront', params).then(response => {
+      dispatch({
+        type: 'GET_INQUIRY_FRONT_DATA',
+        data: response.data.data.items,
+        totalPages: response.data.data.totalPages
+      })
+      dispatch(isNotLoading())
+
+    }).catch(error => {
+      const ErrorCode = 500
+      if (error.response) {
+        ErrorCode = error.response.status
+      }
+      dispatch({
+        type: 'GET_INQUIRY_DATA',
+        data : [],
+        errorCode : ErrorCode
+      })
+      dispatch(isNotLoading())
+
+    })
+  }
+}
+
 
 export const addInquiry = inquiry => {
    const inquiryFormData = new FormData()

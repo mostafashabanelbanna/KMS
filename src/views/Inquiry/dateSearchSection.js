@@ -12,21 +12,21 @@ import { useDispatch, useSelector } from 'react-redux'
 const DateSearchSection = () => {
     const intl = useIntl()
     const dispatch = useDispatch()
-    const store = useSelector(state => state.frontIndicators)
+    const store = useSelector(state => state.inquiries)
 
     const handleStartDate = (event) => {
         const date = moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY")
         .format("YYYY-MM-DD")
         .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
-        dispatch({type: "SET_FRONT_INDICATOR_DATE_FROM", dateFrom: date })
+        dispatch({type: "SET_FRONT_INQUIRY_PARAMS", frontParams: {...store.frontParams, dateFrom: date} })
       }
 
       const handleEndDate = (event) => {
         const date = moment(new Date(event._d).toLocaleDateString(), "MM-DD-YYYY")
         .format("YYYY-MM-DD")
         .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+        dispatch({type: "SET_FRONT_INQUIRY_PARAMS", frontParams: {...store.frontParams, dateFrom: date} })
 
-        dispatch({type: "SET_FRONT_INDICATOR_DATE_TO", dateTo: date })
       }
 
     return <div className="d-flex flex-column px-2 pb-2">
@@ -53,7 +53,7 @@ const DateSearchSection = () => {
                 okLabel="تحديد"
                 cancelLabel="الغاء"
                 format="L"
-                value={store.dateFrom}
+                value={store.frontParams.dateFrom}
                 inputVariant="outlined"
                 variant="dialog"
                 maxDateMessage=""
@@ -78,7 +78,7 @@ const DateSearchSection = () => {
                 okLabel="تحديد"
                 cancelLabel="الغاء"
                 format="L"
-                value={store.dateTo}
+                value={store.frontParams.dateTo}
                 inputVariant="outlined"
                 variant="dialog"
                 maxDateMessage=""

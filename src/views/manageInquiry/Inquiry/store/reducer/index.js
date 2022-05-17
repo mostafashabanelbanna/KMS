@@ -27,7 +27,23 @@ const initialState = {
     },
     selectedInquiry:{},
     allClassifications: [],
-    selectedClassificationValues: [{classificationValues: []}]
+    selectedClassificationValues: [{classificationValues: []}],
+
+    // Front Data
+    frontData: [],
+    frontTotalPages: 1,
+    frontParams: {
+      pageNumber: 1,
+      rowsPerPage: 10,
+      name: '',
+      dateFrom: new Date("2004-01-01"),
+      dateTo: new Date(),
+      departments: [],
+      providers: [],
+      status: []
+    }
+
+
   }
   
   const Inquiry = (state = initialState, action) => {
@@ -39,6 +55,12 @@ const initialState = {
           totalPages: action.totalPages,
           params: action.params,
           errorCode : action.errorCode
+        }
+      case 'GET_INQUIRY_FRONT_DATA':
+        return {
+          ...state,
+          frontData: action.data,
+          frontTotalPages: action.totalPages
         }
       case 'GET_INQUIRY':
         return { ...state, selectedInquiry: action.selectedInquiry, errorCode: action.errorCode }
@@ -60,7 +82,8 @@ const initialState = {
         return { ...state, updateResponse: {error:{}, statusCode: 0, errors:[]}}
       case 'RESET_INQUIRY_DELETE_RESPONSE':
         return { ...state, deleteResponse: {error:{}, statusCode: 0, errors:[]}}   
-     
+      case 'SET_FRONT_INQUIRY_PARAMS':
+        return { ...state, frontParams: action.frontParams}  
       default:
         return { ...state }
     }

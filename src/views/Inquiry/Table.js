@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 
 // ** Store & Actions
-import {  getData, getInquiry, resetCreateResponse, resetUpdateResponse, deleteInquiry, resetDeleteResponse} from '../manageInquiry/Inquiry/store/action'
+import { getData, getInquiriesFront, getParams} from '../manageInquiry/Inquiry/store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -110,14 +110,12 @@ const InquiryList = () => {
   // ** Get data on mount
   useEffect(() => {
     dispatch(
-      getData({
-        pageNumber,
-        rowsPerPage,
-        ...searchData
-      })
+      getInquiriesFront(getParams({
+        ...store.frontParams
+      }))
     )
     getDepartments()
-  }, [dispatch, store.data.length])
+  }, [dispatch, store.frontData.length])
 
   useEffect(() => {
     if (store.getResponse.statusCode !== 200 && store.getResponse.statusCode !== 0) {
@@ -134,16 +132,16 @@ const InquiryList = () => {
 
   // ** Function in get data on page change
   const handlePagination = page => {
-    setPageNumber(page.selected + 1)
+    dispatch({type: "SET_FRONT_INQUIRY_PARAMS", frontParams: {...store.frontParams, pageNumber: page.selected + 1} })
   }
 
   useEffect(() => {
-    dispatch(getData({
-      ...searchData,
-      pageNumber,
-      rowsPerPage
-    }))
-  }, [pageNumber])
+    dispatch(
+      getInquiriesFront(getParams({
+        ...store.frontParams
+      }))
+    )
+  }, [store.frontParams.pageNumber])
 
   // ** Custom Pagination
   const CustomPagination = () => {
@@ -170,8 +168,8 @@ const InquiryList = () => {
 
   // ** Table data to render
   const dataToRender = () => {
-    if (store.data.length > 0 && !store.error) {
-      return store.data
+    if (store.frontData.length > 0) {
+      return store.frontData
     } 
   }
   
@@ -230,13 +228,13 @@ const InquiryList = () => {
                     </Button.Ripple>
                 </div>
                 <div>
-                  {store.data.length > 0 &&
+                  {store.frontData.length > 0 &&
                     <ReactPaginate
                       previousLabel={''}
                       nextLabel={''}
-                      pageCount={store.totalPages || 1}
+                      pageCount={store.frontTotalPages || 1}
                       activeClassName='active'
-                      forcePage={pageNumber !== 0 ? pageNumber - 1 : 0}
+                      forcePage={store.frontParams.pageNumber !== 0 ? store.frontParams.pageNumber - 1 : 0}
                       onPageChange={page => handlePagination(page)}
                       pageClassName={'page-item'}
                       nextLinkClassName={'page-link'}
@@ -255,7 +253,7 @@ const InquiryList = () => {
           <div className='row'>
               <div className='col-md-12'>
                 {layoutStore.loading === true && <ComponentSpinner/>}
-                {layoutStore.loading === false && store.data.map((item, idx) => (
+                {layoutStore.loading === false && store.frontData.map((item, idx) => (
                   <InquiryCard key={idx} item={item}/>
                 ))}
               </div>

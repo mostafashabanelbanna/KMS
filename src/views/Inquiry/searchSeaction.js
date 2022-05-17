@@ -6,67 +6,72 @@ import axios from '../../axios'
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import DateSearchSection from "./dateSearchSection"
+import { getInquiriesFront } from "../manageInquiry/Inquiry/store/action"
 // import { getData } from '../store/action/index'
 
 const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) => {
   // redux states
   const dispatch = useDispatch()
-  const store = useSelector(state => state.frontIndicators)
+  const store = useSelector(state => state.inquiries)
   const layoutStore = useSelector(state => state.layout)
 
   // States
-  const [sources, setSources] = useState([])
-  const [periodicities, setPeriodicities] = useState([])
-  const [sectors, setSectors] = useState([])
-  const [categories, setCategories] = useState([])
+  const [departments, setDepartments] = useState([])
+  const [status, setStatus] = useState([])
+  const [providers, setProviders] = useState([])
 
-  const getAllDropDowns = async () => {
-    await axios.get(`/Indicator/GetSearchDropdownListsForIndicator`)
+  const getDepartments = async () => {
+    await axios.post(`/Lookups/GetLookupValues`, {lookupName: 'Department'})
     .then(response => {
-        const result = response.data.data
-        setSources(result.sources)
-        setPeriodicities(result.periodicities)
-        setSectors(result.sectors)
-        setCategories(result.categories)
+        setDepartments(response.data.data)
        })
        .catch(error => {
     })
   }
-  const handlePeriodicityChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: e })
+  const getStatus = async () => {
+    await axios.post(`/Lookups/GetLookupValues`, {lookupName: 'InquiryStatus'})
+    .then(response => {
+        setStatus(response.data.data)
+       })
+       .catch(error => {
+    })
   }
-  const handleSourceChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_SOURCE", sources: e })
+  const getProviders = async () => {
+    await axios.get(`/Provider/GetProviders`)
+    .then(response => {
+        setProviders(response.data.data)
+       })
+       .catch(error => {})
   }
-  const handleCategoryChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: e })
+  
+  const handleDepartmentChange = (e) => {
+    dispatch({type: "SET_FRONT_INQUIRY_PARAMS", frontParams: {...store.frontParams, departments: e} })
   }
-  const handleSectorChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: e })
+  const handleStatusChange = (e) => {
+    dispatch({type: "SET_FRONT_INQUIRY_PARAMS", frontParams: {...store.frontParams, status: e} })
+  }
+  const handleProviderChange = (e) => {
+    dispatch({type: "SET_FRONT_INQUIRY_PARAMS", frontParams: {...store.frontParams, providers: e} })
   }
   const handleNameChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_NAME", name: e.target.value })
+    dispatch({type: "SET_FRONT_INQUIRY_PARAMS", frontParams: {...store.frontParams, name: e.target.value} })
   }
   const removeSearch = () => {
-    dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: []})
-    dispatch({type: "SET_FRONT_INDICATOR_SOURCE", sources: []})
-    dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: []})
-    dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: []})
-    dispatch({type: "SET_FRONT_INDICATOR_NAME", name: ''})
-    const submitedData = {
-      pageNumber: 1,
-      rowsPerPage: 10,
+    params = {
       name: '',
-      periodicities: [],
-      sources: [],
-      classificationValues: [],
-      startDate: store.dateFrom,
-      endDate: store.dateTo
+      dateFrom: new Date(),
+      dateTo: new Date(),
+      departments: [],
+      providers: [],
+      status: []
     }
-    // dispatch(getData(submitedData))
+    dispatch({type: "SET_FRONT_INQUIRY_PARAMS", frontParams: params })
+    dispatch(getInquiriesFront(params))
   }
   useEffect(() => {
-    getAllDropDowns()
+    getProviders()
+    getStatus()
+    getDepartments()
   }, [])
     return (
       <div
@@ -127,11 +132,11 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
 
         <DateSearchSection/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"الإدارة"} values={store.periodicities} options={periodicities} handleValueChange={handlePeriodicityChange}/>
+        <MultiselectionSection title={"الإدارة"} values={store.frontParams.departments} options={departments} handleValueChange={handleDepartmentChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"الحالة"} values={store.sources} options={sources} handleValueChange={handleSourceChange}/>
+        <MultiselectionSection title={"الحالة"} values={store.frontParams.status} options={status} handleValueChange={handleStatusChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"مزود البيانات"} values={store.categories} options={categories} handleValueChange={handleCategoryChange}/>
+        <MultiselectionSection title={"مزود البيانات"} values={store.frontParams.providers} options={providers} handleValueChange={handleProviderChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
 
         {/*  */}
