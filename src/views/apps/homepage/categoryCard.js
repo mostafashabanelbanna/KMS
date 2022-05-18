@@ -75,7 +75,7 @@ const CategoryCard = () => {
         chart: {
           stacked: true,
           type: 'bar',
-          toolbar: { show: true }
+          toolbar: { show: false }
         },
         grid: {
           padding: {
@@ -85,7 +85,7 @@ const CategoryCard = () => {
             lines: { show: true }
           },
           xaxis: {
-            lines: { show: true }
+            lines: { show: false }
           }
         },
         xaxis: {
@@ -97,7 +97,7 @@ const CategoryCard = () => {
             }
           },
           axisTicks: {
-            show: true
+            show: false
           },
           axisBorder: {
             show: true
