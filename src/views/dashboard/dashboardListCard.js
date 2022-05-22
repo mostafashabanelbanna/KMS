@@ -14,6 +14,7 @@ const DashboardCard = (item) => {
         borderRadius: 6,
         height: "max-content"
       }}
+      key={item.item.id}
     >
       <div className="d-flex">
         <div className="d-flex align-items-center dark-layout mb-1 px-2 col-10 font-18">
@@ -60,42 +61,8 @@ const DashboardCard = (item) => {
                     style={{
                       padding: "0.5rem",
                       backgroundColor: "#edeff6",
-                      borderRadius: 8
-                    }}
-                  >
-                    إجمالي عناصر البيانات المستخدمة&nbsp;&nbsp;
-                    <span style={{ color: "#7367f0", fontWeight: "bold" }}>
-                      {item.item.indicators.length > 0 ? item.item.indicators.length : 0}
-                    </span>
-                  </p>
-                </div>
-                {item.item.indicators.length > 0 && (
-                  <Tooltip
-                    placement="top"
-                    isOpen={tooltipOpen}
-                    target={`dashboardTooltip${item.item.id}`}
-                    toggle={() => setTooltipOpen(!tooltipOpen)}
-                  >
-                    Hello World !
-                  </Tooltip>
-                )}
-              </Fragment>
-            )}
-          </div>
-        ) : (
-          <div className="d-flex flex-wrap justify-content-end col-12 px-2">
-            {item.item.indicators && (
-              <Fragment>
-                <div
-                  className="d-flex align-items-center col-md-4 col-12"
-                  id={`dashboardTooltip${item.item.id}`}
-                >
-                  <p
-                    className="mb-0 w-100 text-center"
-                    style={{
-                      padding: "0.5rem",
-                      backgroundColor: "#edeff6",
-                      borderRadius: 8
+                      borderRadius: 8,
+                      fontSize:12
                     }}
                   >
                     إجمالي عناصر البيانات المستخدمة&nbsp;&nbsp;
@@ -114,6 +81,46 @@ const DashboardCard = (item) => {
                     <div className="d-flex flex-column">
                       {item.item.indicators.map((item, index) => {
                         return <div>{item.name}</div>
+                      })}
+                    </div>
+                  </Tooltip>
+                )}
+              </Fragment>
+            )}
+          </div>
+        ) : (
+          <div className="d-flex flex-wrap justify-content-end col-12 px-2">
+            {item.item.indicators && (
+              <Fragment>
+                <div
+                  className="d-flex align-items-center col-md-4 col-12"
+                  id={`dashboardTooltip${item.item.id}`}
+                >
+                  <p
+                    className="mb-0 w-100 text-center"
+                    style={{
+                      padding: "0.5rem",
+                      backgroundColor: "#edeff6",
+                      borderRadius: 8,
+                      fontSize:12
+                    }}
+                  >
+                    إجمالي عناصر البيانات المستخدمة&nbsp;&nbsp;
+                    <span style={{ color: "#7367f0", fontWeight: "bold" }}>
+                      {item.item.indicators.length > 0 ? item.item.indicators.length : 0}
+                    </span>
+                  </p>
+                </div>
+                {item.item.indicators.length > 0 && (
+                  <Tooltip
+                    placement="top"
+                    isOpen={tooltipOpen}
+                    target={`dashboardTooltip${item.item.id}`}
+                    toggle={() => setTooltipOpen(!tooltipOpen)}
+                  >
+                    <div className="d-flex flex-column">
+                      {item.item.indicators.map((item, index) => {
+                        return <div key={item.id}>{item.name}</div>
                       })}
                     </div>
                   </Tooltip>
