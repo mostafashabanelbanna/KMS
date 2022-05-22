@@ -1,21 +1,20 @@
 import { useIntl } from "react-intl"
 import { useEffect, useState } from "react"
 import Breadcrumbs from "@components/breadcrumbs"
-import IndicatorCard from "./indicatorListCard"
-import SearchParamsCard from "./searchParamsCard"
 import SearchSection from "./searchSeaction"
 import { faSliders } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useDispatch, useSelector } from 'react-redux'
-import { getData } from './../store/action/index'
-import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
+import { getData } from './store/action/index'
+import ComponentSpinner from '../../@core/components/spinner/Fallback-spinner'
 import ReactPaginate from 'react-paginate'
+import DashboardCard from './dashboardListCard'
 
 
 const LandingPage = () => {
   // redux states
   const dispatch = useDispatch()
-  const store = useSelector(state => state.frontIndicators)
+  const store = useSelector(state => state.FrontDashboards)
   const layoutStore = useSelector(state => state.layout)
 
   const [showSearchParams, setShowSearchParams] = useState(false)
@@ -26,35 +25,19 @@ const LandingPage = () => {
   const intl = useIntl()
 
   const getIndicators = (pNumber, rPerPage) => {
-    const periods = []
-    const srcs = []
-    const _classificationValues = []
+    const indicatorsIDs = []
 
-    store.periodicities.forEach(element => {
-      periods.push(element.id)
+    store.indicatorIds.forEach(element => {
+      indicatorsIDs.push(element.id)
     })
 
-    store.sources.forEach(element => {
-      srcs.push(element.id)
-    })
-
-    store.sectors.forEach(element => {
-      _classificationValues.push(element.id)
-    })
-
-    store.categories.forEach(element => {
-      _classificationValues.push(element.id)
-    })
+    console.log(indicatorsIDs)
 
     const submitedData = {
       pageNumber: pNumber,
-      rowsPerPage: rPerPage,
+      pageSize: rPerPage,
       name: store.name,
-      periodicities: periods,
-      sources: srcs,
-      classificationValues: _classificationValues,
-      startDate: store.dateFrom,
-      endDate: store.dateTo
+      indicatorIds: indicatorsIDs
     }
     dispatch(getData(submitedData))
   }
@@ -79,17 +62,16 @@ const LandingPage = () => {
   return (
     <>
       <Breadcrumbs
-        breadCrumbTitle={intl.formatMessage({ id: "Indicators And Datasets" })}
-        breadCrumbActive={intl.formatMessage({ id: "Indicators And Datasets" })}
+        breadCrumbTitle={intl.formatMessage({ id: "Dashboards" })}
+        breadCrumbActive={intl.formatMessage({ id: "Dashboards" })}
         breadCrumbParent={intl.formatMessage({ id: "Researchers Services" })}
-        breadCrumbRoot={intl.formatMessage({ id: "Homepage" })}
       />
       <div className="d-flex">
         <div className="d-flex flex-column col-lg-8 col-12">
           <div className="d-flex mb-2 align-items-center">
             {!showSearchParams ? (
               <>
-                <div className="d-flex flex-column col-6">
+                {/* <div className="d-flex flex-column col-6">
                   <p className="mb-0">نتائج البحث :  {store.totalCount}  نتيجة</p>
                   <p
                     className="mb-0 text_green"
@@ -100,7 +82,7 @@ const LandingPage = () => {
                   >
                     عرض عناصر البحث
                   </p>
-                </div>
+                </div> */}
                 <div className="d-flex justify-content-end col-6">
                   {/* {store.data.length > 0 &&
                     <ReactPaginate
@@ -138,8 +120,8 @@ const LandingPage = () => {
           {showSearchSection === true ? <div className="d-flex flex-lg-row flex-column-reverse">
             <div className="col-12 px-0">
               {layoutStore.loading === true && <ComponentSpinner />}
-              {layoutStore.loading === false && store.data.map((item, idx) => (
-                <IndicatorCard key={idx} item={item} />
+              {layoutStore.loading === false && store?.dashboards?.map((item, idx) => (
+                <DashboardCard key={idx} item={item} />
               ))}
 
             </div>
@@ -154,7 +136,7 @@ const LandingPage = () => {
               </div>
             )}
             <div className={`d-flex justify-content-end ${showSearchParams ? "col-6" : "col-12"}`}>
-              {store.data.length > 0 &&
+              {store?.dashboards?.length > 0 &&
                 <ReactPaginate
                   previousLabel={''}
                   nextLabel={''}

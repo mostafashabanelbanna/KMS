@@ -65,11 +65,11 @@ const LandingPage = () => {
         breadCrumbParent={intl.formatMessage({ id: "Researchers Services" })}
       />
       <div className="d-flex">
-        <div className="d-flex flex-column col-lg-8 col-xl-9 col-12">
+        <div className="d-flex flex-column col-lg-8 col-12">
           <div className="d-flex mb-2 align-items-center">
             {!showSearchParams ? (
               <>
-                <div className="d-flex flex-column col-6">
+                {/* <div className="d-flex flex-column col-6">
                   <p className="mb-0">نتائج البحث :  {store.totalCount}  نتيجة</p>
                   <p
                     className="mb-0 text_green"
@@ -80,7 +80,7 @@ const LandingPage = () => {
                   >
                     عرض عناصر البحث
                   </p>
-                </div>
+                </div> */}
                 <div className="d-flex justify-content-end col-6">
                   {/* {store.data.length > 0 &&
                     <ReactPaginate
@@ -156,7 +156,7 @@ const LandingPage = () => {
 
         </div>
 
-        <div className="d-none d-lg-block col-lg-4 col-xl-3 col-12">
+        <div className="d-none d-lg-block col-lg-4 col-12">
           <SearchSection handleSearch={handleSearchSubmit} />
         </div>
       </div>

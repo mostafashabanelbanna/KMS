@@ -82,5 +82,11 @@ export default [
     title: "Favorites",
     icon: <FaHeart size={20} />,
     navLink: "/Favorite"
+  },
+  {
+    id: "Dashboards",
+    title: "Dashboards",
+    icon: <BookOpen size={20} />,
+    navLink: "/Dashboards/landingPage"
   }
 ]

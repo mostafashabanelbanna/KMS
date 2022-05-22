@@ -36,13 +36,13 @@ const InquiryList = () => {
         }} />
       </div>
       <div className='d-flex w-100'>
-        {showSearchSection === true ? <div className='d-flex flex-column col-lg-8 col-xl-9 col-12'>
+        {showSearchSection === true ? <div className='d-flex flex-column col-lg-8 col-12'>
           <Table />
         </div> : <div className="d-block d-lg-none col-12">
           <SearchSection  handleSearch={handleSearchSubmit}/>
           {/* handleSearch={handleSearchSubmit} /> */}
         </div>}
-        <div className="d-none d-lg-block col-lg-4 col-xl-3 col-12">
+        <div className="d-none d-lg-block col-lg-4 col-12">
           <SearchSection handleSearch={handleSearchSubmit} />
           {/* handleSearch={handleSearchSubmit} /> */}
         </div>

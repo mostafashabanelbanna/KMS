@@ -10,7 +10,7 @@ import ResourcesSlider from './resourcesSlider'
 const Homepage = () => {
   
   return (
-    <div style={{overflowY: "auto"}}>
+    <div style={{overflowY: "auto"}} className="w-100">
       <h4>الصفحة الرئيسية</h4>
       <CategoryCard />
       <div className='d-flex flex-lg-row flex-column w-100'>

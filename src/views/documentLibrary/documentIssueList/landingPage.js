@@ -83,7 +83,7 @@ const LandingPage = () => {
         breadCrumbRoot={intl.formatMessage({ id: "Homepage" })}
       />
       <div className="d-flex">
-        <div className="d-flex flex-column col-lg-8 col-xl-9 col-12">
+        <div className="d-flex flex-column col-lg-8 col-12">
           <div className="d-flex mb-2 align-items-center">
             {!showSearchParams ? (
               <>
@@ -172,7 +172,7 @@ const LandingPage = () => {
             </div>
         </div>
 
-        <div className="d-none d-lg-block col-lg-4 col-xl-3 col-12">
+        <div className="d-none d-lg-block col-lg-4 col-12">
           <SearchSection handleSearch={handleSearchSubmit}/>
         </div>
       </div>
