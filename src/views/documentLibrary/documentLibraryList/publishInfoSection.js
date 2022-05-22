@@ -7,11 +7,11 @@ const PublishInformation = ({ details }) => {
         return (
             <div className="col-xl-2 col-lg-3 col-12 card d-flex flex-column">
                 <div className="d-flex mt-2 align-items-center">
-                    <p className="mb-0 col-12 p-0" style={{ fontSize: 18, color: "#3d5484" }}>بيانات الإصدارة</p>
+                    <p className="mb-0 col-12 p-0" style={{ fontSize: 16, color: "#3d5484" }}>بيانات الإصدارة</p>
                 </div>
                 <hr className="w-100" />
                 {/* <div>
-                    <p style={{ fontSize: 18 }}>{details?.date ? `تم اخر تحديث في ${details?.date}` : "تم اخر تحديث في مايو 2022"}</p> 
+                    <p style={{ fontSize: 16 }}>{details?.date ? `تم اخر تحديث في ${details?.date}` : "تم اخر تحديث في مايو 2022"}</p> 
                     
                 </div>
                 <div className="my-1 d-flex justify-content-center">
@@ -20,7 +20,7 @@ const PublishInformation = ({ details }) => {
                 {details?.description && 
                 <>
                 <div>
-                    <p style={{ fontSize: 18, color: "#3d5484" }}>الوصف</p>
+                    <p style={{ fontSize: 16, color: "#3d5484" }}>الوصف</p>
                 </div>
                 <div>
                     <p style={{ fontSize: 17, lineHeight: 1.5, textAlign: "justify" }}>{details?.description}</p>
@@ -28,7 +28,7 @@ const PublishInformation = ({ details }) => {
                 </>}
                 {details?.periodicityName && <>
                 <div>
-                    <p style={{ fontSize: 18, color: "#3d5484" }}>الدوريات</p>
+                    <p style={{ fontSize: 16, color: "#3d5484" }}>الدوريات</p>
                 </div>
                 <div className="d-flex flex-wrap">
                     <div
@@ -44,7 +44,7 @@ const PublishInformation = ({ details }) => {
                 </div>
                 </>}
                 {details?.sourceName && <><div>
-                    <p style={{ fontSize: 18, color: "#3d5484" }}>المصادر</p>
+                    <p style={{ fontSize: 16, color: "#3d5484" }}>المصادر</p>
                 </div>
                 <div className="d-flex flex-wrap">
                     <div
@@ -63,7 +63,7 @@ const PublishInformation = ({ details }) => {
                     return (
                         <div key={item.id}>
                             <div>
-                                <p style={{ fontSize: 18, color: "#3d5484" }}>{item.name}</p>
+                                <p style={{ fontSize: 16, color: "#3d5484" }}>{item.name}</p>
                             </div>
                             {item.classificationValues.length && item.classificationValues.map((val, index) => {
                                 return (

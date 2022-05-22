@@ -80,7 +80,7 @@ const MultiselectionSection = ({title, options, handleValueChange, values}) => {
                   style={{width: 16, height: 16}}
                 //   innerRef={register()}  
                   />
-                  <Label for='admin' style={{fontSize: 18}} className="mx-1">
+                  <Label for='admin' style={{fontSize: 16}} className="mx-1">
                     Lol
                   </Label>
               </FormGroup>
@@ -98,7 +98,7 @@ const MultiselectionSection = ({title, options, handleValueChange, values}) => {
                   style={{width: 16, height: 16}}
                 //   innerRef={register()}  
                   />
-                  <Label for='admin' style={{fontSize: 18}} className="mx-1">
+                  <Label for='admin' style={{fontSize: 16}} className="mx-1">
                     Lol child 1
                   </Label>
               </FormGroup>
@@ -112,7 +112,7 @@ const MultiselectionSection = ({title, options, handleValueChange, values}) => {
                   style={{width: 16, height: 16}}
                 //   innerRef={register()}  
                   />
-                  <Label for='admin' style={{fontSize: 18}} className="mx-1">
+                  <Label for='admin' style={{fontSize: 16}} className="mx-1">
                     Lol child 2
                   </Label>
               </FormGroup>
@@ -130,7 +130,7 @@ const MultiselectionSection = ({title, options, handleValueChange, values}) => {
                   style={{width: 16, height: 16}}
                 //   innerRef={register()}  
                   />
-                  <Label for='admin' style={{fontSize: 18}} className="mx-1">
+                  <Label for='admin' style={{fontSize: 16}} className="mx-1">
                     Lol grand child 1 
                   </Label>
               </FormGroup>
@@ -144,7 +144,7 @@ const MultiselectionSection = ({title, options, handleValueChange, values}) => {
                   style={{width: 16, height: 16}}
                 //   innerRef={register()}  
                   />
-                  <Label for='admin' style={{fontSize: 18}} className="mx-1">
+                  <Label for='admin' style={{fontSize: 16}} className="mx-1">
                     Lol grand child 2
                   </Label>
               </FormGroup>

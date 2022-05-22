@@ -80,7 +80,7 @@ const DashboardSlider = () => {
                 <img src={imgUrl} width="100%" />
                 <p
                   className="d-flex swiper-text align-middle pt-md-1 pt-sm-50 mb-0 text-left text-muted"
-                  style={{ fontSize: 18 }}
+                  style={{ fontSize: 16 }}
                 >
                     {item.login !== null && <>
                         اسم المستخدم: {item.login}
@@ -97,16 +97,16 @@ const DashboardSlider = () => {
                 </a>
                 {/* <hr className="col-11 bg-gray" />
                 <div className="d-flex">
-                  <p className="mb-0" style={{ fontSize: 16 }}>
+                  <p className="mb-0" style={{ fontSize: 14 }}>
                     إجمالي عناصر البيانات المستخدمة
                   </p>
-                  <p className="mb-0 px-2" style={{ fontSize: 16 }}>
+                  <p className="mb-0 px-2" style={{ fontSize: 14 }}>
                     3344
                   </p>
                   <a
                     href={"#"}
                     className="text_green"
-                    style={{ fontSize: 18, fontWeight: "bold" }}
+                    style={{ fontSize: 16, fontWeight: "bold" }}
                   >
                     تفاصيل
                   </a>
@@ -121,7 +121,7 @@ const DashboardSlider = () => {
               type="submit"
               className="w-100"
               color="green"
-              style={{ fontSize: 18 }}
+              style={{ fontSize: 16 }}
               onClick={() => {}}
             >
               عرض الكل

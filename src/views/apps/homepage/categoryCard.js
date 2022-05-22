@@ -139,13 +139,13 @@ const CategoryCard = () => {
         <div className="d-flex flex-column col-xl-8 col-12 card h-100 p-2 mt-2 mb-0" style={{borderRadius: 20}}>
             
             <div className='d-flex justify-content-center align-items-center mb-2' style={{height: 30}}>
-                <div className={`${activeCard !== "A1" ? "" : "align-self-start"}`}><p className={`mb-0 ${activeCard !== "A1" ? "text-muted" : ""}`} style={{fontSize: 18, borderBottom: activeCard === "A1" ? "1px solid" : "unset", cursor:"pointer"}} onClick={() => {
+                <div className={`${activeCard !== "A1" ? "" : "align-self-start"}`}><p className={`mb-0 ${activeCard !== "A1" ? "text-muted" : ""}`} style={{fontSize: 16, borderBottom: activeCard === "A1" ? "1px solid" : "unset", cursor:"pointer"}} onClick={() => {
                     setActiveCard("A1")
                 }}>القطاعات</p></div>
-                <div className={`${activeCard !== "A2" ? "" : "align-self-start"}`}><p className={`mb-0 mx-2 ${activeCard !== "A2" ? "text-muted" : ""}`} style={{fontSize: 18, borderBottom: activeCard === "A2" ? "1px solid" : "unset", cursor:"pointer"}} onClick={() => {
+                <div className={`${activeCard !== "A2" ? "" : "align-self-start"}`}><p className={`mb-0 mx-2 ${activeCard !== "A2" ? "text-muted" : ""}`} style={{fontSize: 16, borderBottom: activeCard === "A2" ? "1px solid" : "unset", cursor:"pointer"}} onClick={() => {
                     setActiveCard("A2")
                 }}>التصنيفات</p></div>
-                {/* <div className={`${activeCard !== "A3" ? "" : "align-self-start"}`}><p className={`mb-0 ${activeCard !== "A3" ? "text-muted" : ""}`} style={{fontSize: 18, borderBottom: activeCard === "A3" ? "1px solid" : "unset", cursor:"pointer"}} onClick={() => {
+                {/* <div className={`${activeCard !== "A3" ? "" : "align-self-start"}`}><p className={`mb-0 ${activeCard !== "A3" ? "text-muted" : ""}`} style={{fontSize: 16, borderBottom: activeCard === "A3" ? "1px solid" : "unset", cursor:"pointer"}} onClick={() => {
                     setActiveCard("A3")
                 }}>الدوريات</p></div> */}
             </div>
@@ -159,8 +159,8 @@ const CategoryCard = () => {
                             <div className="d-flex justify-content-center align-items-center flex-column py-1" style={{backgroundColor: "#eaeaeb", borderRadius: 20}}>
                                 <div className='d-flex flex-wrap col-12 pb-1'>
                                     <div className='text-center col-xl-2 col-lg-12 col-2'><img src={fiBrChartPieAlt} width="20px"/></div>
-                                    <div className='text-center col-xl-7 col-lg-12 col-7' style={{fontSize: 16, fontWeight: "bold"}}>{item.name_A}</div>
-                                    <div className='text-center col-xl-3 col-lg-12 col-3' style={{color: "#3D5484", fontSize: 16}}>{item.indicatorCount}</div>
+                                    <div className='text-center col-xl-7 col-lg-12 col-7' style={{fontSize: 14, fontWeight: "bold"}}>{item.name_A}</div>
+                                    <div className='text-center col-xl-3 col-lg-12 col-3' style={{color: "#3D5484", fontSize: 14}}>{item.indicatorCount}</div>
                                 </div>
                                 <div className='d-flex flex-column col-12'>
                                     {item.childNames.map((child,  childIndex) => {
@@ -213,21 +213,58 @@ const CategoryCard = () => {
                 </div>
                 <div className='mt-2 mb-1 d-flex justify-content-end col-12 px-0'>
                     <div  className="px-2" style={{width: 300}}>
-                        <Button type='submit' className="w-100" color='green' style={{fontSize: 18}} onClick={() => {}}>عرض الكل</Button>
+                        <Button type='submit' className="w-100" color='green' style={{fontSize: 16}} onClick={() => {}}>عرض الكل</Button>
                     </div>
                 </div>
             </>}
 
             {activeCard === "A2" && <>
             {/* <div className='d-flex justify-content-center'>
-                <p style={{fontSize: 16}}>إجمالي عناصر البيانات</p>
-                <p className='mx-1' style={{color: "#3D5484", fontSize: 16}}>3000</p>
+                <p style={{fontSize: 14}}>إجمالي عناصر البيانات</p>
+                <p className='mx-1' style={{color: "#3D5484", fontSize: 14}}>3000</p>
             </div> */}
                 <div className="d-flex flex-wrap">
                     {/* "#161d31" */}
                     {categories.map((item, index) => {
                         return (
                           <div className="col-md-4 col-sm-6 col-12 px-2 py-xl-0 py-2">
+                            <div
+                              className="d-flex justify-content-center align-items-center flex-column py-1"
+                              style={{
+                                backgroundColor: "#eaeaeb",
+                                borderRadius: 20
+                              }}
+                            >
+                              <div>
+                                <img src={fiBrChartPieAlt} />
+                              </div>
+                              <div
+                                className="py-1 text-center"
+                                style={{ fontSize: 14 }}
+                              >
+                                {item.name_A}
+                              </div>
+                              <div style={{ color: "#3D5484", fontSize: 14 }}>
+                                {item.indicatorCount}
+                              </div>
+                            </div>
+                          </div>
+                        )
+                    })}
+                </div>
+                <div className='mt-2 mb-1 d-flex justify-content-end col-12 px-0'>
+                    <div  className="px-2" style={{width: 300}}>
+                        <Button type='submit' className="w-100" color='green' style={{fontSize: 16}} onClick={() => {}}>عرض الكل</Button>
+                    </div>
+                </div>
+            </>}
+            
+            {/* "#161d31" */}
+            {/* {activeCard === "A3" && <>
+                <div className="d-flex flex-wrap">
+                    {periodicites.map((item, index) => {
+                        return (
+                          <div className="col-xl-2 col-md-4 col-6 px-2 py-xl-0 py-2">
                             <div
                               className="d-flex justify-content-center align-items-center flex-column py-1"
                               style={{
@@ -253,45 +290,8 @@ const CategoryCard = () => {
                     })}
                 </div>
                 <div className='mt-2 mb-1 d-flex justify-content-end col-12 px-0'>
-                    <div  className="px-2" style={{width: 300}}>
-                        <Button type='submit' className="w-100" color='green' style={{fontSize: 18}} onClick={() => {}}>عرض الكل</Button>
-                    </div>
-                </div>
-            </>}
-            
-            {/* "#161d31" */}
-            {/* {activeCard === "A3" && <>
-                <div className="d-flex flex-wrap">
-                    {periodicites.map((item, index) => {
-                        return (
-                          <div className="col-xl-2 col-md-4 col-6 px-2 py-xl-0 py-2">
-                            <div
-                              className="d-flex justify-content-center align-items-center flex-column py-1"
-                              style={{
-                                backgroundColor: "#eaeaeb",
-                                borderRadius: 20
-                              }}
-                            >
-                              <div>
-                                <img src={fiBrChartPieAlt} />
-                              </div>
-                              <div
-                                className="py-1 text-center"
-                                style={{ fontSize: 18 }}
-                              >
-                                {item.name_A}
-                              </div>
-                              <div style={{ color: "#3D5484", fontSize: 18 }}>
-                                {item.indicatorCount}
-                              </div>
-                            </div>
-                          </div>
-                        )
-                    })}
-                </div>
-                <div className='mt-2 mb-1 d-flex justify-content-end col-12 px-0'>
                     <div  className="col-xl-2 col-sm-4 col-6 px-2">
-                        <Button type='submit' className="w-100" color='green' style={{fontSize: 18}} onClick={() => {}}>عرض الكل</Button>
+                        <Button type='submit' className="w-100" color='green' style={{fontSize: 16}} onClick={() => {}}>عرض الكل</Button>
                     </div>
                 </div>
             </>} */}

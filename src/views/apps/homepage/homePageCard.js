@@ -70,8 +70,8 @@ const HomeCard = ({ title, addedLatelyComp, favorite }) => {
                 return (
                   <><div className="d-flex flex-wrap align-items-start col-12">
                     <div className="col-lg-8 col-12 p-0 mb-xl-0 mb-1">
-                    <Link to={{ pathname: `/indicator/indicatorDetails/${item.id}`, state: { Id : item.id}}}  className="mb-0" style={{ fontSize: 16 }}>{item.name_A}</Link>
-                      <p className="mb-0 text-muted" style={{ fontSize: 16 }}>{item.description_A}</p>
+                    <Link to={{ pathname: `/indicator/indicatorDetails/${item.id}`, state: { Id : item.id}}}  className="mb-0" style={{ fontSize: 14 }}>{item.name_A}</Link>
+                      <p className="mb-0 text-muted" style={{ fontSize: 14 }}>{item.description_A}</p>
                     </div>
                     {addedLatelyComp && <div className="col-lg-4 col-12 d-flex align-items-center justify-content-end">
                       <p className="px-1 mb-0">{formatDate(item.createDate)}</p>
@@ -88,8 +88,8 @@ const HomeCard = ({ title, addedLatelyComp, favorite }) => {
                 return (
                   <><div className="d-flex flex-wrap align-items-start col-12">
                     <div className="col-lg-8 col-12 p-0 mb-xl-0 mb-1">
-                      <Link to={{ pathname: `/indicator/indicatorDetails/${item.id}`, state: { Id : item.id}}} className="mb-0" style={{ fontSize: 16 }}>{item.name_A}</Link>
-                      <p className="mb-0 text-muted" style={{ fontSize: 16 }}>{item.description_A}</p>
+                      <Link to={{ pathname: `/indicator/indicatorDetails/${item.id}`, state: { Id : item.id}}} className="mb-0" style={{ fontSize: 14 }}>{item.name_A}</Link>
+                      <p className="mb-0 text-muted" style={{ fontSize: 14 }}>{item.description_A}</p>
                     </div>
 
                     {addedLatelyComp && <div className="col-lg-4 col-12 d-flex align-items-center justify-content-end">
@@ -120,7 +120,7 @@ const HomeCard = ({ title, addedLatelyComp, favorite }) => {
                       <Link to={{ pathname: `/document/details/${item.id}`, state: { Id : item.id}}} 
                           className="mb-0"
                           style={{
-                            fontSize: 16
+                            fontSize: 14
                           }}
                         >
                           {item.name_A}
@@ -155,7 +155,7 @@ const HomeCard = ({ title, addedLatelyComp, favorite }) => {
                       <Link to={{ pathname: `/document/details/${item.id}`, state: { Id : item.id}}} 
                           className="mb-0"
                           style={{
-                            fontSize: 16
+                            fontSize: 14
                           }}
                         >
                           {item.name_A}

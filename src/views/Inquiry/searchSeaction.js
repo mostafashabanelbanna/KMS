@@ -85,7 +85,7 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
         <div className="d-flex p-2">
           <div className="d-flex w-100 px-0">
             <FontAwesomeIcon icon={faSliders} color={"#496193"} fontSize={17} />
-            <p className="mb-0 px-1" style={{ color: "#115973", fontSize: 16 }}>
+            <p className="mb-0 px-1" style={{ color: "#115973", fontSize: 14 }}>
               بحث متقدم
             </p>
           </div>
