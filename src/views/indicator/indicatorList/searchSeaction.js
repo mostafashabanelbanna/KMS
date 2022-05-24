@@ -33,31 +33,6 @@ const SearchSection = ({handleSearch, searchId}) => {
     })
   }
 
-  useEffect(() => {
-    if (searchId && sectors) dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: [sectors.find(x => x.id === parseInt(searchId))] })
-  }, [searchId, sectors])
-
-  console.log(sectors)
-  console.log(searchId)
-  console.log(store)
-  
-
-  const handlePeriodicityChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: e })
-  }
-  const handleSourceChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_SOURCE", sources: e })
-  }
-  const handleCategoryChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: e })
-  }
-  const handleSectorChange = (e) => {
-    console.log(e)
-    dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: e })
-  }
-  const handleNameChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_NAME", name: e.target.value })
-  }
   const removeSearch = () => {
     dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: []})
     dispatch({type: "SET_FRONT_INDICATOR_SOURCE", sources: []})
@@ -76,6 +51,34 @@ const SearchSection = ({handleSearch, searchId}) => {
     }
     dispatch(getData(submitedData))
   }
+
+  useEffect(() => {
+    if (searchId) removeSearch()
+  }, [searchId])
+
+  useEffect(() => {
+    if (searchId && sectors) dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: [sectors.find(x => x.id === parseInt(searchId))] })
+  }, [searchId, sectors])
+
+  console.log("store", store)
+  
+
+  const handlePeriodicityChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: e })
+  }
+  const handleSourceChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_SOURCE", sources: e })
+  }
+  const handleCategoryChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: e })
+  }
+  const handleSectorChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: e })
+  }
+  const handleNameChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_NAME", name: e.target.value })
+  }
+
   useEffect(() => {
     getAllDropDowns()
   }, [])

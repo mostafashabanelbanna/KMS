@@ -35,7 +35,7 @@ const NavbarSearch = () => {
   // ** Function to handle external Input click
   const handleExternalClick = () => {
     if (navbarSearch === true) {
-      // setNavbarSearch(false)
+      setNavbarSearch(false)
       handleClearQueryInStore()
     }
   }

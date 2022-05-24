@@ -65,7 +65,8 @@ export const getInquiriesFront = params => {
       dispatch({
         type: 'GET_INQUIRY_FRONT_DATA',
         data: response.data.data.items,
-        totalPages: response.data.data.totalPages
+        totalPages: response.data.data.totalPages,
+        totalCount: response.data.data.totalCount
       })
       dispatch(isNotLoading())
 
@@ -75,7 +76,7 @@ export const getInquiriesFront = params => {
         ErrorCode = error.response.status
       }
       dispatch({
-        type: 'GET_INQUIRY_DATA',
+        type: 'GET_INQUIRY_FRONT_DATA',
         data : [],
         errorCode : ErrorCode
       })

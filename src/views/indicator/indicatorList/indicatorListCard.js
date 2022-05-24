@@ -19,7 +19,7 @@ const IndicatorCard = (item) => {
     if (result) {
       if (store.data && store.data.length > 0) {
         const ele = store.data.find(x => x.id === id)
-        ele.isFavorit = true
+        ele.isFavorite = true
         dispatch({type: "GET_FRONT_INDICATOR_DATA", data: [...store.data], totalPages: store.totalPages, totalCount: store.totalCount })
       }
     }
@@ -30,7 +30,7 @@ const IndicatorCard = (item) => {
     if (result) {
       if (store.data && store.data.length > 0) {
         const ele = store.data.find(x => x.id === id)
-        ele.isFavorit = false
+        ele.isFavorite = false
         dispatch({type: "GET_FRONT_INDICATOR_DATA", data: [...store.data], totalPages: store.totalPages, totalCount: store.totalCount })
       }
     }
@@ -53,7 +53,7 @@ const IndicatorCard = (item) => {
           <div className="d-flex">
             {/* <div className="col-9 d-flex justify-content-end">كود {item.item.id}</div> */}
 
-            {item.item.isFavorit && <FontAwesomeIcon
+            {item.item.isFavorite && <FontAwesomeIcon
               icon={solidHeart}
               color="#08a291"
               className="col"
@@ -62,7 +62,7 @@ const IndicatorCard = (item) => {
               onClick={() => RemoveIndicatorFromFavorite(item.item.id)}
             />
             }
-            {!item.item.isFavorit && <FontAwesomeIcon
+            {!item.item.isFavorite && <FontAwesomeIcon
               icon={faHeart}
               color="#08a291"
               className="col"

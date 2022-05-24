@@ -21,7 +21,7 @@ const DefinitionsCard = (item) => {
     if (result) {
       if (store.definitions && store.definitions.length > 0) {
         const ele = store.definitions.find(x => x.id === id)
-        ele.isFavorit = true
+        ele.isFavorite = true
         dispatch({type: "GET_FRONT_DEFINITIONS_DATA", data: [...store.definitions], totalPages: store.totalPages, totalCount: store.totalCount })
       }
     }
@@ -32,7 +32,7 @@ const DefinitionsCard = (item) => {
     if (result) {
       if (store.definitions && store.definitions.length > 0) {
         const ele = store.definitions.find(x => x.id === id)
-        ele.isFavorit = false
+        ele.isFavorite = false
         dispatch({type: "GET_FRONT_DEFINITIONS_DATA", data: [...store.definitions], totalPages: store.totalPages, totalCount: store.totalCount })
       }
     }
@@ -54,7 +54,7 @@ const DefinitionsCard = (item) => {
         <div className="d-flex">
           {/* <div className="col-9 d-flex justify-content-end">كود {item.item.id}</div> */}
 
-          {item.item.isFavorit && <FontAwesomeIcon
+          {item.item.isFavorite && <FontAwesomeIcon
             icon={solidHeart}
             color="#08a291"
             className="col"
@@ -63,7 +63,7 @@ const DefinitionsCard = (item) => {
             onClick={() => RemoveIndicatorFromFavorite(item.item.id)}
           />
           }
-          {!item.item.isFavorit && <FontAwesomeIcon
+          {!item.item.isFavorite && <FontAwesomeIcon
             icon={faHeart}
             color="#08a291"
             className="col"

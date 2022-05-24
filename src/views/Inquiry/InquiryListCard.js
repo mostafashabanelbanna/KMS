@@ -22,8 +22,8 @@ const InquiryCard = (item) => {
     if (result) {
       if (store.frontData && store.frontData.length > 0) {
         const ele = store.frontData.find(x => x.id === id)
-        ele.isFavorit = true
-        dispatch({type: "GET_INQUIRY_FRONT_DATA", data: [...store.frontData], totalPages: store.totalPages, totalCount: store.totalCount })
+        ele.isFavorite = true
+        dispatch({type: "GET_INQUIRY_FRONT_DATA", data: [...store.frontData], totalPages: store.frontTotalPages, totalCount: store.frontTotalCount })
       }
     }
   }
@@ -33,8 +33,8 @@ const InquiryCard = (item) => {
     if (result) {
       if (store.frontData && store.frontData.length > 0) {
         const ele = store.frontData.find(x => x.id === id)
-        ele.isFavorit = false
-        dispatch({type: "GET_INQUIRY_FRONT_DATA", data: [...store.frontData], totalPages: store.totalPages, totalCount: store.totalCount })
+        ele.isFavorite = false
+        dispatch({type: "GET_INQUIRY_FRONT_DATA", data: [...store.frontData], totalPages: store.frontTotalPages, totalCount: store.frontTotalCount })
       }
     }
   }
@@ -56,7 +56,7 @@ const InquiryCard = (item) => {
         <div className="d-flex">
             {/* <div className="col-9 d-flex justify-content-end">كود {item.item.id}</div> */}
 
-            {item.item.isFavorit && <FontAwesomeIcon
+            {item.item.isFavorite && <FontAwesomeIcon
               icon={solidHeart}
               color="#08a291"
               className="col"
@@ -65,7 +65,7 @@ const InquiryCard = (item) => {
               onClick={() => RemoveIndicatorFromFavorite(item.item.id)}
             />
             }
-            {!item.item.isFavorit && <FontAwesomeIcon
+            {!item.item.isFavorite && <FontAwesomeIcon
               icon={faHeart}
               color="#08a291"
               className="col"

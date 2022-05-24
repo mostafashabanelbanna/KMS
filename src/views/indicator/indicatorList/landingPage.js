@@ -55,10 +55,12 @@ const LandingPage = () => {
       name: store.name,
       periodicities: periods,
       sources: srcs,
-      classificationValues: Id ? [Id, ..._classificationValues] : _classificationValues,
+      classificationValues: Id ? [parseInt(Id), ..._classificationValues] : _classificationValues,
       startDate: store.dateFrom,
       endDate: store.dateTo
     }
+
+    console.log("submitedData", submitedData)
     dispatch(getData(submitedData))
   }
 
@@ -69,6 +71,15 @@ const LandingPage = () => {
 
   useEffect(() => {
     getIndicators(1, rowsPerPage)
+    return () => {
+      if (Id) {
+        dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: []})
+        dispatch({type: "SET_FRONT_INDICATOR_SOURCE", sources: []})
+        dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: []})
+        dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: []})
+        dispatch({type: "SET_FRONT_INDICATOR_NAME", name: ''})
+      } 
+    }
   }, [])
 
   const handlePagination = page => {

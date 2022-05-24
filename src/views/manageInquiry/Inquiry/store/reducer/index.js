@@ -32,6 +32,7 @@ const initialState = {
     // Front Data
     frontData: [],
     frontTotalPages: 1,
+    frontTotalCount : 0,
     frontParams: {
       pageNumber: 1,
       rowsPerPage: 10,
@@ -60,7 +61,8 @@ const initialState = {
         return {
           ...state,
           frontData: action.data,
-          frontTotalPages: action.totalPages
+          frontTotalPages: action.totalPages,
+          frontTotalCount: action.totalCount
         }
       case 'GET_INQUIRY':
         return { ...state, selectedInquiry: action.selectedInquiry, errorCode: action.errorCode }
