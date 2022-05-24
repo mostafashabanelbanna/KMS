@@ -159,7 +159,7 @@ const CategoryCard = () => {
                             <div className="d-flex justify-content-center align-items-center flex-column py-1" style={{backgroundColor: "#eaeaeb", borderRadius: 10}}>
                                 <div className='d-flex flex-wrap col-12 pb-1'>
                                     <div className='text-center col-xl-2 col-lg-12 col-2 px-0'><img src={fiBrChartPieAlt} width="20px"/></div>
-                                    <Link to={{ pathname: `/indicator/landingPage/${item.id}`}} className='text-center col-xl-8 col-lg-12 col-8 px-1' style={{fontSize: 14, fontWeight: "bold"}}>{item.name_A}</Link>
+                                    <Link to={{ pathname: `/indicator/landingPage/sectors/${item.id}`}} className='text-center col-xl-8 col-lg-12 col-8 px-1' style={{fontSize: 14, fontWeight: "bold"}}>{item.name_A}</Link>
                                     <div className='text-center col-xl-2 col-lg-12 col-2 px-0' style={{color: "#3D5484", fontSize: 14}}>{item.indicatorCount}</div>
                                 </div>
                                 <div className='d-flex flex-column col-12 px-0'>
@@ -168,7 +168,7 @@ const CategoryCard = () => {
                                         return (
                                             <div className='d-flex col-12 pb-1'>
                                                 <div><img src={subTitles} width="15px"/></div>
-                                                <Link to={{ pathname: `/indicator/landingPage/${child.id}`}} className='col-11' style={{fontSize: 14}}>{child.name_A}</Link>
+                                                <Link to={{ pathname: `/indicator/landingPage/sectors/${child.id}`}} className='col-11' style={{fontSize: 14}}>{child.name_A}</Link>
                                             </div>
                                         )
                                     })}
@@ -241,12 +241,12 @@ const CategoryCard = () => {
                               <div className='col-1'>
                                 <img src={fiBrChartPieAlt} />
                               </div>
-                              <div
+                              <Link to={{ pathname: `/indicator/landingPage/categories/${item.id}`}} 
                                 className="p-1 col text-center"
                                 style={{ fontSize: 14 }}
                               >
                                 {item.name_A}
-                              </div>
+                              </Link>
                               <div className='col-2 p-0' style={{ color: "#3D5484", fontSize: 14 }}>
                                 {item.indicatorCount}
                               </div>

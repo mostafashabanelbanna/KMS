@@ -3,7 +3,11 @@ import { Redirect } from 'react-router-dom'
 
 const FrontRoutes = [
     {
-        path: '/indicator/landingPage/:Id',
+        path: '/indicator/landingPage/sectors/:Id',
+        component: lazy(() => import('../../views/indicator/indicatorList/landingPage'))
+    },
+    {
+        path: '/indicator/landingPage/categories/:Id',
         component: lazy(() => import('../../views/indicator/indicatorList/landingPage'))
     },
     {
