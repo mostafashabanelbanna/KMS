@@ -17,7 +17,7 @@ import DocumentIssueCard from '../documentLibrary/documentIssueList/documentIssu
 import { useDispatch, useSelector } from 'react-redux'
 import ReactPaginate from 'react-paginate'
 import { isLoading, isNotLoading } from '../../redux/actions/layout'
-
+import { useParams } from 'react-router-dom'
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 import DashboardCard from './../dashboard/dashboardListCard'
@@ -147,6 +147,16 @@ const Favorite = () => {
         setActive(tab)
       }
     }
+
+    const { name } = useParams()
+
+    console.log(name)
+
+    useEffect(() => {
+      if (name === "indicator") setActive('1')
+      else if (name === "document") setActive('2')
+    }, [name])
+    
 
     const handleIndicatorPaginationPagination = page => {
       setindIcatorPageNumber(page.selected + 1)

@@ -2,6 +2,7 @@ import { CgPerformance } from "react-icons/cg"
 import { HiOutlineSearchCircle } from "react-icons/hi"
 import { FaHeart, FaNewspaper, FaInfoCircle } from "react-icons/fa"
 import { User, BookOpen } from 'react-feather'
+import { FiLayers, FiLayout, FiDatabase, FiHelpCircle } from 'react-icons/fi'
 
 export default [
   // {
@@ -10,7 +11,7 @@ export default [
   {
     id: "indicators",
     title: "Indicators",
-    icon: <CgPerformance size={20} />,
+    icon: <FiDatabase size={20} />,
     navLink: "/indicator/landingPage"
     // children: [
     //   {
@@ -62,19 +63,19 @@ export default [
   {
     id: "Dashboards",
     title: "Dashboards",
-    icon: <BookOpen size={20} />,
+    icon: <FiLayout size={20} />,
     navLink: "/Dashboards/landingPage"
   },
   {
     id: "Definitions",
     title: "Definitions",
-    icon: <BookOpen size={20} />,
+    icon: <FiHelpCircle size={20} />,
     navLink: "/Definitionss/landingPage"
   },
   {
     id: "WebResources",
     title: "WebResources",
-    icon: <User size={20} />,
+    icon: <FiLayers  size={20} />,
     navLink: "/webResources/index"
   },
   {

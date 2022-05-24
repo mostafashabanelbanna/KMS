@@ -114,8 +114,9 @@ const InquiryCard = (item) => {
                   className="mb-0 w-100 text-center"
                   style={{
                     padding: "0.5rem",
-                    backgroundColor: "#edeff6",
-                    borderRadius: 8
+                    backgroundColor: item.item.statusColor ?? "#edeff6",
+                    borderRadius: 8,
+                    color: "white"
                   }}
                 >
                   {item.item.status}

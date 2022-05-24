@@ -9,7 +9,7 @@ import SwiperCore, {
   Virtual
 } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Card, CardHeader, CardTitle, CardBody } from "reactstrap"
+import { Card, CardHeader, CardTitle, CardBody, Button } from "reactstrap"
 import { Play, DollarSign, HelpCircle, FileText, Archive } from "react-feather"
 import "./style.css"
 import "@styles/react/libs/swiper/swiper.scss"
@@ -17,6 +17,7 @@ import SliderB1 from "@src/assets/images/icons/SliderB1.png"
 import SliderB2 from "@src/assets/images/icons/SliderB2.png"
 import axios from "../../../axios"
 import { useEffect, useState } from 'react'
+import { useHistory, Link } from 'react-router-dom'
 
 SwiperCore.use([
   Navigation,
@@ -58,7 +59,7 @@ const ResourcesSlider = () => {
     getWebResources()
   }, [])
 
-  
+  const history = useHistory()
   return (
     <Card className="bg-transparent shadow-none">
       <CardHeader className="pt-0">
@@ -78,18 +79,33 @@ const ResourcesSlider = () => {
                 key={index}
                 className="rounded swiper-shadow p-1 resourcesSlider"
               >
-                <img src={imgUrl} width="40%" height="50%" className="mb-2" />
                 <a
                   href={item.url}
                   target="_blank"
-                  className="d-flex text-center text-muted swiper-text align-middle pt-md-1 pt-sm-50 mb-0"
+                  className="d-flex flex-column align-items-center justify-content-center text-center alert-heading pt-md-1 pt-sm-50 mb-0"
                 >
+                  <img src={imgUrl} width={80} height={80} className="mb-2" />
                   {item.name_A}
                 </a>
               </SwiperSlide>
             )
           })}
         </Swiper>
+        <div className="mt-2 mb-1 d-flex justify-content-end col-12 px-0">
+          <div className="col-xl-3 col-sm-4 col-6 px-2">
+            <Button
+              type="submit"
+              className="w-100"
+              color="green"
+              style={{ fontSize: 16 }}
+              onClick={() => {
+                history.push('/webResources/index')
+              }}
+            >
+              عرض الكل
+            </Button>
+          </div>
+        </div>
       </CardBody>
     </Card>
   )
