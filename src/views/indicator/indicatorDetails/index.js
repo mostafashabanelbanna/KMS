@@ -27,6 +27,9 @@ import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner
 import { X, ArrowDown } from 'react-feather'
 import Feedback from '../../Feedback'
 import { useParams } from 'react-router-dom'
+import IndicatorDetailsCard from './IndicatorDetailsCard'
+import SeriesTab from './seriesAndExcel/SeriesTab'
+import SeriesTable from './seriesAndExcel/seriesTable'
 
 SwiperCore.use([Navigation, Pagination, EffectFade, EffectCube, EffectCoverflow, Autoplay, Lazy, Virtual])
 
@@ -60,11 +63,13 @@ const indicatorDetails = (props) => {
       {!store.indicatorDetails && <ComponentSpinner/>}
       {store.indicatorDetails && 
         <>
-          <Row className>
-            <Col sm='9'>
-              <h2 className='px-3'>{store.indicatorDetails.name_A}</h2>
+              {/* {console.log(store.indicatorDetails)} */}
+          <Row >
+            <Col sm='12'>
+              {/* <h2 className='px-3'>{store.indicatorDetails.name_A}</h2> */}
+              <IndicatorDetailsCard item={store.indicatorDetails}/>
             </Col>
-            {!descriptionCardIsOpen && <Col sm={3}>
+            {/* {!descriptionCardIsOpen && <Col sm={3}>
               <div >
                 <Card>
                   <CardHeader>
@@ -77,14 +82,20 @@ const indicatorDetails = (props) => {
                   </CardHeader>
                 </Card>
               </div>
-            </Col> }
+            </Col> } */}
           </Row>
-          <Row className="pt-2">
-            <Col sm={descriptionCardIsOpen ? '9' : '12'}>
+          <Row className="">
+            <Col sm='12'>
                 <SwiperCenterSlidesStyle id={Id} isRtl={isRtl} avilableCopies={store.indicatorDetails.indicatorAvilableCopies} />
                 {/* <Tabs/> */}
+               
             </Col>
-            {descriptionCardIsOpen && 
+            {/* <Col sm='3'>
+               <Card>
+                 <SeriesTab/>
+               </Card>
+            </Col> */}
+            {/* {descriptionCardIsOpen && 
             <Col sm={3}>
               <div>
                 <Card>
@@ -167,7 +178,7 @@ const indicatorDetails = (props) => {
                   </CardBody>
                 </Card>
               </div>
-            </Col>}
+            </Col>} */}
           </Row>
           <Row>
             <Col md={9}>

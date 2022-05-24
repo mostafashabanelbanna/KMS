@@ -85,7 +85,7 @@ const DashboardList = ({id}) => {
         )
     } else {
         return (
-            <Card className='p-2 text-center'>
+            <Card className='p-2 text-center col-9'>
                 <h2>لا يوجد لوحات معلوماتية</h2>
             </Card>
         )
