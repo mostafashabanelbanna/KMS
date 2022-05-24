@@ -20,7 +20,7 @@ const NavbarSearch = () => {
 
   // ** States
   const [suggestions, setSuggestions] = useState([])
-  const [navbarSearch, setNavbarSearch] = useState(false)
+  const [navbarSearch, setNavbarSearch] = useState(true)
 
   // ** ComponentDidMount
   useEffect(() => {
