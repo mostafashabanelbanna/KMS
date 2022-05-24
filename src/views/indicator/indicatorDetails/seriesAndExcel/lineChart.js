@@ -6,12 +6,28 @@ import subTitles from '@src/assets/images/icons/subTitles.png'
 import { useEffect, useState } from 'react'
 import axios from '../../../../axios'
 import { useHistory, Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
     const [chartData, setChartData] = useState([])
+    const store = useSelector(state => state.indicatorDetails)
 
     const getChartData = async () => {
-        await axios.get(`/Dataset/GetAllDatasetValuesForChart`) //change here
+        const dimValues = []
+        store.seriesDimensionValues.forEach(element => {
+          element.forEach(ele => {
+            dimValues.push(ele.id)
+          })
+        })
+        const postData = {
+          IndicatorId: store.indicatorDetails.id,
+          SourceId: store.selectedSource.id,
+          PeriodicityId: store.selectedPeriodicity.id,
+          FromDate: store.seriesDateFrom,
+          ToDate: store.seriesDateTo,
+          DimensionsValues: dimValues
+        }
+        await axios.post(`/Dataset/GetAllDatasetValuesForChart`, postData) //change here
         .then(response => {
                 const result = response.data.data
                 setChartData(result)
@@ -65,30 +81,13 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
       }
     },
     xaxis: { //add map array of dates here
-      categories: [
-        '7/12',
-        '8/12',
-        '9/12',
-        '10/12',
-        '11/12',
-        '12/12',
-        '13/12',
-        '14/12',
-        '15/12',
-        '16/12',
-        '17/12',
-        '18/12',
-        '19/12',
-        '20/12',
-        '21/12'
-      ]
+      categories: chartData.seriesDates
     },
     yaxis: {
       opposite: direction === 'rtl'
     }
   }
 
-  const series = chartData
   //[ //add name prop and map array of values
   //   {
   //     name: 'a', data: [280, 200, 220, 180, 270, 250, 180, null, 200, 150, 160, 100, 150, 150]
@@ -99,7 +98,7 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
   // ]
 
   return (
-    <Col sm='12'>
+    <Col sm='9'>
         <Card>
             {/* <CardHeader className='d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start'>
                 <div>
@@ -117,7 +116,7 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
                 </div>
             </CardHeader> */}
             <CardBody>
-                <Chart options={options} series={series} type='line' height={500} />
+                {chartData.chartSeries && <Chart options={options} series={chartData.chartSeries} type='line' height={500} />}
             </CardBody>
         </Card>
     </Col>

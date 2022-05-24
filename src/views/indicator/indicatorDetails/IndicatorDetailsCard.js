@@ -52,7 +52,7 @@ const IndicatorDetailsCard = ({item}) => {
            
             {item && item.indicatorPeriodicities && item.indicatorPeriodicities.length > 0 &&  
               item.indicatorPeriodicities.map((item, idx) => (
-                      <div   key={idx} className="">
+                      <div   key={idx} className="mx-1">
                         <p className="px-3 mb-0 w-100 text-center" style={{ padding: "0.5rem", backgroundColor: "#edeff6", borderRadius: 8 }}>
                             {item.name}
                          </p>
