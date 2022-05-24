@@ -74,7 +74,7 @@ const SeriesTab = () => {
             return   
         }
     }
-    const list = selectedDimensionValues.map(obj => ({ ...obj, orderLevel: store.seriesExcelDimensions.length + 1}))
+    const list = selectedDimensionValues.map(obj => ({...obj, orderLevel: store.seriesExcelDimensions.length + 1}))
     const newElement = {
         dimensionId : dimId,
         levelNumber,
