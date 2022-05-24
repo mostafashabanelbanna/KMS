@@ -39,8 +39,6 @@ const indicatorDetails = (props) => {
   const [descriptionCardIsOpen, setDescriptionCardIsOpen] = useState(true)
   const intl = useIntl()
 
-  console.log("Id from Index", Id)
-
   useEffect(() => {
     dispatch(setIndicatorID(Id))
     dispatch(getIndicatorDetails(Id))

@@ -11,10 +11,12 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
     const [chartData, setChartData] = useState([])
 
     const getChartData = async () => {
-        await axios.get(`/Home/GetPeriodicities`) //change here
+        await axios.get(`/Dataset/GetAllDatasetValuesForChart`) //change here
         .then(response => {
                 const result = response.data.data
                 setChartData(result)
+                console.log("Search")
+                console.log(result)
             })
             .catch(error => {
         })
@@ -23,8 +25,6 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
     useEffect(() => {
         getChartData()
     }, [])
-
-    console.log(chartData) //console data
 
   const options = {
     chart: {
@@ -88,14 +88,15 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
     }
   }
 
-  const series = [ //add name prop and map array of values
-    {
-      name: 'a', data: [280, 200, 220, 180, 270, 250, 180, null, 200, 150, 160, 100, 150, 150]
-    },
-    {
-        name: 'b', data: [250, 210, 220, 190, 200, 270, 70, 0, 1000, 100, 160, 100, 150, 100, 50]
-    }
-  ]
+  const series = chartData
+  //[ //add name prop and map array of values
+  //   {
+  //     name: 'a', data: [280, 200, 220, 180, 270, 250, 180, null, 200, 150, 160, 100, 150, 150]
+  //   },
+  //   {
+  //       name: 'b', data: [250, 210, 220, 190, 200, 270, 70, 0, 1000, 100, 160, 100, 150, 100, 50]
+  //   }
+  // ]
 
   return (
     <Col sm='12'>

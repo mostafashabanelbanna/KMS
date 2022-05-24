@@ -9,7 +9,6 @@ import { Card } from 'reactstrap'
 
 const DashboardList = ({id}) => {
   // redux states
-  console.log("from List", id)
   const dispatch = useDispatch()
   const store = useSelector(state => state.indicatorDetails)
   const layoutStore = useSelector(state => state.layout)

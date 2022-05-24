@@ -17,9 +17,7 @@ const Tabs = ({id}) => {
         setActive(tab)
       }
     }
-
-    console.log("id from Tabs", id)
-    console.log("ID from Tabs", id)
+    
   return (
     <>
 
