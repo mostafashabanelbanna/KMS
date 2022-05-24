@@ -150,3 +150,34 @@ a{
 a:hover {
   color: #7367f0 !important;
 }
+
+.navbar-container .search-input.open {
+  width: 75%;
+}
+@media only screen and (max-width: 1200px) {
+  .navbar-container .search-input.open {
+    width: 50%;
+  }
+  
+}
+
+@media only screen and (max-width: 992px) {
+  .navbar-container .search-input.open {
+    width: 50%;
+  }
+  
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar-container .search-input.open {
+    width: 50%;
+  }
+  
+}
+
+@media only screen and (max-width: 480px) {
+  .navbar-container .search-input.open {
+    width: 50%;
+  }
+  
+}

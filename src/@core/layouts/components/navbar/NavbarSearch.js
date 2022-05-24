@@ -20,7 +20,7 @@ const NavbarSearch = () => {
 
   // ** States
   const [suggestions, setSuggestions] = useState([])
-  const [navbarSearch, setNavbarSearch] = useState(false)
+  const [navbarSearch, setNavbarSearch] = useState(true)
 
   // ** ComponentDidMount
   useEffect(() => {
@@ -35,7 +35,7 @@ const NavbarSearch = () => {
   // ** Function to handle external Input click
   const handleExternalClick = () => {
     if (navbarSearch === true) {
-      setNavbarSearch(false)
+      // setNavbarSearch(false)
       handleClearQueryInStore()
     }
   }
@@ -93,7 +93,7 @@ const NavbarSearch = () => {
             filterKey='title'
             filterHeaderKey='groupTitle'
             grouped={true}
-            placeholder='بحث عام'
+            placeholder='بحث بإسم العنصر'
             autoFocus={true}
             onSuggestionItemClick={handleSuggestionItemClick}
             externalClick={handleExternalClick}
