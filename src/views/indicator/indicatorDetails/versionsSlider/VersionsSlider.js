@@ -34,7 +34,7 @@ const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies, id }) => {
       <CardHeader>
         <CardTitle tag='h4'>النسخ المتوفرة</CardTitle>
       </CardHeader>
-      <CardBody>
+      <CardBody className="px-0">
       <>
         <Nav tabs className="indicator_version_tabs">
           {avilableCopies && avilableCopies.length > 0 && 
@@ -42,18 +42,17 @@ const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies, id }) => {
             <>
                 {avilableCopies.map((item, idx) => (
                   // <SwiperSlide key={idx} className='rounded swiper-shadow mx-3'>
-                      <NavItem className="mb-2 mr-1">
+                      <NavItem className="mb-2 mr-1" style={{minWidth: "300px"}}>
                         <NavLink
                           active={item.sourceId === store.selectedSource && item.periodicityId === store.selectedPeriodicity}
                           onClick={() => {
                             toggle(item.periodicityId, item.sourceId)
                           }}
-                          className="flex-column" //align-items-start"
+                          className="flex-column py-1" //align-items-start"
                         >
-                          <Play size={28} />
-                          <h4>دورية {item.periodicityName}</h4>
-                          <p>{item.sourceName}</p>
-                          <p>{`${moment(item.from).locale("ar").format("L")} - ${moment(item.to).locale("ar").format("L")}`}</p>
+                          {/* <Play size={28} /> */}
+                          <h4>{item.periodicityName} - {item.sourceName}</h4>
+                          <p className='mb-0'>{`${moment(item.from).locale("ar").format("L")} - ${moment(item.to).locale("ar").format("L")}`}</p>
                         </NavLink>
                       </NavItem>
                   // </SwiperSlide>

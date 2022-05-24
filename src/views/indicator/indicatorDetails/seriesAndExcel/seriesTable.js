@@ -133,7 +133,7 @@ const SeriesTable = ({toggleTable}) => {
       {(
         <>
           <Card className='p-2'>
-              <div className='d-flex align-items-center justify-content-around'>
+              <div className='d-flex align-items-center justify-content-between'>
                   <div>
                     <span className='mx-1'>من </span> <spna className='mr-2'>{moment(store.seriesDateFrom).locale("ar").format("L")}</spna>
                     <span className='mx-1'>إلى </span> <spna>{moment(store.seriesDateTo).locale("ar").format("L")}</spna>
@@ -148,11 +148,11 @@ const SeriesTable = ({toggleTable}) => {
                           
                       ))}
                   </div>
-                  <div className='mr-3 ml-2'>
+                  {/* <div className='mr-3 ml-2'>
                     <Button.Ripple color='primary' size="sm" style={{height: '40px'}} onClick={() => toggleTable(1)}>
                        الأبعاد المتاحة   <Plus className="mx-1" /> 
                     </Button.Ripple>
-                  </div>
+                  </div> */}
                   <div className='ml-5'>
                       <Download style={{cursor: "pointer"}} className='text-success' onClick={DownloadSeries}/>
                   </div>

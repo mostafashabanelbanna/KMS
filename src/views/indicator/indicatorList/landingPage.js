@@ -141,9 +141,10 @@ const LandingPage = () => {
           {showSearchSection === true ? <div className="d-flex flex-lg-row flex-column-reverse">
             <div className="col-12 px-0">
               {layoutStore.loading === true && <ComponentSpinner />}
-              {layoutStore.loading === false && store.data.map((item, idx) => (
-                <IndicatorCard key={idx} item={item} />
-              ))}
+              {layoutStore.loading === false && store.data.map((item, idx) => {
+                console.log(item)
+                return <IndicatorCard key={idx} item={item} />
+              })}
 
             </div>
           </div> : <div className="d-block d-lg-none col-12">

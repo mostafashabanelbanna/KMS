@@ -1,5 +1,5 @@
 import {  useState, useContext, useEffect } from 'react'
-import {Row, Col, Label, Button, FormGroup, FormText, Form, Input } from 'reactstrap'
+import {Row, Col, Label, Button, FormGroup, FormText, Form, Input, Card } from 'reactstrap'
 import Flatpickr from 'react-flatpickr'
 import { useIntl } from 'react-intl'
 import Select from 'react-select'
@@ -26,7 +26,7 @@ const SeriesTab = () => {
   const [dimensionValues, setDimensionValues] = useState([])
   const [selectedDimension, setSelectedDimension] = useState({})
   const [selectedDimensionValues, setSelectedDimensionValues] = useState([])
-  const [formContentActive, setFormContentAvtive] = useState(0)
+  const [formContentActive, setFormContentAvtive] = useState(1)
   const intl = useIntl()
 
   const intlContext = useContext(IntlContext)
@@ -118,158 +118,168 @@ const SeriesTab = () => {
   }, [store.seriesDimensionValues])
   return (
     <>
-      {formContentActive === 1 && <div>
-        <Row className="mx-0">
-          <Col sm='3' >
-            <FormGroup>
-              <Label for='name'>
-                من
-              </Label>
-              <MuiPickersUtilsProvider
-                libInstance={moment}
-                utils={MomentUtils}
-                locale={"sw"}
-                className="bg-danger"
-              >
-                <KeyboardDatePicker
-                className="w-100"
-                okLabel="تحديد"
-                cancelLabel="الغاء"
-                format="L"
-                value={store.seriesDateFrom}
-                inputVariant="outlined"
-                variant="dialog"
-                maxDateMessage=""
-                mask="__-__-____"
-                placeholder="يوم/شهر/سنة"
-                onChange={(date) => handleFromDateChange(date)} 
-                views={["year", "month", "date"]}
-              />
-            </MuiPickersUtilsProvider>
-            </FormGroup>
-          </Col>
-          <Col sm='3' >
-            <FormGroup>
-              <Label for='name'>
-                إلى
-              </Label>
-              <MuiPickersUtilsProvider
-                libInstance={moment}
-                utils={MomentUtils}
-                locale={"sw"}
-                className="bg-danger"
-              >
-                <KeyboardDatePicker
-                className="w-100"
-                okLabel="تحديد"
-                cancelLabel="الغاء"
-                format="L"
-                value={store.seriesDateTo} 
-                inputVariant="outlined"
-                variant="dialog"
-                maxDateMessage=""
-                mask="__-__-____"
-                placeholder="يوم/شهر/سنة"
-                onChange={(date) => handleToDateChange(date)} 
-                views={["year", "month", "date"]}
-              />
-            </MuiPickersUtilsProvider>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row className="mx-0">
-          <Col sm='3' >
-            <Label for='name'>
-              {intl.formatMessage({id: "Dimension"})} 
-            </Label>
-            <Select
-              placeholder="تحديد"
-              isClearable={false}
-              theme={selectThemeColors}
-              options={store.indicatorDetails.indicatorDimensionsDtos}
-              value={selectedDimension.id ? selectedDimension : []}
-              getOptionLabel={(option) => option?.name}
-              getOptionValue={(option) => option.id}
-              name='dimension'
-              id='dimension'
-              className='react-select'
-              classNamePrefix='select'
-              onChange={e => handleDimensionChange(e) }
-            />
-          </Col>
-          <Col sm='3' >
-            <Label for='name'>
-              {intl.formatMessage({id: "DimensionValues"})} 
-            </Label>
-            <Select
-              placeholder="تحديد"
-              isClearable={false}
-              theme={selectThemeColors}
-              options={dimensionValues}
-              value={selectedDimensionValues}
-              getOptionLabel={(option) => option.name_A}
-              getOptionValue={(option) => option.id}
-              isMulti
-              name='dimension'
-              id='dimension'
-              className='react-select'
-              classNamePrefix='select'
-              onChange={e => handleDimensionValueChange(e) }
-            />
-          </Col>
-          <Col md={2} className="mt-2">
-              <Button.Ripple color='primary' size='sm' onClick={addToSelectedDimensions}>
-                    <Plus /> أضافة
-              </Button.Ripple>
-          </Col>
-        </Row>
-        
-        {store.seriesDimensions.length > 0 &&
-          <>
-            <Row className='mx-0'>
-            <Col md={12} className='card mt-2 p-1'>
-            {store.seriesExcelDimensions.map((item, idx) => (
-                <div key={idx} className='dark-layout mb-2 d-flex align-items-center px-2'
-                >
-                    <div> <ArrowsIcon className='mr-1'/> 
-                        {store.indicatorDetails.indicatorDimensionsDtos.find(e => parseInt(e.id.split("::")[0]) === item.dimensionId && parseInt(e.id.split("::")[1]) === item.levelNumber)?.name} 
-                    </div>
-                    {
-                    item.dimensionValues.map((innerItem, idx) => (
-                    <div
-                        key={idx}
-                        className="ml-2 px-2 d-flex align-items-center"
-                        style={{
-                            backgroundColor: "lightGray",
-                            padding: "0.5rem",
-                            borderRadius: 16
-                        }}>
-                    <p className="mb-0 mx-1 text-white">{innerItem.name_A}</p>
-                    </div>
-                    ))
-                }
-                <hr/>
-                </div>
-                ))}
-            </Col>
+    <Row className='mx-0'>
+      <Col md={9}>
+        <SeriesTable toggleTable={toggleTable}/>
+      </Col>
+      <Col md={3}>
+        <Card >
+          <div>
+            <Row className="mx-0 p-1">
+              <Col sm='12' >
+                <FormGroup>
+                  <Label for='name'>
+                    من
+                  </Label>
+                  <MuiPickersUtilsProvider
+                    libInstance={moment}
+                    utils={MomentUtils}
+                    locale={"sw"}
+                    className="bg-danger"
+                  >
+                    <KeyboardDatePicker
+                    className="w-100"
+                    okLabel="تحديد"
+                    cancelLabel="الغاء"
+                    format="L"
+                    value={store.seriesDateFrom}
+                    inputVariant="outlined"
+                    variant="dialog"
+                    maxDateMessage=""
+                    mask="__-__-____"
+                    placeholder="يوم/شهر/سنة"
+                    onChange={(date) => handleFromDateChange(date)} 
+                    views={["year", "month", "date"]}
+                  />
+                </MuiPickersUtilsProvider>
+                </FormGroup>
+              </Col>
+              <Col sm='12' >
+                <FormGroup>
+                  <Label for='name'>
+                    إلى
+                  </Label>
+                  <MuiPickersUtilsProvider
+                    libInstance={moment}
+                    utils={MomentUtils}
+                    locale={"sw"}
+                    className="bg-danger"
+                  >
+                    <KeyboardDatePicker
+                    className="w-100"
+                    okLabel="تحديد"
+                    cancelLabel="الغاء"
+                    format="L"
+                    value={store.seriesDateTo} 
+                    inputVariant="outlined"
+                    variant="dialog"
+                    maxDateMessage=""
+                    mask="__-__-____"
+                    placeholder="يوم/شهر/سنة"
+                    onChange={(date) => handleToDateChange(date)} 
+                    views={["year", "month", "date"]}
+                  />
+                </MuiPickersUtilsProvider>
+                </FormGroup>
+              </Col>
             </Row>
-            <Row className='mx-0'>
-              <Col md={12} className='text-right'>
-                  <Button.Ripple color='primary' size='sm' onClick={() => toggleTable(0)}>
-                      أنشاء جدول
+            <Row className="mx-0">
+              <Col sm='12' >
+                <Label for='name'>
+                  {intl.formatMessage({id: "Dimension"})} 
+                </Label>
+                <Select
+                  placeholder="تحديد"
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  options={store.indicatorDetails.indicatorDimensionsDtos}
+                  value={selectedDimension.id ? selectedDimension : []}
+                  getOptionLabel={(option) => option?.name}
+                  getOptionValue={(option) => option.id}
+                  name='dimension'
+                  id='dimension'
+                  className='react-select'
+                  classNamePrefix='select'
+                  onChange={e => handleDimensionChange(e) }
+                />
+              </Col>
+              <Col sm='12' >
+                <Label for='name'>
+                  {intl.formatMessage({id: "DimensionValues"})} 
+                </Label>
+                <Select
+                  placeholder="تحديد"
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  options={dimensionValues}
+                  value={selectedDimensionValues}
+                  getOptionLabel={(option) => option.name_A}
+                  getOptionValue={(option) => option.id}
+                  isMulti
+                  name='dimension'
+                  id='dimension'
+                  className='react-select'
+                  classNamePrefix='select'
+                  onChange={e => handleDimensionValueChange(e) }
+                />
+              </Col>
+              <Col md={6} className="mt-2">
+                  <Button.Ripple color='primary' size='sm' onClick={addToSelectedDimensions}>
+                        <Plus /> أضافة
                   </Button.Ripple>
               </Col>
             </Row>
-          </>
-        }
-      </div>}
-      {formContentActive === 0 && <div>
+            
+            {store.seriesDimensions.length > 0 &&
+              <>
+                <Row className='mx-0'>
+                <Col md={12} className='card mt-2 p-1'>
+                {store.seriesExcelDimensions.map((item, idx) => (
+                    <div key={idx} className='dark-layout mb-2 d-flex align-items-center px-2'
+                    >
+                        <div> <ArrowsIcon className='mr-1'/> 
+                            {store.indicatorDetails.indicatorDimensionsDtos.find(e => parseInt(e.id.split("::")[0]) === item.dimensionId && parseInt(e.id.split("::")[1]) === item.levelNumber)?.name} 
+                        </div>
+                        {
+                        item.dimensionValues.map((innerItem, idx) => (
+                        <div
+                            key={idx}
+                            className="ml-2 px-2 d-flex align-items-center"
+                            style={{
+                                backgroundColor: "lightGray",
+                                padding: "0.5rem",
+                                borderRadius: 16
+                            }}>
+                        <p className="mb-0 mx-1 text-white">{innerItem.name_A}</p>
+                        </div>
+                        ))
+                    }
+                    <hr/>
+                    </div>
+                    ))}
+                </Col>
+                  <Col md={12} className='text-center mb-1'>
+                      <Button.Ripple className='py-1 btn-green'  style={{width: "200px"}}  onClick={() => toggleTable(0)}>
+                          بحث
+                      </Button.Ripple>
+                  </Col>
+                </Row>
+               
+              </>
+            }
+          </div>
+        </Card>
+       
+      </Col>
+    </Row>
+    
+      {/* {formContentActive === 0 && <div>
         <Row className="mx-0">
           <Col md={12}>
             <SeriesTable toggleTable={toggleTable}/>
           </Col>
         </Row>
-      </div>}
+      </div>} */}
     </>
    
   )
