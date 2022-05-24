@@ -77,7 +77,7 @@ const DashboardSlider = () => {
               return (
                 <SwiperSlide key={index} className="rounded swiper-shadow p-1 dashboardSlider">
                 {/* <a href={item.url} target="_blank" > */}
-                <Link className='mr-2' to={`/Dashboards/Details/${item.id}`} >
+                <Link className='mr-2 alert-heading' to={`/Dashboards/Details/${item.id}`} >
                 
                 <div className="mb-1" style={{ fontSize: 22 }}>
                   {item.name_A}

@@ -7,6 +7,7 @@ import PickerDefault from "../PickerDefault"
 import SeriesTab from "./SeriesTab"
 import ExcelTab from "./ExcelTab"
 import DashboardList from "./DashboardList"
+import LineChart from "./lineChart"
 
 const Tabs = ({id}) => {
     const [active, setActive] = useState('1')
@@ -63,7 +64,7 @@ const Tabs = ({id}) => {
         <SeriesTab/>
       </TabPane>
       <TabPane tabId='2'>
-        <div>رسم بياني</div>
+          <LineChart/>
       </TabPane>
       <TabPane tabId='3'>
         <DashboardList id={ID} />

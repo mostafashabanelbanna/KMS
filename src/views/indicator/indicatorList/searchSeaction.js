@@ -33,31 +33,6 @@ const SearchSection = ({handleSearch, searchId}) => {
     })
   }
 
-  useEffect(() => {
-    if (searchId && sectors) dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: [sectors.find(x => x.id === parseInt(searchId))] })
-  }, [searchId, sectors])
-
-  console.log(sectors)
-  console.log(searchId)
-  console.log(store)
-  
-
-  const handlePeriodicityChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: e })
-  }
-  const handleSourceChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_SOURCE", sources: e })
-  }
-  const handleCategoryChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: e })
-  }
-  const handleSectorChange = (e) => {
-    console.log(e)
-    dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: e })
-  }
-  const handleNameChange = (e) => {
-    dispatch({type: "SET_FRONT_INDICATOR_NAME", name: e.target.value })
-  }
   const removeSearch = () => {
     dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: []})
     dispatch({type: "SET_FRONT_INDICATOR_SOURCE", sources: []})
@@ -76,12 +51,36 @@ const SearchSection = ({handleSearch, searchId}) => {
     }
     dispatch(getData(submitedData))
   }
+
+  useEffect(() => {
+    if (searchId && sectors && window.location.href.includes('sectors')) dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: [sectors.find(x => x.id === parseInt(searchId))] })
+  }, [searchId, sectors])
+
+  useEffect(() => {
+    if (searchId && categories && window.location.href.includes('categories')) dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: [categories.find(x => x.id === parseInt(searchId))] })
+  }, [searchId, categories])
+
+  console.log("store", store)
+
+  const handlePeriodicityChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: e })
+  }
+  const handleSourceChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_SOURCE", sources: e })
+  }
+  const handleCategoryChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: e })
+  }
+  const handleSectorChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: e })
+  }
+  const handleNameChange = (e) => {
+    dispatch({type: "SET_FRONT_INDICATOR_NAME", name: e.target.value })
+  }
+
   useEffect(() => {
     getAllDropDowns()
   }, [])
-
-console.log(searchId)
-if (sectors) console.log([...sectors, sectors.find(x => x.id === parseInt(searchId))])
 
     return (
       <div
@@ -146,7 +145,8 @@ if (sectors) console.log([...sectors, sectors.find(x => x.id === parseInt(search
         <hr className="w-100 bg-gray mt-0 mb-2" />
         <MultiselectionSection title={"المصادر"} values={store.sources} options={sources} handleValueChange={handleSourceChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"التصنيفات"} values={store.categories} options={categories} handleValueChange={handleCategoryChange}/>
+        {searchId && <MultiselectionSection title={"التصنيفات"} values={[...store.categories]} options={categories} handleValueChange={handleCategoryChange}/>}
+        {!searchId && <MultiselectionSection title={"التصنيفات"} values={store.categories} options={categories} handleValueChange={handleCategoryChange}/>}
         <hr className="w-100 bg-gray mt-0 mb-2" />
         {searchId && <MultiselectionSection title={"القطاعات"} values={[...store.sectors]} options={sectors} handleValueChange={handleSectorChange}/>}
         {!searchId && <MultiselectionSection title={"القطاعات"} values={store.sectors} options={sectors} handleValueChange={handleSectorChange}/>}

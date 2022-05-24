@@ -22,7 +22,7 @@ const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
     const result = await addToFavorit("Indicator", id)
     if (result) {
       const ele = allIndicators.find(x => x.id === id)
-      ele.isFavorit = true
+      ele.isFavorite = true
       setAllIndicators([...allIndicators])
     }
   }
@@ -31,7 +31,7 @@ const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
     const result = await removeFromFavorit("Indicator", id)
     if (result) {
       const ele = allIndicators.find(x => x.id === id)
-      ele.isFavorit = false
+      ele.isFavorite = false
       setAllIndicators([...allIndicators])
     }
   }
@@ -68,7 +68,7 @@ const IndicatorList = ({indicators, pageNumber, handlePagination, count}) => {
       name: 'المفضلة',
       selector: (row, index) => {
         return (<>
-                   {row.isFavorit ? <FaHeart size={25} className='cursor-pointer' onClick={e => RemoveIndicatorFromFavorite(row.id)}/> : <Heart onClick={e => AddIndicatorToFavorite(row.id)} size={25} className='cursor-pointer'/>} 
+                   {row.isFavorite ? <FaHeart size={25} className='cursor-pointer' onClick={e => RemoveIndicatorFromFavorite(row.id)}/> : <Heart onClick={e => AddIndicatorToFavorite(row.id)} size={25} className='cursor-pointer'/>} 
               </>)
     },
       sortable: true,

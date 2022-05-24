@@ -21,7 +21,7 @@ const WebResourcesCard = (item) => {
     if (result) {
       if (store.webResources && store.webResources.length > 0) {
         const ele = store.webResources.find(x => x.id === id)
-        ele.isFavorit = true
+        ele.isFavorite = true
         dispatch({type: "GET_FRONT_WEB_RESOURCES_DATA", data: [...store.webResources], totalPages: store.totalPages, totalCount: store.totalCount })
       }
     }
@@ -32,7 +32,7 @@ const WebResourcesCard = (item) => {
     if (result) {
       if (store.webResources && store.webResources.length > 0) {
         const ele = store.webResources.find(x => x.id === id)
-        ele.isFavorit = false
+        ele.isFavorite = false
         dispatch({type: "GET_FRONT_WEB_RESOURCES_DATA", data: [...store.webResources], totalPages: store.totalPages, totalCount: store.totalCount })
       }
     }
@@ -69,7 +69,7 @@ const WebResourcesCard = (item) => {
           </div>
         </div> */}
         <div className="d-flex">
-            {item.item.isFavorit && <FontAwesomeIcon
+            {item.item.isFavorite && <FontAwesomeIcon
               icon={solidHeart}
               color="#08a291"
               className="col"
@@ -78,7 +78,7 @@ const WebResourcesCard = (item) => {
               onClick={() => RemoveIndicatorFromFavorite(item.item.id)}
             />
             }
-            {!item.item.isFavorit && <FontAwesomeIcon
+            {!item.item.isFavorite && <FontAwesomeIcon
               icon={faHeart}
               color="#08a291"
               className="col"

@@ -221,13 +221,26 @@ const InquiryList = () => {
         <div className='w-100'>
           <div className='row mx-0'>
             <div className='col-md-12'>
-              <div className="mb-2 d-flex justify-content-between">
+              <div className="mb-2 d-flex justify-content-end">
                 <div className="my-1">
                     <Button.Ripple color='primary' onClick={addInquiry} >
                       <FormattedMessage id="Add" />
                     </Button.Ripple>
                 </div>
-                <div>
+                
+              </div>
+            </div>
+          </div>
+
+          <div className='row'>
+              <div className='col-md-12'>
+                {layoutStore.loading === true && <ComponentSpinner/>}
+                {layoutStore.loading === false && store.frontData.map((item, idx) => (
+                  <InquiryCard key={idx} item={item}/>
+                ))}
+              </div>
+          </div>
+          <div>
                   {store.frontData.length > 0 &&
                     <ReactPaginate
                       previousLabel={''}
@@ -246,18 +259,6 @@ const InquiryList = () => {
                   />
                   }
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div className='row'>
-              <div className='col-md-12'>
-                {layoutStore.loading === true && <ComponentSpinner/>}
-                {layoutStore.loading === false && store.frontData.map((item, idx) => (
-                  <InquiryCard key={idx} item={item}/>
-                ))}
-              </div>
-          </div>
           <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} selectedInquiry={store.selectedInquiry} departments={departments} />
         </div>
       )}

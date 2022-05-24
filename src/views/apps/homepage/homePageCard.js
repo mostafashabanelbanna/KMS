@@ -65,7 +65,8 @@ const HomeCard = ({ title, addedLatelyComp, favorite }) => {
           </div>
           <div className="col-11 px-2">
             <div className="d-flex flex-column">
-              <h2 className="mb-1" style={{fontSize: 20}}>عناصر البيانات</h2>
+              {!favorite && <Link to={{ pathname: `/indicator/landingPage`}} className='alert-heading mb-1' style={{fontSize: 20}}>عناصر البيانات</Link>}
+              {favorite && <Link to={{ pathname: `/Favorite/indicator`}} className='alert-heading mb-1' style={{fontSize: 20}}>عناصر البيانات</Link>}
               {!favorite && indicators.map((item, index) => {
                 return (
                   <><div className="d-flex flex-wrap align-items-start col-12">
@@ -111,7 +112,8 @@ const HomeCard = ({ title, addedLatelyComp, favorite }) => {
           </div>
           <div className="col-11 px-2">
             <div className="d-flex flex-column">
-              <h3 className="mb-1" style={{fontSize: 20}}>إصدارات</h3>
+            {!favorite && <Link to={{ pathname: `/document/landingPage`}} className='alert-heading mb-1' style={{fontSize: 20}}>إصدارات</Link>}
+            {favorite && <Link to={{ pathname: `/Favorite/document`}} className='alert-heading mb-1' style={{fontSize: 20}}>إصدارات</Link>}
               {!favorite && docuements.map((item, index) => {
                 return (
                   <>

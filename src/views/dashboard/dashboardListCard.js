@@ -18,7 +18,7 @@ const DashboardCard = (item) => {
     if (result) {
       if (store.dashboards && store.dashboards.length > 0) {
         const ele = store.dashboards.find(x => x.id === id)
-        ele.isFavorit = true
+        ele.isFavorite = true
         dispatch({type: "GET_FRONT_DASHBOARDS_DATA", data: [...store.dashboards], totalPages: store.totalPages, totalCount: store.totalCount })
       }
     }
@@ -29,7 +29,7 @@ const DashboardCard = (item) => {
     if (result) {
       if (store.dashboards && store.dashboards.length > 0) {
         const ele = store.dashboards.find(x => x.id === id)
-        ele.isFavorit = false
+        ele.isFavorite = false
         dispatch({type: "GET_FRONT_DASHBOARDS_DATA", data: [...store.dashboards], totalPages: store.totalPages, totalCount: store.totalCount })
       }
     }
@@ -51,7 +51,7 @@ const DashboardCard = (item) => {
           </Link>
         </div>
         <div className="d-flex">
-            {item.item.isFavorit && <FontAwesomeIcon
+            {item.item.isFavorite && <FontAwesomeIcon
               icon={solidHeart}
               color="#08a291"
               className="col"
@@ -60,7 +60,7 @@ const DashboardCard = (item) => {
               onClick={() => RemoveIndicatorFromFavorite(item.item.id)}
             />
             }
-            {!item.item.isFavorit && <FontAwesomeIcon
+            {!item.item.isFavorite && <FontAwesomeIcon
               icon={faHeart}
               color="#08a291"
               className="col"

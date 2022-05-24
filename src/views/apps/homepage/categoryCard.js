@@ -153,20 +153,22 @@ const CategoryCard = () => {
                 <div className="d-flex flex-wrap">
                     {/* "#161d31" */}
                     {sectors.map((item, index) => {
+                      console.log(item)
                         return (
                             <div className='col-lg-4 col-12 px-1 py-xl-0 py-2 my-1'>
                             <div className="d-flex justify-content-center align-items-center flex-column py-1" style={{backgroundColor: "#eaeaeb", borderRadius: 10}}>
                                 <div className='d-flex flex-wrap col-12 pb-1'>
-                                    <div className='text-center col-xl-2 col-lg-12 col-2 px-0'><img src={fiBrChartPieAlt} width="20px"/></div>
-                                    <div className='text-center col-xl-8 col-lg-12 col-8 px-1' style={{fontSize: 14, fontWeight: "bold"}}>{item.name_A}</div>
-                                    <div className='text-center col-xl-2 col-lg-12 col-2 px-0' style={{color: "#3D5484", fontSize: 14}}>{item.indicatorCount}</div>
+                                    <div className='text-center col-2 px-0'><img src={fiBrChartPieAlt} width="20px"/></div>
+                                    <Link to={{ pathname: `/indicator/landingPage/sectors/${item.id}`}} className='text-center col-8 px-1 alert-heading' style={{fontSize: 14, fontWeight: "bold"}}>{item.name_A}</Link>
+                                    <div className='text-center col-2 px-0' style={{color: "#3D5484", fontSize: 14}}>{item.indicatorCount}</div>
                                 </div>
                                 <div className='d-flex flex-column col-12 px-0'>
                                     {item.childNames.map((child,  childIndex) => {
+                                      
                                         return (
                                             <div className='d-flex col-12 pb-1'>
                                                 <div><img src={subTitles} width="15px"/></div>
-                                                <Link to={{ pathname: `/indicator/landingPage/${item.id}`}} className='col-11' style={{fontSize: 14}}>{child}</Link>
+                                                <Link to={{ pathname: `/indicator/landingPage/sectors/${child.id}`}} className='col-11 alert-heading' style={{fontSize: 14}}>{child.name_A}</Link>
                                             </div>
                                         )
                                     })}
@@ -239,12 +241,12 @@ const CategoryCard = () => {
                               <div className='col-1'>
                                 <img src={fiBrChartPieAlt} />
                               </div>
-                              <div
-                                className="p-1 col text-center"
+                              <Link to={{ pathname: `/indicator/landingPage/categories/${item.id}`}} 
+                                className="p-1 col text-center alert-heading"
                                 style={{ fontSize: 14 }}
                               >
                                 {item.name_A}
-                              </div>
+                              </Link>
                               <div className='col-2 p-0' style={{ color: "#3D5484", fontSize: 14 }}>
                                 {item.indicatorCount}
                               </div>

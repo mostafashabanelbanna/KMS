@@ -133,7 +133,7 @@ export default [
   {
     id: 'User',
     title: 'إدارة الصلاحيات',
-    icon: <User size={20} />,
+    icon: <Settings size={20} />,
     admin: true,
     children: [
       {

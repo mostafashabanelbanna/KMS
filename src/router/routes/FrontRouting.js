@@ -3,16 +3,24 @@ import { Redirect } from 'react-router-dom'
 
 const FrontRoutes = [
     {
-        path: '/indicator/landingPage/:Id',
-        component: lazy(() => import('../../views/indicator/indicatorList/landingPage'))
+        path: '/indicator/landingPage/sectors/:Id',
+        component: lazy(() => import('../../views/indicator/indicatorList/landingPage')),
+        exact: true
+    },
+    {
+        path: '/indicator/landingPage/categories/:Id',
+        component: lazy(() => import('../../views/indicator/indicatorList/landingPage')),
+        exact: true
     },
     {
         path: '/indicator/landingPage',
-        component: lazy(() => import('../../views/indicator/indicatorList/landingPage'))
+        component: lazy(() => import('../../views/indicator/indicatorList/landingPage')),
+        exact: true
     },
     {
         path: '/indicator/indicatorDetails/:Id',
-        component: lazy(() => import('../../views/indicator/indicatorDetails/index'))
+        component: lazy(() => import('../../views/indicator/indicatorDetails/index')),
+        exact: true
     },
     {
         path: '/indicator/classification/:classificationId/:parentId',
@@ -60,7 +68,13 @@ const FrontRoutes = [
     },
     {
         path: '/Favorite',
-        component: lazy(() => import('../../views/Favorite'))
+        component: lazy(() => import('../../views/Favorite')),
+        exact: true
+    },
+    {
+        path: '/Favorite/:name',
+        component: lazy(() => import('../../views/Favorite')),
+        exact: true
     },
     {
         path: '/Definitionss/landingPage',
