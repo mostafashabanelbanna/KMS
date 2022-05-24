@@ -166,7 +166,7 @@ const CategoryCard = () => {
                                         return (
                                             <div className='d-flex col-12 pb-1'>
                                                 <div><img src={subTitles} width="15px"/></div>
-                                                <div className='col-11' style={{fontSize: 14}}>{child}</div>
+                                                <Link to={{ pathname: `/indicator/landingPage/${item.id}`}} className='col-11' style={{fontSize: 14}}>{child}</Link>
                                             </div>
                                         )
                                     })}

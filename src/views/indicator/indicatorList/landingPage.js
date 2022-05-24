@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getData } from './../store/action/index'
 import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 import ReactPaginate from 'react-paginate'
+import { useParams } from "react-router-dom"
 
 
 const LandingPage = () => {
@@ -17,6 +18,8 @@ const LandingPage = () => {
   const dispatch = useDispatch()
   const store = useSelector(state => state.frontIndicators)
   const layoutStore = useSelector(state => state.layout)
+
+  const { Id } = useParams()
 
   const [showSearchParams, setShowSearchParams] = useState(false)
   const [showSearchSection, setShowSearchSection] = useState(true)
@@ -52,7 +55,7 @@ const LandingPage = () => {
       name: store.name,
       periodicities: periods,
       sources: srcs,
-      classificationValues: _classificationValues,
+      classificationValues: Id ? [Id, ..._classificationValues] : _classificationValues,
       startDate: store.dateFrom,
       endDate: store.dateTo
     }
@@ -144,7 +147,7 @@ const LandingPage = () => {
 
             </div>
           </div> : <div className="d-block d-lg-none col-12">
-            <SearchSection handleSearch={handleSearchSubmit} />
+            <SearchSection searchId={Id} handleSearch={handleSearchSubmit} />
           </div>}
 
           <div className="d-flex mb-2">
@@ -177,7 +180,7 @@ const LandingPage = () => {
         </div>
 
         <div className="d-none d-lg-block col-lg-4 col-12">
-          <SearchSection handleSearch={handleSearchSubmit} />
+          <SearchSection searchId={Id} handleSearch={handleSearchSubmit} />
         </div>
       </div>
     </>

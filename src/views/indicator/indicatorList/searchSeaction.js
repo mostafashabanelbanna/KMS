@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { getData } from '../store/action/index'
 
-const SearchSection = ({handleSearch}) => {
+const SearchSection = ({handleSearch, searchId}) => {
   // redux states
   const dispatch = useDispatch()
   const store = useSelector(state => state.frontIndicators)
@@ -32,6 +32,16 @@ const SearchSection = ({handleSearch}) => {
        .catch(error => {
     })
   }
+
+  useEffect(() => {
+    if (searchId && sectors) dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: [sectors.find(x => x.id === parseInt(searchId))] })
+  }, [searchId, sectors])
+
+  console.log(sectors)
+  console.log(searchId)
+  console.log(store)
+  
+
   const handlePeriodicityChange = (e) => {
     dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: e })
   }
@@ -42,6 +52,7 @@ const SearchSection = ({handleSearch}) => {
     dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: e })
   }
   const handleSectorChange = (e) => {
+    console.log(e)
     dispatch({type: "SET_FRONT_INDICATOR_SECTOR", sectors: e })
   }
   const handleNameChange = (e) => {
@@ -68,6 +79,10 @@ const SearchSection = ({handleSearch}) => {
   useEffect(() => {
     getAllDropDowns()
   }, [])
+
+console.log(searchId)
+if (sectors) console.log([...sectors, sectors.find(x => x.id === parseInt(searchId))])
+
     return (
       <div
         className="card d-flex flex-column mb-2"
@@ -133,7 +148,9 @@ const SearchSection = ({handleSearch}) => {
         <hr className="w-100 bg-gray mt-0 mb-2" />
         <MultiselectionSection title={"التصنيفات"} values={store.categories} options={categories} handleValueChange={handleCategoryChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"القطاعات"} values={store.sectors} options={sectors} handleValueChange={handleSectorChange}/>
+        {searchId && <MultiselectionSection title={"القطاعات"} values={[...store.sectors]} options={sectors} handleValueChange={handleSectorChange}/>}
+        {!searchId && <MultiselectionSection title={"القطاعات"} values={store.sectors} options={sectors} handleValueChange={handleSectorChange}/>}
+        
         <hr className="w-100 bg-gray mt-0 mb-2" />
 
         {/*  */}
