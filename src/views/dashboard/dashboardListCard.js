@@ -2,11 +2,39 @@ import { Link } from "react-router-dom"
 import { Fragment, useState } from "react"
 import { Button, Tooltip } from "reactstrap"
 import "moment/locale/ar"
-import SliderB1 from "@src/assets/images/icons/SliderB1.png"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faHeart } from "@fortawesome/free-regular-svg-icons"
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons"
+import { addToFavorit, notify, removeFromFavorit } from '../../utility/Utils'
+import { useDispatch, useSelector } from 'react-redux'
 
 const DashboardCard = (item) => {
   const [tooltipOpen, setTooltipOpen] = useState(false)
+  const store = useSelector(state => state.FrontDashboards)
+  const dispatch = useDispatch()
 
+  const AddIndicatorToFavorite = async (id) => {  
+    const result = await addToFavorit("webResource", id)
+    if (result) {
+      if (store.dashboards && store.dashboards.length > 0) {
+        const ele = store.dashboards.find(x => x.id === id)
+        ele.isFavorit = true
+        dispatch({type: "GET_FRONT_DASHBOARDS_DATA", data: [...store.dashboards], totalPages: store.totalPages, totalCount: store.totalCount })
+      }
+    }
+  }
+
+  const RemoveIndicatorFromFavorite = async (id) => {  
+    const result = await removeFromFavorit("webResource", id)
+    if (result) {
+      if (store.dashboards && store.dashboards.length > 0) {
+        const ele = store.dashboards.find(x => x.id === id)
+        ele.isFavorit = false
+        dispatch({type: "GET_FRONT_DASHBOARDS_DATA", data: [...store.dashboards], totalPages: store.totalPages, totalCount: store.totalCount })
+      }
+    }
+  }
+  
   return (
     <div
       className="card d-flex flex-column py-1 mb-2"
@@ -17,27 +45,31 @@ const DashboardCard = (item) => {
       key={item.item.id}
     >
       <div className="d-flex">
-        <div className="d-flex align-items-center dark-layout mb-1 px-2 col-10 font-18">
-          <div
-            className="mr-1"
-            style={{
-              backgroundImage: `url('${SliderB1}')`,
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              height: 30,
-              width: 30
-            }}
-          ></div>
-          <Link to={{ pathname: `/Dashboards/DashboardDetails/${item.item.id}`, state: { Id : item.item.id}}} className="mb-0" style={{ fontSize: 16, width: "fit-content" }}>
+        <div className="d-flex align-items-center dark-layout mb-1 px-2 col-11 font-18">
+          <Link to={{ pathname: `/Dashboards/Details/${item.item.id}`, state: { Id : item.item.id}}} className="mb-0" style={{ fontSize: 16, width: "fit-content" }}>
             {item.item.name}
           </Link>
         </div>
-        <div className="d-flex col-2">
-          <div className="col-9 d-flex justify-content-end">
-            كود {item.item.id}
+        <div className="d-flex">
+            {item.item.isFavorit && <FontAwesomeIcon
+              icon={solidHeart}
+              color="#08a291"
+              className="col"
+              width={20}
+              style={{ cursor: "pointer" }}
+              onClick={() => RemoveIndicatorFromFavorite(item.item.id)}
+            />
+            }
+            {!item.item.isFavorit && <FontAwesomeIcon
+              icon={faHeart}
+              color="#08a291"
+              className="col"
+              width={20}
+              style={{ cursor: "pointer" }}
+              onClick={() => AddIndicatorToFavorite(item.item.id)}
+            />
+            }
           </div>
-        </div>
       </div>
       <div className="d-flex flex-column align-items-center flex-md-row">
         {item.item.description && (

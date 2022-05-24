@@ -5,7 +5,7 @@ import SliderB1 from "@src/assets/images/icons/SliderB1.png"
 const PublishInformation = ({ details }) => {
     if (details) {
         return (
-            <div className="col-xl-2 col-lg-3 col-12 card d-flex flex-column">
+            <div className="col-lg-3 col-12 card d-flex flex-column">
                 <div className="d-flex mt-2 align-items-center">
                     <p className="mb-0 col-12 p-0" style={{ fontSize: 16, color: "#3d5484" }}>بيانات الإصدارة</p>
                 </div>

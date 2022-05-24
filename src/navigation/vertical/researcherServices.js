@@ -4,12 +4,12 @@ import { FaHeart, FaNewspaper, FaInfoCircle } from "react-icons/fa"
 import { User, BookOpen } from 'react-feather'
 
 export default [
-  {
-    header: "Researchers Services"
-  },
+  // {
+  //   header: "Researchers Services"
+  // },
   {
     id: "indicators",
-    title: "Indicators And Datasets",
+    title: "Indicators",
     icon: <CgPerformance size={20} />,
     navLink: "/indicator/landingPage"
     // children: [
@@ -60,16 +60,10 @@ export default [
     navLink: "/document/landingPage"
   },
   {
-    id: "Inquiry",
-    title: "Inquiry",
-    icon: <FaInfoCircle size={20} />,
-    navLink: "/Researcher/Inquiry"
-  },
-  {
-    id: "WebResources",
-    title: "WebResources",
-    icon: <User size={20} />,
-    navLink: "/webResources/index"
+    id: "Dashboards",
+    title: "Dashboards",
+    icon: <BookOpen size={20} />,
+    navLink: "/Dashboards/landingPage"
   },
   {
     id: "Definitions",
@@ -78,15 +72,21 @@ export default [
     navLink: "/Definitionss/landingPage"
   },
   {
+    id: "WebResources",
+    title: "WebResources",
+    icon: <User size={20} />,
+    navLink: "/webResources/index"
+  },
+  {
+    id: "Inquiry",
+    title: "Inquiry",
+    icon: <FaInfoCircle size={20} />,
+    navLink: "/Researcher/Inquiry"
+  },
+  {
     id: "Favorites",
     title: "Favorites",
     icon: <FaHeart size={20} />,
     navLink: "/Favorite"
-  },
-  {
-    id: "Dashboards",
-    title: "Dashboards",
-    icon: <BookOpen size={20} />,
-    navLink: "/Dashboards/landingPage"
   }
 ]

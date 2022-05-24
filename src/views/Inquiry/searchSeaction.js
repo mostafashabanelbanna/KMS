@@ -130,13 +130,15 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
           </div>
         </form>
 
-        <DateSearchSection/>
-        <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"الإدارة"} values={store.frontParams.departments} options={departments} handleValueChange={handleDepartmentChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
         <MultiselectionSection title={"الحالة"} values={store.frontParams.status} options={status} handleValueChange={handleStatusChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
+        <MultiselectionSection title={"الإدارة"} values={store.frontParams.departments} options={departments} handleValueChange={handleDepartmentChange}/>
+        <hr className="w-100 bg-gray mt-0 mb-2" />
+
         <MultiselectionSection title={"مزود البيانات"} values={store.frontParams.providers} options={providers} handleValueChange={handleProviderChange}/>
+        <hr className="w-100 bg-gray mt-0 mb-2" />
+        <DateSearchSection/>
         <hr className="w-100 bg-gray mt-0 mb-2" />
 
         {/*  */}

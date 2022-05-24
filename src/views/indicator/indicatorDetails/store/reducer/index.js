@@ -14,8 +14,8 @@ const initialState = {
     //Excel Data
     excelDate: new Date(),
     excelDimensions:[],
-    exportExcelErrorCode: 200
-
+    exportExcelErrorCode: 200,
+    id: -1
 }
 
 const indicatorDetails = (state = initialState, action) => {
@@ -46,7 +46,10 @@ const indicatorDetails = (state = initialState, action) => {
             return {...state, excelDimensions: action.excelDimensions}
         case 'SET_INDICATOR_DETAILS_EXCEL_EXPORT_RESPONSE':
             return {...state, exportExcelErrorCode: action.errorCode}
-        
+        case 'SET_INDICATOR_ID':
+            return {...state, id: action.id}
+        case 'GET_INDICATOR_DASHBOARD_DATA':
+            return {...state, dashboards: action.data, totalPages: action.totalPages, totalCount: action.totalCount}
         default:
             return {...state}
     }

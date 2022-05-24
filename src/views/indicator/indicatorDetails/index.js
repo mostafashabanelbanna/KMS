@@ -22,23 +22,28 @@ import '@styles/react/libs/swiper/swiper.scss'
 import '@styles/react/apps/app-users.scss'
 import Tabs from './seriesAndExcel/Tabs'
 import { useDispatch, useSelector } from 'react-redux'
-import { getIndicatorDetails } from './store/action'
+import { getIndicatorDetails, setIndicatorID } from './store/action'
 import ComponentSpinner from '../../../@core/components/spinner/Fallback-spinner'
 import { X, ArrowDown } from 'react-feather'
 import Feedback from '../../Feedback'
+import { useParams } from 'react-router-dom'
 
 SwiperCore.use([Navigation, Pagination, EffectFade, EffectCube, EffectCoverflow, Autoplay, Lazy, Virtual])
 
 const indicatorDetails = (props) => {
   const dispatch = useDispatch()
   const store = useSelector(state => state.indicatorDetails)
-
+  const params = useParams()
+  const Id = parseInt(params.Id)
   const [isRtl, setIsRtl] = useRTL()
   const [descriptionCardIsOpen, setDescriptionCardIsOpen] = useState(true)
   const intl = useIntl()
 
+  console.log("Id from Index", Id)
+
   useEffect(() => {
-    dispatch(getIndicatorDetails(props.location.state.Id))
+    dispatch(setIndicatorID(Id))
+    dispatch(getIndicatorDetails(Id))
     dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSIONS", dimensions: []})
     dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSION_VALUES", dimensionValues: []})
   }, [dispatch])
@@ -78,7 +83,7 @@ const indicatorDetails = (props) => {
           </Row>
           <Row className="pt-2">
             <Col sm={descriptionCardIsOpen ? '9' : '12'}>
-                <SwiperCenterSlidesStyle  isRtl={isRtl} avilableCopies={store.indicatorDetails.indicatorAvilableCopies} />
+                <SwiperCenterSlidesStyle id={Id} isRtl={isRtl} avilableCopies={store.indicatorDetails.indicatorAvilableCopies} />
                 {/* <Tabs/> */}
             </Col>
             {descriptionCardIsOpen && 

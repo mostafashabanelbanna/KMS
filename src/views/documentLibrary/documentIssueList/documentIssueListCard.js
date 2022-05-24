@@ -46,7 +46,7 @@ const DocumentIssueCard = (item) => {
       }}
     >
       <div className="d-flex">
-        <div className="dark-layout mb-1 px-2 col-8 font-18">
+        <div className="dark-layout mb-1 px-2 col-11 font-18">
           <Link
             className="d-block"
             style={{width: "fit-content"}}
@@ -58,10 +58,10 @@ const DocumentIssueCard = (item) => {
             {item.item.name}
           </Link>
         </div>
-        <div className="d-flex col-4">
-          <div className="col-9 d-flex justify-content-end">
+        <div className="d-flex">
+          {/* <div className="col-9 d-flex justify-content-end">
             كود {item.item.id}
-          </div>
+          </div> */}
 
           {item.item.isFavorite && (
             <FontAwesomeIcon

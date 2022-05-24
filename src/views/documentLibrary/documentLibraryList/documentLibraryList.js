@@ -38,7 +38,7 @@ const DocumentLibraryList = () => {
                 <p className="fa-2x mb-3 mt-1">{store?.details?.name}</p>
             </div>
             <div className="d-flex">
-                <div className="d-flex flex-column col-xl-10 col-lg-9 col-12 px-1">
+                <div className="d-flex flex-column col-lg-9 col-12 px-1">
                     <SearchSection Id={Id} searchData={searchData} setSearchData={setSearchData} />
                     <TableSection Id={Id} searchData={searchData} setSearchData={setSearchData} />
                 </div>

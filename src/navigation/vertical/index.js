@@ -18,16 +18,16 @@ import systemServices from './systemServices'
 export default [
     ...apps,
     ...researcherServices,
-    ...manageIndicators,
-    ...systemServices,
+    ...manageIndicators//,
+    //...systemServices,
     // ...dashboard,
     // ...manageDataset,
     // ...manageClassifications,
     // ...manageDimensions,
-    ...managePublications,
-    ...manageInquiries,
+    //...managePublications,
+    //...manageInquiries,
     // ...manageComments,
     // ...manageNotifications,
-    ...manageSystem
+    //...manageSystem
     //, ...dashboards,  ...pages, ...uiElements, ...forms, ...tables, ...chartsAndMaps, ...others
 ]

@@ -2,10 +2,41 @@ import { Link } from 'react-router-dom'
 import { Download } from 'react-feather'
 import * as moment from "moment"
 import "moment/locale/ar"
-import SliderB1 from "@src/assets/images/icons/SliderB1.png"
+import { Fragment, useState } from "react"
+import { Button, Tooltip } from "reactstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faHeart } from "@fortawesome/free-regular-svg-icons"
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons"
+import { addToFavorit, notify, removeFromFavorit } from '../../utility/Utils'
+import { useDispatch, useSelector } from 'react-redux'
 
 const WebResourcesCard = (item) => {
-  console.log(item)
+  const store = useSelector(state => state.FrontWebResources)
+  const dispatch = useDispatch()
+
+  console.log(store)
+
+  const AddIndicatorToFavorite = async (id) => {  
+    const result = await addToFavorit("webResource", id)
+    if (result) {
+      if (store.webResources && store.webResources.length > 0) {
+        const ele = store.webResources.find(x => x.id === id)
+        ele.isFavorit = true
+        dispatch({type: "GET_FRONT_WEB_RESOURCES_DATA", data: [...store.webResources], totalPages: store.totalPages, totalCount: store.totalCount })
+      }
+    }
+  }
+
+  const RemoveIndicatorFromFavorite = async (id) => {  
+    const result = await removeFromFavorit("webResource", id)
+    if (result) {
+      if (store.webResources && store.webResources.length > 0) {
+        const ele = store.webResources.find(x => x.id === id)
+        ele.isFavorit = false
+        dispatch({type: "GET_FRONT_WEB_RESOURCES_DATA", data: [...store.webResources], totalPages: store.totalPages, totalCount: store.totalCount })
+      }
+    }
+  }
   return (
     <div
       className="card d-flex flex-column py-1 mb-2"
@@ -15,11 +46,11 @@ const WebResourcesCard = (item) => {
       }}
     >
       <div className="d-flex">
-        <div className="d-flex align-items-center dark-layout mb-1 px-2 col-10 font-18">
+        <div className="d-flex align-items-center align-items-center dark-layout mb-1 px-2 col-11 font-18">
           <div
             className='mr-1'
             style={{
-              backgroundImage: `url('${SliderB1}')`,
+              backgroundImage: `url('${process.env.REACT_APP_MAINPATH}/WebResource/Logo/${item.item.id}/${item.item.logo}')`,
               backgroundPosition: "center",
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
@@ -32,11 +63,31 @@ const WebResourcesCard = (item) => {
             {item.item.name}
           </a>
         </div>
-        <div className="d-flex col-2">
+        {/* <div className="d-flex col-2">
           <div className="col-9 d-flex justify-content-end">
             كود {item.item.id}
           </div>
-        </div>
+        </div> */}
+        <div className="d-flex">
+            {item.item.isFavorit && <FontAwesomeIcon
+              icon={solidHeart}
+              color="#08a291"
+              className="col"
+              width={20}
+              style={{ cursor: "pointer" }}
+              onClick={() => RemoveIndicatorFromFavorite(item.item.id)}
+            />
+            }
+            {!item.item.isFavorit && <FontAwesomeIcon
+              icon={faHeart}
+              color="#08a291"
+              className="col"
+              width={20}
+              style={{ cursor: "pointer" }}
+              onClick={() => AddIndicatorToFavorite(item.item.id)}
+            />
+            }
+          </div>
       </div>
       <div className="d-flex flex-column align-items-center flex-md-row">
         {item.item.description && 

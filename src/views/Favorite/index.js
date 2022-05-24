@@ -109,7 +109,7 @@ const Favorite = () => {
                         toggle('2')
                     }}
                     >
-                        <h4 className='mb-0'>الأصدارات</h4>
+                        <h4 className='mb-0'>الإصدارات</h4>
                     </NavLink>
                 </NavItem>
             </Nav>

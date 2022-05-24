@@ -1,24 +1,18 @@
 import fiBrChartPieAlt from '@src/assets/images/icons/fiBrChartPieAlt.png'
 import subTitles from '@src/assets/images/icons/subTitles.png'
 import { useEffect, useState } from 'react'
-import { 
-  Card,
-  CardTitle,
-  Row,
-  Col,
-  Button,
-  UncontrolledButtonDropdown,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle } from 'reactstrap'
+import { CardTitle, Button } from 'reactstrap'
 import axios from '../../../axios'
 import Chart from 'react-apexcharts'
+import { useHistory, Link } from 'react-router-dom'
 
 const CategoryCard = () => {
     const [activeCard, setActiveCard] = useState("A1")
     const [categories, setCategories] = useState([])
     const [sectors, setSectors] = useState([])
     const [periodicites, setPeriodicites] = useState([])
+
+    const history = useHistory()
 
     const getCategories = async () => {
         await axios.post(`/Home/GetClassifications`, {classificationId: 2})
@@ -50,9 +44,6 @@ const CategoryCard = () => {
         })
       }
 
-      const [categoriesNames, setCategoriesNames] = useState(null)
-      const [categoriesValues, setCategoriesValues] = useState(null)
-
       useEffect(() => {
         getSectors()
         getCategories()
@@ -60,78 +51,86 @@ const CategoryCard = () => {
         
       }, [])
 
-      useEffect(() => {
-        if (periodicites) {
-          setCategoriesNames(periodicites.map(item => item.name_A))
-          setCategoriesValues(periodicites.map(item => item.indicatorCount))
-        }
-      }, [periodicites])
-
-      console.log(periodicites)
-
-
-      //chart options
-      const revenueOptions = {
-        chart: {
-          stacked: true,
-          type: 'bar',
-          toolbar: { show: false }
-        },
-        grid: {
-          padding: {
-            bottom: -10
-          },
-          yaxis: {
-            lines: { show: true }
-          },
-          xaxis: {
-            lines: { show: false }
-          }
-        },
-        xaxis: {
-          categories: categoriesNames,
-          labels: {
-            style: {
-              colors: '#6e6b7b',
-              fontSize: '1rem'
-            }
-          },
-          axisTicks: {
-            show: false
-          },
-          axisBorder: {
-            show: true
-          }
-        },
+      const donutColors = {
+        series1: '#ffe700',
+        series2: '#00d4bd',
+        series3: '#826bf8',
+        series4: '#2b9bf4',
+        series5: '#FFA1A1'
+      }
+      const options = {
         legend: {
-          show: false
+          show: true,
+          position: 'bottom'
         },
+        labels: periodicites.map(item => item.name_A),
+    
+        colors: [donutColors.series1, donutColors.series2, donutColors.series3, donutColors.series4, donutColors.series5],
         dataLabels: {
-          enabled: false
+          enabled: true,
+          formatter(val, opt) {
+            return `${parseInt(val)}%`
+          }
         },
-        colors: ["#7367f0"],
         plotOptions: {
-          bar: {
-            columnWidth: '17%',
-            endingShape: 'rounded'
-          },
-          distributed: true
-        },
-        yaxis: {
-          labels: {
-            style: {
-              colors: '#6e6b7b',
-              fontSize: '0.86rem'
+          pie: {
+            donut: {
+              labels: {
+                show: true,
+                name: {
+                  fontSize: '2rem'
+                },
+                value: {
+                  fontSize: '1rem',
+                  formatter(val) {
+                    return `${parseInt(val)}`
+                  }
+                }
+              }
             }
           }
-        }
-      },
-      revenueSeries = [
-        {
-          name: "indicator count",
-          data: categoriesValues
-        }
-      ]
+        },
+        responsive: [
+          {
+            breakpoint: 992,
+            options: {
+              chart: {
+                height: 380
+              },
+              legend: {
+                position: 'bottom'
+              }
+            }
+          },
+          {
+            breakpoint: 576,
+            options: {
+              chart: {
+                height: 320
+              },
+              plotOptions: {
+                pie: {
+                  donut: {
+                    labels: {
+                      show: true,
+                      name: {
+                        fontSize: '1.5rem'
+                      },
+                      value: {
+                        fontSize: '1rem'
+                      },
+                      total: {
+                        fontSize: '1.5rem'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+      const series = periodicites.map(item => item.indicatorCount)
 
 
     return (
@@ -155,17 +154,17 @@ const CategoryCard = () => {
                     {/* "#161d31" */}
                     {sectors.map((item, index) => {
                         return (
-                            <div className='col-lg-6 col-12 px-2 py-xl-0 py-2 my-1'>
-                            <div className="d-flex justify-content-center align-items-center flex-column py-1" style={{backgroundColor: "#eaeaeb", borderRadius: 20}}>
+                            <div className='col-lg-4 col-12 px-1 py-xl-0 py-2 my-1'>
+                            <div className="d-flex justify-content-center align-items-center flex-column py-1" style={{backgroundColor: "#eaeaeb", borderRadius: 10}}>
                                 <div className='d-flex flex-wrap col-12 pb-1'>
-                                    <div className='text-center col-xl-2 col-lg-12 col-2'><img src={fiBrChartPieAlt} width="20px"/></div>
-                                    <div className='text-center col-xl-7 col-lg-12 col-7' style={{fontSize: 14, fontWeight: "bold"}}>{item.name_A}</div>
-                                    <div className='text-center col-xl-3 col-lg-12 col-3' style={{color: "#3D5484", fontSize: 14}}>{item.indicatorCount}</div>
+                                    <div className='text-center col-xl-2 col-lg-12 col-2 px-0'><img src={fiBrChartPieAlt} width="20px"/></div>
+                                    <div className='text-center col-xl-8 col-lg-12 col-8 px-1' style={{fontSize: 14, fontWeight: "bold"}}>{item.name_A}</div>
+                                    <div className='text-center col-xl-2 col-lg-12 col-2 px-0' style={{color: "#3D5484", fontSize: 14}}>{item.indicatorCount}</div>
                                 </div>
-                                <div className='d-flex flex-column col-12'>
+                                <div className='d-flex flex-column col-12 px-0'>
                                     {item.childNames.map((child,  childIndex) => {
                                         return (
-                                            <div className='d-flex col-12 pb-1 px-2'>
+                                            <div className='d-flex col-12 pb-1'>
                                                 <div><img src={subTitles} width="15px"/></div>
                                                 <div className='col-11' style={{fontSize: 14}}>{child}</div>
                                             </div>
@@ -213,7 +212,9 @@ const CategoryCard = () => {
                 </div>
                 <div className='mt-2 mb-1 d-flex justify-content-end col-12 px-0'>
                     <div  className="px-2" style={{width: 300}}>
-                        <Button type='submit' className="w-100" color='green' style={{fontSize: 16}} onClick={() => {}}>عرض الكل</Button>
+                        <Button type='button' className="w-100" color='green' style={{fontSize: 16}} onClick={() => {
+                          history.push('/indicator/landingPage')
+                        }}>عرض الكل</Button>
                     </div>
                 </div>
             </>}
@@ -227,24 +228,24 @@ const CategoryCard = () => {
                     {/* "#161d31" */}
                     {categories.map((item, index) => {
                         return (
-                          <div className="col-md-4 col-sm-6 col-12 px-2 py-xl-0 py-2">
+                          <div className="col-md-4 col-sm-6 col-12 px-2 py-xl-0 py-2 mb-1">
                             <div
-                              className="d-flex justify-content-center align-items-center flex-column py-1"
+                              className="d-flex justify-content-center align-items-center"
                               style={{
                                 backgroundColor: "#eaeaeb",
-                                borderRadius: 20
+                                borderRadius: 10
                               }}
                             >
-                              <div>
+                              <div className='col-1'>
                                 <img src={fiBrChartPieAlt} />
                               </div>
                               <div
-                                className="py-1 text-center"
+                                className="p-1 col text-center"
                                 style={{ fontSize: 14 }}
                               >
                                 {item.name_A}
                               </div>
-                              <div style={{ color: "#3D5484", fontSize: 14 }}>
+                              <div className='col-2 p-0' style={{ color: "#3D5484", fontSize: 14 }}>
                                 {item.indicatorCount}
                               </div>
                             </div>
@@ -254,7 +255,9 @@ const CategoryCard = () => {
                 </div>
                 <div className='mt-2 mb-1 d-flex justify-content-end col-12 px-0'>
                     <div  className="px-2" style={{width: 300}}>
-                        <Button type='submit' className="w-100" color='green' style={{fontSize: 16}} onClick={() => {}}>عرض الكل</Button>
+                        <Button type='button' className="w-100" color='green' style={{fontSize: 16}} onClick={() => {
+                          history.push('/indicator/landingPage')
+                        }}>عرض الكل</Button>
                     </div>
                 </div>
             </>}
@@ -299,9 +302,9 @@ const CategoryCard = () => {
         </div>
 
         <div className='col-xl-4 col-12'>
-          <div className="d-flex flex-column w-100 card p-2 mt-2" style={{ borderRadius: 20, height: 400 }}>
+          <div className="d-flex flex-column w-100 card p-2 mt-2" style={{ borderRadius: 20, height: 430 }}>
             <div className='d-sm-flex justify-content-between align-items-center mb-3'>
-              <CardTitle className='mb-50 mb-sm-0'>الدوريات</CardTitle>
+              <CardTitle className='mb-50 mb-sm-0'>توزيعات عناصر البيانات على الدورية</CardTitle>
               <div className='d-flex align-items-center'>
                 {/* <div className='d-flex align-items-center mr-2'>
                   <span className='bullet bullet-primary mr-50 cursor-pointer'></span>
@@ -313,7 +316,7 @@ const CategoryCard = () => {
                 </div> */}
               </div>
             </div>
-            <Chart id='revenue-report-chart' width={"100%"} type='bar' height='240' options={revenueOptions} series={revenueSeries} />
+            <Chart id='revenue-report-chart' width={"100%"} type='donut' height= {350} options={options} series={series} />
             {/* 
             "line" | "area" | "bar" | "histogram" | "pie" | "donut" | "rangeBar" |
             "radialBar" | "scatter" | "bubble" | "heatmap" | "candlestick" | "radar",

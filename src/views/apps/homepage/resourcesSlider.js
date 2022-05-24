@@ -58,6 +58,7 @@ const ResourcesSlider = () => {
     getWebResources()
   }, [])
 
+  
   return (
     <Card className="bg-transparent shadow-none">
       <CardHeader className="pt-0">
@@ -69,15 +70,25 @@ const ResourcesSlider = () => {
       <CardBody>
         <Swiper className="" {...params}>
           {/* </Swiper>style={{width: dashboard ? 400 : "auto"}}> */}
-          {webResources.map((item, index) => (
-            <SwiperSlide key={index} className="rounded swiper-shadow p-1 resourcesSlider">
-              <img src={SliderB1} width="40%" height="50%" className="mb-2" />
-              <a href={item.url} target="_blank" className="d-flex text-center text-muted swiper-text align-middle pt-md-1 pt-sm-50 mb-0">
-                {item.name_A}
-              </a>
-            </SwiperSlide>
-          )
-          )}
+          {webResources.map((item, index) => {
+            const imgUrl = `${process.env.REACT_APP_MAINPATH}/WebResource/Logo/${item.id}/${item.logo}`
+
+            return (
+              <SwiperSlide
+                key={index}
+                className="rounded swiper-shadow p-1 resourcesSlider"
+              >
+                <img src={imgUrl} width="40%" height="50%" className="mb-2" />
+                <a
+                  href={item.url}
+                  target="_blank"
+                  className="d-flex text-center text-muted swiper-text align-middle pt-md-1 pt-sm-50 mb-0"
+                >
+                  {item.name_A}
+                </a>
+              </SwiperSlide>
+            )
+          })}
         </Swiper>
       </CardBody>
     </Card>

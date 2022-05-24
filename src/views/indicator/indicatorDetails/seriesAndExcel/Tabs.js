@@ -6,15 +6,19 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 import PickerDefault from "../PickerDefault"
 import SeriesTab from "./SeriesTab"
 import ExcelTab from "./ExcelTab"
+import DashboardList from "./DashboardList"
 
-const Tabs = () => {
+const Tabs = ({id}) => {
     const [active, setActive] = useState('1')
-
+    const [ID, setID] = useState()
     const toggle = tab => {
       if (active !== tab) {
         setActive(tab)
       }
     }
+
+    console.log("id from Tabs", id)
+    console.log("ID from Tabs", id)
   return (
     <>
 
@@ -26,7 +30,7 @@ const Tabs = () => {
             toggle('1')
           }}
         >
-            <h4 className='mb-0'>عرض السلسلة الزمنية</h4> 
+            <h4 className='mb-0'>السلسلة الزمنية</h4> 
         </NavLink>
       </NavItem>
       <NavItem>
@@ -36,7 +40,7 @@ const Tabs = () => {
             toggle('2')
           }}
         >
-            <h4 className='mb-0'>Charts</h4>
+            <h4 className='mb-0'>رسم بياني</h4>
             
         </NavLink>
       </NavItem>
@@ -45,6 +49,7 @@ const Tabs = () => {
         <NavLink
           active={active === '3'}
           onClick={() => {
+            setID(id)
             toggle('3')
           }}
         >
@@ -58,12 +63,10 @@ const Tabs = () => {
         <SeriesTab/>
       </TabPane>
       <TabPane tabId='2'>
-        <div>charts</div>
+        <div>رسم بياني</div>
       </TabPane>
       <TabPane tabId='3'>
-       <div>
-          لوحات معلوماتية
-       </div>
+        <DashboardList id={ID} />
       </TabPane>
     </TabContent>
     </>

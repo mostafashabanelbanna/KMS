@@ -2,9 +2,41 @@ import { Link } from 'react-router-dom'
 import { Download } from 'react-feather'
 import * as moment from "moment"
 import "moment/locale/ar"
-import SliderB1 from "@src/assets/images/icons/SliderB1.png"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faHeart } from "@fortawesome/free-regular-svg-icons"
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons"
+import { useState } from "react"
+import { addToFavorit, notify, removeFromFavorit } from '../../utility/Utils'
+import { useDispatch, useSelector } from 'react-redux'
 
 const DefinitionsCard = (item) => {
+  const dispatch = useDispatch()
+  const store = useSelector(state => state.FrontDefinitions)
+  const layoutStore = useSelector(state => state.layout)
+
+  console.log(store)
+
+  const AddIndicatorToFavorite = async (id) => {  
+    const result = await addToFavorit("definition", id)
+    if (result) {
+      if (store.definitions && store.definitions.length > 0) {
+        const ele = store.definitions.find(x => x.id === id)
+        ele.isFavorit = true
+        dispatch({type: "GET_FRONT_DEFINITIONS_DATA", data: [...store.definitions], totalPages: store.totalPages, totalCount: store.totalCount })
+      }
+    }
+  }
+
+  const RemoveIndicatorFromFavorite = async (id) => {  
+    const result = await removeFromFavorit("definition", id)
+    if (result) {
+      if (store.definitions && store.definitions.length > 0) {
+        const ele = store.definitions.find(x => x.id === id)
+        ele.isFavorit = false
+        dispatch({type: "GET_FRONT_DEFINITIONS_DATA", data: [...store.definitions], totalPages: store.totalPages, totalCount: store.totalCount })
+      }
+    }
+  }
   return (
     <div
       className="card d-flex flex-column py-1 mb-2"
@@ -14,15 +46,32 @@ const DefinitionsCard = (item) => {
       }}
     >
       <div className="d-flex">
-        <div className="d-flex align-items-center dark-layout mb-1 px-2 col-10 font-18">
+        <div className="d-flex align-items-center dark-layout mb-1 px-2 col-11 font-18">
           <div className="d-block" style={{width: "fit-content"}}>
             {item.item.name}
           </div>
         </div>
-        <div className="d-flex col-2">
-          <div className="col-9 d-flex justify-content-end">
-            كود {item.item.id}
-          </div>
+        <div className="d-flex">
+          {/* <div className="col-9 d-flex justify-content-end">كود {item.item.id}</div> */}
+
+          {item.item.isFavorit && <FontAwesomeIcon
+            icon={solidHeart}
+            color="#08a291"
+            className="col"
+            width={20}
+            style={{ cursor: "pointer" }}
+            onClick={() => RemoveIndicatorFromFavorite(item.item.id)}
+          />
+          }
+          {!item.item.isFavorit && <FontAwesomeIcon
+            icon={faHeart}
+            color="#08a291"
+            className="col"
+            width={20}
+            style={{ cursor: "pointer" }}
+            onClick={() => AddIndicatorToFavorite(item.item.id)}
+          />
+          }
         </div>
       </div>
       <div className="d-flex flex-column align-items-center flex-md-row">

@@ -33,10 +33,51 @@ const IntializeDefaultDimensions = (dispatch) => {
   const d = new Date()
   d.setDate(d.getDate() - 1460) // get four years ago
   dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DATE_FROM", dateFrom: d })
-
   dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSIONS", dimensions: [{id:"1::1", name:"البلد"}]})
   dispatch({type: "SET_INDICATOR_DETAILS_SERIES_DIMENSION_VALUES", dimensionValues: dimensionsValues})
   dispatch({type: "SET_INDICATOR_DETAILS_SERIES_EXCEL_DIMENSION", seriesExcelDimensions: seriesExcelDimValues})
+}
+
+export const getDashboardData = params => {
+  console.log(params)
+  return async dispatch => {
+    dispatch(isLoading())
+    await axios.post('/WebResource/GetDashboardsFront', params).then(response => {
+      dispatch({
+        type: 'GET_INDICATOR_DASHBOARD_DATA',
+        data: response.data.data.items,
+        totalPages: response.data.data.totalPages,
+        totalCount: response.data.data.totalCount
+      })
+      console.log("response", response)
+      dispatch(isNotLoading())
+
+    }).catch(error => {
+      dispatch({
+        type: 'GET_INDICATOR_DASHBOARD_DATA',
+        data : []
+      })
+      dispatch(isNotLoading())
+    })
+  }
+}
+
+export const setIndicatorID = (id) => {
+  return async dispatch => {
+    await dispatch({
+        type: 'SET_INDICATOR_ID',
+        id
+    })
+  }
+}
+
+export const clearIndicatorID = () => {
+  return async dispatch => {
+    await dispatch({
+        type: 'SET_INDICATOR_ID',
+        id : null
+    })
+  }
 }
 
 export const getIndicatorDetails = (id) => {

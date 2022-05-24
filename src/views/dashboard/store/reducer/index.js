@@ -20,6 +20,8 @@ const FrontDashboards = (state = initialState, action) => {
             return { ...state, indicatorIds: action.indicatorIds }
         case 'SET_FRONT_DASHBOARDS_NAME':
             return { ...state, name: action.name }
+        case 'GET_FRONT_DASHBOARDS_DETAILS':
+            return {...state, details: action.data}
         default:
             return {...state}
     }

@@ -16,6 +16,7 @@ import "@styles/react/libs/swiper/swiper.scss"
 import SliderT from "@src/assets/images/icons/SliderT.png"
 import axios from "../../../axios"
 import { useEffect, useState } from "react"
+import { useHistory, Link } from 'react-router-dom'
 
 SwiperCore.use([
   Navigation,
@@ -31,7 +32,7 @@ SwiperCore.use([
 const DashboardSlider = () => {
 
   const [webResources, setWebResources] = useState([])
-  
+  const history = useHistory()
   const params = {
     className: "swiper-centered-slides p-1",
     slidesPerView: "auto",
@@ -70,11 +71,15 @@ const DashboardSlider = () => {
         <Swiper className="" {...params}>
           {/* </Swiper>style={{width: dashboard ? 400 : "auto"}}> */}
           {webResources.map((item, index) => {
-              const imgUrl = `${process.env.REACT_APP_URL}upload/WebResource/Logo/${item.id}/${item.logo}`
+              const imgUrl = `${process.env.REACT_APP_MAINPATH}/WebResource/Logo/${item.id}/${item.logo}`
+              const dashboardurl = `/Dashboards/Details/${item.id}`
+              console.log(dashboardurl)
               return (
                 <SwiperSlide key={index} className="rounded swiper-shadow p-1 dashboardSlider">
-                <a href={item.url} target="_blank" >
-                <div className="mb-1" style={{ fontSize: 22, color: "white" }}>
+                {/* <a href={item.url} target="_blank" > */}
+                <Link className='mr-2' to={`/Dashboards/Details/${item.id}`} >
+                
+                <div className="mb-1" style={{ fontSize: 22 }}>
                   {item.name_A}
                 </div>
                 <img src={imgUrl} width="100%" />
@@ -94,7 +99,7 @@ const DashboardSlider = () => {
                     
                     }
                 </p>
-                </a>
+                </Link >
                 {/* <hr className="col-11 bg-gray" />
                 <div className="d-flex">
                   <p className="mb-0" style={{ fontSize: 14 }}>
@@ -122,7 +127,9 @@ const DashboardSlider = () => {
               className="w-100"
               color="green"
               style={{ fontSize: 16 }}
-              onClick={() => {}}
+              onClick={() => {
+                history.push('/Dashboards/landingPage')
+              }}
             >
               عرض الكل
             </Button>

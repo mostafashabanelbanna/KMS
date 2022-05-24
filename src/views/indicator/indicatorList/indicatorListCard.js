@@ -45,13 +45,13 @@ const IndicatorCard = (item) => {
         }}
       >
         <div className="d-flex">
-          <div className="dark-layout px-2 col-8 mb-1 font-18">
+          <div className="dark-layout px-2 col-11 mb-1 font-18">
             <Link className="d-block" style={{width: "fit-content"}} to={{ pathname: `/indicator/indicatorDetails/${item.item.id}`, state: { Id : item.item.id}}}>
               {item.item.name}
             </Link>
           </div>
-          <div className="d-flex col-4">
-            <div className="col-9 d-flex justify-content-end">كود {item.item.id}</div>
+          <div className="d-flex">
+            {/* <div className="col-9 d-flex justify-content-end">كود {item.item.id}</div> */}
 
             {item.item.isFavorit && <FontAwesomeIcon
               icon={solidHeart}

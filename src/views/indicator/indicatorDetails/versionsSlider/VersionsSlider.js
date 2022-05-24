@@ -9,10 +9,11 @@ import {getSeriesData} from '../store/action/index'
 import * as moment from "moment"
 import "moment/locale/ar"
 
-const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies }) => {
+const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies, id }) => {
   const dispatch = useDispatch()
   const store = useSelector(state => state.indicatorDetails)
 
+  console.log("from versions", id)
 
   const toggle = (periodicityId, sourceId) => {
     dispatch({type: "SET_INDICATOR_DETAILS_PERIODICITY", periodicity: periodicityId })
@@ -62,7 +63,7 @@ const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies }) => {
           }
           
         </Nav>
-        <Tabs/>
+        <Tabs id={id}/>
         {/* <TabContent className='py-50' activeTab='1'>
           <TabPane tabId='1'>
           
