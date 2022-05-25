@@ -48,16 +48,16 @@ const CategoryCard = () => {
         getSectors()
         getCategories()
         getPeriodicites()
-        
       }, [])
 
       const donutColors = {
-        series1: '#ffe700',
-        series2: '#00d4bd',
-        series3: '#826bf8',
-        series4: '#2b9bf4',
-        series5: '#FFA1A1'
+        series1: '#3F447C',
+        series2: '#08A291',
+        series3: "#9AC3D9",
+        series4: "#E0BD1C",
+        series5: "#A8441C"
       }
+
       const options = {
         legend: {
           show: true,

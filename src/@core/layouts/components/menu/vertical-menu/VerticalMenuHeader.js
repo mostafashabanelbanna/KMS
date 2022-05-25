@@ -8,6 +8,8 @@ import { Disc, X, Circle } from 'react-feather'
 // ** Config
 import themeConfig from '@configs/themeConfig'
 
+import Logo from "@src/assets/images/icons/Logo.png"
+
 const VerticalMenuHeader = props => {
   // ** Props
   const { menuCollapsed, setMenuCollapsed, setMenuVisibility, setGroupOpen, menuHover } = props
@@ -41,17 +43,17 @@ const VerticalMenuHeader = props => {
   }
 
   return (
-    <div className='navbar-header'>
+    <div className='navbar-header px-1'>
       <ul className='nav navbar-nav flex-row'>
-        <li className='nav-item mr-auto'>
-          <NavLink to='/' className='navbar-brand'>
-            <span className='brand-logo'>
-              <img src={themeConfig.app.appLogoImage} alt='logo' />
-            </span>
-            <h2 className='brand-text mb-0'>{themeConfig.app.appName}</h2>
+        <li className='nav-item mx-0 w-100 d-flex justify-content-center align-items-center'>
+          <NavLink to='/' className='navbar-brand flex-column mx-0'>
+            <div className='brand-logo w-100 text-center'>
+              <img src={Logo} alt='logo' />
+            </div>
+            <h2 className='brand-text mb-0 mt-1'>{themeConfig.app.appName}</h2>
           </NavLink>
         </li>
-        <li className='nav-item nav-toggle'>
+        <li className='nav-item nav-toggle d-lg-none'>
           <div className='nav-link modern-nav-toggle cursor-pointer'>
             <Toggler />
             <X onClick={() => setMenuVisibility(false)} className='toggle-icon icon-x d-block d-xl-none' size={20} />

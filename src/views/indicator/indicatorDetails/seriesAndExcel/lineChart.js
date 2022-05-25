@@ -65,7 +65,7 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
     stroke: {
       curve: 'straight'
     },
-    colors: ['#000', '#0072F2', "#A100F2", "#00C2F2", "#00F25C"],
+    colors: ['#3F447C', '#08A291', "#9AC3D9", "#E0BD1C", "#A8441C"],
     grid: {
       xaxis: {
         lines: {
