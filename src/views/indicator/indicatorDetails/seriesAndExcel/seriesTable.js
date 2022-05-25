@@ -110,13 +110,13 @@ const SeriesTable = ({toggleTable}) => {
                     {row.dimensionValueNames.map((item, index) => (
                         <div key={index} className="d-flex align-items-center">
                             <ArrowsIcon className='mx-1'/>
-                            <span className='mr-2'>{item.dimensionName}</span>
+                            {/* <span className='mr-2'>{item.dimensionName}</span> */}
                             <span style={{
                                         backgroundColor: "lightGray",
                                         padding: "0.5rem",
                                         borderRadius: 16,
                                         minWidth: '60px'
-                                    }} className='mr-2 text-center'>{item.dimensionValueName}</span>
+                                    }} className='mr-0 text-center'>{item.dimensionValueName}</span>
                         </div>
                     ))}
                   
