@@ -67,7 +67,7 @@ const indicatorDetails = (props) => {
           <Row >
             <Col sm='12'>
               {/* <h2 className='px-3'>{store.indicatorDetails.name_A}</h2> */}
-              <IndicatorDetailsCard item={store.indicatorDetails}/>
+              <IndicatorDetailsCard Id={Id} item={store.indicatorDetails}/>
             </Col>
             {/* {!descriptionCardIsOpen && <Col sm={3}>
               <div >

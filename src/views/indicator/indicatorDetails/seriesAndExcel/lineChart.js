@@ -12,6 +12,8 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
     const [chartData, setChartData] = useState([])
     const store = useSelector(state => state.indicatorDetails)
 
+    console.log("store", store)
+
     const getChartData = async () => {
         const dimValues = []
         store.seriesDimensionValues.forEach(element => {
@@ -32,7 +34,7 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
                 const result = response.data.data
                 setChartData(result)
                 console.log("Search")
-                console.log(result)
+                console.log("result", result)
             })
             .catch(error => {
         })

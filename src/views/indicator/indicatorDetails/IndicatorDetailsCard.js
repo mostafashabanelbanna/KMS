@@ -4,7 +4,7 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons"
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons"
 
 
-const IndicatorDetailsCard = ({item}) => {
+const IndicatorDetailsCard = ({item, Id}) => {
     console.log(item)
     return (
         <div

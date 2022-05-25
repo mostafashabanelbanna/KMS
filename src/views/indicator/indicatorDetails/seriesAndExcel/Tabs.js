@@ -59,13 +59,13 @@ const Tabs = ({id}) => {
     </Nav>
     <TabContent className='py-50' activeTab={active}>
       <TabPane tabId='1'>
-        <SeriesTab/>
+        <SeriesTab indicatorId={id}/>
       </TabPane>
       <TabPane tabId='2'>
           <LineChart/>
       </TabPane>
       <TabPane tabId='3'>
-        <DashboardList id={ID} />
+        <DashboardList id={id} />
       </TabPane>
     </TabContent>
     </>

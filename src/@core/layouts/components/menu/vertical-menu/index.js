@@ -68,7 +68,7 @@ const Sidebar = props => {
             <div className='shadow-bottom' ref={shadowRef}></div>
             {/* Perfect Scrollbar */}
             <PerfectScrollbar
-              className='main-menu-content mt-5'
+              className='main-menu-content mt-5 pt-3'
               options={{ wheelPropagation: false }}
               onScrollY={container => scrollMenu(container)}
             >

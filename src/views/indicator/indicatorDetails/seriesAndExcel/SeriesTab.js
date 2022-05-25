@@ -20,7 +20,7 @@ import MomentUtils from "@date-io/moment"
 import moment from "moment"
 import "moment/locale/ar"
 
-const SeriesTab = () => {
+const SeriesTab = ({indicatorId}) => {
   const dispatch = useDispatch()
   const store = useSelector(state => state.indicatorDetails)
   const [dimensionValues, setDimensionValues] = useState([])
@@ -31,9 +31,9 @@ const SeriesTab = () => {
 
   const intlContext = useContext(IntlContext)
 
-  const getDimensionValues = async (dimensionId, levelNumber) => {
+  const getDimensionValues = async (dimensionId, levelNumber, indicatorId) => {
     console.log(dimensionId, levelNumber)
-    await axios.get(`/DimensionValue/GetDimensionValuesForDataset/${dimensionId}/${levelNumber}`).then(response => {
+    await axios.get(`/DimensionValue/GetDimensionValuesForDatasetIndicator/${dimensionId}/${levelNumber}/${indicatorId}`).then(response => {
         if (response) {
             setDimensionValues(response.data.data)
         }
@@ -43,7 +43,7 @@ const SeriesTab = () => {
   }
 
   const handleDimensionChange = (e) => {
-    getDimensionValues(e.id.split('::')[0], e.id.split('::')[1])
+    getDimensionValues(e.id.split('::')[0], e.id.split('::')[1], parseInt(indicatorId))
     setSelectedDimension(e)
   }
   const handleDimensionValueChange = (e) => {
