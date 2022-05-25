@@ -23,12 +23,13 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
         })
         const postData = {
           IndicatorId: store.indicatorDetails.id,
-          SourceId: store.selectedSource.id,
-          PeriodicityId: store.selectedPeriodicity.id,
+          SourceId: store.selectedSource,
+          PeriodicityId: store.selectedPeriodicity,
           FromDate: store.seriesDateFrom,
           ToDate: store.seriesDateTo,
           DimensionsValues: dimValues
         }
+        console.log(postData)
         await axios.post(`/Dataset/GetAllDatasetValuesForChart`, postData) //change here
         .then(response => {
                 const result = response.data.data
@@ -42,7 +43,7 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
 
     useEffect(() => {
         getChartData()
-    }, [])
+    }, [store])
 
   const options = {
     chart: {
@@ -118,7 +119,10 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
                 </div>
             </CardHeader> */}
             <CardBody>
-                {chartData.chartSeries && <Chart options={options} series={chartData.chartSeries} type='line' height={500} />}
+                {(chartData.chartSeries && chartData.chartSeries[0]?.data?.length) ? <Chart options={options} series={chartData.chartSeries} type='line' height={500} /> : <Card className='p-2 text-center col-9'>
+                  <h2>لا يوجد بيانات</h2>
+                </Card>
+                }
             </CardBody>
         </Card>
     </Col>
