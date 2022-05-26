@@ -84,10 +84,15 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
       }
     },
     xaxis: { //add map array of dates here
-      categories: chartData.seriesDates
+      categories: chartData.seriesDates,
+      title: {
+        text: 'التاريخ'
+      }
     },
     yaxis: {
-      opposite: direction === 'rtl'
+      title: {
+        text: 'ارقام'
+      }
     }
   }
 
