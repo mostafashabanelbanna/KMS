@@ -101,7 +101,7 @@ const LineChart = ({ direction = 'rtl', warning = 'red'}) => {
   // ]
 
   return (
-    <Col sm='9'>
+    <Col sm='12'>
         <Card>
             {/* <CardHeader className='d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start'>
                 <div>
