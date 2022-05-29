@@ -23,7 +23,7 @@ const LandingPage = () => {
 
   const [showSearchParams, setShowSearchParams] = useState(false)
   const [showSearchSection, setShowSearchSection] = useState(true)
-  const [pageNumber, setPageNumber] = useState(1)
+  // const [pageNumber, setPageNumber] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
   const intl = useIntl()
@@ -65,7 +65,10 @@ const LandingPage = () => {
   }
 
   const handleSearchSubmit = () => {
-    setPageNumber(1)
+    // setPageNumber(1)
+    // dispatch('SET_INDICATOR_PAGE_NUMBER', {pageNumber:1})
+
+    dispatch({type:'SET_INDICATOR_PAGE_NUMBER', pageNumber:  1})
     getIndicators(1, rowsPerPage)
   }
 
@@ -83,12 +86,14 @@ const LandingPage = () => {
   }, [])
 
   const handlePagination = page => {
-    setPageNumber(page.selected + 1)
+    dispatch({type:'SET_INDICATOR_PAGE_NUMBER', pageNumber: page.selected + 1})
+
+    // setPageNumber(page.selected + 1)
   }
 
   useEffect(() => {
-    getIndicators(pageNumber, rowsPerPage)
-  }, [pageNumber])
+    getIndicators(store.pageNumber, rowsPerPage)
+  }, [store.pageNumber])
 
   return (
     <>
@@ -175,7 +180,7 @@ const LandingPage = () => {
                   nextLabel={''}
                   pageCount={store.totalPages || 1}
                   activeClassName='active'
-                  forcePage={pageNumber !== 0 ? pageNumber - 1 : 0}
+                  forcePage={store.pageNumber !== 0 ? store.pageNumber - 1 : 0}
                   onPageChange={page => handlePagination(page)}
                   pageClassName={'page-item'}
                   nextLinkClassName={'page-link'}

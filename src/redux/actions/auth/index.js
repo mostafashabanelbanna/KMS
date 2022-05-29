@@ -36,7 +36,7 @@ export const handleLogout = () => {
     // ** Remove user, accessToken & refreshToken from localStorage
     localStorage.removeItem('userData')
     localStorage.removeItem(config.storageTokenKeyName)
-    localStorage.removeItem(config.storageExpirationKeyName)
+    // localStorage.removeItem(config.storageExpirationKeyName)
     localStorage.removeItem(config.storageRefreshTokenKeyName)
   }
 }

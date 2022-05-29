@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
+import { Card, CardHeader, CardTitle, CardBody, Col, Row } from 'reactstrap'
 import { Play, DollarSign, HelpCircle, FileText, Archive } from 'react-feather'
 import { TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap/lib'
 import { useState } from "react"
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {getSeriesData} from '../store/action/index'
 import * as moment from "moment"
 import "moment/locale/ar"
+import Search from '../seriesAndExcel/Search'
 
 const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies, id }) => {
   const dispatch = useDispatch()
@@ -27,6 +28,12 @@ const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies, id }) => {
     centeredSlides: false,
     navigation: true,
     slideToClickedSlide: true
+  }
+
+  const [showSearch, setShowSearch] = useState(true) 
+
+  const handleSearchToggle = (val) => {
+    setShowSearch(val)
   }
 
   return (
@@ -62,7 +69,18 @@ const SwiperCenterSlidesStyle = ({ isRtl, avilableCopies, id }) => {
           }
           
         </Nav>
-        <Tabs id={id}/>
+        <Row>
+          <Col md={9}>
+            <Tabs id={id} toggleSearchHandler={handleSearchToggle}/>
+          </Col>
+          {showSearch && 
+             <Col md={3} className="mt-5 ">
+                <Search indicatorId={id}/>
+             </Col>
+          }
+         
+        </Row>
+       
         {/* <TabContent className='py-50' activeTab='1'>
           <TabPane tabId='1'>
           

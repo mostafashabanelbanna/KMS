@@ -58,7 +58,8 @@ const LandingPage = () => {
   }
 
   const handleSearchSubmit = () => {
-    setPageNumber(1)
+    // setPageNumber(1)
+    dispatch({type:'SET_DOCUMENTISSUE_PAGE_NUMBER', pageNumber:  1})
     getDocumentIssues(1, rowsPerPage) 
   }
 
@@ -67,12 +68,13 @@ const LandingPage = () => {
   }, [])
 
   const handlePagination = page => {
-    setPageNumber(page.selected + 1)
+    // setPageNumber(page.selected + 1)
+    dispatch({type:'SET_DOCUMENTISSUE_PAGE_NUMBER', pageNumber:  page.selected + 1})
   }
 
   useEffect(() => {
-    getDocumentIssues(pageNumber, rowsPerPage)
-  }, [pageNumber])
+    getDocumentIssues(store.pageNumber, rowsPerPage)
+  }, [store.pageNumber])
 
   return (
     <>
@@ -157,7 +159,7 @@ const LandingPage = () => {
                     nextLabel={''}
                     pageCount={store.totalPages || 1}
                     activeClassName='active'
-                    forcePage={pageNumber !== 0 ? pageNumber - 1 : 0}
+                    forcePage={store.pageNumber !== 0 ? store.pageNumber - 1 : 0}
                     onPageChange={page => handlePagination(page)}
                     pageClassName={'page-item'}
                     nextLinkClassName={'page-link'}

@@ -93,16 +93,16 @@ const SearchSection = ({showSearchSection, setShowSearchSection, handleSearch}) 
           </div> */}
         </div>
 
-        <div className="d-flex p-1" style={{ backgroundColor: "#f5f6fa" }}>
-          <div className="d-flex align-self-center justify-content-end">
+        <div  className="d-flex p-1" style={{ backgroundColor: "#f5f6fa" }}>
+          <span onClick={removeSearch} style={{ cursor: 'pointer' }}   className="d-flex align-items-center justify-content-end">
             <FontAwesomeIcon
               icon={faTimes}
               color="red"
               style={{ cursor: "pointer" }}
-              onClick={removeSearch}
+             
             />
-          </div>
-          <p className="mb-0 px-1">إزالة البحث</p>
+            <span className="mb-0 px-1">إزالة البحث</span>
+          </span>
         </div>
 
         <form action="#" className="p-1">

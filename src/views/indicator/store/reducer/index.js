@@ -2,6 +2,7 @@ const initialState = {
     data: [],
     totalPages : 0,
     totalCount : 0,
+    pageNumber: 1,
     name: '',
     dateFrom: new Date(),
     dateTo: new Date(),
@@ -29,6 +30,8 @@ const FrontIndicators = (state = initialState, action) => {
             return {...state, dateFrom: action.dateFrom}
         case 'SET_FRONT_INDICATOR_DATE_TO':
             return {...state, dateTo: action.dateTo}
+        case 'SET_INDICATOR_PAGE_NUMBER':
+            return {...state, pageNumber: action.pageNumber}
         default:
             return {...state}
     }
