@@ -8,6 +8,11 @@ const FrontRoutes = [
         exact: true
     },
     {
+        path: '/indicator/landingPage/periodicities/:Id',
+        component: lazy(() => import('../../views/indicator/indicatorList/landingPage')),
+        exact: true
+    },
+    {
         path: '/indicator/landingPage/categories/:Id',
         component: lazy(() => import('../../views/indicator/indicatorList/landingPage')),
         exact: true

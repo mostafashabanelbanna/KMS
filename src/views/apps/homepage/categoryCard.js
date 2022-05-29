@@ -136,7 +136,8 @@ const CategoryCard = () => {
           events: {
           dataPointSelection: (event, chartContext, config) => { 
             if (periodicites.find(x => x.indicatorCount === parseInt(config.w.config.series[config.dataPointIndex]))) {
-              console.log(periodicites.find(x => x.indicatorCount === parseInt(config.w.config.series[config.dataPointIndex]))) 
+              console.log(periodicites.find(x => x.indicatorCount === parseInt(config.w.config.series[config.dataPointIndex])).id)
+              history.push(`/indicator/landingPage/periodicities/${periodicites.find(x => x.indicatorCount === parseInt(config.w.config.series[config.dataPointIndex])).id}`)
             }
           }
           }

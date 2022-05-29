@@ -117,7 +117,7 @@ export const toastHeaderIcons = (
       {`
 
 import { Toast, ToastBody, ToastHeader, Spinner, Row, Col } from 'reactstrap'
-import logo from '@src/assets/images/logo/logo.png'
+import coloredLogo from '@src/assets/images/icons/coloredLogo.png'
 
 const close = (
   <button type='button' className='ml-1 close'>
@@ -189,7 +189,7 @@ const ToastHeaderIcons = () => {
 
       <Col md='6' sm='12'>
         <Toast>
-        <ToastHeader close={close} icon={logo}>Vuexy</ToastHeader>
+        <ToastHeader close={close} icon={coloredLogo}>Vuexy</ToastHeader>
           <ToastBody>This is a toast with a logo — check it out!</ToastBody>
         </Toast>
       </Col>

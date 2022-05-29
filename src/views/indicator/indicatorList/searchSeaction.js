@@ -60,6 +60,10 @@ const SearchSection = ({handleSearch, searchId}) => {
     if (searchId && categories && window.location.href.includes('categories')) dispatch({type: "SET_FRONT_INDICATOR_CATEGORY", categories: [categories.find(x => x.id === parseInt(searchId))] })
   }, [searchId, categories])
 
+  useEffect(() => {
+    if (searchId && periodicities && window.location.href.includes('periodicities')) dispatch({type: "SET_FRONT_INDICATOR_PERIODICITY", periodicities: [periodicities.find(x => x.id === parseInt(searchId))] })
+  }, [searchId, periodicities])
+
   console.log("store", store)
 
   const handlePeriodicityChange = (e) => {
@@ -141,7 +145,8 @@ const SearchSection = ({handleSearch, searchId}) => {
 
         {/* <DateSearchSection/> */}
         <hr className="w-100 bg-gray mt-0 mb-2" />
-        <MultiselectionSection title={"الدوريات"} values={store.periodicities} options={periodicities} handleValueChange={handlePeriodicityChange}/>
+        {searchId && <MultiselectionSection title={"الدوريات"} values={[...store.periodicities]} options={periodicities} handleValueChange={handlePeriodicityChange}/>}
+        {!searchId && <MultiselectionSection title={"الدوريات"} values={store.periodicities} options={periodicities} handleValueChange={handlePeriodicityChange}/>}
         <hr className="w-100 bg-gray mt-0 mb-2" />
         <MultiselectionSection title={"المصادر"} values={store.sources} options={sources} handleValueChange={handleSourceChange}/>
         <hr className="w-100 bg-gray mt-0 mb-2" />

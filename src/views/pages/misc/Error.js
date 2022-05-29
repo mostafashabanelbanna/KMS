@@ -5,7 +5,7 @@ import { useIntl, FormattedMessage } from 'react-intl'
 
 import '@styles/base/pages/page-misc.scss'
 
-import logo from '../../../assets/images/logo/logo.svg'
+import coloredLogo from '../../../assets/images/icons/coloredLogo.png'
 
 const Error = () => {
   const intl = useIntl()
@@ -13,7 +13,7 @@ const Error = () => {
   return (
     <div className='misc-wrapper'>
       <a className='brand-logo d-flex align-items-center' href='/'>
-        <img src={logo}  height='46' />
+        <img src={coloredLogo}  height='60' />
         <h2 className='brand-text text-primary  mb-0'><FormattedMessage id="appFullName" /></h2>
       </a>
       <div className='misc-inner p-2 p-sm-3'>

@@ -31,6 +31,8 @@ import { useNavbarColor } from '@hooks/useNavbarColor'
 // ** Styles
 import '@styles/base/core/menu/menu-types/horizontal-menu.scss'
 
+import Logo from "@src/assets/images/icons/Logo.png"
+
 const HorizontalLayout = props => {
   // ** Props
   const { children, navbar, footer, menu, currentActiveItem, routerProps } = props
@@ -125,7 +127,7 @@ const HorizontalLayout = props => {
               <NavItem>
                 <Link to='/' className='navbar-brand'>
                   <span className='brand-logo'>
-                    <img src={themeConfig.app.appLogoImage} alt='logo' />
+                    <img src={Logo} alt='logo' style={{transform: "scale(1.9)"}}/>
                   </span>
                   <h2 className='brand-text mb-0'>{themeConfig.app.appName}</h2>
                 </Link>

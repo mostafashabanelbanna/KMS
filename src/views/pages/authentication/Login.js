@@ -30,6 +30,7 @@ import {
 import { isLoading, isNotLoading } from '../../../redux/actions/layout'
 
 import logo from '../../../assets/images/logo/logo.svg'
+import coloredLogo from "@src/assets/images/icons/coloredLogo.png"
 
 import '@styles/base/pages/page-auth.scss'
 import { FormattedMessage, useIntl } from 'react-intl'
@@ -100,7 +101,7 @@ const Login = props => {
     <div className='auth-wrapper auth-v2'> 
       <Row className='auth-inner m-0'>
         <Link className='brand-logo align-items-center' to='/' onClick={e => e.preventDefault()}>
-          <img src={logo}  height='46' />
+          <img src={coloredLogo}  height='65' />
           <h2 className='brand-text text-primary ml-1 mb-0'><FormattedMessage id="appFullName" /></h2>
         </Link>
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>

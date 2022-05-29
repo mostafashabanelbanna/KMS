@@ -53,9 +53,9 @@ const LandingPage = () => {
       pageNumber: pNumber,
       rowsPerPage: rPerPage,
       name: store.name,
-      periodicities: periods,
+      periodicities: Id && window.location.href.includes('periodicities') ? [parseInt(Id), ...periods] : periods,
       sources: srcs,
-      classificationValues: Id ? [parseInt(Id), ..._classificationValues] : _classificationValues,
+      classificationValues: Id && (window.location.href.includes('sectors') || window.location.href.includes('categories')) ? [parseInt(Id), ..._classificationValues] : _classificationValues,
       startDate: store.dateFrom,
       endDate: store.dateTo
     }
