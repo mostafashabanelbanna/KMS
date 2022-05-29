@@ -58,6 +58,9 @@ const CategoryCard = () => {
         series5: "#A8441C"
       }
 
+      const series = periodicites.map(item => item.indicatorCount)
+
+
       const options = {
         legend: {
           show: true,
@@ -128,10 +131,19 @@ const CategoryCard = () => {
               }
             }
           }
-        ]
+        ],
+        chart: {
+          events: {
+          dataPointSelection: (event, chartContext, config) => { 
+            if (periodicites.find(x => x.indicatorCount === parseInt(config.w.config.series[config.dataPointIndex]))) {
+              console.log(periodicites.find(x => x.indicatorCount === parseInt(config.w.config.series[config.dataPointIndex]))) 
+            }
+          }
+          }
+        }
       }
-      const series = periodicites.map(item => item.indicatorCount)
 
+      console.log(periodicites)
 
     return (
       <div className="d-flex flex-xl-row flex-column pb-2 px-2">
