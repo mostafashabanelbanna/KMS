@@ -69,7 +69,9 @@ const Login = props => {
   // }, [])
   
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
-    source = require(`@src/assets/images/pages/${illustration}`).default
+    // source = require(`@src/assets/images/pages/${illustration}`).default
+    source = require(`@src/assets/images/pages/loginPhoto.png`).default
+
     const onSubmit = data => {
       if (isObjEmpty(errors)) {
         dispatch(isLoading())
@@ -98,21 +100,29 @@ const Login = props => {
   }
 
   return (
-    <div className='auth-wrapper auth-v2'> 
+    <div className='auth-wrapper auth-v2' style={{
+      backgroundImage: `url('${source}')`,
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center"
+    }}> 
       <Row className='auth-inner m-0'>
-        <Link className='brand-logo align-items-center' to='/' onClick={e => e.preventDefault()}>
+        {/* <Link className='brand-logo align-items-center' to='/' onClick={e => e.preventDefault()}>
           <img src={coloredLogo}  height='65' />
           <h2 className='brand-text text-primary ml-1 mb-0'><FormattedMessage id="appFullName" /></h2>
-        </Link>
+        </Link> */}
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
-            <img className='img-fluid' src={source} alt='Login V2' />
+            {/* <img className='img-fluid' src={source} alt='Login V2' /> */}
           </div>
         </Col>
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
+          <Link className='brand-logo align-items-center col-10 mt-5' to='/' onClick={e => e.preventDefault()}>
+            <img src={coloredLogo}  height='180' />
+          </Link>
           {store.loading ?   <ComponentSpinner/> : (<Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
             <CardTitle tag='h2' className='font-weight-bold mb-1'>
-            <FormattedMessage id="Welcome Message" /> <FormattedMessage id="appFullName" /> 👋
+              <FormattedMessage id="Welcome Message" /> <FormattedMessage id="appFullName" />
             </CardTitle>
             <CardText className='mb-2'><FormattedMessage id="Login Message" /> </CardText>
             

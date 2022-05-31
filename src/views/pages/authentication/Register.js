@@ -32,7 +32,9 @@ const Register = () => {
   const [terms, setTerms] = useState(false)
 
   const illustration = skin === 'dark' ? 'register-v2-dark.svg' : 'register-v2.svg',
-    source = require(`@src/assets/images/pages/${illustration}`).default
+    // source = require(`@src/assets/images/pages/${illustration}`).default
+    source = require(`@src/assets/images/pages/loginPhoto.png`).default
+
 
   const Terms = () => {
     return (
@@ -85,7 +87,12 @@ const Register = () => {
   }
 
   return (
-    <div className='auth-wrapper auth-v2'>
+    <div className='auth-wrapper auth-v2' style={{
+      backgroundImage: `url('${source}')`,
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center"
+    }}>
       <Row className='auth-inner m-0'>
         <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
           <svg viewBox='0 0 139 95' version='1.1' height='28'>
@@ -140,7 +147,7 @@ const Register = () => {
         </Link>
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
-            <img className='img-fluid' src={source} alt='Login V2' />
+            {/* <img className='img-fluid' src={source} alt='Login V2' /> */}
           </div>
         </Col>
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
