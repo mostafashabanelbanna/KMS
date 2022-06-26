@@ -1,0 +1,566 @@
+{
+  "Accordions": [
+    {
+      "Name": "Manage Indicators",
+      "Objects": [
+        {
+          "ObjectName": "Dataset",
+          "DisplayName": "Dataset",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Import",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "Classification",
+          "DisplayName": "Classifications",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "ClassificationValue",
+          "DisplayName": "Classification Values",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "Dimension",
+          "DisplayName": "Dimensions",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "DimensionValue",
+          "DisplayName": "DimensionValues",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "Definition",
+          "DisplayName": "Definitions",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "DocumentIssue",
+          "DisplayName": "Publication",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "DocumentLibrary",
+          "DisplayName": "DocumentAttachments",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "Indicator",
+          "DisplayName": "Indicators And Datasets",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "Inquiry",
+          "DisplayName": "Inquiries",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "InquiryProcedure",
+          "DisplayName": "InquiryProcedure",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "Periodicity",
+          "DisplayName": "Periodicities",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "Source",
+          "DisplayName": "Sources",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "UnitMeasure",
+          "DisplayName": "Units",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "WebResource",
+          "DisplayName": "WebResources",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "Provider",
+          "DisplayName": "Provider",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "Lookups",
+          "DisplayName": "Lookups",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Manage System",
+      "Objects": [
+        {
+          "ObjectName": "User",
+          "DisplayName": "User",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Export",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "LinkGroups",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "Role",
+          "DisplayName": "Role",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Create",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Delete",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Preview",
+              "permissionValue": 0
+            }
+          ]
+        },
+        {
+          "ObjectName": "RoleClaims",
+          "DisplayName": "RoleClaims",
+          "Functions": [
+            {
+              "functionName": "List",
+              "permissionValue": 0
+            },
+            {
+              "functionName": "Update",
+              "permissionValue": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

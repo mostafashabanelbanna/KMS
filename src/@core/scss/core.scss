@@ -1,0 +1,162 @@
+@import "./base/bootstrap.scss";
+@import "./base/bootstrap-extended.scss";
+@import "./base/colors.scss";
+@import "./base/components.scss";
+
+// Themes
+@import "./base/themes/dark-layout.scss";
+@import "./base/themes/bordered-layout.scss";
+@import "./base/themes/semi-dark-layout.scss";
+// @import './base/custom-rtl.scss';
+
+// React Specific
+@import "react/index";
+
+html[dir="rtl"] .custom-file-input:lang(en) ~ .custom-file-label::after {
+  content: "إستعراض";
+}
+
+@font-face {
+  font-family: "GESSTwo";
+  // src: url("./assets/fonts/GESSTwo/GESSTwoLight-Light.woff");
+  src: url("../assets/fonts/GESSTwo/GESSTwoLight-Light.woff");
+}
+
+* {
+  font-family: "GESSTwo";
+}
+
+.modal-slide-in .modal-dialog.sidebar-lg.bigger_modal {
+  width: 900px;
+}
+
+@media only screen and (max-width: 992px) {
+  .modal-slide-in .modal-dialog.sidebar-lg.bigger_modal {
+    width: 750px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .modal-slide-in .modal-dialog.sidebar-lg.bigger_modal {
+    width: 450px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .modal-slide-in .modal-dialog.sidebar-lg.bigger_modal {
+    width: 300px;
+  }
+}
+
+.app-collapse .card-header svg {
+  color: #ff9f43 !important;
+}
+
+.app-collapse.card .card-header svg {
+  transform: rotate(-180deg);
+}
+.app-collapse.card .card-header:not(.collapsed) svg {
+  transform: rotate(0deg);
+}
+
+.text_green{
+  color: #47cdbf;
+}
+
+[dir] .btn-green {
+  border-color: #08A291 !important;
+  background-color: #08A291 !important;
+  color: white !important;
+}
+
+.navigation .navigation-header {
+  font-size: 1.3rem !important;
+}
+
+// available Slider
+[dir] .available .swiper-centered-slides.swiper-container .swiper-slide {
+  text-align: unset;
+  padding: unset;
+}
+
+[dir] .available .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active {
+  border: unset;
+}
+
+// version tabs
+[dir] .indicator_version_tabs.nav-tabs .nav-link {
+  padding: .25rem 2.5rem;
+  background: linear-gradient(-30deg, #e2e9ee, rgba(226 , 233, 238, .9)) !important;
+  color: #9da1a3 !important;
+
+}
+
+[dir] .indicator_version_tabs.nav-tabs .nav-link.active {
+  border-radius: 4px;
+  color: #fff !important;
+  background: linear-gradient(-30deg, #7367f0, rgba(115, 103, 240, 0.5)) !important;
+}
+
+[dir] .indicator_version_tabs.nav-tabs .nav-link.active h4 {
+  color: #fff !important;
+}
+
+[dir] .indicator_version_tabs.nav-tabs .nav-link h4 {
+  color: #9da1a3 !important;
+}
+
+// Indicator Tabs
+
+[dir] .indicator_Details_tabs.nav-tabs .nav-link.active, 
+[dir] .indicator_Details_tabs.nav-tabs .nav-item.show .nav-link {
+  border-radius: 4px;
+  background-color: #edeff6;
+  box-shadow: -2px 8px 10px 0 rgba(25, 42, 70, .13) ;
+}
+
+
+.short_date_picker{
+  min-width: 200px;
+}
+
+.bg_green{
+  background-color: #08A291 !important;
+}
+
+[dir] .swiper-centered-slides .swiper-button-next:after, [dir] .swiper-centered-slides .swiper-button-prev:after {
+  background-color: #08A291 !important;
+}
+
+[dir] .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active {
+  border: unset !important;
+}
+
+.swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active i, .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active svg {
+  color: #08A291 !important;
+}
+
+.MuiOutlinedInput-adornedEnd{
+  padding: 0 !important;
+}
+
+.font-18{
+  font-size: 18px;
+}
+
+a{
+  text-decoration: none;
+}
+
+a:hover {
+  color: #7367f0 !important;
+}
+
+.navbar-container .search-input.open {
+  width: 75%;
+}
+@media only screen and (max-width: 1200px) {
+  .navbar-container .search-input.open {
+    width: 50%;
+  }
+  
+}
